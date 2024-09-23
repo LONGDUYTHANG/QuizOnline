@@ -14,18 +14,19 @@ import model.Role;
  *
  * @author ADMIN
  */
-public class AccountDAO extends DBContext{
+public class AccountDAO extends DBContext {
 
-   /**
-    * Tìm account 
-    * @param username tên đăng nhập
-    * @param passwword 
-    * @return 1 đối tượng account
-    */
+    /**
+     * Tìm account
+     *
+     * @param username tên đăng nhập
+     * @param passwword
+     * @return 1 đối tượng account
+     */
     public Account getAccount(String username, String passwword) {
         PreparedStatement stm;
         ResultSet rs;
-        Account myAccount=new Account();
+        Account myAccount = new Account();
         try {
             String strSelect = "select * from Account where user_name like ? and password like ?  ";
             stm = connection.prepareStatement(strSelect);
@@ -47,35 +48,61 @@ public class AccountDAO extends DBContext{
         }
         return myAccount;
     }
-    
-        public int getRole_Id(String role) {
+
+    public Account getAccount(String email) {
         PreparedStatement stm;
         ResultSet rs;
-        int id=0;
+        Account myAccount = new Account();
+        try {
+            String strSelect = "select * from Account where email like ?";
+            stm = connection.prepareStatement(strSelect);
+            stm.setString(1, email);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                myAccount.setAccount_id(rs.getInt("account_id"));
+                myAccount.setFull_name(rs.getString("full_name"));
+                myAccount.setGender(rs.getBoolean("gender"));
+                myAccount.setEmail(rs.getString("email"));
+                myAccount.setMobile(rs.getString("mobile"));
+                myAccount.setUsername(rs.getString("user_name"));
+                myAccount.setAvatar(rs.getString("avatar"));
+                myAccount.setRole_id(rs.getInt("role_id"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return myAccount;
+    }
+
+    public int getRole_Id(String role) {
+        PreparedStatement stm;
+        ResultSet rs;
+        int id = 0;
         try {
             String strSelect = "select role_id from [Quiz Online].[dbo].[Role] where role_name like ? ";
             stm = connection.prepareStatement(strSelect);
             stm.setString(1, role);
             rs = stm.executeQuery();
             if (rs.next()) {
-                id=rs.getInt("role_id");
+                id = rs.getInt("role_id");
             }
         } catch (SQLException e) {
             System.out.println(e);
         }
         return id;
     }
+
     public static void main(String[] args) {
-        AccountDAO a=new AccountDAO();
-        Account h=a.getAccount("a", "a");
+        AccountDAO a = new AccountDAO();
+        Account h = a.getAccount("a", "a");
         System.out.println(h.getRole_id());
     }
+
     /**
-     * 
+     *
      * @param accountId
-     * @return 
+     * @return
      */
-    
     public Account getAccountById(String accountId) {
         String sql = "SELECT account_id, full_name, gender, email, mobile, password, avatar, role_id "
                 + "FROM Account WHERE account_id = ?";
@@ -92,28 +119,60 @@ public class AccountDAO extends DBContext{
                 Account account = new Account();
                 account.setUsername(rs.getString("user_name"));
                 account.setFull_name(rs.getString("full_name"));
-                account.setGender(rs.getInt("gender")==1); // Assuming gender is stored as a boolean
+                account.setGender(rs.getInt("gender") == 1); // Assuming gender is stored as a boolean
                 account.setEmail(rs.getString("email"));
                 account.setMobile(rs.getString("mobile"));
                 account.setPassword(rs.getString("password"));
                 account.setAvatar(rs.getString("avatar"));
 
-                
                 account.setRole_id(rs.getInt("role_id"));
 
-                return account; 
+                return account;
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
 
         return null;
     }
+    
+    public Account getAccountById(int accountId) {
+        String sql = "SELECT * FROM Account WHERE account_id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            // Set the account ID parameter
+            pstmt.setInt(1, accountId);
+
+            // Execute the query
+            ResultSet rs = pstmt.executeQuery();
+
+            // If a record is found, map it to the Account object
+            if (rs.next()) {
+                Account account = new Account();
+                account.setUsername(rs.getString("user_name"));
+                account.setFull_name(rs.getString("full_name"));
+                account.setGender(rs.getInt("gender") == 1); // Assuming gender is stored as a boolean
+                account.setEmail(rs.getString("email"));
+                account.setMobile(rs.getString("mobile"));
+                account.setPassword(rs.getString("password"));
+                account.setAvatar(rs.getString("avatar"));
+                account.setRole_id(rs.getInt("role_id"));
+                account.setAccount_id(rs.getInt("account_id"));
+                return account;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     /**
-     * 
+     *
      * @param roleId
-     * @return 
+     * @return
      */
     public Role getRoleById(int roleId) {
         String sql = "SELECT role_id, role_name FROM Role WHERE role_id = ?";
@@ -136,5 +195,42 @@ public class AccountDAO extends DBContext{
         }
 
         return null;
+    }
+
+    public void updateProfile(Account a) {
+        String sql = "UPDATE [dbo].[Account]\n"
+                + "   SET [full_name] = ?\n"
+                + "      ,[gender] = ?\n"
+                + "      ,[email] = ?\n"
+                + "      ,[mobile] = ?\n"
+                + " WHERE account_id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, a.getFull_name());
+            pstmt.setInt(2, a.isGender() ? 1:0);
+            pstmt.setString(3, a.getEmail());
+            pstmt.setString(4, a.getMobile());
+            pstmt.setInt(5, a.getAccount_id());
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void updatePassword(String newPass, Account a) {
+        String sql = "UPDATE [dbo].[Account]\n"
+                + "   SET [password] = ?\n"
+                + " WHERE account_id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, newPass);
+            pstmt.setInt(2, a.getAccount_id());
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
