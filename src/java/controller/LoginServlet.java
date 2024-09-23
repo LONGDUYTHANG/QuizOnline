@@ -81,7 +81,7 @@ public class LoginServlet extends HttpServlet {
         }
         else if(myAccount.getRole_id()==myAccountDAO.getRole_Id("customer")){
             session.setAttribute("user", myAccount);
-            request.getRequestDispatcher("").forward(request, response);
+            request.getRequestDispatcher("homepage_1.jsp").forward(request, response);
         }
         else if(myAccount.getRole_id()==myAccountDAO.getRole_Id("saler")){
             session.setAttribute("user", myAccount);
