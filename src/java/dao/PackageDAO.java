@@ -27,7 +27,7 @@ public class PackageDAO extends DBContext {
         String sql = "SELECT [package_id], [package_name], [duration], [listPrice], [salePrice], [status], [subject_id] FROM [dbo].[Package]";
 
         try (
-                PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+                PreparedStatement pstmt = connection.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
                 // Create a new Package object for each row in the ResultSet
                 Package pkg = new Package();

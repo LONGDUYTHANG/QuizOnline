@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @author FPT University - PRJ30X
  */
 public class DBContext {
-    protected Connection conn;
+    protected Connection connection;
     public DBContext()
     {
         //@Students: You are allowed to edit user, pass, url variables to fit 
@@ -28,27 +28,27 @@ public class DBContext {
         try {
             String user = "sa";
             String pass = "123";
-            String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=QuizOnline1";
+            String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=QuizOnline";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(url, user, pass);
+            connection = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-     public static void main(String[] args) {
-        DBContext dbContext = new DBContext();
-        Connection connection = dbContext.conn;
-        
-        if (connection != null) {
-            System.out.println("Database connection established successfully.");
-            try {
-                connection.close(); 
-            } catch (SQLException ex) {
-                System.out.println("Error closing the connection: " + ex.getMessage());
-            }
-        } else {
-            System.out.println("Failed to establish database connection.");
-        }
-    }
+//     public static void main(String[] args) {
+//        DBContext dbContext = new DBContext();
+//        Connection connection = dbContext.connection;
+//        
+//        if (connection != null) {
+//            System.out.println("Database connection established successfully.");
+//            try {
+//                connection.close(); 
+//            } catch (SQLException ex) {
+//                System.out.println("Error closing the connection: " + ex.getMessage());
+//            }
+//        } else {
+//            System.out.println("Failed to establish database connection.");
+//        }
+//    }
 }

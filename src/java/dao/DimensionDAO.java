@@ -4,22 +4,17 @@
  */
 package dao;
 
-import dal.DBContext;
-import java.util.ArrayList;
-import java.util.List;
-import model.SubjectCategory;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import model.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 import model.DimensionType;
-import model.Subject;
 
 /**
  *
- * @author trung
+ * @author ADMIN
  */
-public class DimensionDAO extends DBContext {
-
+public class DimensionDAO {
     public List<Dimension> getAllDimension() {
         List<Dimension> dimensions = new ArrayList<>();
         String sql = "SELECT  [dimension_id]\n"
@@ -60,7 +55,7 @@ public class DimensionDAO extends DBContext {
         String sql = "SELECT * FROM Dimension_Type WHERE dimension_type_id = ?";
         DimensionType dimensionType = null;
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, dimensionTypeId);
 
             ResultSet rs = pstmt.executeQuery();
@@ -179,5 +174,4 @@ public class DimensionDAO extends DBContext {
         }
         return false;
     }
-
 }
