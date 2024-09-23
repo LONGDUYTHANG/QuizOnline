@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Account;
+import model.Role;
 
 /**
  *
@@ -68,5 +69,72 @@ public class AccountDAO extends DBContext{
         AccountDAO a=new AccountDAO();
         Account h=a.getAccount("a", "a");
         System.out.println(h.getRole_id());
+    }
+    /**
+     * 
+     * @param accountId
+     * @return 
+     */
+    
+    public Account getAccountById(String accountId) {
+        String sql = "SELECT account_id, full_name, gender, email, mobile, password, avatar, role_id "
+                + "FROM Account WHERE account_id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            // Set the account ID parameter
+            pstmt.setString(1, accountId);
+
+            // Execute the query
+            ResultSet rs = pstmt.executeQuery();
+
+            // If a record is found, map it to the Account object
+            if (rs.next()) {
+                Account account = new Account();
+                account.setUsername(rs.getString("user_name"));
+                account.setFull_name(rs.getString("full_name"));
+                account.setGender(rs.getInt("gender")==1); // Assuming gender is stored as a boolean
+                account.setEmail(rs.getString("email"));
+                account.setMobile(rs.getString("mobile"));
+                account.setPassword(rs.getString("password"));
+                account.setAvatar(rs.getString("avatar"));
+
+                
+                account.setRole_id(rs.getInt("role_id"));
+
+                return account; 
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); 
+        }
+
+        return null;
+    }
+    /**
+     * 
+     * @param roleId
+     * @return 
+     */
+    public Role getRoleById(int roleId) {
+        String sql = "SELECT role_id, role_name FROM Role WHERE role_id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, roleId);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                Role role = new Role();
+                role.setRole_id(rs.getInt("role_id"));
+                role.setRole_name(rs.getString("role_name"));
+
+                return role;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
