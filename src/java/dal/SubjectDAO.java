@@ -24,15 +24,15 @@ public class SubjectDAO extends DBContext{
             stm = connection.prepareStatement(strSelect);
             rs = stm.executeQuery();
             while (rs.next()) {
-                Subject subject = new Subject();
-                subject.setAccount_id(rs.getInt("account_id"));
-                subject.setCategory_id(rs.getInt("category_id"));
-                subject.setCreated_date(rs.getString("created_date"));
+                 Subject subject = new Subject();
+                subject.setAccountId(rs.getInt("account_id"));
+                subject.setCategoryId(rs.getInt("category_id"));
+                subject.setCreatedDate(rs.getTimestamp("created_date"));
                 subject.setDescription(rs.getString("description"));
                 subject.setIsFeatured(rs.getBoolean("isFeatured"));
                 subject.setStatus(rs.getBoolean("status"));
-                subject.setSubject_id(rs.getInt("subject_id"));
-                subject.setSubject_name(rs.getString("subject_name"));
+                subject.setSubjectId(rs.getInt("subject_id"));
+                subject.setSubjectName(rs.getString("subject_name"));
                 subject.setTagline(rs.getString("tagline"));
                 subject.setThumbnail(rs.getString("thumbnail"));
                 
@@ -55,14 +55,14 @@ public class SubjectDAO extends DBContext{
             rs = stm.executeQuery();
             while (rs.next()) {
                 Subject subject = new Subject();
-                subject.setAccount_id(rs.getInt("account_id"));
-                subject.setCategory_id(rs.getInt("category_id"));
-                subject.setCreated_date(rs.getString("created_date"));
+                subject.setAccountId(rs.getInt("account_id"));
+                subject.setCategoryId(rs.getInt("category_id"));
+                subject.setCreatedDate(rs.getTimestamp("created_date"));
                 subject.setDescription(rs.getString("description"));
                 subject.setIsFeatured(rs.getBoolean("isFeatured"));
                 subject.setStatus(rs.getBoolean("status"));
-                subject.setSubject_id(rs.getInt("subject_id"));
-                subject.setSubject_name(rs.getString("subject_name"));
+                subject.setSubjectId(rs.getInt("subject_id"));
+                subject.setSubjectName(rs.getString("subject_name"));
                 subject.setTagline(rs.getString("tagline"));
                 subject.setThumbnail(rs.getString("thumbnail"));
             }
