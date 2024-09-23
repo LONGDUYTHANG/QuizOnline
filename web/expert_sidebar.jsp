@@ -43,7 +43,6 @@
 
                     <div class="sidebar-user-subtitle">Designer</div>
                     <!--day la phan comment-->
-                    <!--da thay xung dot -->
                 </div>
             </div>
         </div>
