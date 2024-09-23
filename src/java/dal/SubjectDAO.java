@@ -15,6 +15,10 @@ import model.Subject;
  * @author Phuong Anh
  */
 public class SubjectDAO extends DBContext{
+    /**
+     * Get a list of subjects
+     * @return an array list
+     */
     public ArrayList<Subject> getSubject() {
         PreparedStatement stm;
         ResultSet rs; 
@@ -24,7 +28,7 @@ public class SubjectDAO extends DBContext{
             stm = connection.prepareStatement(strSelect);
             rs = stm.executeQuery();
             while (rs.next()) {
-                 Subject subject = new Subject();
+    Subject subject = new Subject();
                 subject.setAccountId(rs.getInt("account_id"));
                 subject.setCategoryId(rs.getInt("category_id"));
                 subject.setCreatedDate(rs.getTimestamp("created_date"));
@@ -44,7 +48,12 @@ public class SubjectDAO extends DBContext{
         return subject_list;
     }
     
-    public Subject getSbjectBySubjectID(int subject_id){
+    /**
+     * Get information of a subject given by the subject ID
+     * @param subject_id
+     * @return a subject object 
+     */
+    public Subject getSubjectBySubjectID(int subject_id){
         PreparedStatement stm;
         ResultSet rs;
         Subject mySubject = new Subject();
