@@ -100,11 +100,10 @@
                 </a>
             </li>
 
-            <li class="sidebar-item active">
-                <a class="sidebar-link" href="calendar.html">
-                    <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Calendar</span>
-                    <span class="sidebar-badge badge bg-primary">Pro</span>
-                </a>
+            <li class="sidebar-item>
+                
+                <span class="sidebar-badge badge bg-primary">Pro</span>
+                
             </li>
 
             <li class="sidebar-item">

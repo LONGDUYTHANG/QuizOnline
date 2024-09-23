@@ -15,7 +15,7 @@
                 <jsp:include page="navbar.jsp"/>
 
                 <main class="content">
-                    
+                    //code here
                 </main>
 
                 <jsp:include page="footer.jsp"/>    

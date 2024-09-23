@@ -4,11 +4,15 @@
     Author     : FPT SHOP
 --%>
 
+<%
+    String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<script src="js/app.js"></script>
+<script src="<%=url%>/js/app.js" defer></script>
+<script src="<%=url%>/js/fullcalendar.js" defer></script>
 
-<script src="js/fullcalendar.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
