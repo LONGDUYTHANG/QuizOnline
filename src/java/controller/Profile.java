@@ -91,7 +91,6 @@ public class Profile extends HttpServlet {
                 request.setAttribute("erru", "Email is already exist");
                 request.getRequestDispatcher("profile.jsp").forward(request, response);
                 return;
-                
             }
             request.setAttribute("updatesc", "Update success");
             Account uAcc = new Account(ac.getAccount_id(), fullName, "Male".equalsIgnoreCase(gender), email, mobile);
