@@ -82,8 +82,8 @@
                                         <div class="widget widget_archive">
                                             <h5 class="widget-title style-1">${requestScope.myAccount.full_name}</h5>
                                             <ul>
-                                                <li class="active"><a href="registerd_subject_list.jsp">My Registered Subjects</a></li>
-                                                <li><a href="subject_list">All Courses</a></li>
+                                                <li class="active"><a href="${c.thumbnail}">My Registered Subjects</a></li>
+                                                <li><a href="subject_list">All Subject</a></li>
                                                 <li><a href="profile.jsp">Profile</a></li>
                                             </ul>
                                         </div>
@@ -93,9 +93,8 @@
                                             <h5 class="widget-title style-1">Guest</h5>
                                             <ul>
                                                 <li><a href="login.jsp">Login</a></li>
-                                                <li><a href="subject_list">All Courses</a></li>
-                                                <li><a href="#">Hottest Subject</a></li>
-
+                                                <li><a href="subject_list">All Subject</a></li>
+                                                <li><a href="hottest_subject_list.jsp">Hottest Subject</a></li>
                                             </ul>
                                         </div>
                                     </c:if>
@@ -112,10 +111,10 @@
                                                 <div class="cours-bx">
                                                     <div class="action-box">
                                                         <img src="${c.thumbnail}" alt="">
-                                                        <a href="subject_details?subject_id=${c.subject_id}" class="btn">Read More</a>
+                                                        <a href="subject_details?subject_id=${c.subjectId}" class="btn">Read More</a>
                                                     </div>
                                                     <div class="info-bx text-center">
-                                                        <h5><a href="subject_details?subject_id=${c.subject_id}">${c.description}</a></h5>
+                                                        <h5><a href="subject_details?subject_id=${c.subjectId}">${c.description}</a></h5>
                                                         <span>${c.tagline}</span>
                                                     </div>
                                                     <div class="cours-more-info">
@@ -135,11 +134,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </c:forEach>
-                                        <!--                                        list subject-->
-
+                                        <!-- list subject-->
                                         <div class="col-lg-12 m-b20">
                                             <div class="pagination-bx rounded-sm gray clearfix">
                                                 <ul class="pagination">
