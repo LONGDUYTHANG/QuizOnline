@@ -10,14 +10,14 @@ package model;
  */
 public class Account {
 
-    int account_id;
-    String full_name;
-    boolean gender;
-    String email;
-    String mobile;
-    String password;
-    String avatar;
-    int role_id;
+    private int account_id;
+    private String full_name;
+    private boolean gender;
+    private String email;
+    private String mobile;
+    private String password;
+    private String avatar;
+    private int role_id;
 
     public Account() {
     }
