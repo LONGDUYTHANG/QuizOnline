@@ -106,9 +106,9 @@ public class SubjectDAO extends DBContext{
                 subject.setDescription(rs.getString("description"));
 
                 AccountDAO aDao = new AccountDAO();
-                Account acc = aDao.getAccountById(rs.getString("account_id"));
-                subject.setAccountId(acc.getAccount_id());
-//                subject.setCreatedDate(rs.g);
+                 Account acc = aDao.getAccountById(rs.getString("account_id"));
+//                subject.setAccountId(acc);
+//                subject.setCreatedDate(rs.getDate("created_date"));
 
                 subjects.add(subject);
             }

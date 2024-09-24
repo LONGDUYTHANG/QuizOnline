@@ -13,7 +13,7 @@
 
     <body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-layout="default">
         <div class="wrapper">
-            <jsp:include page="../sidebar.jsp" />
+            <jsp:include page="../admin_sidebar.jsp" />
 
             <div class="main">
                 <jsp:include page="../navbar.jsp" />
@@ -227,7 +227,7 @@
                                                     <td>${list.getDuration()}</td>
                                                     <td>${list.getListPrice()}</td>
                                                     <td>${list.getSalePrice()}</td> <!-- Changed from listPrice to salePrice -->
-                                                    <td>${list.getSubject_id().getSubject_name()}</td>
+                                                    <td>${list.getSubject_id().getSubject_name}</td>
                                                     <td class="d-none d-md-table-cell">${list.getStatus()}</td>
                                                     <td class="table-action">
                                                         <!-- Edit Button -->
