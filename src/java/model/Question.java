@@ -128,6 +128,9 @@ public class Question {
         return dao.getSubjectById(subject_id);
     }
     
+    public Level getLevel(QuestionDAO dao) {
+        return dao.getLevelById(level_id);
+    }
 
     @Override
     public String toString() {

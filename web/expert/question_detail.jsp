@@ -313,7 +313,7 @@
                                 <h2>Answer details</h2>
 
                                 <div class="buttons">
-                                    <button class="btn btn-success" id="add-btn">Add</button>
+                                    <button class="btn btn-success" id="add-btn">Add <i class="align-middle me-2 fas fa-fw fa-plus-circle"></i></button>
                                 </div>
 
                                 <div class="form-group">
