@@ -58,12 +58,12 @@ public class Profile extends HttpServlet {
     throws ServletException, IOException {
         HttpSession session = request.getSession(true);
         AccountDAO ad = new AccountDAO();
-        Account ac = (Account) session.getAttribute("account");
+        Account ac = (Account) session.getAttribute("user");
         if (ac == null) {
             ac = ad.getAccountById(2);
         }
         ac = ad.getAccountById(ac.getAccount_id());
-        session.setAttribute("account", ac);
+        session.setAttribute("user", ac);
         
         request.getRequestDispatcher("profile.jsp").forward(request, response);
     } 
@@ -80,7 +80,7 @@ public class Profile extends HttpServlet {
     throws ServletException, IOException {
         HttpSession session = request.getSession(true);
         AccountDAO ad = new AccountDAO();
-        Account ac = (Account) session.getAttribute("account");
+        Account ac = (Account) session.getAttribute("user");
         String fullName = request.getParameter("fullname");
         String newPass = request.getParameter("newpass");
         if (fullName != null) {
@@ -102,7 +102,7 @@ public class Profile extends HttpServlet {
             request.setAttribute("cpsuccess", "Update success");
         }
         ac = ad.getAccountById(ac.getAccount_id());
-        session.setAttribute("account", ac);
+        session.setAttribute("user", ac);
         request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
 
