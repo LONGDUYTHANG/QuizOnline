@@ -181,4 +181,15 @@ public class DimensionDAO extends DBContext {
         return false;
     }
 
+    
+    
+    
+    public static void main(String[] args) {
+        DimensionDAO d = new DimensionDAO();
+        List<Dimension> dimensions = d.getAllDimension();
+        
+        for(Dimension dd : dimensions){
+            System.out.println(dd.getDimension_id());
+        }
+    }
 }

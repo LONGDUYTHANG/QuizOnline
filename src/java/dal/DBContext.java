@@ -35,4 +35,27 @@ public class DBContext {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public static void main(String[] args) {
+        // Tạo đối tượng DBContext để khởi tạo kết nối cơ sở dữ liệu
+        DBContext dbContext = new DBContext();
+
+        // Kiểm tra xem kết nối có thành công không
+        if (dbContext.connection != null) {
+            System.out.println("Kết nối cơ sở dữ liệu thành công!");
+        } else {
+            System.out.println("Kết nối cơ sở dữ liệu thất bại!");
+        }
+
+        // Kiểm tra đóng kết nối
+        try {
+            if (dbContext.connection != null && !dbContext.connection.isClosed()) {
+                dbContext.connection.close();
+                System.out.println("Đóng kết nối thành công!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Đóng kết nối thất bại!");
+        }
+    }
 }

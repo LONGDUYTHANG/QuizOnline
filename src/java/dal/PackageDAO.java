@@ -25,7 +25,7 @@ public class PackageDAO extends DBContext {
 
     public List<Package> getAllPackage() {
         List<Package> packageList = new ArrayList<>();
-        String sql = "SELECT [package_id], [package_name], [duration], [listPrice], [salePrice], [status], [subject_id] FROM [QuizOnline].[dbo].[Package]";
+        String sql = "SELECT [package_id], [package_name], [duration], [listPrice], [salePrice], [status], [subject_id] FROM [dbo].[Package]";
 
         try (
                 PreparedStatement pstmt = connection.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
@@ -72,30 +72,6 @@ public class PackageDAO extends DBContext {
             e.printStackTrace();
             return false;
         }
-    }
-
-    public static void main(String[] args) {
-        // Create an instance of PackageDAO
-        PackageDAO packageDAO = new PackageDAO();
-
-        // Sample data for the new package
-        String packageName = "Sample Package";
-        int duration = 30; // Duration in days
-        double listPrice = 100.0; // Original price
-        double salePrice = 80.0; // Sale price
-        int status = 0; // 0 for active, 1 for inactive
-        int subjectId = 6; // Assuming there is a subject with ID 1
-
-        // Call createPackage method
-        boolean isCreated = packageDAO.createPackage(packageName, duration, listPrice, salePrice, status, subjectId);
-
-        // Print the result
-        if (isCreated) {
-            System.out.println("Package created successfully!");
-        } else {
-            System.out.println("Failed to create package.");
-        }
-
     }
 
     public Package getPricePackageById(int packageId) {
@@ -146,19 +122,30 @@ public class PackageDAO extends DBContext {
             return false;
         }
     }
-public boolean deleteById(int id) {
-    String sql = "DELETE FROM [dbo].[Package] WHERE [package_id] = ?";
-    
-    try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-        pstmt.setInt(1, id);
-        
-        int rowsAffected = pstmt.executeUpdate();
-        return rowsAffected > 0; 
-    } catch (Exception e) {
-        e.printStackTrace(); 
-        return false; 
-    }
-}
 
+    public boolean deleteById(int id) {
+        String sql = "DELETE FROM [dbo].[Package] WHERE [package_id] = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static void main(String[] args) {
+        // Create an instance of PackageDAO
+        PackageDAO packageDAO = new PackageDAO();
+
+        List<Package> packageList = packageDAO.getAllPackage();
+        for (Package p : packageList) {
+            System.out.println(p.getPackage_name());
+        }
+
+    }
 
 }

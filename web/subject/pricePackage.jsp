@@ -227,7 +227,7 @@
                                                     <td>${list.getDuration()}</td>
                                                     <td>${list.getListPrice()}</td>
                                                     <td>${list.getSalePrice()}</td> <!-- Changed from listPrice to salePrice -->
-                                                    <td>${list.getSubject_id().getSubject_name}</td>
+                                                    <td>${list.getSubject_id().getSubject_name()}</td>
                                                     <td class="d-none d-md-table-cell">${list.getStatus()}</td>
                                                     <td class="table-action">
                                                         <!-- Edit Button -->
