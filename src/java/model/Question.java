@@ -4,6 +4,8 @@
  */
 package model;
 
+import dal.QuestionDAO;
+
 /**
  *
  * @author FPT SHOP
@@ -121,6 +123,11 @@ public class Question {
     public void setMedia(String media) {
         this.media = media;
     }
+    
+    public Subject getSubject(QuestionDAO dao) {
+        return dao.getSubjectById(subject_id);
+    }
+    
 
     @Override
     public String toString() {
