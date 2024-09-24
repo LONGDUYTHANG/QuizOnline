@@ -32,7 +32,7 @@ public class SubjectDAO extends DBContext{
             stm = connection.prepareStatement(strSelect);
             rs = stm.executeQuery();
             while (rs.next()) {
-                Subject subject = new Subject();
+    Subject subject = new Subject();
                 subject.setAccountId(rs.getInt("account_id"));
                 subject.setCategoryId(rs.getInt("category_id"));
                 subject.setCreatedDate(rs.getTimestamp("created_date"));
