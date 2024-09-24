@@ -66,8 +66,8 @@
                                             <div class="form-group">
                                                 <p style="color: red" id="login-error">${requestScope.login_error}</p>
                                                 <p style="color: red" id="check-login-error" hidden>Incorrect username or passwword</p>
-                                                <label>UserName</label>
-                                                <input name="userName" type="text" required="" class="form-control">
+                                                <label>Email</label>
+                                                <input name="email" type="email" required="" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-lg-12">

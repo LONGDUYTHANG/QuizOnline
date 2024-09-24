@@ -19,18 +19,18 @@ public class AccountDAO extends DBContext {
     /**
      * Tìm account
      *
-     * @param username tên đăng nhập
+     * @param email tên đăng nhập
      * @param passwword
      * @return 1 đối tượng account
      */
-    public Account getAccount(String username, String passwword) {
+    public Account getAccount(String email, String passwword) {
         PreparedStatement stm;
         ResultSet rs;
         Account myAccount = new Account();
         try {
-            String strSelect = "select * from Account where user_name like ? and password like ?  ";
+            String strSelect = "select * from Account where email like ? and password like ?  ";
             stm = connection.prepareStatement(strSelect);
-            stm.setString(1, username);
+            stm.setString(1, email);
             stm.setString(2, passwword);
             rs = stm.executeQuery();
             if (rs.next()) {
