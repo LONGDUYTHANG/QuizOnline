@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
 import model.Answer;
 import model.Question;
 
@@ -108,11 +109,8 @@ public class AddQuestionController extends HttpServlet {
             //Add Answer that map to newly added question
             dao.addMutipleAnswers(listAnswer);
             
-            //Send a message to question_detail.jsp, alert that user added question successfully
-            request.setAttribute("showSuccessMessage", true);
-            
-            //redirect back to question_detail.jsp
-            request.getRequestDispatcher("question_detail_validation").forward(request, response);
+            //redirect to question_detail_validation servlet
+            response.sendRedirect("question_detail_validation?message=" + URLEncoder.encode("true", "UTF-8"));
         } catch(Exception ex) {
             System.out.println(ex);
         }
