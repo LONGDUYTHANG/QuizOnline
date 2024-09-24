@@ -71,14 +71,14 @@ public class LoginServlet extends HttpServlet {
     throws ServletException, IOException {
         //Whenever a user login sucessfully create a sesion to caontain his/her account information
         HttpSession session=request.getSession();
-        String userName=request.getParameter("userName");
+        String email=request.getParameter("email");
         String userPass=request.getParameter("userPass");
         AccountDAO myAccountDAO=new AccountDAO();
-        Account myAccount=myAccountDAO.getAccount(userName,userPass);
+        Account myAccount=myAccountDAO.getAccount(email,userPass);
         if(myAccount.getRole_id()==myAccountDAO.getRole_Id("none")){
             String ms="Incorrect username or passwword";
             request.setAttribute("message", ms);
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("homepage.jsp").forward(request, response);
         }
         else if(myAccount.getRole_id()==myAccountDAO.getRole_Id("customer")){
             session.setAttribute("user", myAccount);
