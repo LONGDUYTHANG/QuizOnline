@@ -94,6 +94,8 @@
                                             <ul>
                                                 <li><a href="login.jsp">Login</a></li>
                                                 <li><a href="subject_list">All Courses</a></li>
+                                                <li><a href="#">Hottest Subject</a></li>
+
                                             </ul>
                                         </div>
                                     </c:if>
@@ -102,17 +104,18 @@
 
                                 <div class="col-lg-9 col-md-8 col-sm-12">
                                     <div class="row">
-                                        <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
-                                            <!-- thêm danh sách các subject-->
-                                            <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-                                            <c:forEach items="${requestScope.subject_list}" var="c">
+                                        <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+                                        <c:forEach items="${requestScope.subject_list}" var="c">
+                                            <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
+                                                <!-- thêm danh sách các subject-->
+
                                                 <div class="cours-bx">
                                                     <div class="action-box">
-                                                        <img src="assets/images/courses/pic1.jpg" alt="">
-                                                        <a href="subject_details" class="btn">Read More</a>
+                                                        <img src="${c.thumbnail}" alt="">
+                                                        <a href="subject_details?subject_id=${c.subject_id}" class="btn">Read More</a>
                                                     </div>
                                                     <div class="info-bx text-center">
-                                                        <h5><a href="subject_details.jsp">${c.description}</a></h5>
+                                                        <h5><a href="subject_details?subject_id=${c.subject_id}">${c.description}</a></h5>
                                                         <span>${c.tagline}</span>
                                                     </div>
                                                     <div class="cours-more-info">
@@ -132,8 +135,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </c:forEach>
-                                        </div>
+
+                                            </div>
+                                        </c:forEach>
                                         <!--                                        list subject-->
 
                                         <div class="col-lg-12 m-b20">
