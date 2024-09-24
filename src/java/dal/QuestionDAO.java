@@ -240,11 +240,28 @@ public class QuestionDAO extends DBContext {
             this.addAnswer(answer);
         }
     }
+    
+    public Level getLevelById(int level_id_raw) {
+        String sql = "SELECT * FROM Level WHERE level_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, level_id_raw);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int level_id = rs.getInt("level_id");
+                String level_name = rs.getString("level_name");
+                return new Level(level_id, level_name);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
 
 
     
     public static void main(String[] args) {
         QuestionDAO dao = new QuestionDAO();
-        System.out.println(dao.getLastQuestion());
+        System.out.println(dao.getLevelById(1));
     }
 }
