@@ -1,4 +1,5 @@
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +11,7 @@
         <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
         <style>
-        
+
             .container {
                 max-width: 1200px;
                 margin: 0 auto;
@@ -119,21 +120,15 @@
                 <jsp:include page="navbar.jsp"/>
 
                 <main class="content">
-                    <div class="container">
-                        <div class="header">
-                            <h1>Question List</h1>
-                            <nav>
-                                <button class="btn btn-success">Question Import <i class="align-middle me-2 fas fa-fw fa-file-excel"></i></button>
-                                <button class="btn-orange">New Question</button>
-                            </nav>
-                        </div>
 
-                        <div class="tab-menu">
-                            <button class="active">All Question</button>
-                            <button>Draft</button>
-                            <button>Published</button>
-                            <button>Unpublished</button>
-                        </div>
+                    <div class="header">
+                        <h1>Question List</h1>
+                        <nav>
+                            <button class="btn btn-success">Question Import <i class="align-middle me-2 fas fa-fw fa-file-excel"></i></button>
+                            <button class="btn-orange">New Question</button>
+                        </nav>
+                    </div>
+                    <div class="container">
 
                         <table id="questionTable" class="table table-striped table-bordered">
                             <thead>
@@ -147,143 +142,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>What is a programming language?</td>
-                                    <td>Subject name [Lesson] Name [Dimension name]</td>
-                                    <td>100</td>
-                                    <td><span class="status status-unpublished">Unpublished</span></td>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>What are the characteristics of a programming language?</td>
-                                    <td>Subject name</td>
-                                    <td>100</td>
-                                    <td><span class="status status-published">Published</span></td>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>What are the characteristics of a programming language?</td>
-                                    <td>Subject name</td>
-                                    <td>100</td>
-                                    <td><span class="status status-published">Published</span></td>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>What are the characteristics of a programming language?</td>
-                                    <td>Subject name</td>
-                                    <td>100</td>
-                                    <td><span class="status status-published">Published</span></td>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>What are the characteristics of a programming language?</td>
-                                    <td>Subject name</td>
-                                    <td>100</td>
-                                    <td><span class="status status-published">Published</span></td>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>What are the characteristics of a programming language?</td>
-                                    <td>Subject name</td>
-                                    <td>100</td>
-                                    <td><span class="status status-published">Published</span></td>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>What are the characteristics of a programming language?</td>
-                                    <td>Subject name</td>
-                                    <td>100</td>
-                                    <td><span class="status status-published">Published</span></td>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>What are the characteristics of a programming language?</td>
-                                    <td>Subject name</td>
-                                    <td>100</td>
-                                    <td><span class="status status-published">Published</span></td>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>What are the characteristics of a programming language?</td>
-                                    <td>Subject name</td>
-                                    <td>100</td>
-                                    <td><span class="status status-published">Published</span></td>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>What are the characteristics of a programming language?</td>
-                                    <td>Subject name</td>
-                                    <td>100</td>
-                                    <td><span class="status status-published">Published</span></td>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>What are the characteristics of a programming language?</td>
-                                    <td>Subject name</td>
-                                    <td>100</td>
-                                    <td><span class="status status-published">Published</span></td>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>What are the characteristics of a programming language?</td>
-                                    <td>Subject name</td>
-                                    <td>100</td>
-                                    <td><span class="status status-published">Published</span></td>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>What are the characteristics of a programming language?</td>
-                                    <td>Subject name</td>
-                                    <td>100</td>
-                                    <td><span class="status status-published">Published</span></td>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>What are the characteristics of a programming language?</td>
-                                    <td>Subject name</td>
-                                    <td>100</td>
-                                    <td><span class="status status-published">Published</span></td>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>What are the characteristics of a programming language?</td>
-                                    <td>Subject name</td>
-                                    <td>100</td>
-                                    <td><span class="status status-published">Published</span></td>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>What are the characteristics of a programming language?</td>
-                                    <td>Subject name</td>
-                                    <td>100</td>
-                                    <td><span class="status status-published">Published</span></td>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>What are the characteristics of a programming language?</td>
-                                    <td>Subject name</td>
-                                    <td>100</td>
-                                    <td><span class="status status-published">Published</span></td>
-                                    <td>...</td>
-                                </tr>
-                                
+                                <c:forEach var="question" items="${requestScope.listQuestion}">
+                                    <tr>
+                                        <td>${question.question_id}</td>
+                                        <td>${question.question_content}</td>
+                                        <td>${question.getSubject(requestScope.dao).getSubjectName()}</td>
+                                        <td>${question.level_id}</td>
+                                        <td>${question.status}</td>
+                                        <td>cell</td>
+                                    </tr>
+                                </c:forEach>
                                 <!-- More rows can be added here -->
                             </tbody>
                         </table>
