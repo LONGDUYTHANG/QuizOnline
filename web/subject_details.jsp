@@ -123,7 +123,7 @@
                                     <c:set var="c" value="${requestScope.mySubject}" />
                                     <div class="courses-post">
                                         <div class="ttr-post-media media-effect">
-                                            <a href="#"><img src="assets/images/blog/default/thum1.jpg" alt=""></a>
+                                            <a href="#"><img src="${c.thumbnail}" alt=""></a>
                                         </div>
                                         <div class="ttr-post-info">
                                             <div class="ttr-post-title ">
