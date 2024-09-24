@@ -15,7 +15,6 @@ public class Account {
     boolean gender;
     String email;
     String mobile;
-    String user_name;
     String password;
     String avatar;
     int role_id;
@@ -31,24 +30,15 @@ public class Account {
         this.mobile = mobile;
     }
 
-    public Account(int account_id, String full_name, boolean gender, String email, String mobile, String user_name, String password, String avatar, int role_id) {
+    public Account(int account_id, String full_name, boolean gender, String email, String mobile, String password, String avatar, int role_id) {
         this.account_id = account_id;
         this.full_name = full_name;
         this.gender = gender;
         this.email = email;
         this.mobile = mobile;
-        this.user_name = user_name;
         this.password = password;
         this.avatar = avatar;
         this.role_id = role_id;
-    }
-
-    public String getUsername() {
-        return user_name;
-    }
-
-    public void setUsername(String user_name) {
-        this.user_name = user_name;
     }
 
     public int getAccount_id() {
