@@ -64,7 +64,7 @@ public class BlogListServlet extends HttpServlet {
 
         ArrayList<Post> hottest_post_list = myPostDAO.getHottestPost();
         request.setAttribute("hottest_post_list", hottest_post_list);
-        
+
         request.getRequestDispatcher("blog_list.jsp").forward(request, response);
 
     }

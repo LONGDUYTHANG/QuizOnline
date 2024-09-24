@@ -42,8 +42,6 @@
                     </div>
 
                     <div class="sidebar-user-subtitle">Designer</div>
-                    <!--day la phan comment-->
-                    <!-- commentgg -->
                 </div>
             </div>
         </div>

@@ -69,6 +69,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        //Whenever a user login sucessfully create a sesion to caontain his/her account information
         HttpSession session=request.getSession();
         String userName=request.getParameter("userName");
         String userPass=request.getParameter("userPass");
@@ -81,7 +82,7 @@ public class LoginServlet extends HttpServlet {
         }
         else if(myAccount.getRole_id()==myAccountDAO.getRole_Id("customer")){
             session.setAttribute("user", myAccount);
-            request.getRequestDispatcher("").forward(request, response);
+            request.getRequestDispatcher("homepage_1.jsp").forward(request, response);
         }
         else if(myAccount.getRole_id()==myAccountDAO.getRole_Id("saler")){
             session.setAttribute("user", myAccount);

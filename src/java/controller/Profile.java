@@ -5,20 +5,21 @@
 
 package controller;
 
-import dal.SubjectDAO;
+import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Subject;
+import jakarta.servlet.http.HttpSession;
+import model.Account;
 
 /**
  *
- * @author Phuong Anh
+ * @author DELL-PC
  */
-public class SubjectDetailServlet extends HttpServlet {
+public class Profile extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,10 +36,10 @@ public class SubjectDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SubjectDetailServlet</title>");  
+            out.println("<title>Servlet Profile</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SubjectDetailServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet Profile at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -55,19 +56,16 @@ public class SubjectDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String raw_subject_id = request.getParameter("subject_id");
-        int subject_id = 0;
-        try {
-            subject_id = Integer.parseInt(raw_subject_id);
-        } catch (NumberFormatException e) {
+        HttpSession session = request.getSession(true);
+        AccountDAO ad = new AccountDAO();
+        Account ac = (Account) session.getAttribute("user");
+        if (ac == null) {
+            ac = ad.getAccountById(2);
         }
-
-        SubjectDAO mySubjectDAO = new SubjectDAO();
- 
-        Subject mySubject = mySubjectDAO.getSubjectByID(subject_id);
-
-        request.setAttribute("mySubject", mySubject);
-        request.getRequestDispatcher("subject_details.jsp").forward(request, response);
+        ac = ad.getAccountById(ac.getAccount_id());
+        session.setAttribute("user", ac);
+        
+        request.getRequestDispatcher("profile.jsp").forward(request, response);
     } 
 
     /** 
@@ -80,9 +78,32 @@ public class SubjectDetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-                processRequest(request, response);
-
-    
+        HttpSession session = request.getSession(true);
+        AccountDAO ad = new AccountDAO();
+        Account ac = (Account) session.getAttribute("user");
+        String fullName = request.getParameter("fullname");
+        String newPass = request.getParameter("newpass");
+        if (fullName != null) {
+            String gender = request.getParameter("gender");
+            String mobile = request.getParameter("mobile");
+            String email = request.getParameter("email");
+            if (ad.getAccount(email) != null && !email.equalsIgnoreCase(ac.getEmail())) {
+                request.setAttribute("erru", "Email is already exist");
+                request.getRequestDispatcher("profile.jsp").forward(request, response);
+                return;
+                
+            }
+            request.setAttribute("updatesc", "Update success");
+            Account uAcc = new Account(ac.getAccount_id(), fullName, "Male".equalsIgnoreCase(gender), email, mobile);
+            ad.updateProfile(uAcc);
+        } else {
+            ad.updatePassword(newPass, ac);
+            ac = ad.getAccount(ac.getEmail());
+            request.setAttribute("cpsuccess", "Update success");
+        }
+        ac = ad.getAccountById(ac.getAccount_id());
+        session.setAttribute("user", ac);
+        request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
 
     /** 
