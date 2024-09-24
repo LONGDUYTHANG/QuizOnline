@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 
     <head>
@@ -320,33 +320,6 @@
                     });
                 }
             });
-        </script>
-        <script>
-            const openLoginButton = document.getElementById('open-login-popup');
-            const closeLoginButton = document.getElementById('close-login-popup');
-            const openRegisterButton = document.getElementById('open-register-popup');
-            const closeRegisterButton = document.getElementById('close-register-popup');
-            const loginPopup = document.getElementById('login-popup');
-            const registerPopup = document.getElementById('register-popup');
-
-            openLoginButton.onclick = function () {
-                loginPopup.style.display = 'flex';
-            };
-
-            openRegisterButton.onclick = function () {
-                registerPopup.style.display = 'flex';
-            };
-
-            closePopupButton.onclick = function () {
-                popup.style.display = 'none';
-            }
-
-            // ?óng pop-up khi nh?n ra ngoài
-            window.onclick = function (event) {
-                if (event.target === popup) {
-                    popup.style.display = 'none';
-                }
-            }
         </script>
     </body>
 

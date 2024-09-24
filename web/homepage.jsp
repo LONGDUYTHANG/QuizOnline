@@ -554,6 +554,12 @@
                     loginPopup.style.display = 'none';
                 }
             };
+            
+            window.onclick = function (event) {
+                if (event.target === registerPopup) {
+                    registerPopup.style.display = 'none';
+                }
+            };
         </script>
     </body>
 
