@@ -5,6 +5,7 @@
 
 package controller;
 
+import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -66,8 +67,33 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String full_name=request.getParameter("fullname");
-       // String gender=request.getParameter("")
+        AccountDAO myAccountDAO = new AccountDAO();
+        String email = request.getParameter("email");
+        String pass = request.getParameter("pass");
+        String confirmed_pass = request.getParameter("confirmedPass");
+        //thong bao loi gui lai nguoi dung
+        String register_error = "";
+        //Neu mat khau xac nhan giong mat khau da nhap
+        if (confirmed_pass.equals(pass)) {
+            //neu email do to tai trong database
+            if (myAccountDAO.getAccountByEmail(email) == null) {
+                myAccountDAO.addAccount( email, pass);
+                request.getRequestDispatcher("homepage.jsp").forward(request, response);
+            } else {
+                //gui lai cac thong tin nguoi dung da nhap sang page register de nguoi dung nhap tiep
+                register_error = "Email existed!";
+                request.setAttribute("email_error", register_error);
+                request.setAttribute("email", email);
+                request.setAttribute("pass", pass);
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            }
+        } else {
+            //gui lai cac thong tin nguoi dung da nhap sang page register de nguoi dung nhap tiep
+            register_error = "Wrong confirmed password!";
+            request.setAttribute("pass_error", register_error);
+            request.setAttribute("email", email);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
     }
 
     /** 
