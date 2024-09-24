@@ -79,7 +79,7 @@
                                     <c:forEach items="${requestScope.post_list}" var="c">
                                     <div class="blog-post blog-md clearfix">
                                         <div class="ttr-post-media"> 
-                                            <a href="blog_detail"><img src="assets/images/blog/grid/pic1.jpg" alt=""></a> 
+                                            <a href="blog_detail?blog_id=${c.blog_id}"><img src="${c.thumbnail}" alt=""></a> 
                                         </div>
                                         <div class="ttr-post-info">
 
@@ -138,12 +138,12 @@
                                                 <div class="widget-post-bx">
                                                     <!-- thêm danh sách các bài post hot nhat-->
                                                     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-                                                    <c:forEach items="${requestScope.post_list}" var="c">
+                                                    <c:forEach items="${requestScope.hottest_post_list}" var="c">
                                                         <div class="widget-post clearfix">
-                                                            <div class="ttr-post-media"> <img src="assets/images/blog/recent-blog/pic1.jpg" width="200" height="143" alt=""> </div>
+                                                            <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
                                                             <div class="ttr-post-info">
                                                                 <div class="ttr-post-header">
-                                                                    <h6 class="post-title"><a href="blog-details.html">${c.blog_summary}</a></h6>
+                                                                    <h6 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_summary}</a></h6>
                                                                 </div>
                                                                 <ul class="media-post">
                                                                     <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
