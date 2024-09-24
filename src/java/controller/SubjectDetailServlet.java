@@ -66,7 +66,7 @@ public class SubjectDetailServlet extends HttpServlet {
         }
 
         SubjectDAO mySubjectDAO = new SubjectDAO();
-        Subject mySubject = mySubjectDAO.getSbjectBySubjectID(subject_id);
+        Subject mySubject = mySubjectDAO.getSubjectBySubjectID(subject_id);
         request.setAttribute("mySubject", mySubject);
         request.getRequestDispatcher("subject_details.jsp").forward(request, response);
     } 
