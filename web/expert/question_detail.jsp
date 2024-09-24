@@ -179,10 +179,31 @@
                     <!-- Submit the form when clicking on Save button -->
                     <script>
                         function submitForm() {
-                            if (confirm('Do you want to add new Question?')) {
-                                document.getElementById('questiondetail').submit();
-                            }
-                        }
+            const requiredFields = [
+                document.getElementById('subject'),
+                document.getElementById('dimension'),
+                document.getElementById('lesson'),
+                document.getElementById('level'),
+                document.getElementById('status'),
+                document.getElementById('content'),
+                document.getElementById('explanation'),
+                document.getElementById('answer')
+            ];
+
+            // Check if all required fields are filled
+            for (let field of requiredFields) {
+                if (!field.value.trim()) {
+                    alert('Please fill in all required fields.');
+                    field.focus(); // Focus on the first empty field
+                    return; // Stop form submission
+                }
+            }
+
+            // Confirm before submission
+            if (confirm('Do you want to add new Question?')) {
+                document.getElementById('questiondetail').submit();
+            }
+        }
                     </script>
                     
 
@@ -197,7 +218,7 @@
                                 <div class="form-group">
                                     <label for="subject">Subject</label>
                                     <c:set var="s" value="${requestScope.subject}"/>
-                                    <select id="subject" name="subject_id">
+                                    <select id="subject" name="subject_id" required>
                                         <option value="" disabled selected>Select an option</option>
                                         <c:forEach var="subject" items="${requestScope.listSubject}">
                                             <option value="${subject.subjectId}" 
@@ -220,7 +241,7 @@
                                 <!-- Dimension drop down -->
                                 <div class="form-group">
                                     <label for="dimension">Dimension</label>
-                                    <select id="dimension" name="dimension_id">
+                                    <select id="dimension" name="dimension_id" required>
                                         <c:forEach var="dimension" items="${requestScope.listDimension}">
                                             <option value="${dimension.dimension_id}"> 
                                                 ${dimension.dimension_name}
@@ -232,7 +253,7 @@
                                 <!-- Lesson drop down -->
                                 <div class="form-group">
                                     <label for="lesson">Lesson</label>
-                                    <select id="lesson" name="lesson_topic_id">
+                                    <select id="lesson" name="lesson_topic_id" required>
                                         <c:forEach var="lesson" items="${requestScope.listLesson_Topic}">
                                             <option value="${lesson.lesson_topic_id}"> 
                                                 ${lesson.lesson_topic_name}
@@ -244,7 +265,7 @@
                                 <!-- Level drop down -->
                                 <div class="form-group">
                                     <label for="level">Level</label>
-                                    <select id="level" name="level_id">
+                                    <select id="level" name="level_id" required>
                                         <c:forEach var="level" items="${requestScope.listLevel}">
                                             <option value="${level.level_id}"> 
                                                 ${level.level_name}
@@ -265,13 +286,13 @@
                                 <!-- Question Content -->
                                 <div class="form-group">
                                     <label for="content">Content</label>
-                                    <textarea id="content" name="content" placeholder="Enter content" required=""></textarea>
+                                    <textarea id="content" name="content" placeholder="Enter content" required></textarea>
                                 </div>
                                 
                                 <!-- Explanation -->
                                 <div class="form-group">
                                     <label for="explanation">Explanation</label>
-                                    <textarea id="explanation" name="explanation" placeholder="Enter your explanation" required=""></textarea>
+                                    <textarea id="explanation" name="explanation" placeholder="Enter your explanation" required></textarea>
                                 </div>
                                 
                                 <!-- File Upload -->

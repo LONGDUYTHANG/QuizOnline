@@ -62,9 +62,13 @@ public class Question_Detail_Validation_Controller extends HttpServlet {
         QuestionDAO dao = new QuestionDAO();
         List<Subject> list = dao.getAllSubject();
         request.setAttribute("listSubject", list);
-        request.getRequestDispatcher("question_detail.jsp").forward(request, response);
-        
-    } 
+        //Send a message to question_detail.jsp, alert that user added question successfully
+        String message = request.getParameter("message");
+        System.out.println(message);
+        request.setAttribute("showSuccessMessage", message);
+        request.getRequestDispatcher("expert/question_detail.jsp").forward(request, response);
+
+    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -89,7 +93,7 @@ public class Question_Detail_Validation_Controller extends HttpServlet {
         request.setAttribute("listDimension", listDimension);
         request.setAttribute("listLevel", listLevel);
         request.setAttribute("listLesson_Topic", listLesson_Topic);
-        request.getRequestDispatcher("question_detail.jsp").forward(request, response);
+        request.getRequestDispatcher("expert/question_detail.jsp").forward(request, response);
     }
 
     /** 
