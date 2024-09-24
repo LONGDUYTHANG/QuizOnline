@@ -69,6 +69,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        //Whenever a user login sucessfully create a sesion to caontain his/her account information
         HttpSession session=request.getSession();
         String userName=request.getParameter("userName");
         String userPass=request.getParameter("userPass");

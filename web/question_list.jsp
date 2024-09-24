@@ -5,138 +5,110 @@
 
     <head>
         <jsp:include page="head.jsp" />
+
+        <!-- DataTables CSS -->
+        <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
         <style>
+        
             .container {
                 max-width: 1200px;
                 margin: 0 auto;
-                background-color: #fff;
-                padding: 20px;
+                background-color: white;
                 border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                padding: 20px;
             }
 
-            header h1 {
-                font-size: 24px;
-                color: #4a4a4a;
-            }
-
-            header p {
-                color: #999;
-                margin-top: 5px;
-            }
-
-            nav {
-                margin: 20px 0;
-            }
-
-            .nav-btn {
-                background-color: #f0f0f0;
-                border: none;
-                padding: 10px 15px;
-                margin-right: 10px;
-                border-radius: 4px;
-                cursor: pointer;
-                transition: background-color 0.3s;
-            }
-
-            .nav-btn.active,
-            .nav-btn:hover {
-                background-color: #4a4a4a;
-                color: white;
-            }
-
-            .search-section {
+            .header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-bottom: 20px;
+                padding-bottom: 15px;
             }
 
-            .search-bar {
-                width: 60%;
-                padding: 10px;
-                border: 1px solid #ddd;
-                border-radius: 4px;
+            .header h1 {
+                font-size: 24px;
+                color: #333;
             }
 
-            .button-group button {
-                padding: 10px 15px;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
+            .header nav button {
                 margin-left: 10px;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
             }
 
-            .import-btn {
+            .btn-blue {
                 background-color: #007bff;
                 color: white;
             }
 
-            .new-question-btn {
+            .btn-orange {
                 background-color: #ff5722;
                 color: white;
             }
 
-            .question-table {
-                width: 100%;
-                border-collapse: collapse;
+            .tab-menu {
+                display: flex;
+                border-bottom: 2px solid #ccc;
                 margin-bottom: 20px;
             }
 
-            .question-table th,
-            .question-table td {
-                padding: 15px;
-                text-align: left;
-                border-bottom: 1px solid #ddd;
+            .tab-menu button {
+                flex: 1;
+                padding: 10px;
+                background-color: white;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                color: #666;
+                border-bottom: 4px solid transparent;
             }
 
-            .question-table th {
-                background-color: #f9f9f9;
+            .tab-menu button.active {
+                color: #5a2fc2;
+                font-weight: bold;
+                border-bottom-color: #5a2fc2;
             }
 
             .status {
                 padding: 5px 10px;
                 border-radius: 12px;
-                font-size: 12px;
+                font-size: 14px;
+                text-align: center;
             }
 
-            .unpublished {
-                background-color: #f44336;
-                color: white;
+            .status-published {
+                background-color: #d4edda;
+                color: #155724;
             }
 
-            .published {
-                background-color: #4caf50;
-                color: white;
-            }
-
-            .option-btn {
-                background: none;
-                border: none;
-                font-size: 16px;
-                cursor: pointer;
-            }
-
-            .pagination {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: 20px;
-            }
-
-            .pagination-controls {
-                display: flex;
-                align-items: center;
-            }
-
-            .pagination-btn {
-                padding: 5px 10px;
-                border: 1px solid #ddd;
-                background-color: #f0f0f0;
-                cursor: pointer;
-                margin: 0 5px;
+            .status-unpublished {
+                background-color: #f8d7da;
+                color: #721c24;
             }
         </style>
+
+        <!-- jQuery (Required for DataTables) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- Bootstrap JS -->
+
+        <!-- DataTables JS -->
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#questionTable').DataTable({
+                    "paging": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true
+                });
+            });
+        </script>
     </head>
 
     <body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-layout="default">
@@ -148,28 +120,22 @@
 
                 <main class="content">
                     <div class="container">
-                        <header>
+                        <div class="header">
                             <h1>Question List</h1>
-                            <p>View and manage question</p>
-                        </header>
+                            <nav>
+                                <button class="btn btn-success">Question Import <i class="align-middle me-2 fas fa-fw fa-file-excel"></i></button>
+                                <button class="btn-orange">New Question</button>
+                            </nav>
+                        </div>
 
-                        <nav>
-                            <button class="nav-btn active">All Question</button>
-                            <button class="nav-btn">Draft</button>
-                            <button class="nav-btn">Published</button>
-                            <button class="nav-btn">Unpublished</button>
-                        </nav>
+                        <div class="tab-menu">
+                            <button class="active">All Question</button>
+                            <button>Draft</button>
+                            <button>Published</button>
+                            <button>Unpublished</button>
+                        </div>
 
-                        <section class="search-section">
-                            <h2>Question from Subject [Subject name]</h2>
-                            <input type="text" placeholder="Search for subject name here" class="search-bar">
-                            <div class="button-group">
-                                <button class="import-btn">Question Import</button>
-                                <button class="new-question-btn">New Question</button>
-                            </div>
-                        </section>
-
-                        <table class="question-table">
+                        <table id="questionTable" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -186,21 +152,141 @@
                                     <td>What is a programming language?</td>
                                     <td>Subject name [Lesson] Name [Dimension name]</td>
                                     <td>100</td>
-                                    <td><span class="status unpublished">Unpublished</span></td>
-                                    <td><button class="option-btn">...</button></td>
+                                    <td><span class="status status-unpublished">Unpublished</span></td>
+                                    <td>...</td>
                                 </tr>
-                                <!-- More rows as needed -->
+                                <tr>
+                                    <td>2</td>
+                                    <td>What are the characteristics of a programming language?</td>
+                                    <td>Subject name</td>
+                                    <td>100</td>
+                                    <td><span class="status status-published">Published</span></td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>What are the characteristics of a programming language?</td>
+                                    <td>Subject name</td>
+                                    <td>100</td>
+                                    <td><span class="status status-published">Published</span></td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>What are the characteristics of a programming language?</td>
+                                    <td>Subject name</td>
+                                    <td>100</td>
+                                    <td><span class="status status-published">Published</span></td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>What are the characteristics of a programming language?</td>
+                                    <td>Subject name</td>
+                                    <td>100</td>
+                                    <td><span class="status status-published">Published</span></td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>What are the characteristics of a programming language?</td>
+                                    <td>Subject name</td>
+                                    <td>100</td>
+                                    <td><span class="status status-published">Published</span></td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>What are the characteristics of a programming language?</td>
+                                    <td>Subject name</td>
+                                    <td>100</td>
+                                    <td><span class="status status-published">Published</span></td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>What are the characteristics of a programming language?</td>
+                                    <td>Subject name</td>
+                                    <td>100</td>
+                                    <td><span class="status status-published">Published</span></td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>What are the characteristics of a programming language?</td>
+                                    <td>Subject name</td>
+                                    <td>100</td>
+                                    <td><span class="status status-published">Published</span></td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>What are the characteristics of a programming language?</td>
+                                    <td>Subject name</td>
+                                    <td>100</td>
+                                    <td><span class="status status-published">Published</span></td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>What are the characteristics of a programming language?</td>
+                                    <td>Subject name</td>
+                                    <td>100</td>
+                                    <td><span class="status status-published">Published</span></td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>What are the characteristics of a programming language?</td>
+                                    <td>Subject name</td>
+                                    <td>100</td>
+                                    <td><span class="status status-published">Published</span></td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>What are the characteristics of a programming language?</td>
+                                    <td>Subject name</td>
+                                    <td>100</td>
+                                    <td><span class="status status-published">Published</span></td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>What are the characteristics of a programming language?</td>
+                                    <td>Subject name</td>
+                                    <td>100</td>
+                                    <td><span class="status status-published">Published</span></td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>What are the characteristics of a programming language?</td>
+                                    <td>Subject name</td>
+                                    <td>100</td>
+                                    <td><span class="status status-published">Published</span></td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>What are the characteristics of a programming language?</td>
+                                    <td>Subject name</td>
+                                    <td>100</td>
+                                    <td><span class="status status-published">Published</span></td>
+                                    <td>...</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>What are the characteristics of a programming language?</td>
+                                    <td>Subject name</td>
+                                    <td>100</td>
+                                    <td><span class="status status-published">Published</span></td>
+                                    <td>...</td>
+                                </tr>
+                                
+                                <!-- More rows can be added here -->
                             </tbody>
                         </table>
-
-                        <footer class="pagination">
-                            <p>1 - 5 of 56</p>
-                            <div class="pagination-controls">
-                                <button class="pagination-btn">←</button>
-                                <span>1</span>
-                                <button class="pagination-btn">→</button>
-                            </div>
-                        </footer>
                     </div>
                 </main>
 

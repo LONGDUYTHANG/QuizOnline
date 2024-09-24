@@ -173,7 +173,7 @@
                     <!-- Header -->
                     <div class="header">
                         <h1>FPT University</h1>
-                        <button class="btn btn-primary" type="submit" onclick="submitForm()">Save</button>
+                        <button class="btn btn-warning" type="submit" onclick="submitForm()">Save</button>
                     </div>
                     
                     <!-- Submit the form when clicking on Save button -->
@@ -279,15 +279,15 @@
                                     <label for="file-upload">Enter link or upload file</label>
                                     <input type="file" id="file-upload" name="media" accept="video/*,audio/*,image/*">
                                     <div class="buttons">
-                                        <button type="button" class="btn btn-primary">Upload file</button>
-                                        <button type="button" class="btn btn-outline-primary">Preview</button>
+                                        <button type="button" class="btn btn-warning">Upload file</button>
+                                        <button type="button" class="btn btn-outline-warning">Preview</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Answer Details Section -->
-                        <div class="container">
+                        <div class="container" style="margin-top: 10px">
                             <div class="answer-details">
                                 <h2>Answer details</h2>
 

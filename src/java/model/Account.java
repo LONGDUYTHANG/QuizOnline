@@ -9,17 +9,26 @@ package model;
  * @author ADMIN
  */
 public class Account {
-     int account_id;
-      String full_name;
-      boolean gender;
-      String email;
-      String mobile;
-      String user_name;
-      String password;
-      String avatar;
-      int role_id;
+
+    int account_id;
+    String full_name;
+    boolean gender;
+    String email;
+    String mobile;
+    String user_name;
+    String password;
+    String avatar;
+    int role_id;
 
     public Account() {
+    }
+
+    public Account(int account_id, String full_name, boolean gender, String email, String mobile) {
+        this.account_id = account_id;
+        this.full_name = full_name;
+        this.gender = gender;
+        this.email = email;
+        this.mobile = mobile;
     }
 
     public Account(int account_id, String full_name, boolean gender, String email, String mobile, String user_name, String password, String avatar, int role_id) {
@@ -41,8 +50,6 @@ public class Account {
     public void setUsername(String user_name) {
         this.user_name = user_name;
     }
-
-    
 
     public int getAccount_id() {
         return account_id;
@@ -107,5 +114,5 @@ public class Account {
     public void setRole_id(int role_id) {
         this.role_id = role_id;
     }
-      
+
 }
