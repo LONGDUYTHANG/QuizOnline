@@ -1,4 +1,4 @@
-
+t
 <!DOCTYPE html>
 <html lang="en">
 
@@ -76,7 +76,7 @@
                                     <c:set var="c" value="${requestScope.myPost}" />
                                         <div class="recent-news blog-lg">
                                             <div class="action-box blog-lg">
-                                                <img src="assets/images/blog/default/thum1.jpg" alt="">
+                                                <img src="${c.thumbnail}" alt="">
                                             </div>
                                             <div class="info-bx">
                                                 <ul class="media-post">
@@ -106,7 +106,7 @@
                                                 <ol class="comment-list">
                                                     <li class="comment">
                                                         <div class="comment-body">
-                                                            <div class="comment-author vcard"> <img  class="avatar photo" src="assets/images/testimonials/pic1.jpg" alt=""> <cite class="fn">John Doe</cite> <span class="says">says:</span> </div>
+                                                            <div class="comment-author vcard"> <img  class="avatar photo" src="${c.thumbnail}" alt=""> <cite class="fn">John Doe</cite> <span class="says">says:</span> </div>
                                                             <div class="comment-meta"> <a href="#">December 02, 2019 at 10:45 am</a> </div>
                                                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae neqnsectetur adipiscing elit. Nam viae neqnsectetur adipiscing elit.
                                                                 Nam vitae neque vitae sapien malesuada aliquet. </p>
@@ -115,7 +115,7 @@
                                                         <ol class="children">
                                                             <li class="comment odd parent">
                                                                 <div class="comment-body">
-                                                                    <div class="comment-author vcard"> <img  class="avatar photo" src="assets/images/testimonials/pic2.jpg" alt=""> <cite class="fn">John Doe</cite> <span class="says">says:</span> </div>
+                                                                    <div class="comment-author vcard"> <img  class="avatar photo" src="${c.thumbnail}" alt=""> <cite class="fn">John Doe</cite> <span class="says">says:</span> </div>
                                                                     <div class="comment-meta"> <a href="#">December 02, 2019 at 10:45 am</a> </div>
                                                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae neque vitae sapien malesuada aliquet. 
                                                                         In viverra dictum justo in vehicula. Fusce et massa eu ante ornare molestie. Sed vestibulum sem felis, 
@@ -234,7 +234,7 @@
                                                 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                                 <c:forEach items="${requestScope.blog_detail}" var="c">
                                                     <div class="widget-post clearfix">
-                                                        <div class="ttr-post-media"> <img src="assets/images/blog/recent-blog/pic1.jpg" width="200" height="143" alt=""> </div>
+                                                        <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
                                                         <div class="ttr-post-info">
                                                             <div class="ttr-post-header">
                                                                 <h6 class="post-title"><a href="blog-details.html">${c.blog_summary}</a></h6>
