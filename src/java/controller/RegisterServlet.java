@@ -85,7 +85,7 @@ public class RegisterServlet extends HttpServlet {
                 request.setAttribute("email_error", register_error);
                 request.setAttribute("email", email);
                 request.setAttribute("pass", pass);
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                request.getRequestDispatcher("homepage_1.jsp").forward(request, response);
             }
         } else {
             //gui lai cac thong tin nguoi dung da nhap sang page register de nguoi dung nhap tiep
