@@ -65,7 +65,7 @@
             <!-- Header Top ==== -->
             <!-- header END ==== -->
             <!-- Content -->
-            <c:set value="${sessionScope.account}" var="acc"/>
+            <c:set value="${sessionScope.user}" var="acc"/>
             <div class="page-content bg-white">
                 <!-- inner page banner -->
                 <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner1.jpg);">
