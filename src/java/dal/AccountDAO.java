@@ -233,4 +233,28 @@ public class AccountDAO extends DBContext {
             e.printStackTrace();
         }
     }
+    
+     /**
+     * Find an account base on email
+     * @param email
+     * @return 1 account
+     */
+      public Account getAccountByEmail(String email) {
+        PreparedStatement stm;
+        ResultSet rs;
+        Account myAccount=new Account();
+        try {
+            String strSelect = "select email from [Quiz Online].[dbo].[Account] where email like ? ";
+            stm = connection.prepareStatement(strSelect);
+            stm.setString(1, email);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                myAccount.setEmail(rs.getString("email"));
+                return myAccount;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 }
