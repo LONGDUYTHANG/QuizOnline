@@ -209,9 +209,10 @@ public class AccountDAO extends DBContext {
     }
 
     public void updatePassword(String newPass, Account a) {
-        String sql = "UPDATE [dbo].[Account]\n"
-                + "   SET [password] = ?\n"
-                + " WHERE account_id = ?";
+        String sql = """
+                     UPDATE [dbo].[Account]
+                        SET [password] = ?
+                      WHERE account_id = ?""";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, newPass);
@@ -219,7 +220,6 @@ public class AccountDAO extends DBContext {
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
     
@@ -264,11 +264,5 @@ public class AccountDAO extends DBContext {
             System.out.println(e);
         }
     }
-     public static void main(String[] args) {
-        AccountDAO a=new AccountDAO();
-        Account h=a.getAccountByEmail("a&gmail.com");
-         System.out.println(h==null);
-    }
-  
     
 }
