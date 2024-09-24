@@ -21,11 +21,12 @@ public class Post {
     boolean status;
     int category_id;
     int account_id;
+    private int number_of_access;
 
     public Post() {
     }
 
-    public Post(int blog_id, String blog_title, String thumbnail, String blog_summary, String blog_content, String created_date, String updated_date, boolean isFeatured, boolean status, int category_id, int account_id) {
+    public Post(int blog_id, String blog_title, String thumbnail, String blog_summary, String blog_content, String created_date, String updated_date, boolean isFeatured, boolean status, int category_id, int account_id, int number_of_access) {
         this.blog_id = blog_id;
         this.blog_title = blog_title;
         this.thumbnail = thumbnail;
@@ -37,7 +38,10 @@ public class Post {
         this.status = status;
         this.category_id = category_id;
         this.account_id = account_id;
+        this.number_of_access = number_of_access;
     }
+
+ 
 
     public int getBlog_id() {
         return blog_id;
@@ -126,6 +130,13 @@ public class Post {
     public void setAccount_id(int account_id) {
         this.account_id = account_id;
     }
-    
-    
+
+    public int getNumber_of_access() {
+        return number_of_access;
+    }
+
+    public void setNumber_of_access(int number_of_access) {
+        this.number_of_access = number_of_access;
+    }
+
 }
