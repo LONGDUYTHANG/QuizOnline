@@ -58,6 +58,8 @@
 
     </head>
     <body id="bg" onload="${requestScope.erru == null ? 'firstAccess()':'updateAcces()'}">
+        
+            <%@include file="header.html" %>
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
             <!-- Header Top ==== -->
