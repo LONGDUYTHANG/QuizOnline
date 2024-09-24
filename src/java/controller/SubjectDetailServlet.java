@@ -5,7 +5,6 @@
 
 package controller;
 
-import dal.PostDAO;
 import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,8 +12,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import model.Post;
 import model.Subject;
 
 /**
@@ -66,7 +63,9 @@ public class SubjectDetailServlet extends HttpServlet {
         }
 
         SubjectDAO mySubjectDAO = new SubjectDAO();
+ 
         Subject mySubject = mySubjectDAO.getSubjectByID(subject_id);
+
         request.setAttribute("mySubject", mySubject);
         request.getRequestDispatcher("subject_details.jsp").forward(request, response);
     } 
