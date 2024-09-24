@@ -39,7 +39,6 @@ public class AccountDAO extends DBContext {
                 myAccount.setGender(rs.getBoolean("gender"));
                 myAccount.setEmail(rs.getString("email"));
                 myAccount.setMobile(rs.getString("mobile"));
-                myAccount.setUsername(rs.getString("user_name"));
                 myAccount.setAvatar(rs.getString("avatar"));
                 myAccount.setRole_id(rs.getInt("role_id"));
             }
@@ -64,7 +63,6 @@ public class AccountDAO extends DBContext {
                 myAccount.setGender(rs.getBoolean("gender"));
                 myAccount.setEmail(rs.getString("email"));
                 myAccount.setMobile(rs.getString("mobile"));
-                myAccount.setUsername(rs.getString("user_name"));
                 myAccount.setAvatar(rs.getString("avatar"));
                 myAccount.setRole_id(rs.getInt("role_id"));
             }
@@ -91,13 +89,6 @@ public class AccountDAO extends DBContext {
         }
         return id;
     }
-
-    public static void main(String[] args) {
-        AccountDAO a = new AccountDAO();
-        Account h = a.getAccount("a", "a");
-        System.out.println(h.getRole_id());
-    }
-
     /**
      *
      * @param accountId
@@ -117,7 +108,6 @@ public class AccountDAO extends DBContext {
             // If a record is found, map it to the Account object
             if (rs.next()) {
                 Account account = new Account();
-                account.setUsername(rs.getString("user_name"));
                 account.setFull_name(rs.getString("full_name"));
                 account.setGender(rs.getInt("gender") == 1); // Assuming gender is stored as a boolean
                 account.setEmail(rs.getString("email"));
@@ -150,7 +140,6 @@ public class AccountDAO extends DBContext {
             // If a record is found, map it to the Account object
             if (rs.next()) {
                 Account account = new Account();
-                account.setUsername(rs.getString("user_name"));
                 account.setFull_name(rs.getString("full_name"));
                 account.setGender(rs.getInt("gender") == 1); // Assuming gender is stored as a boolean
                 account.setEmail(rs.getString("email"));
@@ -244,7 +233,7 @@ public class AccountDAO extends DBContext {
         ResultSet rs;
         Account myAccount=new Account();
         try {
-            String strSelect = "select email from [Quiz Online].[dbo].[Account] where email like ? ";
+            String strSelect = "select email from Account where email like ? ";
             stm = connection.prepareStatement(strSelect);
             stm.setString(1, email);
             rs = stm.executeQuery();
@@ -266,7 +255,7 @@ public class AccountDAO extends DBContext {
     public void addAccount(String email,String password) {
         PreparedStatement stm;
         try {
-            String strSelect = "insert into [Quiz Online].[dbo].[Account](email,password,role_id) VALUES(?,?,1) ";
+            String strSelect = "insert into [dbo].[Account](email,password,role_id) VALUES(?,?,1) ";
             stm = connection.prepareStatement(strSelect);
                         stm.setString(1, email);
                         stm.setString(2, password);
@@ -275,4 +264,11 @@ public class AccountDAO extends DBContext {
             System.out.println(e);
         }
     }
+     public static void main(String[] args) {
+        AccountDAO a=new AccountDAO();
+        Account h=a.getAccountByEmail("a&gmail.com");
+         System.out.println(h==null);
+    }
+  
+    
 }
