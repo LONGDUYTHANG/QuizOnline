@@ -114,7 +114,7 @@ public class PostDAO extends DBContext {
         PostDAO a =new PostDAO();
         ArrayList<Post> h= a.getHottestPost();
         for(Post s:h){
-        System.out.println(s.getNumber_of_access());
+        System.out.println(s.getBlog_content());
         }
     }
 }
