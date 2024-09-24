@@ -79,7 +79,7 @@
 
         </style>
     </head>
-    <body id="bg">
+    <body id="bg" onload="LoginAgain()">
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
