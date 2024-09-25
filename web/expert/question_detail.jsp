@@ -262,6 +262,7 @@
                                 <div class="form-group">
                                     <label for="level">Level</label>
                                     <select id="level" name="level_id" required>
+                                        <option value="" disabled selected>Select an option</option>
                                         <c:forEach var="level" items="${requestScope.listLevel}">
                                             <option value="${level.level_id}"> 
                                                 ${level.level_name}
@@ -274,6 +275,7 @@
                                 <div class="form-group">
                                     <label for="status">Status</label>
                                     <select id="status" name="status"  class="form-control" required>
+                                        <option value="" disabled selected>Select an option</option>
                                         <option value="1" ${q.getStatus() == 1 ? 'selected' : ''}>Active</option>
                                         <option value="0" ${q.getStatus() != 1 ? 'selected' : ''}>Inactive</option>
                                     </select>

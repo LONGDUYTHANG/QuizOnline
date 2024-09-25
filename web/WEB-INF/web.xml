@@ -21,18 +21,20 @@
         <servlet-class>controller.QuestionListServlet</servlet-class>
     </servlet>
     <servlet>
-        
         <servlet-name>ChangeAvatar</servlet-name>
         <servlet-class>controller.ChangeAvatar</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddLessonServlet</servlet-name>
         <servlet-class>controller.AddLessonServlet</servlet-class>
-        
     </servlet>
     <servlet>
         <servlet-name>AddQuizServlet</servlet-name>
         <servlet-class>controller.AddQuizServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddQuizValidationServlet</servlet-name>
+        <servlet-class>controller.AddQuizValidationServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
@@ -67,18 +69,20 @@
         <url-pattern>/questionlist</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        
         <servlet-name>ChangeAvatar</servlet-name>
         <url-pattern>/changavt</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AddLessonServlet</servlet-name>
         <url-pattern>/addlesson</url-pattern>
-        
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AddQuizServlet</servlet-name>
         <url-pattern>/addquiz</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddQuizValidationServlet</servlet-name>
+        <url-pattern>/addquizvalidation</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>
