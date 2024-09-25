@@ -22,11 +22,12 @@
     </servlet>
     <servlet>
 
-    <servlet-name>ChangeAvatar</servlet-name>
-    <servlet-class>controller.ChangeAvatar</servlet-class>
-
-    <servlet-name>AddLessonServlet</servlet-name>
-    <servlet-class>controller.AddLessonServlet</servlet-class>
+        <servlet-name>ChangeAvatar</servlet-name>
+        <servlet-class>controller.ChangeAvatar</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddLessonServlet</servlet-name>
+        <servlet-class>controller.AddLessonServlet</servlet-class>
 
     </servlet>
     <servlet-mapping>
@@ -63,11 +64,12 @@
     </servlet-mapping>
     <servlet-mapping>
 
-    <servlet-name>ChangeAvatar</servlet-name>
-    <url-pattern>/changavt</url-pattern>
-
-    <servlet-name>AddLessonServlet</servlet-name>
-    <url-pattern>/addlesson</url-pattern>
+        <servlet-name>ChangeAvatar</servlet-name>
+        <url-pattern>/changavt</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddLessonServlet</servlet-name>
+        <url-pattern>/addlesson</url-pattern>
 
     </servlet-mapping>
     <welcome-file-list>
