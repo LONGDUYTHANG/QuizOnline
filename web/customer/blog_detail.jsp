@@ -97,6 +97,7 @@
                                                 <div class="ttr-divider bg-gray"><i class="icon-dot c-square"></i></div>
                                             </div>
                                         </div>
+                                                
                                     <!-- thêm danh sách comment -->
                                     <div class="clear" id="comment-list">
                                         <div class="comments-area" id="comments">
