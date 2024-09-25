@@ -53,7 +53,7 @@ public class AddQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("expert/add_quiz.jsp").forward(request, response);
     } 
 
     /** 
