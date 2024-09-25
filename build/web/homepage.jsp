@@ -79,7 +79,7 @@
 
         </style>
     </head>
-    <body id="bg">
+    <body id="bg" onload="LoginAgain()">
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
@@ -229,16 +229,16 @@
                             </div>
                             <div class="row">
                                 <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                    <!<!-- thÍm subjedt list -->
+                                    <!<!-- th√™m subjedt list -->
                                     <c:forEach items="${requestScope.subject_list}" var="c">
                                     <div class="item">
                                         <div class="cours-bx" style="background-color: #fff">
                                             <div class="action-box">
-                                                <img src="assets/images/courses/pic1.jpg" alt="">
-                                                <a href="subject_details" class="btn">Read More</a>
+                                                <img src="${c.thumbnail}" alt="">
+                                                <a href="subject_details?subject_id=${c.subjectId}" class="btn">Read More</a>
                                             </div>
                                             <div class="info-bx text-center">
-                                                <h5><a href="registered_subject_list.jsp" style="color: black">${c.description}</a></h5>
+                                                <h5><a href="subject_details?subject_id=${c.subjectId}" style="color: black">${c.description}</a></h5>
                                                 <span>${c.tagline}</span>
                                             </div>
                                             <div class="cours-more-info">
@@ -325,18 +325,18 @@
                                 </div>
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                <!--  thÍm danh s·ch b‡i post m?i nh?t-->
+                                <!--  th√™m danh s√°ch b√†i post m?i nh?t-->
                                 
                                 <c:forEach items="${requestScope.post_list}" var="c">
                                     <div class="blog-post blog-md clearfix " style="background-color: white">
-                                        <a href="blog_detail"><img src="assets/images/blog/grid/pic1.jpg" alt=""></a>
+                                        <a href="blog_detail?blog_id=${c.blog_id}"><img src="${c.thumbnail}" alt=""></a>
                                         <div class="ttr-post-info">
 
                                             <ul class="media-post">
                                                 <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>                                        
                                                 <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
                                             </ul>
-                                            <h5 class="post-title"><a href="blog_detail.jsp">${c.blog_title}</a></h5>
+                                            <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
                                             <p>${c.blog_summary}</p>
                                         </div>
                                     </div>
@@ -357,11 +357,11 @@
                                 </div>
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                <!--  thÍm danh s·ch b‡i post m?i nh?t-->
-                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-                                <c:forEach items="${requestScope.post_list}" var="c">
+                                <!--  th√™m danh s√°ch b√†i post m?i nh?t-->
+                               <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+                                <c:forEach items="${requestScope.hottest_post_list}" var="c">
                                     <div class="blog-post blog-md clearfix " style="background-color: white">
-                                        <a href="#"><img src="assets/images/blog/grid/pic1.jpg" alt=""></a>
+                                        <a href="#"><img src="${c.thumbnail}" alt=""></a>
                                         <div class="ttr-post-info">
 
                                             <ul class="media-post">
@@ -385,7 +385,7 @@
             </div>
             <!-- Content END-->
             <!-- Footer ==== -->
-            <%@include file="footer.html" %>
+            <%@include file="customer/footer.html" %>
             <!-- Footer END ==== -->
             <button class="back-to-top fa fa-chevron-up" ></button>
         </div>
@@ -548,14 +548,19 @@
             }
 
 
-            // ?Ûng pop-up khi nh?n ra ngo‡i
+            // ?√≥ng pop-up khi nh?n ra ngo√†i
             window.onclick = function (event) {
                 if (event.target === loginPopup) {
                     loginPopup.style.display = 'none';
+                }
+            };
+            
+            window.onclick = function (event) {
+                if (event.target === registerPopup) {
+                    registerPopup.style.display = 'none';
                 }
             };
         </script>
     </body>
 
 </html>
-
