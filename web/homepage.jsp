@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -271,7 +272,7 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 text-center text-white">
-                                    <h2>Online Courses To Learn</h2>
+                                    <h2>Online Subjects To Learn</h2>
                                     <h5>Own Your Feature Learning New Skills Online</h5>
                                     <form class="cours-search">
                                         <div class="input-group">
