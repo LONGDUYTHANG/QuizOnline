@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 
     <head>
@@ -117,16 +118,26 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="subject">Subject</label>
-                                            <select id="subject" name="subject">
-                                                <option>Subject name</option>
-                                                <!-- Add subject options dynamically -->
+                                            <select id="subject" name="subject_id" required>
+                                                <c:set var="s" value="${requestScope.subject}"/>
+                                                <option value="" disabled selected>Select an option</option>
+                                                <c:forEach var="subject" items="${requestScope.listSubject}">
+                                                    <option value="${subject.subjectId}" 
+                                                            ${subject.subjectId == s.subjectId ? 'selected' : ''}>
+                                                        ${subject.subjectName}
+                                                    </option>
+                                                </c:forEach>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exam-level">Exam Level</label>
-                                            <select id="exam-level" name="exam-level">
-                                                <option>Medium</option>
-                                                <!-- Add other levels dynamically -->
+                                            <label for="level">Exam Level</label>
+                                            <select id="level" name="level_id" required>
+                                                <option value="" disabled selected>Select an option</option>
+                                                <c:forEach var="level" items="${requestScope.listLevel}">
+                                                    <option value="${level.level_id}"> 
+                                                        ${level.level_name}
+                                                    </option>
+                                                </c:forEach>
                                             </select>
                                         </div>
                                         <div class="form-group">

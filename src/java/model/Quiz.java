@@ -5,7 +5,7 @@
 package model;
 
 import java.sql.Timestamp;
-
+import java.time.Duration;
 /**
  *
  * @author ADMIN
@@ -16,17 +16,18 @@ public class Quiz {
     private int subject_id;
     private int level_id;
     private int number_of_questions;
-    private java.sql.Timestamp duration;
+    private Duration duration;
     private double passrate;
     private int quiz_type_id;
     private String quiz_description;
     private java.sql.Timestamp created_date;
     private java.sql.Timestamp updated_date;
+    private int account_id;
 
     public Quiz() {
     }
 
-    public Quiz(int quiz_id, String quiz_name, int subject_id, int level_id, int number_of_questions, Timestamp duration, double passrate, int quiz_type_id, String quiz_description, Timestamp created_date, Timestamp updated_date) {
+    public Quiz(int quiz_id, String quiz_name, int subject_id, int level_id, int number_of_questions, Duration duration, double passrate, int quiz_type_id, String quiz_description, Timestamp created_date, Timestamp updated_date, int account_id) {
         this.quiz_id = quiz_id;
         this.quiz_name = quiz_name;
         this.subject_id = subject_id;
@@ -38,6 +39,7 @@ public class Quiz {
         this.quiz_description = quiz_description;
         this.created_date = created_date;
         this.updated_date = updated_date;
+        this.account_id = account_id;
     }
 
     public int getQuiz_id() {
@@ -80,11 +82,11 @@ public class Quiz {
         this.number_of_questions = number_of_questions;
     }
 
-    public Timestamp getDuration() {
+    public Duration getDuration() {
         return duration;
     }
 
-    public void setDuration(Timestamp duration) {
+    public void setDuration(Duration duration) {
         this.duration = duration;
     }
 
@@ -127,5 +129,15 @@ public class Quiz {
     public void setUpdated_date(Timestamp updated_date) {
         this.updated_date = updated_date;
     }
+
+    public int getAccount_id() {
+        return account_id;
+    }
+
+    public void setAccount_id(int account_id) {
+        this.account_id = account_id;
+    }
+
+    
     
 }

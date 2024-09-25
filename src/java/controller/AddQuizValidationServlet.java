@@ -5,18 +5,22 @@
 
 package controller;
 
+import dal.QuizDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Level;
+import model.Subject;
 
 /**
  *
  * @author FPT SHOP
  */
-public class AddQuizServlet extends HttpServlet {
+public class AddQuizValidationServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,10 +37,10 @@ public class AddQuizServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddQuizServlet</title>");  
+            out.println("<title>Servlet AddQuizValidationServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddQuizServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet AddQuizValidationServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -53,6 +57,12 @@ public class AddQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        QuizDAO dao = new QuizDAO();
+        List<Subject> listSubject = dao.getAllSubject();
+        List<Level> listLevel = dao.getAllLevel();
+        request.setAttribute("listSubject", listSubject);
+        request.setAttribute("listLevel", listLevel);
+        request.getRequestDispatcher("expert/add_quiz.jsp").forward(request, response);
     } 
 
     /** 
