@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
-import model.Subject;
+import model.*;
 
 /**
  *
@@ -75,10 +75,10 @@ public class Profile extends HttpServlet {
         int numberBlogs = pd.countCreatedBlogs(ac);
         session.setAttribute("enrolled_subject", enrolledSubject);
         session.setAttribute("created_blog", numberBlogs);
-        List<Subject> listSubject = sd.getEnrolledSubjectRecently(ac);
+        List<RegisterdSubject> listSubject = sd.getEnrolledSubjectRecently(ac);
         //PrintWriter out = response.getWriter();
         //out.print(listSubject);
-        
+        session.setAttribute("recently_enrolled_subject", listSubject);
         request.getRequestDispatcher("customer/profile.jsp").forward(request, response);
     } 
 
