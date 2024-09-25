@@ -229,7 +229,7 @@
                             </div>
                             <div class="row">
                                 <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                    <!<!-- thÍm subjedt list -->
+                                    <!<!-- th√™m subjedt list -->
                                     <c:forEach items="${requestScope.subject_list}" var="c">
                                     <div class="item">
                                         <div class="cours-bx" style="background-color: #fff">
@@ -325,10 +325,11 @@
                                 </div>
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                <!--  thÍm danh s·ch b‡i post m?i nh?t-->
+                                <!--  th√™m danh s√°ch b√†i post m?i nh?t-->
                                 
                                 <c:forEach items="${requestScope.post_list}" var="c">
                                     <div class="blog-post blog-md clearfix " style="background-color: white">
+                                        <!-- s?a ? ?√¢y -->
                                         <a href="blog_detail?blog_id=${c.blog_id}"><img src="${c.thumbnail}" alt=""></a>
                                         <div class="ttr-post-info">
 
@@ -336,6 +337,7 @@
                                                 <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>                                        
                                                 <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
                                             </ul>
+                                                <!-- s?a ? ?√¢y -->
                                             <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
                                             <p>${c.blog_summary}</p>
                                         </div>
@@ -357,11 +359,12 @@
                                 </div>
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                <!--  thÍm danh s·ch b‡i post m?i nh?t-->
+                                <!--  th√™m danh s√°ch b√†i post hot nh?t-->
                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                 <c:forEach items="${requestScope.hottest_post_list}" var="c">
                                     <div class="blog-post blog-md clearfix " style="background-color: white">
-                                        <a href="#"><img src="${c.thumbnail}" alt=""></a>
+                                        <!-- s?a ? ?√¢y -->
+                                        <a href="blog_detail?blog_id=${c.blog_id}"><img src="${c.thumbnail}" alt=""></a>
                                         <div class="ttr-post-info">
 
                                             <ul class="media-post">
@@ -369,7 +372,8 @@
 
                                                 <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
                                             </ul>
-                                            <h5 class="post-title"><a href="blog_detail.jsp">${c.blog_title}</a></h5>
+                                                <!-- s?a ? ?√¢y -->
+                                            <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
                                             <p>${c.blog_summary}</p>
                                         </div>
                                     </div>
@@ -385,7 +389,7 @@
             </div>
             <!-- Content END-->
             <!-- Footer ==== -->
-            <%@include file="footer.html" %>
+            <%@include file="customer/footer.html" %>
             <!-- Footer END ==== -->
             <button class="back-to-top fa fa-chevron-up" ></button>
         </div>
@@ -548,7 +552,7 @@
             }
 
 
-            // ?Ûng pop-up khi nh?n ra ngo‡i
+            // ?√≥ng pop-up khi nh?n ra ngo√†i
             window.onclick = function (event) {
                 if (event.target === loginPopup) {
                     loginPopup.style.display = 'none';
@@ -564,4 +568,3 @@
     </body>
 
 </html>
-
