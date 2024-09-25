@@ -47,6 +47,7 @@
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
 
+        
     </head>
     <body id="bg">
         <%@include file="header.html" %>
