@@ -114,9 +114,7 @@
                                                     }
                                                 });
                                             </script>
-                                            <input type="submit" value="Change" onclick="if(document.getElementById('new_avt').files.length != 0) {
-                                                window.alert('Change avatar successfully');
-                                            }"/>
+                                            <input type="submit" value="Change" />
                                         </form>
                                         <div class="profile-tabnav">
                                             <ul class="nav nav-tabs">
