@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author FPT SHOP
  */
-public class AddLessonServlet extends HttpServlet {
+public class AddQuizServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,10 +33,10 @@ public class AddLessonServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddLessonServlet</title>");  
+            out.println("<title>Servlet AddQuizServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddLessonServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet AddQuizServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -53,7 +53,7 @@ public class AddLessonServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("expert/add_lesson.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 
