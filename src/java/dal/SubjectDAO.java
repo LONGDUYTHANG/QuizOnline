@@ -18,21 +18,23 @@ import model.SubjectCategory;
  *
  * @author Phuong Anh
  */
-public class SubjectDAO extends DBContext{
+public class SubjectDAO extends DBContext {
+
     /**
      * Get a list of subjects
+     *
      * @return an array list
      */
     public ArrayList<Subject> getSubject() {
         PreparedStatement stm;
-        ResultSet rs; 
+        ResultSet rs;
         ArrayList<Subject> subject_list = new ArrayList<>();
         try {
             String strSelect = "SELECT * FROM Subject ";
             stm = connection.prepareStatement(strSelect);
             rs = stm.executeQuery();
             while (rs.next()) {
-    Subject subject = new Subject();
+                Subject subject = new Subject();
                 subject.setAccountId(rs.getInt("account_id"));
                 subject.setCategoryId(rs.getInt("category_id"));
                 subject.setCreatedDate(rs.getTimestamp("created_date"));
@@ -43,7 +45,7 @@ public class SubjectDAO extends DBContext{
                 subject.setSubjectName(rs.getString("subject_name"));
                 subject.setTagline(rs.getString("tagline"));
                 subject.setThumbnail(rs.getString("thumbnail"));
-                
+
                 subject_list.add(subject);
             }
         } catch (SQLException e) {
@@ -51,13 +53,14 @@ public class SubjectDAO extends DBContext{
         }
         return subject_list;
     }
-    
+
     /**
      * Get information of a subject given by the subject ID
+     *
      * @param subject_id
-     * @return a subject object 
+     * @return a subject object
      */
-    public Subject getSubjectByID(int subject_id){
+    public Subject getSubjectByID(int subject_id) {
         PreparedStatement stm;
         ResultSet rs;
         Subject mySubject = new Subject();
@@ -78,12 +81,14 @@ public class SubjectDAO extends DBContext{
                 subject.setSubjectName(rs.getString("subject_name"));
                 subject.setTagline(rs.getString("tagline"));
                 subject.setThumbnail(rs.getString("thumbnail"));
+                return subject;
             }
         } catch (SQLException e) {
             System.out.println(e);
         }
-        return mySubject;
+        return null;
     }
+
     public List<Subject> getAllSubject() {
         List<Subject> subjects = new ArrayList<>();
         String sql = "SELECT subject_id, subject_name, category_id, status, isFeatured, thumbnail, tagline, description, account_id, created_date FROM Subject";
@@ -99,7 +104,7 @@ public class SubjectDAO extends DBContext{
                 SubjectCategory sc = cDao.getCategoryById(rs.getInt("category_id"));
                 subject.setCategoryId(rs.getInt("category_id"));
 
-                subject.setStatus(rs.getInt("status")==1);
+                subject.setStatus(rs.getInt("status") == 1);
                 subject.setIsFeatured(rs.getBoolean("isFeatured"));
                 subject.setThumbnail(rs.getString("thumbnail"));
                 subject.setTagline(rs.getString("tagline"));
@@ -116,16 +121,17 @@ public class SubjectDAO extends DBContext{
             e.printStackTrace();
         }
 
-        return subjects; 
+        return subjects;
     }
-    
+
     public static void main(String[] args) {
-        SubjectDAO a =new SubjectDAO();
-        ArrayList<Subject> h= a.getSubject();
-        for(Subject s:h){
-        System.out.println(s.getDescription());
+        SubjectDAO a = new SubjectDAO();
+        ArrayList<Subject> h = a.getSubject();
+        for (Subject s : h) {
+            System.out.println(s.getDescription());
         }
     }
+
     public void createNewSubject(String subjectName, String subjectCategory, int status, boolean featured, String thumbnail, String tagLine, String description, String accountId) {
         String sql = "INSERT INTO Subject (subject_name, category_id, status, isFeatured, thumbnail, tagline, description, account_id, created_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE())";
 
@@ -148,5 +154,61 @@ public class SubjectDAO extends DBContext{
             e.printStackTrace(); // Log the exception for debugging
             // Handle exceptions (e.g., log, rethrow, or show an error message)
         }
+    }
+
+    public int countEnrolledSubject(Account a) {
+        String sql = "select COUNT(*) as countSubject from Registration\n"
+                + "where account_id = ?";
+        int count = 0;
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, a.getAccount_id());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("countSubject");
+            }
+        } catch (Exception e) {
+        }
+        return count;
+    }
+
+    public List<Subject> getEnrolledSubjectRecently(Account a) {
+        List<Subject> subjects = new ArrayList<>();
+        String sql = "select top 3 s.subject_id, s.subject_name, s.category_id, s.status, s.isFeatured, s.thumbnail, s.tagline, description, r.account_id, created_date from Registration r\n"
+                + "join Subject s on r.subject_id = s.subject_id\n"
+                + "where r.account_id = ?\n"
+                + "order by registration_time desc";
+
+        try {
+
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setInt(1, a.getAccount_id());
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Subject subject = new Subject();
+                subject.setSubjectId(rs.getInt("subject_id"));
+                subject.setSubjectName(rs.getString("subject_name"));
+
+                subject.setCategoryId(rs.getInt("category_id"));
+
+                subject.setStatus(rs.getInt("status") == 1);
+                subject.setIsFeatured(rs.getBoolean("isFeatured"));
+                subject.setThumbnail(rs.getString("thumbnail"));
+                subject.setTagline(rs.getString("tagline"));
+                subject.setDescription(rs.getString("description"));
+
+                AccountDAO aDao = new AccountDAO();
+                Account acc = aDao.getAccountById(rs.getString("account_id"));
+                subject.setAccountId(acc.getAccount_id());
+                subject.setCreatedDate(rs.getTimestamp("created_date"));
+//                subject.setCreatedDate(rs.g);
+
+                subjects.add(subject);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return subjects;
     }
 }

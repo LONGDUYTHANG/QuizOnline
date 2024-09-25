@@ -55,6 +55,25 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
+        <style>
+            .dashboard_attribute{
+                border-radius: 8px;
+                background-color: #fff;
+                padding: 20px 0 0 30px
+
+            }
+
+            .dashboard_brief {
+                margin-left: 140px;
+                background-color: black;
+                display: flex;
+                align-items: center;
+                border-radius: 10px;
+                position: absolute;
+                right: 30px;
+                cursor: pointer
+            }
+        </style>
     </head>
     <body id="bg" onload="${requestScope.erru == null ? 'firstAccess()':'updateAcces()'}">
 
@@ -136,13 +155,61 @@
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="courses">
                                             </div>
-                                            <div class="tab-pane" id="quiz-results">
+                                            <div class="tab-pane" id="quiz-results" style="background-color: #faf9f6; ">
                                                 <div class="profile-head">
                                                     <h3>Dashboard</h3>
                                                 </div>
                                                 <div class="courses-filter">
-                                                    <div class="row">
-                                                        <div class="col-md-12 col-lg-12">
+                                                    <div class="row" style="margin-left: 60px">
+                                                        <div class="col-md-12 col-lg-12 row " style="">
+                                                            <div class="col-md-5 dashboard_attribute" >
+                                                                <div style="display: flex; justify-content: normal; position: relative">
+                                                                    <h6>Total Enrolled Subject</h6>
+                                                                    <a class="dashboard_brief" href="#" >
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16" style="width: 40px;  color: white;">
+                                                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                                                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                                                                        </svg>
+                                                                    </a>
+
+                                                                </div>
+
+                                                                <p>${sessionScope.enrolled_subject}</p>
+
+                                                            </div>
+                                                            <div class="col-md-1" >
+
+                                                            </div>
+                                                            <div class="col-md-5 dashboard_attribute" style="">
+                                                                <div style="display: flex; justify-content: normal; position: relative">
+                                                                    <h6>Total Quiz Done</h6>
+                                                                    <a class="dashboard_brief" href="#" style="">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16" style="width: 40px;  color: white;">
+                                                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                                                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                                                                        </svg>
+                                                                    </a>
+
+                                                                </div>
+
+                                                                <p>0</p>
+
+                                                            </div>
+                                                            <div class="col-md-5 dashboard_attribute" style="margin-top: 30px">
+                                                                <div style="display: flex; justify-content: normal; position: relative">
+                                                                    <h6>Created Blogs</h6>
+                                                                    <a class="dashboard_brief" href="#" >
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16" style="width: 40px;  color: white;">
+                                                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                                                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                                                                        </svg>
+                                                                    </a>
+
+                                                                </div>
+
+                                                                <p>${sessionScope.created_blog}</p>
+
+                                                            </div>
                                                             <%--
                                                             <ul class="course-features">
                                                                 <li><i class="ti-book"></i> <span class="label">Lectures</span> <span class="value">8</span></li>
@@ -154,7 +221,7 @@
                                                                 <li><i class="ti-check-box"></i> <span class="label">Assessments</span> <span class="value">Yes</span></li>
                                                             </ul>
                                                             --%>
-                                                            
+
                                                         </div>
                                                         <div class="col-md-12 col-lg-12">
                                                             <%--
@@ -169,6 +236,98 @@
                                                             </ul>
                                                             --%>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                <div class="profile-head" style="margin-top: 20px">
+                                                    <h3>Recently Enrolled Subjects</h3>
+                                                </div>
+                                                <div class="courses-filter">
+                                                    <div class="clearfix">
+                                                        <ul id="masonry" class="ttr-gallery-listing magnific-image row">
+                                                            <li class="action-card col-xl-4 col-lg-6 col-md-12 col-sm-6 publish">
+                                                                <div class="cours-bx">
+                                                                    <div class="action-box">
+                                                                        <img src="assets/images/courses/pic1.jpg" alt="">
+                                                                        <a href="#" class="btn">Read More</a>
+                                                                    </div>
+                                                                    <div class="info-bx text-center">
+                                                                        <h5><a href="#">Introduction EduChamp – LMS plugin</a></h5>
+                                                                        <span>Programming</span>
+                                                                    </div>
+                                                                    <div class="cours-more-info">
+                                                                        <div class="review">
+                                                                            <span>3 Review</span>
+                                                                            <ul class="cours-star">
+                                                                                <li class="active"><i class="fa fa-star"></i></li>
+                                                                                <li class="active"><i class="fa fa-star"></i></li>
+                                                                                <li class="active"><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div class="price">
+                                                                            <del>$190</del>
+                                                                            <h5>$120</h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="action-card col-xl-4 col-lg-6 col-md-12 col-sm-6 pending">
+                                                                <div class="cours-bx">
+                                                                    <div class="action-box">
+                                                                        <img src="assets/images/courses/pic2.jpg" alt="">
+                                                                        <a href="#" class="btn">Read More</a>
+                                                                    </div>
+                                                                    <div class="info-bx text-center">
+                                                                        <h5><a href="#">Introduction EduChamp – LMS plugin</a></h5>
+                                                                        <span>Programming</span>
+                                                                    </div>
+                                                                    <div class="cours-more-info">
+                                                                        <div class="review">
+                                                                            <span>3 Review</span>
+                                                                            <ul class="cours-star">
+                                                                                <li class="active"><i class="fa fa-star"></i></li>
+                                                                                <li class="active"><i class="fa fa-star"></i></li>
+                                                                                <li class="active"><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div class="price">
+                                                                            <del>$190</del>
+                                                                            <h5>$120</h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="action-card col-xl-4 col-lg-6 col-md-12 col-sm-6 publish">
+                                                                <div class="cours-bx">
+                                                                    <div class="action-box">
+                                                                        <img src="assets/images/courses/pic3.jpg" alt="">
+                                                                        <a href="#" class="btn">Read More</a>
+                                                                    </div>
+                                                                    <div class="info-bx text-center">
+                                                                        <h5><a href="#">Introduction EduChamp – LMS plugin</a></h5>
+                                                                        <span>Programming</span>
+                                                                    </div>
+                                                                    <div class="cours-more-info">
+                                                                        <div class="review">
+                                                                            <span>3 Review</span>
+                                                                            <ul class="cours-star">
+                                                                                <li class="active"><i class="fa fa-star"></i></li>
+                                                                                <li class="active"><i class="fa fa-star"></i></li>
+                                                                                <li class="active"><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                                <li><i class="fa fa-star"></i></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div class="price">
+                                                                            <del>$190</del>
+                                                                            <h5>$120</h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
                                                     </div>
                                                 </div>
                                             </div>
@@ -239,7 +398,7 @@
                                                                 <button type="button" class="btn" id="">Update Profile</button>
                                                                 <br>
                                                                 --%>
-                                                                
+
                                                                 <div class="col-12 col-sm-9 col-md-9 col-lg-7" style="display: ">
                                                                     <button type="button" class="btn" id="updatepro" onclick="updateProfile()">Save changes</button>
                                                                     <button type="reset" class="btn-secondry">Cancel</button>

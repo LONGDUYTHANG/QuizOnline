@@ -49,10 +49,10 @@
 
     </head>
     <body id="bg">
+        <%@include file="header.html" %>
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
             <!-- Header Top ==== -->
-            <%@include file="header.html" %>
             <!-- header END ==== -->
             <!-- Content -->
             <div class="page-content bg-white">
@@ -123,11 +123,11 @@
                                     <c:set var="c" value="${requestScope.mySubject}" />
                                     <div class="courses-post">
                                         <div class="ttr-post-media media-effect">
-                                            <a href="#"><img src="assets/images/blog/default/thum1.jpg" alt=""></a>
+                                            <a href="#"><img src="${c.thumbnail}" alt=""></a>
                                         </div>
                                         <div class="ttr-post-info">
                                             <div class="ttr-post-title ">
-                                                <h2 class="post-title">${c.subject_name}</h2>
+                                                <h2 class="post-title">${c.subjectName}</h2>
                                             </div>
                                             <div class="ttr-post-text">
                                                 <p>${c.description}</p>

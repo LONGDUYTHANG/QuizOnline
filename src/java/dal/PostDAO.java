@@ -9,6 +9,7 @@ import model.Post;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import model.Account;
 
 /**
  *
@@ -111,10 +112,26 @@ public class PostDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-        PostDAO a =new PostDAO();
-        ArrayList<Post> h= a.getHottestPost();
-        for(Post s:h){
-        System.out.println(s.getBlog_content());
+        PostDAO a = new PostDAO();
+        ArrayList<Post> h = a.getHottestPost();
+        for (Post s : h) {
+            System.out.println(s.getBlog_content());
         }
+    }
+
+    public int countCreatedBlogs(Account a) {
+        String sql = "select COUNT(*) as count_blog from Blog\n"
+                + "where account_id = ?";
+        int count = 0;
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, a.getAccount_id());
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                count = rs.getInt("count_blog");
+            }
+        } catch (Exception e) {
+        }
+        return count;
     }
 }
