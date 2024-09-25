@@ -6,6 +6,8 @@
 package controller;
 
 import dal.AccountDAO;
+import dal.PostDAO;
+import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,7 +15,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import model.Account;
+import model.Subject;
 
 /**
  *
@@ -64,6 +69,15 @@ public class Profile extends HttpServlet {
         }
         ac = ad.getAccountById(ac.getAccount_id());
         session.setAttribute("user", ac);
+        SubjectDAO sd = new SubjectDAO();
+        PostDAO pd = new PostDAO();
+        int enrolledSubject = sd.countEnrolledSubject(ac);
+        int numberBlogs = pd.countCreatedBlogs(ac);
+        session.setAttribute("enrolled_subject", enrolledSubject);
+        session.setAttribute("created_blog", numberBlogs);
+        List<Subject> listSubject = sd.getEnrolledSubjectRecently(ac);
+        //PrintWriter out = response.getWriter();
+        //out.print(listSubject);
         
         request.getRequestDispatcher("customer/profile.jsp").forward(request, response);
     } 
