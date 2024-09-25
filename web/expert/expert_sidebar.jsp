@@ -10,7 +10,7 @@
     <div class="sidebar-content js-simplebar">
         <a class="sidebar-brand" href="index.html">
             <span class="sidebar-brand-text align-middle">
-                AdminKit
+                Professional Expert
                 <sup><small class="badge bg-primary text-uppercase">Pro</small></sup>
             </span>
             <svg class="sidebar-brand-icon align-middle" width="32px" height="32px" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5"
@@ -32,16 +32,13 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-start">
                         <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
-                        <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> Analytics</a>
+                        <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> Statistic</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="pages-settings.html"><i class="align-middle me-1" data-feather="settings"></i> Settings &
-                            Privacy</a>
-                        <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Help Center</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Log out</a>
                     </div>
 
-                    <div class="sidebar-user-subtitle">Designer</div>
+                    <div class="sidebar-user-subtitle">Expert</div>
                     <!--day la phan comment-->
                     <!-- commentgg -->
                 </div>
@@ -53,19 +50,10 @@
                 Common
             </li>
             <li class="sidebar-item">
-                <a data-bs-target="#dashboards" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboards</span>
+                <a class="sidebar-link" href="pages-profile.html">
+                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">DashBoard</span>
                 </a>
-                
             </li>
-
-            <li class="sidebar-item">
-                <a data-bs-target="#pages" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Registration Manager</span>
-                </a>
-                
-            </li>
-
             <li class="sidebar-item">
                 <a class="sidebar-link" href="pages-profile.html">
                     <i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>
@@ -77,37 +65,67 @@
                     <i class="align-middle" data-feather="credit-card"></i> <span class="align-middle">Change password</span>
                 </a>
             </li>
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="pages-invoice.html">
+                    <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Logout</span>
+                </a>
+            </li>
 
 
             <li class="sidebar-header">
                 Feature
             </li>
+
             <li class="sidebar-item">
-                <a data-bs-target="#ui" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <a class="sidebar-link" href="#">
                     <i class="align-middle" data-feather="briefcase"></i> <span class="align-middle">Subject List</span>
                 </a>
-                
             </li>
             <li class="sidebar-item">
-                <a data-bs-target="#icons" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <a class="sidebar-link" href="#">
                     <i class="align-middle" data-feather="coffee"></i> <span class="align-middle">Lesson List</span>
                 </a>
-                
             </li>
             <li class="sidebar-item">
-                <a data-bs-target="#forms" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <a class="sidebar-link" href="#">
                     <i class="align-middle" data-feather="check-circle"></i> <span class="align-middle">Quiz List</span>
                 </a>
-               
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-link" href="tables-bootstrap.html">
+                <a class="sidebar-link" href="questionlist">
                     <i class="align-middle" data-feather="list"></i> <span class="align-middle">Question List</span>
                 </a>
             </li>
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="question_detail_validation">
+                    <i class="align-middle" data-feather="check-circle"></i> <span class="align-middle">New Question</span>
+                </a>
+            </li>
 
-            
+
         </ul>
 
     </div>
 </nav>
+<script>
+    // Function to add 'active' class to the currently clicked sidebar item
+    window.onload = function () {
+        // Get the current URL path
+        var currentPath = window.location.pathname;
+
+        // Select all sidebar links (the <a> tags within sidebar-item <li>)
+        var sidebarLinks = document.querySelectorAll('.sidebar-item a');
+
+        // Loop through each link
+        sidebarLinks.forEach(function (link) {
+            // Get the href attribute of each link
+            var linkPath = link.getAttribute('href');
+
+            // Compare the current path with the link's href value
+            if (currentPath.includes(linkPath)) {
+                // Add 'active' class to the parent <li> element
+                link.parentElement.classList.add('active');
+            }
+        });
+    };
+</script>
