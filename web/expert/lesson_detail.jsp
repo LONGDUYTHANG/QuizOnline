@@ -61,7 +61,7 @@
 
     <body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-layout="default">
         <div class="wrapper">
-            <jsp:include page="sidebar.jsp" />
+            <jsp:include page="expert_sidebar.jsp" />
 
             <div class="main">
                 <jsp:include page="navbar.jsp"/>

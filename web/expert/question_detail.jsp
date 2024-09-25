@@ -41,10 +41,6 @@
                 color: #333;
             }
 
-            form {
-                margin-bottom: 30px;
-            }
-
             .form-group {
                 margin-bottom: 20px;
             }
