@@ -115,7 +115,7 @@
     <body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-layout="default">
         <div class="wrapper">
             <jsp:include page="expert_sidebar.jsp" />
-
+            
             <div class="main">
                 <jsp:include page="navbar.jsp"/>
 
@@ -124,8 +124,8 @@
                     <div class="header">
                         <h1>Question List</h1>
                         <nav>
-                            <button class="btn btn-success">Question Import <i class="align-middle me-2 fas fa-fw fa-file-excel"></i></button>
-                            <button class="btn btn-orange">New Question <i class="align-middle me-2 fas fa-fw fa-plus-circle"></i></button>
+                            <button onclick="window.location.href='#'" class="btn btn-success">Question Import <i class="align-middle me-2 fas fa-fw fa-file-excel"></i></button>
+                            <button onclick="window.location.href='question_detail_validation'" class="btn btn-orange">New Question <i class="align-middle me-2 fas fa-fw fa-plus-circle"></i></button>
                         </nav>
                     </div>
                     <div class="container">
