@@ -90,7 +90,7 @@
                                             <h4>${acc.full_name}</h4>
                                         </div>
                                         <hr>
-                                        <label style="cursor: pointer" onclick="changeAvatar()">Change Avatar</label>
+                                        <label style="cursor: pointer" onclick="changeAvatar()" id="changeavt_label">Change Avatar</label>
                                         <form action="changavt" method="post" style="display: none" enctype="multipart/form-data" id="change_avt">
                                             <input type="file" id="imageInput" style="width: 100px" name="avt" required="" id="new_avt">
                                             <br><br>
@@ -119,7 +119,7 @@
                                         <div class="profile-tabnav">
                                             <ul class="nav nav-tabs">
                                                 <li class="nav-item">
-                                                    <a class="nav-link" id="first_link" data-toggle="tab" href="#quiz-results"><i class="ti-bookmark-alt"></i>Quiz Results </a>
+                                                    <a class="nav-link" id="first_link" data-toggle="tab" href="#quiz-results"><i class="ti-bookmark-alt"></i>Dashboard</a>
                                                 </li>
                                                 <li class="nav-item">
                                                     <a class="nav-link" data-toggle="tab" href="#edit-profile" id="err_pro"><i class="ti-pencil-alt"></i>Edit Profile</a>
@@ -138,11 +138,12 @@
                                             </div>
                                             <div class="tab-pane" id="quiz-results">
                                                 <div class="profile-head">
-                                                    <h3>Quiz Results</h3>
+                                                    <h3>Dashboard</h3>
                                                 </div>
                                                 <div class="courses-filter">
                                                     <div class="row">
-                                                        <div class="col-md-6 col-lg-6">
+                                                        <div class="col-md-12 col-lg-12">
+                                                            <%--
                                                             <ul class="course-features">
                                                                 <li><i class="ti-book"></i> <span class="label">Lectures</span> <span class="value">8</span></li>
                                                                 <li><i class="ti-help-alt"></i> <span class="label">Quizzes</span> <span class="value">1</span></li>
@@ -152,8 +153,11 @@
                                                                 <li><i class="ti-user"></i> <span class="label">Students</span> <span class="value">32</span></li>
                                                                 <li><i class="ti-check-box"></i> <span class="label">Assessments</span> <span class="value">Yes</span></li>
                                                             </ul>
+                                                            --%>
+                                                            
                                                         </div>
-                                                        <div class="col-md-6 col-lg-6">
+                                                        <div class="col-md-12 col-lg-12">
+                                                            <%--
                                                             <ul class="course-features">
                                                                 <li><i class="ti-book"></i> <span class="label">Lectures</span> <span class="value">8</span></li>
                                                                 <li><i class="ti-help-alt"></i> <span class="label">Quizzes</span> <span class="value">1</span></li>
@@ -163,6 +167,7 @@
                                                                 <li><i class="ti-user"></i> <span class="label">Students</span> <span class="value">32</span></li>
                                                                 <li><i class="ti-check-box"></i> <span class="label">Assessments</span> <span class="value">Yes</span></li>
                                                             </ul>
+                                                            --%>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -222,9 +227,20 @@
                                                     <div class="">
                                                         <div class="">
                                                             <div class="row">
-                                                                <div class="col-12 col-sm-3 col-md-3 col-lg-2">
+                                                                <%--
+                                                                <div class="col-lg-9 col-12 col-sm-9 col-md-9 col-lg-7 center row">
+                                                                    <label class="col-12 col-sm-4 col-md-3 col-lg-2 col-form-label">Enter Password</label>
+                                                                    <div class="col-12 col-sm-4 col-md-8 col-lg-7">
+                                                                        <input class="form-control" type="text" name="email" id="">
+                                                                    </div>
+                                                                    <button type="button" class="btn" id="">Confirm</button>
+
                                                                 </div>
-                                                                <div class="col-12 col-sm-9 col-md-9 col-lg-7">
+                                                                <button type="button" class="btn" id="">Update Profile</button>
+                                                                <br>
+                                                                --%>
+                                                                
+                                                                <div class="col-12 col-sm-9 col-md-9 col-lg-7" style="display: ">
                                                                     <button type="button" class="btn" id="updatepro" onclick="updateProfile()">Save changes</button>
                                                                     <button type="reset" class="btn-secondry">Cancel</button>
                                                                 </div>
@@ -309,17 +325,20 @@
         <script src="assets/js/functions.js"></script>
         <script src="assets/js/contact.js"></script>
         <script src='assets/vendors/switcher/switcher.js'></script>
-    </script>
-    <script >
-        function changeAvatar() {
-            let changeForm = document.getElementById('change_avt');
-            if(changeForm.style.display === 'none') {
-                changeForm.style.display = 'block';
-            }
-            else {
-                changeForm.style.display = 'none';
-            }
-        }
+
+        <script >
+                                                                function changeAvatar() {
+                                                                    document.getElementsByClassName('ff')[0]
+                                                                    let changeForm = document.getElementById('change_avt');
+                                                                    let changeLabel = document.getElementById('changeavt_label');
+                                                                    if (changeForm.style.display === 'none') {
+                                                                        changeForm.style.display = 'block';
+                                                                        changeLabel.innerHTML = 'Cancel';
+                                                                    } else {
+                                                                        changeForm.style.display = 'none';
+                                                                        changeLabel.innerHTML = 'Change Avatar';
+                                                                    }
+                                                                }
                                                                 function firstAccess() {
                                                                     if (${requestScope.updatesc != null}) {
                                                                         window.alert('Update successfully');
@@ -366,8 +385,8 @@
                                                                     }
                                                                 }
 
-    </script>
-</body>
+        </script>
+    </body>
 
 </html>
 
