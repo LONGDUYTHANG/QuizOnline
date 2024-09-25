@@ -76,7 +76,7 @@
                                     <c:set var="c" value="${requestScope.myPost}" />
                                         <div class="recent-news blog-lg">
                                             <div class="action-box blog-lg">
-                                                <img src="assets/images/blog/default/thum1.jpg" alt="">
+                                                <img src="${c.thumbnail}" alt="">
                                             </div>
                                             <div class="info-bx">
                                                 <ul class="media-post">
