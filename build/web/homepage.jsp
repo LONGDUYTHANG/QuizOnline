@@ -329,6 +329,7 @@
                                 
                                 <c:forEach items="${requestScope.post_list}" var="c">
                                     <div class="blog-post blog-md clearfix " style="background-color: white">
+                                        <!-- s?a ? ?ây -->
                                         <a href="blog_detail?blog_id=${c.blog_id}"><img src="${c.thumbnail}" alt=""></a>
                                         <div class="ttr-post-info">
 
@@ -336,6 +337,7 @@
                                                 <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>                                        
                                                 <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
                                             </ul>
+                                                <!-- s?a ? ?ây -->
                                             <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
                                             <p>${c.blog_summary}</p>
                                         </div>
@@ -357,11 +359,12 @@
                                 </div>
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                <!--  thêm danh sách bài post m?i nh?t-->
+                                <!--  thêm danh sách bài post hot nh?t-->
                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                 <c:forEach items="${requestScope.hottest_post_list}" var="c">
                                     <div class="blog-post blog-md clearfix " style="background-color: white">
-                                        <a href="#"><img src="${c.thumbnail}" alt=""></a>
+                                        <!-- s?a ? ?ây -->
+                                        <a href="blog_detail?blog_id=${c.blog_id}"><img src="${c.thumbnail}" alt=""></a>
                                         <div class="ttr-post-info">
 
                                             <ul class="media-post">
@@ -369,7 +372,8 @@
 
                                                 <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
                                             </ul>
-                                            <h5 class="post-title"><a href="blog_detail.jsp">${c.blog_title}</a></h5>
+                                                <!-- s?a ? ?ây -->
+                                            <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
                                             <p>${c.blog_summary}</p>
                                         </div>
                                     </div>
