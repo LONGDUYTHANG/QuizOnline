@@ -9,17 +9,21 @@ import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.nio.file.Paths;
 import model.Account;
 
 /**
  *
- * @author ADMIN
+ * @author DELL-PC
  */
-public class LoginServlet extends HttpServlet {
+@MultipartConfig
+public class ChangeAvatar extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +40,10 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");  
+            out.println("<title>Servlet ChangeAvatar</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ChangeAvatar at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -69,34 +73,21 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        //Whenever a user login sucessfully create a sesion to caontain his/her account information
-        HttpSession session=request.getSession();
-        String email=request.getParameter("email");
-        String userPass=request.getParameter("userPass");
-        AccountDAO myAccountDAO=new AccountDAO();
-        Account myAccount=myAccountDAO.getAccount(email,userPass);
-        if(myAccount.getRole_id()==myAccountDAO.getRole_Id("none")){
-            String ms="Incorrect username or passwword";
-            request.setAttribute("message", ms);
-            request.getRequestDispatcher("homepage.jsp").forward(request, response);
-        }
-        else if(myAccount.getRole_id()==myAccountDAO.getRole_Id("customer")){
-            session.setAttribute("user", myAccount);
-            request.getRequestDispatcher("customer/homepage_1.jsp").forward(request, response);
-        }
-        else if(myAccount.getRole_id()==myAccountDAO.getRole_Id("saler")){
-            session.setAttribute("user", myAccount);
-            request.getRequestDispatcher("").forward(request, response);
-        }
-         else if(myAccount.getRole_id()==myAccountDAO.getRole_Id("expert")){
-            session.setAttribute("user", myAccount);
-            request.getRequestDispatcher("").forward(request, response);
-        }
-         else  if(myAccount.getRole_id()==myAccountDAO.getRole_Id("admin")){
-            session.setAttribute("user", myAccount);
-            request.getRequestDispatcher("").forward(request, response);
-        }
+        Part part = request.getPart("avt");
+        String realPart = request.getServletContext().getRealPath("/img/avatars");
+        realPart = realPart.replace("\\build", "");
+        PrintWriter out = response.getWriter();
         
+        String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+        part.write(realPart + "/" + fileName);
+        HttpSession session = request.getSession(true);
+        Account a = (Account)session.getAttribute("user");
+        AccountDAO ad = new AccountDAO();
+        String newAvatar = "img\\avatars\\" + fileName;
+        ad.changeAvatar(newAvatar, a);
+        a = ad.getAccountById(a.getAccount_id());
+        session.setAttribute("user", a);
+        response.sendRedirect("profile");
     }
 
     /** 
