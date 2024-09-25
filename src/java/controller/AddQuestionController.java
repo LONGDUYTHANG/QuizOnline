@@ -87,7 +87,7 @@ public class AddQuestionController extends HttpServlet {
         try {
             int subject_id = Integer.parseInt(subject_id_raw);
             int dimension_id = Integer.parseInt(dimension_id_raw);
-            int lesson_topic_id = Integer.parseInt(dimension_id_raw);
+            int lesson_topic_id = Integer.parseInt(lesson_topic_id_raw);
             int level_id = Integer.parseInt(level_id_raw);
             boolean status = Boolean.parseBoolean(status_raw);
             Question question = new Question(subject_id, dimension_id, lesson_topic_id, level_id, status, content, explanation, media);
