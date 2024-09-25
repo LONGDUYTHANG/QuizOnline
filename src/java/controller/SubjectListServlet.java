@@ -60,7 +60,7 @@ public class SubjectListServlet extends HttpServlet {
         ArrayList<Subject> subject_list = mySubjectDAO.getSubject();
         request.setAttribute("subject_list", subject_list);
 
-        request.getRequestDispatcher("subject_list.jsp").forward(request, response);
+        request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
     } 
 
     /** 
