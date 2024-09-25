@@ -55,11 +55,10 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
-
     </head>
     <body id="bg" onload="${requestScope.erru == null ? 'firstAccess()':'updateAcces()'}">
-        
-            <%@include file="header.html" %>
+
+        <%@include file="header.html" %>
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
             <!-- Header Top ==== -->
@@ -85,18 +84,40 @@
                                     <div class="profile-bx text-center">
                                         <div class="user-profile-thumb">
                                             <img src="${acc.avatar}" alt=""/>
+
                                         </div>
                                         <div class="profile-info">
-                                            <h4>Mark Andre</h4>
+                                            <h4>${acc.full_name}</h4>
                                         </div>
-                                        <div class="profile-social">
-                                            <ul class="list-inline m-a0">
-                                                <li><a href="#" ><i class="fa fa-facebook"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                            </ul>
-                                        </div>
+                                        <hr>
+                                        <label style="cursor: pointer" onclick="changeAvatar()">Change Avatar</label>
+                                        <form action="changavt" method="post" style="display: none" enctype="multipart/form-data" id="change_avt">
+                                            <input type="file" id="imageInput" style="width: 100px" name="avt" required="" id="new_avt">
+                                            <br><br>
+                                            <img id="imagePreview" style="width: 70px; height: 70px; display: none; border-radius: 100%; margin: 0 65% 10% 35%">
+
+                                            <script>
+                                                const imageInput = document.getElementById('imageInput');
+                                                const imagePreview = document.getElementById('imagePreview');
+
+                                                imageInput.addEventListener('change', function (event) {
+                                                    const file = event.target.files[0]; // Lấy file người dùng chọn
+                                                    if (file) {
+                                                        const reader = new FileReader(); // Tạo đối tượng FileReader để đọc file
+
+                                                        reader.onload = function (e) {
+                                                            imagePreview.src = e.target.result; // Gán kết quả vào src của thẻ img
+                                                            imagePreview.style.display = 'flex'; // Hiển thị thẻ img
+                                                        }
+
+                                                        reader.readAsDataURL(file); // Đọc file dưới dạng Data URL (base64)
+                                                    }
+                                                });
+                                            </script>
+                                            <input type="submit" value="Change" onclick="if(document.getElementById('new_avt').files.length != 0) {
+                                                window.alert('Change avatar successfully');
+                                            }"/>
+                                        </form>
                                         <div class="profile-tabnav">
                                             <ul class="nav nav-tabs">
                                                 <li class="nav-item">
@@ -270,7 +291,7 @@
             </div>
             <!-- Content END-->
             <!-- Footer ==== -->
-            <%@include file="footer.jsp" %>
+            <%@include file="footer.html" %>
             <!-- Footer END ==== -->
             <button class="back-to-top fa fa-chevron-up" ></button>
         </div>
@@ -289,59 +310,66 @@
         <script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
         <script src="assets/js/functions.js"></script>
         <script src="assets/js/contact.js"></script>
-        <script src='assets/vendors/switcher/switcher.js'></script>	
-        <script >
-            function firstAccess() {
-                if(${requestScope.updatesc != null}) {
-                    window.alert('Update successfully');
-                }
-                else if(${requestScope.cpsuccess != null}) {
-                    window.alert('Change password successfully');
-                }
-                document.getElementById("first_link").click();
+        <script src='assets/vendors/switcher/switcher.js'></script>
+    </script>
+    <script >
+        function changeAvatar() {
+            let changeForm = document.getElementById('change_avt');
+            if(changeForm.style.display === 'none') {
+                changeForm.style.display = 'block';
             }
-            
-            function updateAcces() {
-                document.getElementById("err_pro").click();
+            else {
+                changeForm.style.display = 'none';
             }
+        }
+                                                                function firstAccess() {
+                                                                    if (${requestScope.updatesc != null}) {
+                                                                        window.alert('Update successfully');
+                                                                    } else if (${requestScope.cpsuccess != null}) {
+                                                                        window.alert('Change password successfully');
+                                                                    }
+                                                                    document.getElementById("first_link").click();
+                                                                }
 
-            function checkCurrentPass(pass) {
-                let err = document.getElementById('error');
-                let newPass = document.getElementById('newpass');
-                let reNewPass = document.getElementById('renewpass');
-                let cp = document.getElementById('changepass');
-                if (pass != ${acc.password}) {
-                    cp.type = 'reset';
-                    err.innerHTML = 'Current password is not correct';
-                } else if (newPass.value.length === 0) {
-                    cp.type = 'button';
-                    err.innerHTML = 'Enter new password';
-                } else if (newPass.value != reNewPass.value) {
-                    cp.type = 'button';
-                    err.innerHTML = 'Re type new password is not match';
-                } 
-                else {
-                    err.innerHTML = '';
-                    cp.type = 'submit';
-                    cp.click();
-                }
-            }
+                                                                function updateAcces() {
+                                                                    document.getElementById("err_pro").click();
+                                                                }
 
-            function updateProfile() {
-                let mobile = document.getElementById('mobile');
-                let errU = document.getElementById('errorupdate');
-                let updatePro = document.getElementById('updatepro');
-                if (!Number(mobile.value) || mobile.value.length < 10) {
-                    errU.innerHTML = 'Phone number is not correct';
-                }
-                else {
-                    updatePro.type = 'submit';
-                    updatePro.click();
-                }
-            }
+                                                                function checkCurrentPass(pass) {
+                                                                    let err = document.getElementById('error');
+                                                                    let newPass = document.getElementById('newpass');
+                                                                    let reNewPass = document.getElementById('renewpass');
+                                                                    let cp = document.getElementById('changepass');
+                                                                    if (pass != ${acc.password}) {
+                                                                        cp.type = 'reset';
+                                                                        err.innerHTML = 'Current password is not correct';
+                                                                    } else if (newPass.value.length === 0) {
+                                                                        cp.type = 'button';
+                                                                        err.innerHTML = 'Enter new password';
+                                                                    } else if (newPass.value != reNewPass.value) {
+                                                                        cp.type = 'button';
+                                                                        err.innerHTML = 'Re type new password is not match';
+                                                                    } else {
+                                                                        err.innerHTML = '';
+                                                                        cp.type = 'submit';
+                                                                        cp.click();
+                                                                    }
+                                                                }
 
-        </script>
-    </body>
+                                                                function updateProfile() {
+                                                                    let mobile = document.getElementById('mobile');
+                                                                    let errU = document.getElementById('errorupdate');
+                                                                    let updatePro = document.getElementById('updatepro');
+                                                                    if (!Number(mobile.value) || mobile.value.length < 10) {
+                                                                        errU.innerHTML = 'Phone number is not correct';
+                                                                    } else {
+                                                                        updatePro.type = 'submit';
+                                                                        updatePro.click();
+                                                                    }
+                                                                }
+
+    </script>
+</body>
 
 </html>
 

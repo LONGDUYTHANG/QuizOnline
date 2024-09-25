@@ -65,7 +65,7 @@ public class Profile extends HttpServlet {
         ac = ad.getAccountById(ac.getAccount_id());
         session.setAttribute("user", ac);
         
-        request.getRequestDispatcher("profile.jsp").forward(request, response);
+        request.getRequestDispatcher("customer/profile.jsp").forward(request, response);
     } 
 
     /** 
@@ -89,7 +89,7 @@ public class Profile extends HttpServlet {
             String email = request.getParameter("email");
             if (ad.getAccount(email) != null && !email.equalsIgnoreCase(ac.getEmail())) {
                 request.setAttribute("erru", "Email is already exist");
-                request.getRequestDispatcher("profile.jsp").forward(request, response);
+                request.getRequestDispatcher("customer/profile.jsp").forward(request, response);
                 return;
                 
             }
@@ -103,7 +103,7 @@ public class Profile extends HttpServlet {
         }
         ac = ad.getAccountById(ac.getAccount_id());
         session.setAttribute("user", ac);
-        request.getRequestDispatcher("profile.jsp").forward(request, response);
+        request.getRequestDispatcher("customer/profile.jsp").forward(request, response);
     }
 
     /** 

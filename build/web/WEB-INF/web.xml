@@ -12,6 +12,18 @@
         <servlet-name>AddQuestionController</servlet-name>
         <servlet-class>controller.AddQuestionController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Profile</servlet-name>
+        <servlet-class>controller.Profile</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>QuestionListServlet</servlet-name>
+        <servlet-class>controller.QuestionListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangeAvatar</servlet-name>
+        <servlet-class>controller.ChangeAvatar</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
         <url-pattern>/demo</url-pattern>
@@ -24,7 +36,7 @@
         <servlet-name>AddQuestionController</servlet-name>
         <url-pattern>/addquestion</url-pattern>
     </servlet-mapping>
-          <servlet>
+    <servlet>
         <servlet-name>NewServlet</servlet-name>
         <servlet-class>NewServlet</servlet-class>
     </servlet>
@@ -36,6 +48,18 @@
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>controller.RegisterServlet</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>Profile</servlet-name>
+        <url-pattern>/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QuestionListServlet</servlet-name>
+        <url-pattern>/questionlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeAvatar</servlet-name>
+        <url-pattern>/changavt</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>
     </welcome-file-list>

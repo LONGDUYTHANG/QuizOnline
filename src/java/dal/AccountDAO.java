@@ -77,7 +77,7 @@ public class AccountDAO extends DBContext {
         ResultSet rs;
         int id = 0;
         try {
-            String strSelect = "select role_id from [Quiz Online].[dbo].[Role] where role_name like ? ";
+            String strSelect = "select role_id from [dbo].[Role] where role_name like ? ";
             stm = connection.prepareStatement(strSelect);
             stm.setString(1, role);
             rs = stm.executeQuery();
@@ -89,6 +89,7 @@ public class AccountDAO extends DBContext {
         }
         return id;
     }
+
     /**
      *
      * @param accountId
@@ -126,7 +127,7 @@ public class AccountDAO extends DBContext {
 
         return null;
     }
-    
+
     public Account getAccountById(int accountId) {
         String sql = "SELECT * FROM Account WHERE account_id = ?";
 
@@ -196,7 +197,7 @@ public class AccountDAO extends DBContext {
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, a.getFull_name());
-            pstmt.setInt(2, a.isGender() ? 1:0);
+            pstmt.setInt(2, a.isGender() ? 1 : 0);
             pstmt.setString(3, a.getEmail());
             pstmt.setString(4, a.getMobile());
             pstmt.setInt(5, a.getAccount_id());
@@ -222,16 +223,17 @@ public class AccountDAO extends DBContext {
         } catch (SQLException e) {
         }
     }
-    
-     /**
+
+    /**
      * Find an account base on email
+     *
      * @param email
      * @return 1 account
      */
-      public Account getAccountByEmail(String email) {
+    public Account getAccountByEmail(String email) {
         PreparedStatement stm;
         ResultSet rs;
-        Account myAccount=new Account();
+        Account myAccount = new Account();
         try {
             String strSelect = "select email from Account where email like ? ";
             stm = connection.prepareStatement(strSelect);
@@ -246,23 +248,38 @@ public class AccountDAO extends DBContext {
         }
         return null;
     }
-      /**
-     * Add an account(when guest register)
-       (required email and password  role_id is 1)
+
+    /**
+     * Add an account(when guest register) (required email and password role_id
+     * is 1)
+     *
      * @param email
      * @param password
      */
-    public void addAccount(String email,String password) {
+    public void addAccount(String email, String password) {
         PreparedStatement stm;
         try {
             String strSelect = "insert into [dbo].[Account](email,password,role_id) VALUES(?,?,1) ";
             stm = connection.prepareStatement(strSelect);
-                        stm.setString(1, email);
-                        stm.setString(2, password);
+            stm.setString(1, email);
+            stm.setString(2, password);
             stm.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
-    
+
+    public void changeAvatar(String newAvatar, Account a) {
+        String sql = "update Account \n"
+                + "set avatar = ?\n"
+                + "where account_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, newAvatar);
+            ps.setInt(2, a.getAccount_id());
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+
 }

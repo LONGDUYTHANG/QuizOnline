@@ -385,7 +385,7 @@
             </div>
             <!-- Content END-->
             <!-- Footer ==== -->
-            <%@include file="footer.html" %>
+            <%@include file="customer/footer.html" %>
             <!-- Footer END ==== -->
             <button class="back-to-top fa fa-chevron-up" ></button>
         </div>
