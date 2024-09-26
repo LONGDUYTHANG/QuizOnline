@@ -263,10 +263,10 @@
                                                 </div>
                                             </div>
                                         </c:if>
-                                        <c:if test="${empty requestScope.subject_list}">
-                                            <p>No subjects found matching your search.</p>
-                                        </c:if>
                                     </c:forEach>
+                                    <c:if test="${empty requestScope.subject_list}">
+                                        <p>No subjects found matching your search.</p>
+                                    </c:if>
                                 </div>
                             </div>
                         </div>

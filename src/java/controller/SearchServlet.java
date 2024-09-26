@@ -64,7 +64,7 @@ public class SearchServlet extends HttpServlet {
         ArrayList<Subject> subject_list = mySubjectDAO.getSubject();
         
         // Tạo danh sách mới để chứa các subject khớp với từ khóa
-        ArrayList<Subject> filteredSubjects = new ArrayList<>();
+        ArrayList<Subject> filteredSubjects = mySubjectDAO.searchSubjects(keyword);
         
          //post_list
         dal.PostDAO myPostDAO = new dal.PostDAO();
@@ -79,7 +79,7 @@ public class SearchServlet extends HttpServlet {
         if (keyword != null && !keyword.trim().isEmpty()) {
             for (Subject subject : subject_list) {
                 // Kiểm tra xem mô tả có chứa từ khóa không (phân biệt chữ hoa chữ thường)
-                if (subject.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                if (subject.getDescription().toLowerCase().contains(keyword.trim().toLowerCase())) {
                     filteredSubjects.add(subject);
                 }
             }
@@ -92,6 +92,8 @@ public class SearchServlet extends HttpServlet {
         request.setAttribute("subject_list", filteredSubjects);
         request.setAttribute("keyword", keyword);
 
+//        PrintWriter out = response.getWriter();
+//        out.print(filteredSubjects.get(0).getAccountId());
         // Chuyển tiếp đến trang homepage.jsp
         request.getRequestDispatcher("homepage.jsp").forward(request, response);
     
