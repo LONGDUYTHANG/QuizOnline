@@ -64,8 +64,6 @@ public class HomepageServlet extends HttpServlet {
         ArrayList<Post> post_list = myPostDAO.getPost();
         request.setAttribute("post_list", post_list);
 
-
-        
         //hottest_post_list
         ArrayList<Post> hottest_post_list = myPostDAO.getHottestPost();
         request.setAttribute("hottest_post_list", hottest_post_list);
