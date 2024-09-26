@@ -33,6 +33,10 @@
         <servlet-class>controller.AddQuizServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>SearchServlet</servlet-name>
+        <servlet-class>controller.SearchServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AddNewQuizValidationServlet</servlet-name>
         <servlet-class>controller.AddNewQuizValidationServlet</servlet-class>
     </servlet>
@@ -83,6 +87,10 @@
     <servlet-mapping>
         <servlet-name>AddQuizServlet</servlet-name>
         <url-pattern>/addquiz</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchServlet</servlet-name>
+        <url-pattern>/search</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AddNewQuizValidationServlet</servlet-name>
