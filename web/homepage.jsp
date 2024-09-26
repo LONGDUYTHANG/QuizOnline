@@ -186,7 +186,7 @@
                                          data-paddingbottom="[10,10,10,10]"
                                          data-paddingleft="[0,0,0,0]"
                                          style="z-index: 6; font-family:rubik; font-weight:700; text-align:center; white-space: normal;text-transform:uppercase;">
-                                        Welcome To University
+                                        Welcome To QuizOnline
                                     </div>
 
                                     <!-- LAYER NR. 3 -->
@@ -234,13 +234,13 @@
                                     <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                                     <c:forEach items="${requestScope.subject_list}" var="c">
                                         <c:if test="${fn:contains(c.description, param.keyword) || fn:contains(c.subjectName, param.keyword)}">
-                                            <div class="item">
-                                                <div class="cours-bx" style="background-color: #fff">
-                                                    <div class="action-box">
-                                                        <img src="${c.thumbnail}" alt="">
+                                            <div class="item" style="width: 300px; height: 350px;"> <!-- Kích th??c c? ??nh -->
+                                                <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;"> <!-- B?o ??m kích th??c -->
+                                                    <div class="action-box" style="width: 100%; height: 57%;"> <!-- T? l? hình ?nh c? ??nh -->
+                                                        <img src="${c.thumbnail}" alt="" style="width: 100%; height: 100%;"> <!-- Kích th??c hình ?nh -->
                                                         <a href="subject_details?subject_id=${c.subjectId}" class="btn">Read More</a>
                                                     </div>
-                                                    <div class="info-bx text-center">
+                                                    <div class="info-bx text-center" style="padding: 10px;">
                                                         <h5><a href="subject_details?subject_id=${c.subjectId}" style="color: black">${c.description}</a></h5>
                                                         <span>${c.tagline}</span>
                                                     </div>
@@ -336,21 +336,19 @@
                                 <!--  thêm danh sách bài post m?i nh?t-->
 
                                 <c:forEach items="${requestScope.post_list}" var="c">
-                                    <div class="blog-post blog-md clearfix " style="background-color: white">
-                                        <!-- s?a ? ?ây -->
-                                        <a href="blog_detail?blog_id=${c.blog_id}"><img src="${c.thumbnail}" alt=""></a>
-                                        <div class="ttr-post-info">
-
+                                    <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> <!-- Kích th??c c? ??nh -->
+                                        <a href="blog_detail?blog_id=${c.blog_id}">
+                                            <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> <!-- Kích th??c hình ?nh -->
+                                        </a>
+                                        <div class="ttr-post-info" style="padding: 10px; height: 40%;"> <!-- Thông tin bài vi?t -->
                                             <ul class="media-post">
-                                                <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>                                        
+                                                <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>                                      
                                                 <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
                                             </ul>
-                                            <!-- s?a ? ?ây -->
                                             <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
-                                            <p>${c.blog_summary}</p>
+                                            <p style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.blog_summary}</p> <!-- Gi?i h?n chi?u dài bài tóm t?t -->
                                         </div>
                                     </div>
-
                                 </c:forEach>
 
                             </div>               
@@ -370,22 +368,19 @@
                                 <!--  thêm danh sách bài post hot nh?t-->
                                 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                 <c:forEach items="${requestScope.hottest_post_list}" var="c">
-                                    <div class="blog-post blog-md clearfix " style="background-color: white">
-                                        <!-- s?a ? ?ây -->
-                                        <a href="blog_detail?blog_id=${c.blog_id}"><img src="${c.thumbnail}" alt=""></a>
-                                        <div class="ttr-post-info">
-
+                                    <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> <!-- Kích th??c c? ??nh -->
+                                        <a href="blog_detail?blog_id=${c.blog_id}">
+                                            <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> <!-- Kích th??c hình ?nh -->
+                                        </a>
+                                        <div class="ttr-post-info" style="padding: 10px; height: 40%;"> <!-- Thông tin bài vi?t -->
                                             <ul class="media-post">
-                                                <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>                                                <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
-
+                                                <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
                                                 <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
                                             </ul>
-                                            <!-- s?a ? ?ây -->
                                             <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
-                                            <p>${c.blog_summary}</p>
+                                            <p style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.blog_summary}</p> <!-- Gi?i h?n chi?u dài bài tóm t?t -->
                                         </div>
                                     </div>
-
                                 </c:forEach>
 
                             </div>               
