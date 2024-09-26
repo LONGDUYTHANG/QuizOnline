@@ -33,9 +33,10 @@
         <servlet-class>controller.AddQuizServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>AddQuizValidationServlet</servlet-name>
-        <servlet-class>controller.AddQuizValidationServlet</servlet-class>
+        <servlet-name>AddNewQuizValidationServlet</servlet-name>
+        <servlet-class>controller.AddNewQuizValidationServlet</servlet-class>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
         <url-pattern>/demo</url-pattern>
@@ -80,10 +81,9 @@
         <servlet-name>AddQuizServlet</servlet-name>
         <url-pattern>/addquiz</url-pattern>
     </servlet-mapping>
-    
     <servlet-mapping>
-        <servlet-name>AddQuizValidationServlet</servlet-name>
-        <url-pattern>/addquizvalidation</url-pattern>
+        <servlet-name>AddNewQuizValidationServlet</servlet-name>
+        <url-pattern>/addnewquizvalidation</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>
