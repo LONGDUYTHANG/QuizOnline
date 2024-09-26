@@ -172,6 +172,39 @@ public class SubjectDAO extends DBContext {
         return count;
     }
 
+    public List<Subject> searchSubjects(String keyword) {
+        List<Subject> subjects = new ArrayList<>();
+        String sql = "SELECT * FROM Subject WHERE subject_name LIKE ? OR description LIKE ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            // Sử dụng % để tìm kiếm bất kỳ vị trí nào trong tên hoặc mô tả
+            String searchKeyword = "%" + keyword + "%";
+            pstmt.setString(1, searchKeyword);
+            pstmt.setString(2, searchKeyword);
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Subject subject = new Subject();
+                subject.setSubjectId(rs.getInt("subject_id"));
+                subject.setSubjectName(rs.getString("subject_name"));
+                subject.setCategoryId(rs.getInt("category_id"));
+                subject.setStatus(rs.getInt("status") == 1);
+                subject.setIsFeatured(rs.getBoolean("isFeatured"));
+                subject.setThumbnail(rs.getString("thumbnail"));
+                subject.setTagline(rs.getString("tagline"));
+                subject.setDescription(rs.getString("description"));
+                subject.setAccountId(rs.getInt("account_id"));
+                subject.setCreatedDate(rs.getTimestamp("created_date"));
+
+                subjects.add(subject);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return subjects;
+    }
+
     public List<Subject> getEnrolledSubjectRecently(Account a) {
         List<Subject> subjects = new ArrayList<>();
         String sql = "select top 3 s.subject_id, s.subject_name, s.category_id, s.status, s.isFeatured, s.thumbnail, s.tagline, description, r.account_id, created_date from Registration r\n"
