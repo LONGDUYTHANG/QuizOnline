@@ -108,6 +108,12 @@ public class UpdateEmail extends HttpServlet {
         String newEmail = request.getParameter("new_email");
         String confirm_new_code = request.getParameter("confirm_new_code");
         if(newEmail != null && confirm_new_code == null) {
+            if(ad.getAccountByEmail(newEmail) != null) {
+                request.setAttribute("confirm_ss", true);
+                request.setAttribute("duplicate_email", "Email is used");
+                request.getRequestDispatcher("customer/update_email.jsp").forward(request, response);
+                return;
+            }
             Random rd = new Random();
             int rdn = rd.nextInt(999999);
             String formattedNumber = String.format("%06d", rdn);
@@ -117,11 +123,13 @@ public class UpdateEmail extends HttpServlet {
             request.setAttribute("comfirm_new_ss", true);
             session.setAttribute("new_email", newEmail);
             request.getRequestDispatcher("customer/update_email.jsp").forward(request, response);
+            return;
         }
         
         
         if(confirm_new_code != null) {
             if (!confirm_new_code.equalsIgnoreCase(confirmCode)) {
+                request.setAttribute("comfirm_new_ss", true);
                 request.setAttribute("confirm_new_err", "Code is not correct");
                 request.getRequestDispatcher("customer/update_email.jsp").forward(request, response);
                 return;

@@ -21,7 +21,7 @@
                 <p>Send code to your email</p>
                 <input type="submit" value="Send Code" name="sendcode"/>
             </c:if>
-            <c:if test="${sessionScope.confirm_code != null && !confirm_ss && !comfirm_new_ss && !update_ss}">
+            <c:if test="${sessionScope.confirm_code != null && !confirm_ss && !update_ss && !comfirm_new_ss}">
                 <h1>Confirm your email</h1>
                 <p>Enter code sent to your email</p>
                 <c:if test="${confirm_err != null}">
@@ -36,6 +36,11 @@
             <c:if test="${confirm_ss && !comfirm_new_ss}">
                 <h1>New email</h1>
                 <p>Enter your new email</p>
+                <c:if test="${duplicate_email != null}">
+                    <div style="color: red">
+                        ${duplicate_email}
+                    </div>
+                </c:if>
                 <input type="email" name="new_email" placeholder="..@gmail.com" required=""/><br><br>
                 <input type="submit" value="Confirm" name="sendcode"/>
             </c:if>
