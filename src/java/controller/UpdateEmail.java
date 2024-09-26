@@ -110,7 +110,7 @@ public class UpdateEmail extends HttpServlet {
         if(newEmail != null && confirm_new_code == null) {
             Random rd = new Random();
             int rdn = rd.nextInt(999999);
-            String formattedNumber = String.format("%04d", rdn);
+            String formattedNumber = String.format("%06d", rdn);
             session.setAttribute("confirm_code", formattedNumber);
             confirmCode = (String) session.getAttribute("confirm_code");
             Email.sendEmail(newEmail, confirmCode, a.getFull_name());
