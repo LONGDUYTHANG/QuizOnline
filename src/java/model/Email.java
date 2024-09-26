@@ -28,8 +28,8 @@ public class Email {
         
         Random rd = new Random();
         int rdn = rd.nextInt(999999);
-        String formattedNumber = String.format("%04d", rdn);
-        sendEmail("htbd28@gmail.com", formattedNumber, "Hai");
+        String formattedNumber = String.format("%06d", 000111);
+        //sendEmail("htbd28@gmail.com", formattedNumber, "Hai");
         System.out.println(formattedNumber);
     }
 
