@@ -53,6 +53,25 @@ public class AddQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
+        String name = request.getParameter("name");
+        String subject_id = request.getParameter("subject_id");
+        String level_id = request.getParameter("level_id");
+        String duration = request.getParameter("duration");
+        String passrate = request.getParameter("passrate");
+        String quiztype_id = request.getParameter("quiztype_id");
+        String description = request.getParameter("description");
+        String totalquestion = request.getParameter("totalquestion");
+        String question_type = request.getParameter("question_type");
+        out.println(name);
+        out.println(subject_id);
+        out.println(level_id);
+        out.println(duration);
+        out.println(passrate);
+        out.println(quiztype_id);
+        out.println(description);
+        out.println(totalquestion);
+        out.println(question_type);
     } 
 
     /** 
