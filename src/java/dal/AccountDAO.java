@@ -309,6 +309,21 @@ public class AccountDAO extends DBContext {
         } catch (Exception e) {
         }
     }
+    
+    public void updateEmail(String newEmail, Account a) {
+        String sql = """
+                     UPDATE [dbo].[Account]
+                        SET [email] = ?
+                      WHERE account_id = ?""";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, newEmail);
+            pstmt.setInt(2, a.getAccount_id());
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+        }
+    }
 
 
 }

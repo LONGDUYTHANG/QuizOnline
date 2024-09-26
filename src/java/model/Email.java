@@ -33,7 +33,7 @@ public class Email {
         System.out.println(formattedNumber);
     }
 
-    public static void sendEmail(String to, String code, String accountName) {
+    public static boolean sendEmail(String to, String code, String accountName) {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP HOST
         props.put("mail.smtp.port", "587"); //TLS 587 SSL 465
@@ -80,7 +80,7 @@ public class Email {
                 + "<head>\n"
                 + "    <meta charset=\"UTF-8\">\n"
                 + "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
-                + "    <title>Password Reset Code</title>\n"
+                + "    <title>Confirm Email Code</title>\n"
                 + "</head>\n"
                 + "<body style=\"font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;\">\n"
                 + "\n"
@@ -93,7 +93,7 @@ public class Email {
                 + "        <tr>\n"
                 + "            <td style=\"padding: 20px;\">\n"
                 + "                <p>Hi "+ accountName +",</p>\n"
-                + "                <p>Someone has requested a new password for the following account. If you didn't make this request, just ignore this email. If you'd like to proceed, please use the following code to reset your password:</p>\n"
+                + "                <p>Someone has requested a new email for your account. If you didn't make this request, just ignore this email. If you'd like to proceed, please use the following code to reset your password:</p>\n"
                 + "                <p style=\"font-size: 28px; font-weight: bold; color: #4CAF50;\">" + code + "</p>\n"
                 + "                <p>Thanks for reading!</p>\n"
                 + "            </td>\n"
@@ -109,10 +109,11 @@ public class Email {
                 + "</html>", "text/html");
             //Send email
             Transport.send(msg);
-            System.out.println("Success");
+            return true;
 
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
