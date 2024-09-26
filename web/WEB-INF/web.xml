@@ -80,6 +80,7 @@
         <servlet-name>AddQuizServlet</servlet-name>
         <url-pattern>/addquiz</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>AddQuizValidationServlet</servlet-name>
         <url-pattern>/addquizvalidation</url-pattern>
