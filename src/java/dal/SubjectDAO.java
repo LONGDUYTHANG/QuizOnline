@@ -173,8 +173,8 @@ public class SubjectDAO extends DBContext {
         return count;
     }
 
-    public List<Subject> searchSubjects(String keyword) {
-        List<Subject> subjects = new ArrayList<>();
+    public ArrayList<Subject> searchSubjects(String keyword) {
+        ArrayList<Subject> subjects = new ArrayList<>();
         String sql = "SELECT * FROM Subject WHERE subject_name LIKE ? OR description LIKE ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
