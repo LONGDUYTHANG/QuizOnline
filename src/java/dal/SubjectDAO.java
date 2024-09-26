@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
+import model.RegisterdSubject;
 import model.Subject;
 import model.SubjectCategory;
 
@@ -205,9 +206,10 @@ public class SubjectDAO extends DBContext {
         return subjects;
     }
 
-    public List<Subject> getEnrolledSubjectRecently(Account a) {
-        List<Subject> subjects = new ArrayList<>();
-        String sql = "select top 3 s.subject_id, s.subject_name, s.category_id, s.status, s.isFeatured, s.thumbnail, s.tagline, description, r.account_id, created_date from Registration r\n"
+
+    public List<RegisterdSubject> getEnrolledSubjectRecently(Account a) {
+        List<RegisterdSubject> subjects = new ArrayList<>();
+        String sql = "select top 3 *,CAST(case when valid_to < GETDATE() then 0 else 1 end as bit) as is_expired, cast(r.registration_time as date) enrolled_date from Registration r\n"
                 + "join Subject s on r.subject_id = s.subject_id\n"
                 + "where r.account_id = ?\n"
                 + "order by registration_time desc";
@@ -218,7 +220,7 @@ public class SubjectDAO extends DBContext {
             pstmt.setInt(1, a.getAccount_id());
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                Subject subject = new Subject();
+                RegisterdSubject subject = new RegisterdSubject();
                 subject.setSubjectId(rs.getInt("subject_id"));
                 subject.setSubjectName(rs.getString("subject_name"));
 
@@ -234,6 +236,59 @@ public class SubjectDAO extends DBContext {
                 Account acc = aDao.getAccountById(rs.getString("account_id"));
                 subject.setAccountId(acc.getAccount_id());
                 subject.setCreatedDate(rs.getTimestamp("created_date"));
+                subject.setCost(rs.getInt("cost"));
+                subject.setList_price(rs.getDouble("list_price"));
+                subject.setSale_price(rs.getDouble("sale_price"));
+                subject.setRegistration_time(rs.getString("enrolled_date"));
+                subject.setValid_to(rs.getString("valid_to"));
+                subject.setIs_expired(rs.getInt("is_expired") == 1);
+                subject.setNote(rs.getString("note"));
+//                subject.setCreatedDate(rs.g);
+
+                subjects.add(subject);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return subjects;
+    }
+    public List<RegisterdSubject> getEnrolledSubject(Account a) {
+        List<RegisterdSubject> subjects = new ArrayList<>();
+        String sql = "select *,CAST(case when valid_to < GETDATE() then 0 else 1 end as bit) as is_expired, cast(r.registration_time as date) enrolled_date from Registration r\n"
+                + "join Subject s on r.subject_id = s.subject_id\n"
+                + "where r.account_id = ?\n"
+                + "order by registration_time desc";
+
+        try {
+
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setInt(1, a.getAccount_id());
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                RegisterdSubject subject = new RegisterdSubject();
+                subject.setSubjectId(rs.getInt("subject_id"));
+                subject.setSubjectName(rs.getString("subject_name"));
+
+                subject.setCategoryId(rs.getInt("category_id"));
+
+                subject.setStatus(rs.getInt("status") == 1);
+                subject.setIsFeatured(rs.getBoolean("isFeatured"));
+                subject.setThumbnail(rs.getString("thumbnail"));
+                subject.setTagline(rs.getString("tagline"));
+                subject.setDescription(rs.getString("description"));
+
+                AccountDAO aDao = new AccountDAO();
+                Account acc = aDao.getAccountById(rs.getString("account_id"));
+                subject.setAccountId(acc.getAccount_id());
+                subject.setCreatedDate(rs.getTimestamp("created_date"));
+                subject.setCost(rs.getInt("cost"));
+                subject.setList_price(rs.getDouble("list_price"));
+                subject.setSale_price(rs.getDouble("sale_price"));
+                subject.setRegistration_time(rs.getString("enrolled_date"));
+                subject.setValid_to(rs.getString("valid_to"));
+                subject.setIs_expired(rs.getInt("is_expired") == 1);
+                subject.setNote(rs.getString("note"));
 //                subject.setCreatedDate(rs.g);
 
                 subjects.add(subject);
