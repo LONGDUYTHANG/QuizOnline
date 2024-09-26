@@ -75,7 +75,7 @@ public class Profile extends HttpServlet {
         int numberBlogs = pd.countCreatedBlogs(ac);
         session.setAttribute("enrolled_subject", enrolledSubject);
         session.setAttribute("created_blog", numberBlogs);
-        List<RegisterdSubject> listSubject = sd.getEnrolledSubjectRecently(ac);
+        List<RegisteredSubject> listSubject = sd.getEnrolledSubjectRecently(ac);
         //PrintWriter out = response.getWriter();
         //out.print(listSubject);
         session.setAttribute("recently_enrolled_subject", listSubject);

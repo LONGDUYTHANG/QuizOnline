@@ -260,7 +260,7 @@
                                                                             <div class="review">
                                                                                 <span>Enrolled Date</span>
                                                                                 <br><!-- comment -->
-                                                                                <span>${r_subject.created_date}</span>
+                                                                                <span>${r_subject.registration_time}</span>
                                                                             </div>
                                                                             <div class="price">
                                                                                 <h5>Cost:</h5>
