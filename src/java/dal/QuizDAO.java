@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Account;
 import model.Level;
+import model.Quiz_Type;
 import model.Subject;
 
 /**
@@ -136,13 +137,29 @@ public class QuizDAO extends DBContext {
 
         return null;
     }
-
+    
+    public List<Quiz_Type> getAllQuizType() {
+        List<Quiz_Type> list = new ArrayList<>();
+        String sql = "SELECT * FROM Quiz_Type";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int quiz_type_id = rs.getInt("quiz_type_id");
+                String quiz_type_name = rs.getString("quiz_type_name");
+                list.add(new Quiz_Type(quiz_type_id, quiz_type_name));;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return list;
+    }
     
     public static void main(String[] args) {
         QuizDAO dao = new QuizDAO();
-        List<Level> lsit = dao.getAllLevel();
-        for (Level level : lsit) {
-            System.out.println(level);
+        List<Quiz_Type> lsit = dao.getAllQuizType();
+        for (Quiz_Type quiz_Type : lsit) {
+            System.out.println(quiz_Type);
         }
     }
 }

@@ -119,11 +119,9 @@
                                         <div class="form-group">
                                             <label for="subject">Subject</label>
                                             <select id="subject" name="subject_id" required>
-                                                <c:set var="s" value="${requestScope.subject}"/>
                                                 <option value="" disabled selected>Select an option</option>
                                                 <c:forEach var="subject" items="${requestScope.listSubject}">
-                                                    <option value="${subject.subjectId}" 
-                                                            ${subject.subjectId == s.subjectId ? 'selected' : ''}>
+                                                    <option value="${subject.subjectId}">
                                                         ${subject.subjectName}
                                                     </option>
                                                 </c:forEach>
@@ -134,7 +132,7 @@
                                             <select id="level" name="level_id" required>
                                                 <option value="" disabled selected>Select an option</option>
                                                 <c:forEach var="level" items="${requestScope.listLevel}">
-                                                    <option value="${level.level_id}"> 
+                                                    <option value="${level.level_id}"}> 
                                                         ${level.level_name}
                                                     </option>
                                                 </c:forEach>
@@ -151,8 +149,12 @@
                                         <div class="form-group">
                                             <label for="quiz-type">Quiz Type</label>
                                             <select id="quiz-type" name="quiz-type">
-                                                <option>Simulation</option>
-                                                <!-- Add other types dynamically -->
+                                                <option value="" disabled selected>Select an option</option>
+                                                <c:forEach var="quiztype" items="${requestScope.listQuiz_Type}">
+                                                    <option value="${quiztype.quiz_type_id}"> 
+                                                        ${quiztype.quiz_type_name}
+                                                    </option>
+                                                </c:forEach>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -190,7 +192,7 @@
                                         <div class="form-group d-flex align-items-center mb-3">
                                             <label for="group-selection-1" class="me-3">Group Selection 1</label>
                                             <select id="group-selection-1" name="group-selection-1" class="form-select me-2">
-                                                <option>Group 1</option>
+                                                <option value="" disabled selected>Group 1</option>
                                                 <!-- Add group options dynamically -->
                                             </select>
                                             <input type="number" class="form-control me-2" id="number-of-questions-1" name="number-of-questions-1" placeholder="Questions" style="width: 100px;">
@@ -201,14 +203,12 @@
                                         <div class="form-group d-flex align-items-center mb-3">
                                             <label for="group-selection-2" class="me-3">Group Selection 2</label>
                                             <select id="group-selection-2" name="group-selection-2" class="form-select me-2">
-                                                <option>Group 2</option>
+                                                <option value="" disabled selected>Group 2</option>
                                                 <!-- Add group options dynamically -->
                                             </select>
                                             <input type="number" class="form-control me-2" id="number-of-questions-2" name="number-of-questions-2" placeholder="Questions" style="width: 100px;">
                                             <button type="button" class="btn btn-secondary">Delete</button>
                                         </div>
-                                        <button type="submit" class="btn">Save</button>
-                                        <button type="button" class="btn btn-secondary">Back</button>
                                     </form>
                                 </div>
                             </div>
