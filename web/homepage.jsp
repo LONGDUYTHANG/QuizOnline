@@ -98,7 +98,7 @@
                         </div>
                     </div>
                 </div> 
-                 <!-- login -->
+                <!-- login -->
                 <%@include file="login.jsp" %>
                 <!--                                                   register     -->
                 <%@include file="register.jsp" %>
@@ -229,36 +229,43 @@
                             </div>
                             <div class="row">
                                 <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                    <!<!-- thêm subjedt list -->
+                                    <!-- thêm subjedt list -->
+                                    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+                                    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                                     <c:forEach items="${requestScope.subject_list}" var="c">
-                                    <div class="item">
-                                        <div class="cours-bx" style="background-color: #fff">
-                                            <div class="action-box">
-                                                <img src="${c.thumbnail}" alt="">
-                                                <a href="subject_details?subject_id=${c.subjectId}" class="btn">Read More</a>
-                                            </div>
-                                            <div class="info-bx text-center">
-                                                <h5><a href="subject_details?subject_id=${c.subjectId}" style="color: black">${c.description}</a></h5>
-                                                <span>${c.tagline}</span>
-                                            </div>
-                                            <div class="cours-more-info">
-                                                <div class="review">
-                                                    <span>3 Review</span>
-                                                    <ul class="cours-star">
-                                                        <li class="active"><i class="fa fa-star"></i></li>
-                                                        <li class="active"><i class="fa fa-star"></i></li>
-                                                        <li class="active"><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                    </ul>
+                                        <c:if test="${fn:contains(c.description, param.keyword) || fn:contains(c.subjectName, param.keyword)}">
+                                            <div class="item">
+                                                <div class="cours-bx" style="background-color: #fff">
+                                                    <div class="action-box">
+                                                        <img src="${c.thumbnail}" alt="">
+                                                        <a href="subject_details?subject_id=${c.subjectId}" class="btn">Read More</a>
+                                                    </div>
+                                                    <div class="info-bx text-center">
+                                                        <h5><a href="subject_details?subject_id=${c.subjectId}" style="color: black">${c.description}</a></h5>
+                                                        <span>${c.tagline}</span>
+                                                    </div>
+                                                    <div class="cours-more-info">
+                                                        <div class="review">
+                                                            <span>3 Review</span>
+                                                            <ul class="cours-star">
+                                                                <li class="active"><i class="fa fa-star"></i></li>
+                                                                <li class="active"><i class="fa fa-star"></i></li>
+                                                                <li class="active"><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                                <li><i class="fa fa-star"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="price">
+                                                            <del>$190</del>
+                                                            <h5>$120</h5>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="price">
-                                                    <del>$190</del>
-                                                    <h5>$120</h5>
-                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
+                                        </c:if>
+                                        <c:if test="${empty requestScope.subject_list}">
+                                            <p>No subjects found matching your search.</p>
+                                        </c:if>
                                     </c:forEach>
                                 </div>
                             </div>
@@ -273,9 +280,9 @@
                                 <div class="col-md-12 text-center text-white">
                                     <h2>Online Subjects To Learn</h2>
                                     <h5>Own Your Feature Learning New Skills Online</h5>
-                                    <form class="cours-search">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="What do you want to learn today?	">
+                                    <form class="cours-search" method="GET" action="search">
+                                        <div class="input-group" >
+                                            <input type="text" class="form-control" placeholder="What do you want to learn today?" name="keyword" value="${param.keyword}">
                                             <div class="input-group-append">
                                                 <button class="btn" type="submit">Search</button> 
                                             </div>
@@ -306,11 +313,12 @@
                                             <div class="icon-box">
                                                 <h3><i class="ti-layout-list-post"></i><span class="counter">20</span>K</h3>
                                             </div>
-                                            <span class="cours-search-text">Learn Anythink Online.</span>
+                                            <span class="cours-search-text">Learn Anything Online.</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <a href="../../1/web/admin/bookmark.html"></a>
                         </div>
                     </div>
                     <!-- Form END -->
@@ -326,7 +334,7 @@
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
                                 <!--  thêm danh sách bài post m?i nh?t-->
-                                
+
                                 <c:forEach items="${requestScope.post_list}" var="c">
                                     <div class="blog-post blog-md clearfix " style="background-color: white">
                                         <!-- s?a ? ?ây -->
@@ -337,7 +345,7 @@
                                                 <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>                                        
                                                 <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
                                             </ul>
-                                                <!-- s?a ? ?ây -->
+                                            <!-- s?a ? ?ây -->
                                             <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
                                             <p>${c.blog_summary}</p>
                                         </div>
@@ -349,7 +357,7 @@
                         </div>
                     </div>
                     <!-- All Post END -->
-                    
+
                     <!-- Hottest Post -->
                     <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(assets/images/background/bg1.jpg);">
                         <div class="container">
@@ -360,7 +368,7 @@
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
                                 <!--  thêm danh sách bài post hot nh?t-->
-                               <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                 <c:forEach items="${requestScope.hottest_post_list}" var="c">
                                     <div class="blog-post blog-md clearfix " style="background-color: white">
                                         <!-- s?a ? ?ây -->
@@ -372,7 +380,7 @@
 
                                                 <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
                                             </ul>
-                                                <!-- s?a ? ?ây -->
+                                            <!-- s?a ? ?ây -->
                                             <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
                                             <p>${c.blog_summary}</p>
                                         </div>
@@ -424,91 +432,91 @@
         <script src="assets/vendors/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
         <script src="assets/vendors/revolution/js/extensions/revolution.extension.video.min.js"></script>
         <script>
-            jQuery(document).ready(function () {
-                var ttrevapi;
-                var tpj = jQuery;
-                if (tpj("#rev_slider_486_1").revolution == undefined) {
-                    revslider_showDoubleJqueryError("#rev_slider_486_1");
-                } else {
-                    ttrevapi = tpj("#rev_slider_486_1").show().revolution({
-                        sliderType: "standard",
-                        jsFileLocation: "assets/vendors/revolution/js/",
-                        sliderLayout: "fullwidth",
-                        dottedOverlay: "none",
-                        delay: 9000,
-                        navigation: {
-                            keyboardNavigation: "on",
-                            keyboard_direction: "horizontal",
-                            mouseScrollNavigation: "off",
-                            mouseScrollReverse: "default",
-                            onHoverStop: "on",
-                            touch: {
-                                touchenabled: "on",
-                                swipe_threshold: 75,
-                                swipe_min_touches: 1,
-                                swipe_direction: "horizontal",
-                                drag_block_vertical: false
-                            }
-                            ,
-                            arrows: {
-                                style: "uranus",
-                                enable: true,
-                                hide_onmobile: false,
-                                hide_onleave: false,
-                                tmp: '',
-                                left: {
-                                    h_align: "left",
-                                    v_align: "center",
-                                    h_offset: 10,
-                                    v_offset: 0
-                                },
-                                right: {
-                                    h_align: "right",
-                                    v_align: "center",
-                                    h_offset: 10,
-                                    v_offset: 0
-                                }
-                            },
-
-                        },
-                        viewPort: {
-                            enable: true,
-                            outof: "pause",
-                            visible_area: "80%",
-                            presize: false
-                        },
-                        responsiveLevels: [1240, 1024, 778, 480],
-                        visibilityLevels: [1240, 1024, 778, 480],
-                        gridwidth: [1240, 1024, 778, 480],
-                        gridheight: [768, 600, 600, 600],
-                        lazyType: "none",
-                        parallax: {
-                            type: "scroll",
-                            origo: "enterpoint",
-                            speed: 400,
-                            levels: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 46, 47, 48, 49, 50, 55],
-                            type: "scroll",
-                        },
-                        shadow: 0,
-                        spinner: "off",
-                        stopLoop: "off",
-                        stopAfterLoops: -1,
-                        stopAtSlide: -1,
-                        shuffle: "off",
-                        autoHeight: "off",
-                        hideThumbsOnMobile: "off",
-                        hideSliderAtLimit: 0,
-                        hideCaptionAtLimit: 0,
-                        hideAllCaptionAtLilmit: 0,
-                        debugMode: false,
-                        fallbacks: {
-                            simplifyAll: "off",
-                            nextSlideOnWindowFocus: "off",
-                            disableFocusListener: false,
+        jQuery(document).ready(function () {
+            var ttrevapi;
+            var tpj = jQuery;
+            if (tpj("#rev_slider_486_1").revolution == undefined) {
+                revslider_showDoubleJqueryError("#rev_slider_486_1");
+            } else {
+                ttrevapi = tpj("#rev_slider_486_1").show().revolution({
+                    sliderType: "standard",
+                    jsFileLocation: "assets/vendors/revolution/js/",
+                    sliderLayout: "fullwidth",
+                    dottedOverlay: "none",
+                    delay: 9000,
+                    navigation: {
+                        keyboardNavigation: "on",
+                        keyboard_direction: "horizontal",
+                        mouseScrollNavigation: "off",
+                        mouseScrollReverse: "default",
+                        onHoverStop: "on",
+                        touch: {
+                            touchenabled: "on",
+                            swipe_threshold: 75,
+                            swipe_min_touches: 1,
+                            swipe_direction: "horizontal",
+                            drag_block_vertical: false
                         }
-                    });
-                }
-            });
+                        ,
+                        arrows: {
+                            style: "uranus",
+                            enable: true,
+                            hide_onmobile: false,
+                            hide_onleave: false,
+                            tmp: '',
+                            left: {
+                                h_align: "left",
+                                v_align: "center",
+                                h_offset: 10,
+                                v_offset: 0
+                            },
+                            right: {
+                                h_align: "right",
+                                v_align: "center",
+                                h_offset: 10,
+                                v_offset: 0
+                            }
+                        },
+
+                    },
+                    viewPort: {
+                        enable: true,
+                        outof: "pause",
+                        visible_area: "80%",
+                        presize: false
+                    },
+                    responsiveLevels: [1240, 1024, 778, 480],
+                    visibilityLevels: [1240, 1024, 778, 480],
+                    gridwidth: [1240, 1024, 778, 480],
+                    gridheight: [768, 600, 600, 600],
+                    lazyType: "none",
+                    parallax: {
+                        type: "scroll",
+                        origo: "enterpoint",
+                        speed: 400,
+                        levels: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 46, 47, 48, 49, 50, 55],
+                        type: "scroll",
+                    },
+                    shadow: 0,
+                    spinner: "off",
+                    stopLoop: "off",
+                    stopAfterLoops: -1,
+                    stopAtSlide: -1,
+                    shuffle: "off",
+                    autoHeight: "off",
+                    hideThumbsOnMobile: "off",
+                    hideSliderAtLimit: 0,
+                    hideCaptionAtLimit: 0,
+                    hideAllCaptionAtLilmit: 0,
+                    debugMode: false,
+                    fallbacks: {
+                        simplifyAll: "off",
+                        nextSlideOnWindowFocus: "off",
+                        disableFocusListener: false,
+                    }
+                });
+            }
+        });
         </script>
         <script>
             const openLoginButton = document.getElementById('open-login-popup');
@@ -535,8 +543,8 @@
             closeLoginButton.onclick = function () {
                 loginPopup.style.display = 'none';
             };
-            closeRegisterButton.onclick=function (){
-                registerPopup.style.display='none';
+            closeRegisterButton.onclick = function () {
+                registerPopup.style.display = 'none';
             };
             function LoginAgain() {
                 if (checkLoginError.textContent === loginError.textContent) {
@@ -558,7 +566,7 @@
                     loginPopup.style.display = 'none';
                 }
             };
-            
+
             window.onclick = function (event) {
                 if (event.target === registerPopup) {
                     registerPopup.style.display = 'none';
