@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
-import model.RegisterdSubject;
+import model.RegisteredSubject;
 import model.Subject;
 import model.SubjectCategory;
 
@@ -207,8 +207,10 @@ public class SubjectDAO extends DBContext {
     }
 
 
-    public List<RegisterdSubject> getEnrolledSubjectRecently(Account a) {
-        List<RegisterdSubject> subjects = new ArrayList<>();
+
+    public List<RegisteredSubject> getEnrolledSubjectRecently(Account a) {
+        List<RegisteredSubject> subjects = new ArrayList<>();
+
         String sql = "select top 3 *,CAST(case when valid_to < GETDATE() then 0 else 1 end as bit) as is_expired, cast(r.registration_time as date) enrolled_date from Registration r\n"
                 + "join Subject s on r.subject_id = s.subject_id\n"
                 + "where r.account_id = ?\n"
@@ -220,7 +222,7 @@ public class SubjectDAO extends DBContext {
             pstmt.setInt(1, a.getAccount_id());
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                RegisterdSubject subject = new RegisterdSubject();
+                RegisteredSubject subject = new RegisteredSubject();
                 subject.setSubjectId(rs.getInt("subject_id"));
                 subject.setSubjectName(rs.getString("subject_name"));
 
@@ -253,8 +255,8 @@ public class SubjectDAO extends DBContext {
 
         return subjects;
     }
-    public List<RegisterdSubject> getEnrolledSubject(Account a) {
-        List<RegisterdSubject> subjects = new ArrayList<>();
+    public List<RegisteredSubject> getEnrolledSubject(Account a) {
+        List<RegisteredSubject> subjects = new ArrayList<>();
         String sql = "select *,CAST(case when valid_to < GETDATE() then 0 else 1 end as bit) as is_expired, cast(r.registration_time as date) enrolled_date from Registration r\n"
                 + "join Subject s on r.subject_id = s.subject_id\n"
                 + "where r.account_id = ?\n"
@@ -266,7 +268,7 @@ public class SubjectDAO extends DBContext {
             pstmt.setInt(1, a.getAccount_id());
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                RegisterdSubject subject = new RegisterdSubject();
+                RegisteredSubject subject = new RegisteredSubject();
                 subject.setSubjectId(rs.getInt("subject_id"));
                 subject.setSubjectName(rs.getString("subject_name"));
 
