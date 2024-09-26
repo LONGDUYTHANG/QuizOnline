@@ -8,7 +8,7 @@ package model;
  *
  * @author DELL-PC
  */
-public class RegisterdSubject extends Subject{
+public class RegisteredSubject extends Subject{
     private int cost;
     private double list_price;
     private double sale_price;
@@ -25,7 +25,7 @@ public class RegisterdSubject extends Subject{
         this.note = note;
     }
 
-    public RegisterdSubject() {
+    public RegisteredSubject() {
     }
 
     public int getCost() {
