@@ -98,32 +98,30 @@
 
                 <main class="content">
                     <div class="container">
-                        <div class="tab">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="#overview" data-bs-toggle="tab" role="tab">Overview</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#setting" data-bs-toggle="tab" role="tab">Setting</a>
-                                </li>
-                            </ul>
-                            <div class="tab-content">
-                                <!-- Overview Tab -->
-                                <div class="tab-pane active" id="overview" role="tabpanel">
-                                    <h4>Quiz Details</h4>
-                                    <form>
+                        <form action="addquiz" method="get" id="quiz">
+                            <div class="tab">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#overview" data-bs-toggle="tab" role="tab">Overview</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#setting" data-bs-toggle="tab" role="tab">Setting</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <!-- Overview Tab -->
+                                    <div class="tab-pane active" id="overview" role="tabpanel">
+                                        <h4>Quiz Details</h4>
+
                                         <div class="form-group">
                                             <label for="name">Name</label>
-                                            <input type="text" id="name" name="name" placeholder="Enter exam name">
+                                            <input type="text" id="name" name="name" placeholder="Enter exam name" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="subject">Subject</label>
                                             <select id="subject" name="subject_id" required>
-                                                <c:set var="s" value="${requestScope.subject}"/>
-                                                <option value="" disabled selected>Select an option</option>
                                                 <c:forEach var="subject" items="${requestScope.listSubject}">
-                                                    <option value="${subject.subjectId}" 
-                                                            ${subject.subjectId == s.subjectId ? 'selected' : ''}>
+                                                    <option value="${subject.subjectId}">
                                                         ${subject.subjectName}
                                                     </option>
                                                 </c:forEach>
@@ -132,9 +130,8 @@
                                         <div class="form-group">
                                             <label for="level">Exam Level</label>
                                             <select id="level" name="level_id" required>
-                                                <option value="" disabled selected>Select an option</option>
                                                 <c:forEach var="level" items="${requestScope.listLevel}">
-                                                    <option value="${level.level_id}"> 
+                                                    <option value="${level.level_id}"}> 
                                                         ${level.level_name}
                                                     </option>
                                                 </c:forEach>
@@ -146,81 +143,87 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="pass-rate">Pass Rate (%)</label>
-                                            <input type="number" id="pass-rate" name="pass-rate" value="50">
+                                            <input type="number" id="pass-rate" name="passrate" value="50">
                                         </div>
                                         <div class="form-group">
                                             <label for="quiz-type">Quiz Type</label>
-                                            <select id="quiz-type" name="quiz-type">
-                                                <option>Simulation</option>
-                                                <!-- Add other types dynamically -->
+                                            <select id="quiz-type" name="quiztype_id">
+                                                <c:forEach var="quiztype" items="${requestScope.listQuiz_Type}">
+                                                    <option value="${quiztype.quiz_type_id}"> 
+                                                        ${quiztype.quiz_type_name}
+                                                    </option>
+                                                </c:forEach>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="description">Description</label>
-                                            <textarea id="description" name="description" placeholder="Enter description"></textarea>
+                                            <textarea id="description" name="description" placeholder="Enter description" required=""></textarea>
                                         </div>
                                         <button type="submit" class="btn">Submit</button>
                                         <button type="button" class="btn btn-secondary">Back</button>
-                                    </form>
-                                </div>
+                                    </div>
 
-                                <!-- Settings Tab -->
-                                <div class="tab-pane" id="setting" role="tabpanel">
-                                    <h4>Settings</h4>
-                                    <form>
+                                    <!-- Settings Tab -->
+                                    <div class="tab-pane" id="setting" role="tabpanel">
+                                        <h4>Settings</h4>
                                         <div class="form-group">
                                             <label for="total-questions">Total Number of Questions</label>
-                                            <input type="number" id="total-questions" name="total-questions" value="50">
+                                            <input type="number" id="total-questions" name="totalquestion" value="50">
                                         </div>
-                                         <div class="form-group">
+                                        <div class="form-group">
                                             <label for="question-type">Question Type</label>
                                             <div class="form-inline">
-                                                <input type="radio" id="theo-topic" name="question-type" value="topic">
+                                                <input type="radio" id="theo-topic" name="question_type" value="topic" onchange="submitForm()">
                                                 <label for="theo-topic">By Topic</label>
-                                                <input type="radio" id="theo-group" name="question-type" value="group">
+                                                <input type="radio" id="theo-group" name="question_type" value="group" onchange="submitForm()">
                                                 <label for="theo-group">By Group</label>
-                                                <input type="radio" id="theo-domain" name="question-type" value="domain">
+                                                <input type="radio" id="theo-domain" name="question_type" value="domain" onchange="submitForm()">
                                                 <label for="theo-domain">By Domain</label>
                                             </div>
                                         </div>
+                                        <script>
+                                            function submitForm() {
+                                                document.getElementById("quiz").submit();
+                                            }
+                                        </script>
                                         Choose Questions by Group
                                         <br>
                                         <br>
                                         <!-- Group Selection 1 -->
                                         <div class="form-group d-flex align-items-center mb-3">
-                                            <label for="group-selection-1" class="me-3">Group Selection 1</label>
-                                            <select id="group-selection-1" name="group-selection-1" class="form-select me-2">
-                                                <option>Group 1</option>
+                                            <label for="group-selection" class="me-3">Group Selection</label>
+                                            <select id="group-selection" name="group_selection" class="form-select me-2">
+                                                <option value="" disabled selected>Group</option>
                                                 <!-- Add group options dynamically -->
                                             </select>
-                                            <input type="number" class="form-control me-2" id="number-of-questions-1" name="number-of-questions-1" placeholder="Questions" style="width: 100px;">
+                                            <input type="number" class="form-control me-2" name="number_of_questions" placeholder="Questions" style="width: 100px;">
                                             <button type="button" class="btn btn-secondary">Delete</button>
                                         </div>
 
-                                        <!-- Group Selection 2 -->
+                                        
                                         <div class="form-group d-flex align-items-center mb-3">
-                                            <label for="group-selection-2" class="me-3">Group Selection 2</label>
-                                            <select id="group-selection-2" name="group-selection-2" class="form-select me-2">
-                                                <option>Group 2</option>
+                                            <label for="group-selection" class="me-3">Group Selection</label>
+                                            <select id="group-selection" name="group_selection" class="form-select me-2">
+                                                <option value="" disabled selected>Group</option>
                                                 <!-- Add group options dynamically -->
                                             </select>
-                                            <input type="number" class="form-control me-2" id="number-of-questions-2" name="number-of-questions-2" placeholder="Questions" style="width: 100px;">
+                                            <input type="number" class="form-control me-2" name="number_of_questions" placeholder="Questions" style="width: 100px;">
                                             <button type="button" class="btn btn-secondary">Delete</button>
                                         </div>
-                                        <button type="submit" class="btn">Save</button>
-                                        <button type="button" class="btn btn-secondary">Back</button>
-                                    </form>
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
+
                 </main>
 
                 <jsp:include page="footer.jsp" />
             </div>
         </div>
         <jsp:include page="script.jsp" />
-        
+
     </body>
 
 </html>

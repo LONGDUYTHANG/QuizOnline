@@ -33,8 +33,16 @@
         <servlet-class>controller.AddQuizServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>AddQuizValidationServlet</servlet-name>
-        <servlet-class>controller.AddQuizValidationServlet</servlet-class>
+        <servlet-name>SearchServlet</servlet-name>
+        <servlet-class>controller.SearchServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddNewQuizValidationServlet</servlet-name>
+        <servlet-class>controller.AddNewQuizValidationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginGoogleServlet</servlet-name>
+        <servlet-class>controller.LoginGoogleServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RegisteredSubject</servlet-name>
@@ -89,8 +97,16 @@
         <url-pattern>/addquiz</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>AddQuizValidationServlet</servlet-name>
-        <url-pattern>/addquizvalidation</url-pattern>
+        <servlet-name>SearchServlet</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddNewQuizValidationServlet</servlet-name>
+        <url-pattern>/addnewquizvalidation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginGoogleServlet</servlet-name>
+        <url-pattern>/googlelogin</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RegisteredSubject</servlet-name>

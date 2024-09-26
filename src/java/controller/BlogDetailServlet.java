@@ -68,6 +68,11 @@ public class BlogDetailServlet extends HttpServlet {
         PostDAO myPostDAO = new PostDAO();
         Post myPost = myPostDAO.getPostByBlogID(blog_id);
         request.setAttribute("myPost", myPost);
+        
+        ArrayList<Post> post_list = myPostDAO.getPost();
+        request.setAttribute("post_list", post_list);
+
+        
         request.getRequestDispatcher("customer/blog_detail.jsp").forward(request, response);
 
         

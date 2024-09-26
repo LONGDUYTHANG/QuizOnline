@@ -5,23 +5,29 @@
 
 package controller;
 
-import dal.QuizDAO;
+import dal.AccountDAO;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.Level;
-import model.Subject;
+import model.Account;
+import model.GooglePojo;
+import model.GoogleUtils;
 
 /**
  *
- * @author FPT SHOP
+ * @author ADMIN
  */
-public class AddQuizValidationServlet extends HttpServlet {
+public class LoginGoogleServlet extends HttpServlet {
    
+       private static final long serialVersionUID = 1L;
+
+    public LoginGoogleServlet() {
+        super();
+    }
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -37,10 +43,10 @@ public class AddQuizValidationServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddQuizValidationServlet</title>");  
+            out.println("<title>Servlet LoginGoogleServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddQuizValidationServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet LoginGoogleServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,12 +63,26 @@ public class AddQuizValidationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        QuizDAO dao = new QuizDAO();
-        List<Subject> listSubject = dao.getAllSubject();
-        List<Level> listLevel = dao.getAllLevel();
-        request.setAttribute("listSubject", listSubject);
-        request.setAttribute("listLevel", listLevel);
-        request.getRequestDispatcher("expert/add_quiz.jsp").forward(request, response);
+                String code = request.getParameter("code");
+    if (code == null || code.isEmpty()) {
+      RequestDispatcher dis = request.getRequestDispatcher("login.jsp");
+      dis.forward(request, response); 
+    } else {
+      String accessToken = GoogleUtils.getToken(code);
+      GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
+      String email=googlePojo.getEmail();
+        AccountDAO myAccountDAO=new AccountDAO();
+        Account myAccount =myAccountDAO.getAccount(email);
+        //if email has not been registered, add it to the database 
+        if(myAccount!=null){
+            myAccountDAO.addAccount(email, "pass");
+        }
+      request.setAttribute("id", googlePojo.getId());
+      request.setAttribute("name", googlePojo.getName());
+      request.setAttribute("email", email);
+      RequestDispatcher dis = request.getRequestDispatcher("customer/homepage_1.jsp");
+      dis.forward(request, response);
+    }
     } 
 
     /** 
@@ -75,7 +95,7 @@ public class AddQuizValidationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        doGet(request, response);
     }
 
     /** 
