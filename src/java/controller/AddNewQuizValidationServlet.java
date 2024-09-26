@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Level;
+import model.Quiz_Type;
 import model.Subject;
 
 /**
@@ -60,8 +61,10 @@ public class AddNewQuizValidationServlet extends HttpServlet {
         QuizDAO dao = new QuizDAO();
         List<Subject> listSubject = dao.getAllSubject();
         List<Level> listLevel = dao.getAllLevel();
+        List<Quiz_Type> listQuiz_Type = dao.getAllQuizType();
         request.setAttribute("listSubject", listSubject);
         request.setAttribute("listLevel", listLevel);
+        request.setAttribute("listQuiz_Type", listQuiz_Type);
         request.getRequestDispatcher("expert/add_quiz.jsp").forward(request, response);
     } 
 
