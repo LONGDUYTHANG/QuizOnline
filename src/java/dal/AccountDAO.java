@@ -47,6 +47,34 @@ public class AccountDAO extends DBContext {
         }
         return myAccount;
     }
+    /**
+     * Check ì there is a account registered by an email
+     * @param email
+     * @return an account
+     */
+    public Account getAccountbyEmail(String email) {
+        PreparedStatement stm;
+        ResultSet rs;
+        Account myAccount = new Account();
+        try {
+            String strSelect = "select * from Account where email like ?  ";
+            stm = connection.prepareStatement(strSelect);
+            stm.setString(1, email);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                myAccount.setAccount_id(rs.getInt("account_id"));
+                myAccount.setFull_name(rs.getString("full_name"));
+                myAccount.setGender(rs.getBoolean("gender"));
+                myAccount.setEmail(rs.getString("email"));
+                myAccount.setMobile(rs.getString("mobile"));
+                myAccount.setAvatar(rs.getString("avatar"));
+                myAccount.setRole_id(rs.getInt("role_id"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return myAccount;
+    }
 
     public Account getAccount(String email) {
         PreparedStatement stm;
