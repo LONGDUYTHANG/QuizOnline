@@ -4,7 +4,6 @@
  */
 package dal;
 
-
 import dal.DBContext;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +93,7 @@ public class DimensionDAO extends DBContext {
                 dimension.setDimension_name(rs.getString("dimension_name"));
 
                 SubjectDAO sDao = new SubjectDAO();
-                
+
                 dimension.setSubject_id(rs.getInt("subject_id"));
 
                 DimensionType dt = getType(rs.getInt("dimension_type_id"));
@@ -179,6 +178,71 @@ public class DimensionDAO extends DBContext {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public List<Dimension> getAllDimension1() {
+        List<Dimension> dimensions = new ArrayList<>();
+        String sql = "SELECT  [dimension_id]\n"
+                + "      ,[dimension_name]\n"
+                + "      ,[dimension_type_id]\n"
+                + "      ,[subject_id]\n"
+                + "  FROM [dbo].[Dimension]";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Dimension dimension = new Dimension();
+                dimension.setDimension_id(rs.getInt("dimension_id"));
+                dimension.setDimension_name(rs.getString("dimension_name"));
+
+                SubjectDAO sDao = new SubjectDAO();
+                Subject subject = sDao.getSubjectByID(rs.getInt("subject_id"));
+
+                dimension.setSubject_id1(subject);
+
+                DimensionDAO dDap = new DimensionDAO();
+                DimensionType dt = dDap.getType(rs.getInt("dimension_type_id"));
+                dimension.setDimension_type_id1(dt);
+
+                dimensions.add(dimension);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return dimensions;
+    }
+
+    public Dimension getDimensionById1(int dimensionId) {
+        Dimension dimension = null; // Initialize the dimension object
+        String sql = "SELECT [dimension_id], [dimension_name], [dimension_type_id], [subject_id] FROM [dbo].[Dimension] WHERE [dimension_id] = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, dimensionId);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                dimension = new Dimension();
+                dimension.setDimension_id(rs.getInt("dimension_id"));
+                dimension.setDimension_name(rs.getString("dimension_name"));
+
+                SubjectDAO sDao = new SubjectDAO();
+                Subject subject = sDao.getSubjectByID(rs.getInt("subject_id"));
+                dimension.setSubject_id1(subject);
+
+                DimensionType dt = getType(rs.getInt("dimension_type_id"));
+                dimension.setDimension_type_id1(dt);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return dimension;
     }
 
 }
