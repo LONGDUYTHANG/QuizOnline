@@ -200,6 +200,8 @@ public class QuizDAO extends DBContext {
         }
         return list;
     }
+    
+    
 
     public static void main(String[] args) {
         QuizDAO dao = new QuizDAO();
