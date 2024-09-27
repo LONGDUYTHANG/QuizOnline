@@ -5,6 +5,7 @@
 
 package controller;
 
+import dal.TokenForgetDAO;
 import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,14 +13,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import model.TokenForgetPassword;
 import model.Account;
+import model.resetService;
 
 /**
  *
  * @author ADMIN
  */
-public class LoginServlet extends HttpServlet {
+public class requestPasswordServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +38,10 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");  
+            out.println("<title>Servlet requestPasswordServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet requestPasswordServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,7 +58,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
     } 
 
     /** 
@@ -69,34 +71,39 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        //Whenever a user login sucessfully create a sesion to caontain his/her account information
-        HttpSession session=request.getSession();
-        String email=request.getParameter("email");
-        String userPass=request.getParameter("userPass");
-        AccountDAO myAccountDAO=new AccountDAO();
-        Account myAccount=myAccountDAO.getAccount(email,userPass);
-        if(myAccount.getRole_id()==myAccountDAO.getRole_Id("none")){
-            String ms="Incorrect username or passwword";
-            request.setAttribute("login_error", ms);
+          AccountDAO myAccountDAO = new AccountDAO();
+        String email = request.getParameter("email");
+        //email co ton tai trong db
+        Account user = myAccountDAO.getAccount(email);
+        if(user == null) {
+            request.setAttribute("request_error", "Email not existed");
             request.getRequestDispatcher("homepage.jsp").forward(request, response);
+            return;
         }
-        else if(myAccount.getRole_id()==myAccountDAO.getRole_Id("customer")){
-            session.setAttribute("user", myAccount);
-            request.getRequestDispatcher("customer/homepage_1.jsp").forward(request, response);
-        }
-        else if(myAccount.getRole_id()==myAccountDAO.getRole_Id("saler")){
-            session.setAttribute("user", myAccount);
-            request.getRequestDispatcher("").forward(request, response);
-        }
-         else if(myAccount.getRole_id()==myAccountDAO.getRole_Id("expert")){
-            session.setAttribute("user", myAccount);
-            request.getRequestDispatcher("").forward(request, response);
-        }
-         else  if(myAccount.getRole_id()==myAccountDAO.getRole_Id("admin")){
-            session.setAttribute("user", myAccount);
-            request.getRequestDispatcher("").forward(request, response);
-        }
+        resetService service = new resetService();
+        String token = service.generateToken();
         
+        String linkReset = "http://localhost:8080/quizonline/resetPassword?token="+token;
+        
+        TokenForgetPassword newTokenForget = new TokenForgetPassword(
+                user.getAccount_id(), false, token, service.expireDateTime());
+        
+        //send link to this email
+        TokenForgetDAO daoToken = new TokenForgetDAO();
+        boolean isInsert = daoToken.insertTokenForget(newTokenForget);
+        if(!isInsert) {
+            request.setAttribute("request_error", "Error in server");
+            request.getRequestDispatcher("homepage.jsp").forward(request, response);
+            return;
+        }
+        boolean isSend = service.sendEmail(email, linkReset, user.getFull_name());
+        if(!isSend) {
+            request.setAttribute("request_error", "Can not send request");
+            request.getRequestDispatcher("homepage.jsp").forward(request, response);
+            return;
+        }
+        request.setAttribute("request_error", "Send request success");
+        request.getRequestDispatcher("homepage.jsp").forward(request, response);
     }
 
     /** 

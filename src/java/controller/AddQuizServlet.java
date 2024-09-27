@@ -92,6 +92,9 @@ public class AddQuizServlet extends HttpServlet {
             request.setAttribute("questionDomain", dao.getAllDimensionByType(2, Integer.parseInt(subject_id)));
         }
         request.getRequestDispatcher("expert/add_quiz.jsp").forward(request, response);
+        
+        
+        //Add New Comment here
     } 
 
     /** 

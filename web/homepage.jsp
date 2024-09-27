@@ -102,6 +102,8 @@
                 <%@include file="login.jsp" %>
                 <!--                                                   register     -->
                 <%@include file="register.jsp" %>
+                <!--request pass-->
+                <%@include file="requestPassword.jsp" %>
 
 
             </header>
@@ -241,7 +243,13 @@
                                                         <a href="subject_details?subject_id=${c.subjectId}" class="btn">Read More</a>
                                                     </div>
                                                     <div class="info-bx text-center" style="padding: 10px;">
-                                                        <h5><a href="subject_details?subject_id=${c.subjectId}" style="color: black">${c.description}</a></h5>
+                                                        <!-- S? d?ng CSS ?? c?t ?o?n text khi quá dài -->
+                                                        <h5>
+                                                            <a href="subject_details?subject_id=${c.subjectId}" 
+                                                               style="color: black; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                                ${c.description}
+                                                            </a>
+                                                        </h5>
                                                         <span>${c.tagline}</span>
                                                     </div>
                                                     <div class="cours-more-info">
@@ -514,18 +522,27 @@
         });
         </script>
         <script>
+            //login
             const openLoginButton = document.getElementById('open-login-popup');
             const closeLoginButton = document.getElementById('close-login-popup');
-            const openRegisterButton = document.getElementById('open-register-popup');
-            const closeRegisterButton = document.getElementById('close-register-popup');
             const loginPopup = document.getElementById('login-popup');
-            const registerPopup = document.getElementById('register-popup');
             const loginError = document.getElementById('login-error');
             const checkLoginError = document.getElementById('check-login-error');
+            //register
+            const openRegisterButton = document.getElementById('open-register-popup');
+            const closeRegisterButton = document.getElementById('close-register-popup');
+            const registerPopup = document.getElementById('register-popup');
             const emailError = document.getElementById('email-error');
             const checkEmailError = document.getElementById('check-email-error');
             const passError = document.getElementById('pass-error');
             const checkPassError = document.getElementById('check-pass-error');
+            //requestPass
+            const openRequestButton = document.getElementById('open-requestPass-popup');
+            const closeRequestButton = document.getElementById('close-requestPass-popup');
+            const RequestPopup = document.getElementById('requestPass-popup');
+            const requestError = document.getElementById('requestPass-error');
+            const checkRequestError = document.getElementById('check-requestPass-error');
+            
 
             openLoginButton.onclick = function () {
                 loginPopup.style.display = 'flex';
@@ -541,6 +558,14 @@
             closeRegisterButton.onclick = function () {
                 registerPopup.style.display = 'none';
             };
+            openRequestButton.onclick = function () {
+                loginPopup.style.display = 'none';
+                RequestPopup.style.display='flex';
+            };
+            closeRequestButton.onclick =function () {
+                loginPopup.style.display = 'flex';
+                RequestPopup.style.display='none';
+            };
             function LoginAgain() {
                 if (checkLoginError.textContent === loginError.textContent) {
                     loginPopup.style.display = 'flex';
@@ -551,6 +576,11 @@
                 if (checkPassError.textContent === passError.textContent) {
                     registerPopup.style.display = 'flex';
                 }
+                if(requestError.textContent==='Send request success'){
+                    RequestPopup.style.display='flex';
+                }
+                console.log(requestError.textContent);
+                
 
             }
 

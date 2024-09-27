@@ -13,7 +13,34 @@ public class Dimension {
     private String dimension_name;
     private int dimension_type_id;
     private int subject_id;
+    
+    private DimensionType dimension_type_id1;
+    private Subject subject_id1;
+    
+     public Dimension(int dimension_id, DimensionType dimension_type_id1, Subject subject_id1, String dimension_name) {
+        this.dimension_id = dimension_id;
+        this.dimension_type_id1 = dimension_type_id1;
+        this.subject_id1 = subject_id1;
+        this.dimension_name = dimension_name;
+    }
+public DimensionType getDimension_type_id1() {
+        return dimension_type_id1;
+    }
 
+    public void setDimension_type_id1(DimensionType dimension_type_id1) {
+        this.dimension_type_id1 = dimension_type_id1;
+    }
+
+    public Subject getSubject_id1() {
+        return subject_id1;
+    }
+
+    public void setSubject_id1(Subject subject_id1) {
+        this.subject_id1 = subject_id1;
+    }
+
+    
+    
     public Dimension() {
     }
 

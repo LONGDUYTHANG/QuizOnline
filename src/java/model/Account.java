@@ -104,5 +104,31 @@ public class Account {
     public void setRole_id(int role_id) {
         this.role_id = role_id;
     }
+    private Role role_id1;
+    private int gender1;
+    public Account(int user_id, String full_name, int gender1, String email, String mobile, String password, Role role_id1, String avatar) {
+        this.account_id = user_id;
+        this.full_name = full_name;
+        this.gender1 = gender1;
+        this.email = email;
+        this.mobile = mobile;
+        this.password = password;
+        this.role_id1 = role_id1;
+        this.avatar = avatar;
+    }
+    public Role getRole_id1() {
+        return role_id1;
+    }
 
+    public void setRole_id1(Role role_id1) {
+        this.role_id1 = role_id1;
+    }
+
+    public int getGender1() {
+        return gender1;
+    }
+
+    public void setGender1(int gender1) {
+        this.gender1 = gender1;
+    }
 }
