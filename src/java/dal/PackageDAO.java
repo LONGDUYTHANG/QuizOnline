@@ -23,6 +23,35 @@ import model.Package;
  */
 public class PackageDAO extends DBContext {
 
+    public List<Package> getAllPackage1() {
+        List<Package> packageList = new ArrayList<>();
+        String sql = "SELECT [package_id], [package_name], [duration], [listPrice], [salePrice], [status], [subject_id] FROM [dbo].[Package]";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                // Create a new Package object for each row in the ResultSet
+                Package pkg = new Package();
+                pkg.setPackage_id(rs.getInt("package_id"));
+                pkg.setPackage_name(rs.getString("package_name"));
+                pkg.setDuration(rs.getInt("duration"));
+                pkg.setListPrice(rs.getDouble("listPrice"));
+                pkg.setSalePrice(rs.getDouble("salePrice"));
+
+                pkg.setStatus(rs.getString("status"));
+
+                SubjectDAO sDao = new SubjectDAO();
+
+                pkg.setSubject_id(sDao.getSubjectByID(rs.getInt("subject_id")));
+
+                packageList.add(pkg);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception for debugging
+        }
+
+        return packageList;
+    }
+
     public List<Package> getAllPackage() {
         List<Package> packageList = new ArrayList<>();
         String sql = "SELECT [package_id], [package_name], [duration], [listPrice], [salePrice], [status], [subject_id] FROM [QuizOnline].[dbo].[Package]";
@@ -77,27 +106,40 @@ public class PackageDAO extends DBContext {
     public static void main(String[] args) {
         // Create an instance of PackageDAO
         PackageDAO packageDAO = new PackageDAO();
-
-        // Sample data for the new package
-        String packageName = "Sample Package";
-        int duration = 30; // Duration in days
-        double listPrice = 100.0; // Original price
-        double salePrice = 80.0; // Sale price
-        int status = 0; // 0 for active, 1 for inactive
-        int subjectId = 6; // Assuming there is a subject with ID 1
-
-        // Call createPackage method
-        boolean isCreated = packageDAO.createPackage(packageName, duration, listPrice, salePrice, status, subjectId);
-
-        // Print the result
-        if (isCreated) {
-            System.out.println("Package created successfully!");
-        } else {
-            System.out.println("Failed to create package.");
+        List<Package> packageList = packageDAO.getAllPackage1();
+        for(Package pp : packageList){
+            System.out.println(pp.getSubject_id().getSubjectId());
         }
 
     }
+ public Package getPricePackageById1(int packageId) {
+        Package pkg = null;
+        String sql = "SELECT [package_id], [package_name], [duration], [listPrice], [salePrice], [status], [subject_id] "
+                + "FROM [dbo].[Package] WHERE [package_id] = ?";
 
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, packageId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    pkg = new Package();
+                    pkg.setPackage_id(rs.getInt("package_id"));
+                    pkg.setPackage_name(rs.getString("package_name"));
+                    pkg.setDuration(rs.getInt("duration"));
+                    pkg.setListPrice(rs.getDouble("listPrice"));
+                    pkg.setSalePrice(rs.getDouble("salePrice"));
+                    pkg.setStatus(rs.getString("status"));
+
+                    SubjectDAO sDao = new SubjectDAO();
+                    pkg.setSubject_id(sDao.getSubjectByID(rs.getInt("subject_id")));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return pkg;
+    }
     public Package getPricePackageById(int packageId) {
         Package pkg = null;
         String sql = "SELECT [package_id], [package_name], [duration], [listPrice], [salePrice], [status], [subject_id] "
@@ -146,19 +188,19 @@ public class PackageDAO extends DBContext {
             return false;
         }
     }
-public boolean deleteById(int id) {
-    String sql = "DELETE FROM [dbo].[Package] WHERE [package_id] = ?";
-    
-    try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-        pstmt.setInt(1, id);
-        
-        int rowsAffected = pstmt.executeUpdate();
-        return rowsAffected > 0; 
-    } catch (Exception e) {
-        e.printStackTrace(); 
-        return false; 
-    }
-}
 
+    public boolean deleteById(int id) {
+        String sql = "DELETE FROM [dbo].[Package] WHERE [package_id] = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
