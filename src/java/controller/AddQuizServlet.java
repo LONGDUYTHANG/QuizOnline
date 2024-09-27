@@ -5,12 +5,15 @@
 
 package controller;
 
+import dal.QuizDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Subject;
 
 /**
  *
@@ -53,6 +56,7 @@ public class AddQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        QuizDAO dao = new QuizDAO();
         PrintWriter out = response.getWriter();
         String name = request.getParameter("name");
         String subject_id = request.getParameter("subject_id");
@@ -63,15 +67,31 @@ public class AddQuizServlet extends HttpServlet {
         String description = request.getParameter("description");
         String totalquestion = request.getParameter("totalquestion");
         String question_type = request.getParameter("question_type");
-        out.println(name);
-        out.println(subject_id);
-        out.println(level_id);
-        out.println(duration);
-        out.println(passrate);
-        out.println(quiztype_id);
-        out.println(description);
-        out.println(totalquestion);
-        out.println(question_type);
+        request.setAttribute("name", name);
+        request.setAttribute("subject_id", Integer.parseInt(subject_id));
+        request.setAttribute("level_id", level_id);
+        request.setAttribute("duration", duration);
+        request.setAttribute("passrate", passrate);
+        request.setAttribute("quiztype_id", quiztype_id);
+        request.setAttribute("description", description);
+        request.setAttribute("totalquestion", totalquestion);
+        
+        request.setAttribute("listSubject", dao.getAllSubject());
+        request.setAttribute("listLevel", dao.getAllLevel());
+        request.setAttribute("listQuiz_Type", dao.getAllQuizType());
+        //Get activeTab
+        String activeTab = request.getParameter("activeTab");
+        request.setAttribute("activeTab", activeTab);
+        if (question_type.equals("topic")) {
+            
+        }
+        else if (question_type.equals("group")) {
+            
+        }
+        else {
+            
+        }
+        request.getRequestDispatcher("expert/add_quiz.jsp").forward(request, response);
     } 
 
     /** 
