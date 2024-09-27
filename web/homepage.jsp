@@ -342,17 +342,17 @@
                                 <!--  thêm danh sách bài post m?i nh?t-->
 
                                 <c:forEach items="${requestScope.post_list}" var="c">
-                                    <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> <!-- Kích th??c c? ??nh -->
+                                    <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> 
                                         <a href="blog_detail?blog_id=${c.blog_id}">
-                                            <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> <!-- Kích th??c hình ?nh -->
+                                            <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> 
                                         </a>
-                                        <div class="ttr-post-info" style="padding: 10px; height: 40%;"> <!-- Thông tin bài vi?t -->
+                                        <div class="ttr-post-info" style="padding: 10px; height: 40%;"> 
                                             <ul class="media-post">
                                                 <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>                                      
                                                 <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
                                             </ul>
                                             <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
-                                            <p style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.blog_summary}</p> <!-- Gi?i h?n chi?u dài bài tóm t?t -->
+                                            <p style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.blog_summary}</p> 
                                         </div>
                                     </div>
                                 </c:forEach>
@@ -378,7 +378,7 @@
                                         <a href="blog_detail?blog_id=${c.blog_id}">
                                             <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> <!-- Kích th??c hình ?nh -->
                                         </a>
-                                        <div class="ttr-post-info" style="padding: 10px; height: 40%;"> <!-- Thông tin bài vi?t -->
+                                        <div class="ttr-post-info" style="padding: 10px; height: 40%;">
                                             <ul class="media-post">
                                                 <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
                                                 <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
