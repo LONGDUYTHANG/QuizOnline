@@ -184,6 +184,8 @@
                                                 <label for="theo-domain">By Domain</label>
                                             </div>
                                         </div>
+                                        <!-- Add button -->
+                                        <button id="add-btn" type="button" class="btn btn-secondary" onclick="addGroup()">Add</button>
                                         <script>
                                             function submitForm() {
                                                 document.getElementById("quiz").submit();
@@ -195,25 +197,86 @@
                                         <!-- Group Selection 1 -->
                                         <div class="form-group d-flex align-items-center mb-3">
                                             <label for="group-selection" class="me-3">Group Selection</label>
-                                            <select id="group-selection" name="group_selection" class="form-select me-2">
-                                                <option value="" disabled selected>Group</option>
-                                                <!-- Add group options dynamically -->
-                                            </select>
+                                            <c:choose>
+                                                <c:when test="${requestScope.questionTopic != null}">
+                                                    <select id="group-selection" name="group_selection" class="form-select me-2">
+                                                        <c:forEach var="lesson_topic" items="${requestScope.questionTopic}">
+                                                            <option value="${lesson_topic.lesson_topic_id}"> 
+                                                                ${lesson_topic.lesson_topic_name}
+                                                            </option>
+                                                        </c:forEach>
+                                                        <!-- Add group options dynamically -->
+                                                    </select>
+                                                </c:when>
+                                                <c:when test="${requestScope.questionGroup != null}">
+                                                    <select id="group-selection" name="group_selection" class="form-select me-2">
+                                                        <c:forEach var="dimension" items="${requestScope.questionGroup}">
+                                                            <option value="${dimension.dimension_id}"> 
+                                                                ${dimension.dimension_name}
+                                                            </option>
+                                                        </c:forEach>
+                                                        <!-- Add group options dynamically -->
+                                                    </select>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <select id="group-selection" name="group_selection" class="form-select me-2">
+                                                        <c:forEach var="dimension" items="${requestScope.questionDomain}">
+                                                            <option value="${dimension.dimension_id}"> 
+                                                                ${dimension.dimension_name}
+                                                            </option>
+                                                        </c:forEach>
+                                                        <!-- Add group options dynamically -->
+                                                    </select>
+                                                </c:otherwise>
+                                            </c:choose>
                                             <input type="number" class="form-control me-2" name="number_of_questions" placeholder="Questions" style="width: 100px;">
                                             <button type="button" class="btn btn-secondary">Delete</button>
                                         </div>
+                                        <script>
+                                            // Function to add a new group selection div dynamically
+                                            function addGroup() {
+                                                // The div structure to be cloned and added
+                                                var groupDiv = `
+            <div class="form-group d-flex align-items-center mb-3">
+                <label for="group-selection" class="me-3">Group Selection</label>
+                <select id="group-selection" name="group_selection" class="form-select me-2">
+                                            <c:choose>
+                                                <c:when test="${requestScope.questionTopic != null}">
+                                                    <c:forEach var="lesson_topic" items="${requestScope.questionTopic}">
+                                <option value="${lesson_topic.lesson_topic_id}"> 
+                                                        ${lesson_topic.lesson_topic_name}
+                                </option>
+                                                    </c:forEach>
+                                                </c:when>
+                                                <c:when test="${requestScope.questionGroup != null}">
+                                                    <c:forEach var="dimension" items="${requestScope.questionGroup}">
+                                <option value="${dimension.dimension_id}"> 
+                                                        ${dimension.dimension_name}
+                                </option>
+                                                    </c:forEach>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:forEach var="dimension" items="${requestScope.questionDomain}">
+                                <option value="${dimension.dimension_id}"> 
+                                                        ${dimension.dimension_name}
+                                </option>
+                                                    </c:forEach>
+                                                </c:otherwise>
+                                            </c:choose>
+                </select>
+                <input type="number" class="form-control me-2" name="number_of_questions" placeholder="Questions" style="width: 100px;">
+                <button type="button" class="btn btn-secondary" onclick="this.parentElement.remove()">Delete</button>
+            </div>
+        `;
 
+                                                // Create a new div element to contain the groupDiv
+                                                var newDiv = document.createElement('div');
+                                                newDiv.innerHTML = groupDiv;
 
-                                        <div class="form-group d-flex align-items-center mb-3">
-                                            <label for="group-selection" class="me-3">Group Selection</label>
-                                            <select id="group-selection" name="group_selection" class="form-select me-2">
-                                                <option value="" disabled selected>Group</option>
-                                                <!-- Add group options dynamically -->
-                                            </select>
-                                            <input type="number" class="form-control me-2" name="number_of_questions" placeholder="Questions" style="width: 100px;">
-                                            <button type="button" class="btn btn-secondary">Delete</button>
-                                        </div>
-
+                                                // Append the new div to the form or desired location
+                                                document.getElementById("quiz").appendChild(newDiv);
+                                            }
+                                        </script>
                                     </div>
                                 </div>
                             </div>

@@ -83,13 +83,13 @@ public class AddQuizServlet extends HttpServlet {
         String activeTab = request.getParameter("activeTab");
         request.setAttribute("activeTab", activeTab);
         if (question_type.equals("topic")) {
-            
+            request.setAttribute("questionTopic", dao.getAllLessonTopicBySubjectId(Integer.parseInt(subject_id)));
         }
         else if (question_type.equals("group")) {
-            
+            request.setAttribute("questionGroup", dao.getAllDimensionByType(1, Integer.parseInt(subject_id)));
         }
         else {
-            
+            request.setAttribute("questionDomain", dao.getAllDimensionByType(2, Integer.parseInt(subject_id)));
         }
         request.getRequestDispatcher("expert/add_quiz.jsp").forward(request, response);
     } 

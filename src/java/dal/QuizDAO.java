@@ -176,34 +176,36 @@ public class QuizDAO extends DBContext {
         return list;
     }
     
-//    public List<Dimension> getAllDimensionByType(int dimension_type_id) {
-//        List<Lesson_Topic> list = new ArrayList<>();
-//        String sql = "SELECT * \n"
-//                + "FROM Dimension_Type \n"
-//                + "JOIN Dimension \n"
-//                + "ON Dimension_Type.dimension_type_id = Dimension.dimension_type_id\n"
-//                + "WHERE Dimension_Type.dimension_type_name = 'Group';";
-//        try {
-//            PreparedStatement st = connection.prepareStatement(sql);
-//            st.setInt(1, subject_id_raw);
-//            ResultSet rs = st.executeQuery();
-//            while (rs.next()) {
-//                int lesson_topic_id = rs.getInt("lesson_topic_id");
-//                String lesson_topic_name = rs.getString("lesson_topic_name");
-//                int subject_id = rs.getInt("subject_id");
-//                list.add(new Lesson_Topic(lesson_topic_id, lesson_topic_name, subject_id));
-//            }
-//        } catch (SQLException ex) {
-//            System.out.println(ex);
-//        }
-//        return list;
-//    }
+    public List<Dimension> getAllDimensionByType(int dimension_type_id_raw, int subject_id_raw) {
+        List<Dimension> list = new ArrayList<>();
+        String sql = "SELECT dimension_id, dimension_name, Dimension.dimension_type_id, subject_id\n"
+                + "                FROM Dimension\n"
+                + "                JOIN Dimension_Type\n"
+                + "                ON Dimension_Type.dimension_type_id = Dimension.dimension_type_id\n"
+                + "                WHERE Dimension_Type.dimension_type_id = ? AND subject_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, dimension_type_id_raw);
+            st.setInt(2, subject_id_raw);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int dimension_id = rs.getInt("dimension_id");
+                String dimension_name = rs.getString("dimension_name");
+                int dimension_type_id = rs.getInt("dimension_type_id");
+                int subject_id = rs.getInt("subject_id");
+                list.add(new Dimension(dimension_id, dimension_name, dimension_type_id, subject_id));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
         QuizDAO dao = new QuizDAO();
-        List<Lesson_Topic> list = dao.getAllLessonTopicBySubjectId(1);
-        for (Lesson_Topic lesson_Topic : list) {
-            System.out.println(lesson_Topic);
+        List<Dimension> list = dao.getAllDimensionByType(2, 1);
+        for (Dimension dimension : list) {
+            System.out.println(dimension);
         }
     }
 }
