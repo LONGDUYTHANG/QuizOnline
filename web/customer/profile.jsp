@@ -192,7 +192,7 @@
 
                                                                 </div>
 
-                                                                <p>0</p>
+                                                                <p>${sessionScope.finished_quiz}</p>
 
                                                             </div>
                                                             <div class="col-md-5 dashboard_attribute" style="margin-top: 30px">
