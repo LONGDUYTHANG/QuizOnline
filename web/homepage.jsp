@@ -241,7 +241,13 @@
                                                         <a href="subject_details?subject_id=${c.subjectId}" class="btn">Read More</a>
                                                     </div>
                                                     <div class="info-bx text-center" style="padding: 10px;">
-                                                        <h5><a href="subject_details?subject_id=${c.subjectId}" style="color: black">${c.description}</a></h5>
+                                                        <!-- S? d?ng CSS ?? c?t ?o?n text khi quá dài -->
+                                                        <h5>
+                                                            <a href="subject_details?subject_id=${c.subjectId}" 
+                                                               style="color: black; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                                ${c.description}
+                                                            </a>
+                                                        </h5>
                                                         <span>${c.tagline}</span>
                                                     </div>
                                                     <div class="cours-more-info">
