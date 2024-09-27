@@ -296,7 +296,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-12 col-sm-3 col-md-3 col-lg-2 col-form-label">Full Name</label>
                                                             <div class="col-12 col-sm-9 col-md-9 col-lg-7">
-                                                                <input class="form-control" type="text" value="${acc.full_name}" name="fullname">
+                                                                <input class="form-control" type="text" value="${acc.full_name}" name="fullname" required/>
                                                                 <%-- 
                                                                 private String fullName, email, avatar, password, mobile, gender;
                                                                 private int roleId;
@@ -306,14 +306,14 @@
                                                         <div class="form-group row">
                                                             <label class="col-12 col-sm-3 col-md-3 col-lg-2 col-form-label">Gender</label>
                                                             <div class="col-12 col-sm-9 col-md-9 col-lg-7" style="display: flex; align-items: center">
-                                                                <input type="radio" name="gender" value="Male" ${acc.gender ? 'checked':''}/>&nbsp;Male 
-                                                                <input style="margin-left: 50px" type="radio" name="gender" value="Female" ${acc.gender ? '':'checked'}/>&nbsp;Female
+                                                                <input type="radio" name="gender" value="Male" ${acc.gender ? 'checked':''} required=""/>&nbsp;Male 
+                                                                <input style="margin-left: 50px" type="radio" name="gender" value="Female" ${acc.gender ? '':'checked'} required/>&nbsp;Female
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <label class="col-12 col-sm-3 col-md-3 col-lg-2 col-form-label">Phone No.</label>
                                                             <div class="col-12 col-sm-9 col-md-9 col-lg-7" >
-                                                                <input class="form-control" type="text" value="${acc.mobile}" name="mobile" id="mobile">
+                                                                <input class="form-control" type="text" value="${acc.mobile}" name="mobile" id="mobile" required>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">

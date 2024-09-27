@@ -30,6 +30,15 @@ public class Account {
         this.mobile = mobile;
     }
 
+    public Account(int account_id, String full_name, boolean gender, String mobile) {
+        this.account_id = account_id;
+        this.full_name = full_name;
+        this.gender = gender;
+        this.mobile = mobile;
+    }
+    
+    
+
     public Account(int account_id, String full_name, boolean gender, String email, String mobile, String password, String avatar, int role_id) {
         this.account_id = account_id;
         this.full_name = full_name;

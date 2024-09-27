@@ -219,16 +219,14 @@ public class AccountDAO extends DBContext {
         String sql = "UPDATE [dbo].[Account]\n"
                 + "   SET [full_name] = ?\n"
                 + "      ,[gender] = ?\n"
-                + "      ,[email] = ?\n"
                 + "      ,[mobile] = ?\n"
                 + " WHERE account_id = ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, a.getFull_name());
             pstmt.setInt(2, a.isGender() ? 1 : 0);
-            pstmt.setString(3, a.getEmail());
-            pstmt.setString(4, a.getMobile());
-            pstmt.setInt(5, a.getAccount_id());
+            pstmt.setString(3, a.getMobile());
+            pstmt.setInt(4, a.getAccount_id());
             pstmt.executeUpdate();
 
         } catch (SQLException e) {

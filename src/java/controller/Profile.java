@@ -104,15 +104,8 @@ public class Profile extends HttpServlet {
         if (fullName != null) {
             String gender = request.getParameter("gender");
             String mobile = request.getParameter("mobile");
-            String email = request.getParameter("email");
-            if (ad.getAccount(email) != null && !email.equalsIgnoreCase(ac.getEmail())) {
-                request.setAttribute("erru", "Email is already exist");
-                request.getRequestDispatcher("customer/profile.jsp").forward(request, response);
-                return;
-                
-            }
             request.setAttribute("updatesc", "Update success");
-            Account uAcc = new Account(ac.getAccount_id(), fullName, "Male".equalsIgnoreCase(gender), email, mobile);
+            Account uAcc = new Account(ac.getAccount_id(), fullName, "Male".equalsIgnoreCase(gender), mobile);
             ad.updateProfile(uAcc);
         } else {
             ad.updatePassword(newPass, ac);
