@@ -81,7 +81,7 @@ public class SubjectDetailsController extends HttpServlet {
         List<SubjectCategory> listCategory = cDao.getAllCategory();
         request.setAttribute("listCategory", listCategory);
 
-        request.getRequestDispatcher("subject/subjectDetail.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/subjectDetail.jsp").forward(request, response);
     }
 
     /**
