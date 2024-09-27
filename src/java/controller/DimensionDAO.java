@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dal;
+package controller;
 
 import dal.DBContext;
+import dal.SubjectDAO;
 import java.util.ArrayList;
 import java.util.List;
 import model.SubjectCategory;
@@ -19,6 +20,42 @@ import model.Subject;
  * @author trung
  */
 public class DimensionDAO extends DBContext {
+
+    public List<Dimension> getAllDimension1() {
+        List<Dimension> dimensions = new ArrayList<>();
+        String sql = "SELECT  [dimension_id]\n"
+                + "      ,[dimension_name]\n"
+                + "      ,[dimension_type_id]\n"
+                + "      ,[subject_id]\n"
+                + "  FROM [dbo].[Dimension]";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Dimension dimension = new Dimension();
+                dimension.setDimension_id(rs.getInt("dimension_id"));
+                dimension.setDimension_name(rs.getString("dimension_name"));
+
+                SubjectDAO sDao = new SubjectDAO();
+                Subject subject = sDao.getSubjectByID(rs.getInt("subject_id"));
+
+                dimension.setSubject_id1(subject);
+
+                DimensionDAO dDap = new DimensionDAO();
+                DimensionType dt = dDap.getType(rs.getInt("dimension_type_id"));
+                dimension.setDimension_type_id1(dt);
+
+                dimensions.add(dimension);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return dimensions;
+    }
 
     public List<Dimension> getAllDimension() {
         List<Dimension> dimensions = new ArrayList<>();
@@ -56,6 +93,8 @@ public class DimensionDAO extends DBContext {
         return dimensions;
     }
 
+    
+    
     public DimensionType getType(int dimensionTypeId) {
         String sql = "SELECT * FROM Dimension_Type WHERE dimension_type_id = ?";
         DimensionType dimensionType = null;
@@ -98,6 +137,37 @@ public class DimensionDAO extends DBContext {
 
                 DimensionType dt = getType(rs.getInt("dimension_type_id"));
                 dimension.setDimension_type_id(rs.getInt("dimension_type_id"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return dimension;
+    }
+    
+    
+    
+      public Dimension getDimensionById1(int dimensionId) {
+        Dimension dimension = null; // Initialize the dimension object
+        String sql = "SELECT [dimension_id], [dimension_name], [dimension_type_id], [subject_id] FROM [dbo].[Dimension] WHERE [dimension_id] = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, dimensionId);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                dimension = new Dimension();
+                dimension.setDimension_id(rs.getInt("dimension_id"));
+                dimension.setDimension_name(rs.getString("dimension_name"));
+
+                SubjectDAO sDao = new SubjectDAO();
+                Subject subject = sDao.getSubjectByID(rs.getInt("subject_id"));
+                dimension.setSubject_id1(subject);
+
+                DimensionType dt = getType(rs.getInt("dimension_type_id"));
+                dimension.setDimension_type_id1(dt);
             }
 
         } catch (Exception e) {
@@ -180,69 +250,15 @@ public class DimensionDAO extends DBContext {
         return false;
     }
 
-    public List<Dimension> getAllDimension1() {
-        List<Dimension> dimensions = new ArrayList<>();
-        String sql = "SELECT  [dimension_id]\n"
-                + "      ,[dimension_name]\n"
-                + "      ,[dimension_type_id]\n"
-                + "      ,[subject_id]\n"
-                + "  FROM [dbo].[Dimension]";
+    public static void main(String[] args) {
+        DimensionDAO dimensionDAO = new DimensionDAO();
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Dimension dimension = new Dimension();
-                dimension.setDimension_id(rs.getInt("dimension_id"));
-                dimension.setDimension_name(rs.getString("dimension_name"));
-
-                SubjectDAO sDao = new SubjectDAO();
-                Subject subject = sDao.getSubjectByID(rs.getInt("subject_id"));
-
-                dimension.setSubject_id1(subject);
-
-                DimensionDAO dDap = new DimensionDAO();
-                DimensionType dt = dDap.getType(rs.getInt("dimension_type_id"));
-                dimension.setDimension_type_id1(dt);
-
-                dimensions.add(dimension);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+         System.out.println("\nGet Dimension by ID (ID = 1):");
+        Dimension dimensionById = dimensionDAO.getDimensionById1(1009);
+        if (dimensionById != null) {
+            System.out.println("ID: " + dimensionById.getDimension_type_id1().getDimension_type_name()+ ", Name: " + dimensionById.getDimension_name());
+        } else {
+            System.out.println("Dimension not found.");
         }
-
-        return dimensions;
     }
-
-    public Dimension getDimensionById1(int dimensionId) {
-        Dimension dimension = null; // Initialize the dimension object
-        String sql = "SELECT [dimension_id], [dimension_name], [dimension_type_id], [subject_id] FROM [dbo].[Dimension] WHERE [dimension_id] = ?";
-
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, dimensionId);
-
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                dimension = new Dimension();
-                dimension.setDimension_id(rs.getInt("dimension_id"));
-                dimension.setDimension_name(rs.getString("dimension_name"));
-
-                SubjectDAO sDao = new SubjectDAO();
-                Subject subject = sDao.getSubjectByID(rs.getInt("subject_id"));
-                dimension.setSubject_id1(subject);
-
-                DimensionType dt = getType(rs.getInt("dimension_type_id"));
-                dimension.setDimension_type_id1(dt);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return dimension;
-    }
-
 }

@@ -64,18 +64,18 @@ public class PricePackage extends HttpServlet {
             throws ServletException, IOException {
 
         PackageDAO pDao = new PackageDAO();
-        List<Package> listAllPackage = pDao.getAllPackage();
+        List<Package> listAllPackage = pDao.getAllPackage1();
         request.setAttribute("listAllPackage", listAllPackage);
 
         SubjectDAO sDao = new SubjectDAO();
-        List<Subject> listSubject = sDao.getAllSubject();
+        List<Subject> listSubject = sDao.getAllSubject1();
         request.setAttribute("listSubject", listSubject);
 
         String action = request.getParameter("action");
         if (action != null) {
             if (action.equalsIgnoreCase("edit")) {
                 PackageDAO pdao = new PackageDAO();
-                Package pricePackage = pDao.getPricePackageById(Integer.parseInt(request.getParameter("id")));
+                Package pricePackage = pDao.getPricePackageById1(Integer.parseInt(request.getParameter("id")));
                 request.setAttribute("pricePackage", pricePackage);
                 request.setAttribute("action", "edit");
             }
