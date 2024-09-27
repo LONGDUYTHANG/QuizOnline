@@ -77,7 +77,7 @@ public class LoginServlet extends HttpServlet {
         Account myAccount=myAccountDAO.getAccount(email,userPass);
         if(myAccount.getRole_id()==myAccountDAO.getRole_Id("none")){
             String ms="Incorrect username or passwword";
-            request.setAttribute("message", ms);
+            request.setAttribute("login_error", ms);
             request.getRequestDispatcher("homepage.jsp").forward(request, response);
         }
         else if(myAccount.getRole_id()==myAccountDAO.getRole_Id("customer")){
