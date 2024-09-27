@@ -66,7 +66,7 @@ public class DimensionController extends HttpServlet {
 
         // 
         DimensionDAO dDao = new DimensionDAO();
-        List<Dimension> listD = dDao.getAllDimension();
+        List<Dimension> listD = dDao.getAllDimension1();
         request.setAttribute("listD", listD);
 
         String action = request.getParameter("action");
@@ -83,7 +83,7 @@ public class DimensionController extends HttpServlet {
             if (action.equalsIgnoreCase("edit")) {
 
                 int dimensionId = Integer.parseInt(request.getParameter("id"));
-                Dimension dimension = dDao.getDimensionById(dimensionId);
+                Dimension dimension = dDao.getDimensionById1(dimensionId);
                 request.setAttribute("dimension", dimension);
                 request.setAttribute("action", "edit");
 
