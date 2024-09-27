@@ -171,45 +171,45 @@
                         <h1>FPT University</h1>
                         <button class="btn btn-warning" type="submit" onclick="submitForm()">Save</button>
                     </div>
-                    
+
                     <!-- Submit the form when clicking on Save button -->
                     <script>
                         function submitForm() {
-            const requiredFields = [
-                document.getElementById('subject'),
-                document.getElementById('dimension'),
-                document.getElementById('lesson'),
-                document.getElementById('level'),
-                document.getElementById('status'),
-                document.getElementById('content'),
-                document.getElementById('explanation'),
-                document.getElementById('answer')
-            ];
+                            const requiredFields = [
+                                document.getElementById('subject'),
+                                document.getElementById('dimension'),
+                                document.getElementById('lesson'),
+                                document.getElementById('level'),
+                                document.getElementById('status'),
+                                document.getElementById('content'),
+                                document.getElementById('explanation'),
+                                document.getElementById('answer')
+                            ];
 
-            // Check if all required fields are filled
-            for (let field of requiredFields) {
-                if (!field.value.trim()) {
-                    alert('Please fill in all required fields.');
-                    field.focus(); // Focus on the first empty field
-                    return; // Stop form submission
-                }
-            }
+                            // Check if all required fields are filled
+                            for (let field of requiredFields) {
+                                if (!field.value.trim()) {
+                                    alert('Please fill in all required fields.');
+                                    field.focus(); // Focus on the first empty field
+                                    return; // Stop form submission
+                                }
+                            }
 
-            // Confirm before submission
-            if (confirm('Do you want to add new Question?')) {
-                document.getElementById('questiondetail').submit();
-            }
-        }
+                            // Confirm before submission
+                            if (confirm('Do you want to add new Question?')) {
+                                document.getElementById('questiondetail').submit();
+                            }
+                        }
                     </script>
-                    
+
 
                     <!-- Question Details Section -->
                     <form id="questiondetail" action="addquestion" method="post">
                         <div class="container">
                             <div class="question-details">
-                                
+
                                 <h2>Question details</h2>
-                                
+
                                 <!-- Subject drop down -->
                                 <div class="form-group">
                                     <label for="subject">Subject</label>
@@ -233,7 +233,7 @@
                                         form.submit(); // Submit the form
                                     });
                                 </script>
-                                
+
                                 <!-- Dimension drop down -->
                                 <div class="form-group">
                                     <label for="dimension">Dimension</label>
@@ -245,7 +245,7 @@
                                         </c:forEach>
                                     </select>
                                 </div>
-                                
+
                                 <!-- Lesson drop down -->
                                 <div class="form-group">
                                     <label for="lesson">Lesson</label>
@@ -257,7 +257,7 @@
                                         </c:forEach>
                                     </select>
                                 </div>
-                                
+
                                 <!-- Level drop down -->
                                 <div class="form-group">
                                     <label for="level">Level</label>
@@ -270,7 +270,7 @@
                                         </c:forEach>
                                     </select>
                                 </div>
-                                
+
                                 <!-- Status drop down -->
                                 <div class="form-group">
                                     <label for="status">Status</label>
@@ -280,19 +280,19 @@
                                         <option value="0" ${q.getStatus() != 1 ? 'selected' : ''}>Inactive</option>
                                     </select>
                                 </div>
-                                    
+
                                 <!-- Question Content -->
                                 <div class="form-group">
                                     <label for="content">Content</label>
                                     <textarea id="content" name="content" placeholder="Enter content" required></textarea>
                                 </div>
-                                
+
                                 <!-- Explanation -->
                                 <div class="form-group">
                                     <label for="explanation">Explanation</label>
                                     <textarea id="explanation" name="explanation" placeholder="Enter your explanation" required></textarea>
                                 </div>
-                                
+
                                 <!-- File Upload -->
                                 <div class="form-group">
                                     <label for="file-upload">Enter link or upload file</label>
@@ -319,13 +319,13 @@
                                     <!-- Check mark icon and input -->
                                     <span class="correct-icon" style="display:none;">✔️</span>
                                     <input type="hidden" name="is_correct" class="is-correct" value="false">
-                                    
+
                                     <!-- Answer content -->
                                     <input style="margin-bottom: 5px" type="text" id="answer" name="answer" required>
                                     <button type="button" class="btn btn-danger" onclick="deleteAnswer(this)">Delete</button>
                                     <button type="button" class="btn btn-success" onclick="markAsCorrect(this)">Mark as correct</button>
                                 </div>
-                                
+
                                 <!-- Handle Check Mark -->
                                 <script>
                                     function markAsCorrect(button) {
@@ -359,7 +359,7 @@
                                         document.querySelector('.answer-details').appendChild(newFormGroup);
                                     });
                                 </script>
-                                
+
                                 <!-- Delete Answer each time user click on delete button -->
                                 <script>
                                     function deleteAnswer(button) {

@@ -99,6 +99,8 @@
                 <main class="content">
                     <div class="container">
                         <form action="addquiz" method="get" id="quiz">
+                            <!-- Send the value of the active tab -->
+                            <input type="hidden" id="activeTab" name="activeTab" value="${requestScope.activeTab != null ? requestScope.activeTab : 'overview'}">
                             <div class="tab">
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item">
@@ -115,13 +117,14 @@
 
                                         <div class="form-group">
                                             <label for="name">Name</label>
-                                            <input type="text" id="name" name="name" placeholder="Enter exam name" required>
+                                            <input type="text" id="name" name="name" placeholder="Enter exam name" value="${requestScope.name}" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="subject">Subject</label>
                                             <select id="subject" name="subject_id" required>
                                                 <c:forEach var="subject" items="${requestScope.listSubject}">
-                                                    <option value="${subject.subjectId}">
+                                                    <option value="${subject.subjectId}" 
+                                                            ${subject.subjectId == requestScope.subject_id ? 'selected' : ''}>
                                                         ${subject.subjectName}
                                                     </option>
                                                 </c:forEach>
@@ -131,7 +134,7 @@
                                             <label for="level">Exam Level</label>
                                             <select id="level" name="level_id" required>
                                                 <c:forEach var="level" items="${requestScope.listLevel}">
-                                                    <option value="${level.level_id}"}> 
+                                                    <option value="${level.level_id}"} ${level.level_id == requestScope.level_id ? 'selected' : ''}> 
                                                         ${level.level_name}
                                                     </option>
                                                 </c:forEach>
@@ -139,17 +142,17 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="duration">Duration (minutes)</label>
-                                            <input type="number" id="duration" name="duration" value="50">
+                                            <input type="number" id="duration" name="duration" value="${requestScope.duration != null ? requestScope.duration : 50}">
                                         </div>
                                         <div class="form-group">
                                             <label for="pass-rate">Pass Rate (%)</label>
-                                            <input type="number" id="pass-rate" name="passrate" value="50">
+                                            <input type="number" id="pass-rate" name="passrate" value="${requestScope.passrate != null ? requestScope.passrate : 50}">
                                         </div>
                                         <div class="form-group">
                                             <label for="quiz-type">Quiz Type</label>
                                             <select id="quiz-type" name="quiztype_id">
                                                 <c:forEach var="quiztype" items="${requestScope.listQuiz_Type}">
-                                                    <option value="${quiztype.quiz_type_id}"> 
+                                                    <option value="${quiztype.quiz_type_id}" ${quiztype.quiz_type_id == requestScope.quiztype_id ? 'selected' : ''}> 
                                                         ${quiztype.quiz_type_name}
                                                     </option>
                                                 </c:forEach>
@@ -157,7 +160,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="description">Description</label>
-                                            <textarea id="description" name="description" placeholder="Enter description" required=""></textarea>
+                                            <textarea id="description" name="description" placeholder="Enter description" required>${requestScope.description}</textarea>
                                         </div>
                                         <button type="submit" class="btn">Submit</button>
                                         <button type="button" class="btn btn-secondary">Back</button>
@@ -168,7 +171,7 @@
                                         <h4>Settings</h4>
                                         <div class="form-group">
                                             <label for="total-questions">Total Number of Questions</label>
-                                            <input type="number" id="total-questions" name="totalquestion" value="50">
+                                            <input type="number" id="total-questions" name="totalquestion" value="${requestScope.totalquestion != null ? requestScope.totalquestion : 50}">
                                         </div>
                                         <div class="form-group">
                                             <label for="question-type">Question Type</label>
@@ -200,7 +203,7 @@
                                             <button type="button" class="btn btn-secondary">Delete</button>
                                         </div>
 
-                                        
+
                                         <div class="form-group d-flex align-items-center mb-3">
                                             <label for="group-selection" class="me-3">Group Selection</label>
                                             <select id="group-selection" name="group_selection" class="form-select me-2">
@@ -218,7 +221,33 @@
                     </div>
 
                 </main>
+                <!-- Script to handle active tab -->
+                <script>
+                    // Set the active tab before form submission
+                    document.querySelectorAll('.nav-link').forEach(tab => {
+                        tab.addEventListener('click', function () {
+                            document.getElementById('activeTab').value = this.getAttribute('href').substring(1);  // Set the active tab id
+                        });
+                    });
 
+                    // When the page loads, activate the correct tab and tab content
+                    document.addEventListener("DOMContentLoaded", function () {
+                        var activeTab = "${requestScope.activeTab}";
+                        if (activeTab) {
+                            // Activate the correct tab link
+                            var tabElement = document.querySelector('a[href="#' + activeTab + '"]');
+                            if (tabElement) {
+                                // Remove 'active' class from previously active tabs
+                                document.querySelectorAll('.nav-link').forEach(tab => tab.classList.remove('active'));
+                                document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active', 'show'));
+
+                                // Add 'active' class to the clicked tab and show the corresponding tab pane
+                                tabElement.classList.add('active');
+                                document.querySelector('#' + activeTab).classList.add('active', 'show');
+                            }
+                        }
+                    });
+                </script>
                 <jsp:include page="footer.jsp" />
             </div>
         </div>
