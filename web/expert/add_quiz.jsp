@@ -98,7 +98,7 @@
 
                 <main class="content">
                     <div class="container">
-                        <form action="addquiz" method="get" id="quiz">
+                        <form action="addquiz" method="post" id="quiz">
                             <!-- Send the value of the active tab -->
                             <input type="hidden" id="activeTab" name="activeTab" value="${requestScope.activeTab != null ? requestScope.activeTab : 'overview'}">
                             <div class="tab">
@@ -176,11 +176,11 @@
                                         <div class="form-group">
                                             <label for="question-type">Question Type</label>
                                             <div class="form-inline">
-                                                <input type="radio" id="theo-topic" name="question_type" value="topic" onchange="submitForm()">
+                                                <input type="radio" id="theo-topic" name="question_type" value="topic" onchange="submitForm()" ${requestScope.question_type == "topic" ? 'checked' : ''}>
                                                 <label for="theo-topic">By Topic</label>
-                                                <input type="radio" id="theo-group" name="question_type" value="group" onchange="submitForm()">
+                                                <input type="radio" id="theo-group" name="question_type" value="group" onchange="submitForm()" ${requestScope.question_type == "group" ? 'checked' : ''}>
                                                 <label for="theo-group">By Group</label>
-                                                <input type="radio" id="theo-domain" name="question_type" value="domain" onchange="submitForm()">
+                                                <input type="radio" id="theo-domain" name="question_type" value="domain" onchange="submitForm() ${requestScope.question_type == "domain" ? 'checked' : ''}">
                                                 <label for="theo-domain">By Domain</label>
                                             </div>
                                         </div>
@@ -188,7 +188,9 @@
                                         <button id="add-btn" type="button" class="btn btn-secondary" onclick="addGroup()">Add</button>
                                         <script>
                                             function submitForm() {
-                                                document.getElementById("quiz").submit();
+                                                var form = document.getElementById("quiz");
+                                                form.method = 'get';
+                                                form.submit();
                                             }
                                         </script>
                                         Choose Questions by Group
@@ -237,8 +239,8 @@
                                             function addGroup() {
                                                 // The div structure to be cloned and added
                                                 var groupDiv = `
-            <div class="form-group d-flex align-items-center mb-3">
-                <label for="group-selection" class="me-3">Group Selection</label>
+                                                <div class="form-group d-flex align-items-center mb-3">
+                                                <label for="group-selection" class="me-3">Group Selection</label>
                 <select id="group-selection" name="group_selection" class="form-select me-2">
                                             <c:choose>
                                                 <c:when test="${requestScope.questionTopic != null}">
@@ -274,7 +276,7 @@
                                                 newDiv.innerHTML = groupDiv;
 
                                                 // Append the new div to the form or desired location
-                                                document.getElementById("quiz").appendChild(newDiv);
+                                                document.getElementById("setting").appendChild(newDiv);
                                             }
                                         </script>
                                     </div>
