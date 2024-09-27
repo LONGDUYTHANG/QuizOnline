@@ -17,10 +17,7 @@ import java.util.List;
 import model.Package;
 import model.Subject;
 
-/**
- *
- * @author trung
- */
+
 @WebServlet(name = "PricePackage", urlPatterns = {"/price-package"})
 public class PricePackage extends HttpServlet {
 
@@ -81,7 +78,7 @@ public class PricePackage extends HttpServlet {
             }
         }
 
-        request.getRequestDispatcher("subject/pricePackage.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/pricePackage.jsp").forward(request, response);
     }
 
     /**

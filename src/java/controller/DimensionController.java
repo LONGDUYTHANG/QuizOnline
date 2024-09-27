@@ -94,7 +94,7 @@ public class DimensionController extends HttpServlet {
 
         }
 
-        request.getRequestDispatcher("subject/dimension.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/dimension.jsp").forward(request, response);
     }
 
     /**
