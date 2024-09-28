@@ -122,7 +122,7 @@ public class Question_Detail_Validation_Controller extends HttpServlet {
             System.out.println(ex);
         }
         
-        //request.getRequestDispatcher("expert/question_detail.jsp").forward(request, response);
+        request.getRequestDispatcher("expert/question_detail.jsp").forward(request, response);
     }
 
     /** 
