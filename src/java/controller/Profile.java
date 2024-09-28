@@ -7,6 +7,7 @@ package controller;
 
 import dal.AccountDAO;
 import dal.PostDAO;
+import dal.QuizDAO;
 import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -71,10 +72,13 @@ public class Profile extends HttpServlet {
         session.setAttribute("user", ac);
         SubjectDAO sd = new SubjectDAO();
         PostDAO pd = new PostDAO();
+        QuizDAO qd = new QuizDAO();
+        int quizDone = qd.countFinishedQuiz(ac);
         int enrolledSubject = sd.countEnrolledSubject(ac);
         int numberBlogs = pd.countCreatedBlogs(ac);
         session.setAttribute("enrolled_subject", enrolledSubject);
         session.setAttribute("created_blog", numberBlogs);
+        session.setAttribute("finished_quiz", quizDone);
         List<RegisteredSubject> listSubject = sd.getEnrolledSubjectRecently(ac);
         //PrintWriter out = response.getWriter();
         //out.print(listSubject);

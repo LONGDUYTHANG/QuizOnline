@@ -9,10 +9,16 @@ import dal.QuestionDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
+import model.Account;
 import model.Dimension;
 import model.Lesson_Topic;
 import model.Level;
@@ -22,6 +28,7 @@ import model.Subject;
  *
  * @author FPT SHOP
  */
+@MultipartConfig
 public class Question_Detail_Validation_Controller extends HttpServlet {
    
     /** 
@@ -60,11 +67,10 @@ public class Question_Detail_Validation_Controller extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         QuestionDAO dao = new QuestionDAO();
-        List<Subject> list = dao.getAllSubject();
-        request.setAttribute("listSubject", list);
+        request.setAttribute("listSubject", dao.getAllSubject());
+        request.setAttribute("listLevel", dao.getAllLevel());
         //Send a message to question_detail.jsp, alert that user added question successfully
         String message = request.getParameter("message");
-        System.out.println(message);
         request.setAttribute("showSuccessMessage", message);
         request.getRequestDispatcher("expert/question_detail.jsp").forward(request, response);
 
@@ -83,17 +89,37 @@ public class Question_Detail_Validation_Controller extends HttpServlet {
         PrintWriter out = response.getWriter();
         QuestionDAO dao = new QuestionDAO();
         String subject_id = request.getParameter("subject_id");
-        Subject s = dao.getSubjectById((Integer.parseInt(subject_id)));
-        List<Subject> list = dao.getAllSubject();
-        List<Dimension> listDimension = dao.getAllDimensionBySubjectId(Integer.parseInt(subject_id));
-        List<Lesson_Topic> listLesson_Topic = dao.getAllLessonTopicBySubjectId(Integer.parseInt(subject_id));
-        List<Level> listLevel = dao.getAllLevel();
-        request.setAttribute("subject", s);
-        request.setAttribute("listSubject", list);
-        request.setAttribute("listDimension", listDimension);
-        request.setAttribute("listLevel", listLevel);
-        request.setAttribute("listLesson_Topic", listLesson_Topic);
-        request.getRequestDispatcher("expert/question_detail.jsp").forward(request, response);
+        String level_id = request.getParameter("level_id");
+        String status = request.getParameter("status");
+        String content = request.getParameter("content");
+        String explanation = request.getParameter("explanation");
+        
+        request.setAttribute("subject_id", Integer.parseInt(subject_id));
+        request.setAttribute("level_id", Integer.parseInt(level_id));
+        request.setAttribute("status", Integer.parseInt(status));
+        request.setAttribute("content", content);
+        request.setAttribute("explanation", explanation);
+        request.setAttribute("listSubject", dao.getAllSubject());
+        request.setAttribute("listDimension", dao.getAllDimensionBySubjectId(Integer.parseInt(subject_id)));
+        request.setAttribute("listLevel", dao.getAllLevel());
+        request.setAttribute("listLesson_Topic", dao.getAllLessonTopicBySubjectId(Integer.parseInt(subject_id)));
+        
+        
+        try {
+            Part mediaPart = request.getPart("media");
+
+            String realPath = request.getServletContext().getRealPath("/media");
+            String filename = Paths.get(mediaPart.getSubmittedFileName()).getFileName().toString();
+            if (!Files.exists(Paths.get(realPath))) {
+                Files.createDirectory(Paths.get(realPath));
+            }
+            mediaPart.write(realPath + "/" + filename);
+        }
+        catch (Exception ex){
+            System.out.println(ex);
+        }
+        
+        //request.getRequestDispatcher("expert/question_detail.jsp").forward(request, response);
     }
 
     /** 

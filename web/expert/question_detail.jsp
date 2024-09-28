@@ -213,12 +213,10 @@
                                 <!-- Subject drop down -->
                                 <div class="form-group">
                                     <label for="subject">Subject</label>
-                                    <c:set var="s" value="${requestScope.subject}"/>
                                     <select id="subject" name="subject_id" required>
-                                        <option value="" disabled selected>Select an option</option>
                                         <c:forEach var="subject" items="${requestScope.listSubject}">
                                             <option value="${subject.subjectId}" 
-                                                    ${subject.subjectId == s.subjectId ? 'selected' : ''}>
+                                                    ${subject.subjectId == requestScope.subject_id ? 'selected' : ''}>
                                                 ${subject.subjectName}
                                             </option>
                                         </c:forEach>
@@ -230,6 +228,8 @@
                                     document.getElementById('subject').addEventListener('change', function () {
                                         var form = document.getElementById('questiondetail');
                                         form.action = 'question_detail_validation'; // Set the URL of the target servlet
+                                        form.method = 'post';
+                                        form.enctype = 'multipart/form-data';
                                         form.submit(); // Submit the form
                                     });
                                 </script>
@@ -262,9 +262,8 @@
                                 <div class="form-group">
                                     <label for="level">Level</label>
                                     <select id="level" name="level_id" required>
-                                        <option value="" disabled selected>Select an option</option>
                                         <c:forEach var="level" items="${requestScope.listLevel}">
-                                            <option value="${level.level_id}"> 
+                                            <option value="${level.level_id}" ${level.level_id == requestScope.level_id ? 'selected' : ''}> 
                                                 ${level.level_name}
                                             </option>
                                         </c:forEach>
@@ -275,28 +274,27 @@
                                 <div class="form-group">
                                     <label for="status">Status</label>
                                     <select id="status" name="status"  class="form-control" required>
-                                        <option value="" disabled selected>Select an option</option>
-                                        <option value="1" ${q.getStatus() == 1 ? 'selected' : ''}>Active</option>
-                                        <option value="0" ${q.getStatus() != 1 ? 'selected' : ''}>Inactive</option>
+                                        <option value="1" ${requestScope.status == 1 ? 'selected' : ''}>Active</option>
+                                        <option value="0" ${requestScope.status == 0 ? 'selected' : ''}>Inactive</option>
                                     </select>
                                 </div>
 
                                 <!-- Question Content -->
                                 <div class="form-group">
                                     <label for="content">Content</label>
-                                    <textarea id="content" name="content" placeholder="Enter content" required></textarea>
+                                    <textarea id="content" name="content" placeholder="Enter content" required>${requestScope.content}</textarea>
                                 </div>
 
                                 <!-- Explanation -->
                                 <div class="form-group">
                                     <label for="explanation">Explanation</label>
-                                    <textarea id="explanation" name="explanation" placeholder="Enter your explanation" required></textarea>
+                                    <textarea id="explanation" name="explanation" placeholder="Enter your explanation" required>${requestScope.explanation}</textarea>
                                 </div>
 
                                 <!-- File Upload -->
                                 <div class="form-group">
-                                    <label for="file-upload">Enter link or upload file</label>
-                                    <input type="file" id="file-upload" name="media" accept="video/*,audio/*,image/*">
+                                    <label for="file_upload">Enter link or upload file</label>
+                                    <input type="file" id="file_upload" name="media" accept="video/*,audio/*,image/*">
                                     <div class="buttons">
                                         <button type="button" class="btn btn-warning">Upload file</button>
                                         <button type="button" class="btn btn-outline-warning">Preview</button>

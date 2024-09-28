@@ -200,6 +200,8 @@ public class QuizDAO extends DBContext {
         }
         return list;
     }
+    
+    
 
     public static void main(String[] args) {
         QuizDAO dao = new QuizDAO();
@@ -207,5 +209,21 @@ public class QuizDAO extends DBContext {
         for (Dimension dimension : list) {
             System.out.println(dimension);
         }
+    }
+    
+    public int countFinishedQuiz(Account a) {
+        String sql = "select COUNT(*) as countQuiz from Quiz\n"
+                + "where account_id = ?";
+        int count = 0;
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, a.getAccount_id());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("countQuiz");
+            }
+        } catch (Exception e) {
+        }
+        return count;
     }
 }
