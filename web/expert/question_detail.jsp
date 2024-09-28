@@ -310,9 +310,8 @@
 
                                     <!-- Image or file preview -->
                                     <img id="preview" alt="File preview will appear here.">
-                                    <img src="/img/question_media/${requestScope.filename}" alt="alt"/>
                                 </div>
-
+                                <img src="img/question_media/${requestScope.filename}" alt="alt"/>
                                 <script>
                                     // JavaScript to show the preview of the selected file
                                     function showPreview(event) {
