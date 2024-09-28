@@ -107,13 +107,16 @@ public class Question_Detail_Validation_Controller extends HttpServlet {
         
         try {
             Part mediaPart = request.getPart("media");
-
-            String realPath = request.getServletContext().getRealPath("/media");
+            out.println(mediaPart);
+            String realPath = request.getServletContext().getRealPath("/img/question_media");
+            out.println(realPath);
             String filename = Paths.get(mediaPart.getSubmittedFileName()).getFileName().toString();
             if (!Files.exists(Paths.get(realPath))) {
                 Files.createDirectory(Paths.get(realPath));
             }
             mediaPart.write(realPath + "/" + filename);
+            out.println(filename);
+            request.setAttribute("filename", filename);
         }
         catch (Exception ex){
             System.out.println(ex);

@@ -121,6 +121,11 @@
             #message {
                 display: none;
             }
+            #preview {
+                margin-top: 20px;
+                max-width: 100%;
+                max-height: 300px;
+            }
         </style>
     </head>
 
@@ -294,12 +299,43 @@
                                 <!-- File Upload -->
                                 <div class="form-group">
                                     <label for="file_upload">Enter link or upload file</label>
-                                    <input type="file" id="file_upload" name="media" accept="video/*,audio/*,image/*">
+
+                                    <input type="file" id="fileInput" name="media" accept="video/*,audio/*,image/*" style="display: none;" onchange="showPreview(event)">
+
                                     <div class="buttons">
-                                        <button type="button" class="btn btn-warning">Upload file</button>
-                                        <button type="button" class="btn btn-outline-warning">Preview</button>
+                                        <!-- Upload button triggers file input -->
+                                        <button type="button" class="btn btn-warning" onclick="document.getElementById('fileInput').click();">Upload file</button>
                                     </div>
+                                    
+
+                                    <!-- Image or file preview -->
+                                    <img id="preview" alt="File preview will appear here.">
+                                    <img src="/img/question_media/${requestScope.filename}" alt="alt"/>
                                 </div>
+
+                                <script>
+                                    // JavaScript to show the preview of the selected file
+                                    function showPreview(event) {
+                                        const file = event.target.files[0];
+                                        const preview = document.getElementById('preview');
+
+                                        // Check if the selected file is an image
+                                        if (file && file.type.startsWith('image/')) {
+                                            const reader = new FileReader();
+
+                                            // Set the image source to the selected file
+                                            reader.onload = function (e) {
+                                                preview.src = e.target.result;
+                                            };
+
+                                            // Read the file as a DataURL
+                                            reader.readAsDataURL(file);
+                                        } else {
+                                            preview.src = ""; // Clear preview if not an image
+                                            alert('Please select an image file.');
+                                        }
+                                    }
+                                </script>
                             </div>
                         </div>
 
