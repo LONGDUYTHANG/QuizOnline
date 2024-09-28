@@ -340,7 +340,6 @@
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
                                 <!--  thêm danh sách bài post m?i nh?t-->
-
                                 <c:forEach items="${requestScope.post_list}" var="c">
                                     <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> 
                                         <a href="blog_detail?blog_id=${c.blog_id}">
