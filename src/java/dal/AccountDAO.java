@@ -35,7 +35,8 @@ public class AccountDAO extends DBContext {
             rs = stm.executeQuery();
             if (rs.next()) {
                 myAccount.setAccount_id(rs.getInt("account_id"));
-                myAccount.setFull_name(rs.getString("full_name"));
+                myAccount.setFirst_name(rs.getString("first_name"));
+                myAccount.setLast_name(rs.getString("last_name"));
                 myAccount.setGender(rs.getBoolean("gender"));
                 myAccount.setEmail(rs.getString("email"));
                 myAccount.setMobile(rs.getString("mobile"));
@@ -63,31 +64,8 @@ public class AccountDAO extends DBContext {
             rs = stm.executeQuery();
             if (rs.next()) {
                 myAccount.setAccount_id(rs.getInt("account_id"));
-                myAccount.setFull_name(rs.getString("full_name"));
-                myAccount.setGender(rs.getBoolean("gender"));
-                myAccount.setEmail(rs.getString("email"));
-                myAccount.setMobile(rs.getString("mobile"));
-                myAccount.setAvatar(rs.getString("avatar"));
-                myAccount.setRole_id(rs.getInt("role_id"));
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return myAccount;
-    }
-
-    public Account getAccount(String email) {
-        PreparedStatement stm;
-        ResultSet rs;
-        Account myAccount = new Account();
-        try {
-            String strSelect = "select * from Account where email like ?";
-            stm = connection.prepareStatement(strSelect);
-            stm.setString(1, email);
-            rs = stm.executeQuery();
-            if (rs.next()) {
-                myAccount.setAccount_id(rs.getInt("account_id"));
-                myAccount.setFull_name(rs.getString("full_name"));
+                myAccount.setFirst_name(rs.getString("first_name"));
+                myAccount.setLast_name(rs.getString("last_name"));
                 myAccount.setGender(rs.getBoolean("gender"));
                 myAccount.setEmail(rs.getString("email"));
                 myAccount.setMobile(rs.getString("mobile"));
@@ -137,7 +115,8 @@ public class AccountDAO extends DBContext {
             // If a record is found, map it to the Account object
             if (rs.next()) {
                 Account account = new Account();
-                account.setFull_name(rs.getString("full_name"));
+                account.setFirst_name(rs.getString("first_name"));
+                account.setLast_name(rs.getString("last_name"));
                 account.setGender(rs.getInt("gender") == 1); // Assuming gender is stored as a boolean
                 account.setEmail(rs.getString("email"));
                 account.setMobile(rs.getString("mobile"));
@@ -169,7 +148,8 @@ public class AccountDAO extends DBContext {
             // If a record is found, map it to the Account object
             if (rs.next()) {
                 Account account = new Account();
-                account.setFull_name(rs.getString("full_name"));
+                account.setFirst_name(rs.getString("first_name"));
+                account.setLast_name(rs.getString("last_name"));
                 account.setGender(rs.getInt("gender") == 1); // Assuming gender is stored as a boolean
                 account.setEmail(rs.getString("email"));
                 account.setMobile(rs.getString("mobile"));
@@ -217,18 +197,20 @@ public class AccountDAO extends DBContext {
 
     public void updateProfile(Account a) {
         String sql = "UPDATE [dbo].[Account]\n"
-                + "   SET [full_name] = ?\n"
+                + "   SET [first_name] = ?\n"
+                + "      ,[last-name] = ?\n"
                 + "      ,[gender] = ?\n"
                 + "      ,[email] = ?\n"
                 + "      ,[mobile] = ?\n"
                 + " WHERE account_id = ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, a.getFull_name());
-            pstmt.setInt(2, a.isGender() ? 1 : 0);
-            pstmt.setString(3, a.getEmail());
-            pstmt.setString(4, a.getMobile());
-            pstmt.setInt(5, a.getAccount_id());
+            pstmt.setString(1, a.getFirst_name());
+             pstmt.setString(2, a.getLast_name());
+            pstmt.setInt(3, a.isGender() ? 1 : 0);
+            pstmt.setString(4, a.getEmail());
+            pstmt.setString(5, a.getMobile());
+            pstmt.setInt(6, a.getAccount_id());
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -343,8 +325,9 @@ public class AccountDAO extends DBContext {
             if (rs.next()) {
                 Account account = new Account();
                 account.setAccount_id(rs.getInt("account_id"));
-                account.setFull_name(rs.getString("full_name"));
-                account.setGender1(rs.getInt("gender")); // Assuming gender is stored as a boolean
+                account.setFirst_name(rs.getString("first_name"));
+                account.setLast_name(rs.getString("last_name"));
+                account.setGender(rs.getBoolean("gender")); // Assuming gender is stored as a boolean
                 account.setEmail(rs.getString("email"));
                 account.setMobile(rs.getString("mobile"));
                 account.setPassword(rs.getString("password"));
@@ -365,5 +348,9 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
+    public static void main(String[] args) {
+        AccountDAO a= new AccountDAO();
+        System.out.println(a.getAccount("nguyenson221004@gmail.com"));
+    }
 
 }
