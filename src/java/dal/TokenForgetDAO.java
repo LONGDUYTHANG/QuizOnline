@@ -27,7 +27,7 @@ public class TokenForgetDAO extends DBContext {
 
     //each request to rết pasword generate a token, add to database
     public boolean insertTokenForget(TokenForgetPassword tokenForget) {
-        String sql = "INSERT INTO [dbo].[tokenForgetPassword]\n"
+        String sql = "INSERT INTO [TokenForgetPassword]\n"
                 + "           ([token]\n"
                 + "           ,[expiryTime]\n"
                 + "           ,[isUsed]\n"
@@ -111,6 +111,11 @@ public class TokenForgetDAO extends DBContext {
         } catch (SQLException e) {
             System.out.println(e);
         }
+    }
+    public static void main(String[] args) {
+//        TokenForgetDAO a= new TokenForgetDAO();
+//        TokenForgetPassword h=new  TokenForgetPassword(1, 1, true, "token", a.getFormatDate(LocalDateTime.MAX));
+//        a.insertTokenForget(h);
     }
 
 }
