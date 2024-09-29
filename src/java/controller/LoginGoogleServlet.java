@@ -77,9 +77,6 @@ public class LoginGoogleServlet extends HttpServlet {
         if(myAccount!=null){
             myAccountDAO.addAccount(email, "default password");
         }
-      request.setAttribute("id", googlePojo.getId());
-      request.setAttribute("name", googlePojo.getName());
-      request.setAttribute("email", email);
       RequestDispatcher dis = request.getRequestDispatcher("customer/homepage_1.jsp");
       dis.forward(request, response);
     }
