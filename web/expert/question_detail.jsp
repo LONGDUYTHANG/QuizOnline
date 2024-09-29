@@ -209,7 +209,7 @@
 
 
                     <!-- Question Details Section -->
-                    <form id="questiondetail" action="addquestion" method="post">
+                    <form id="questiondetail" action="addquestion" method="post" enctype="multipart/form-data">
                         <div class="container">
                             <div class="question-details">
 
@@ -233,8 +233,6 @@
                                     document.getElementById('subject').addEventListener('change', function () {
                                         var form = document.getElementById('questiondetail');
                                         form.action = 'question_detail_validation'; // Set the URL of the target servlet
-                                        form.method = 'post';
-                                        form.enctype = 'multipart/form-data';
                                         form.submit(); // Submit the form
                                     });
                                 </script>
@@ -301,38 +299,55 @@
                                     <label for="file_upload">Enter link or upload file</label>
 
                                     <input type="file" id="fileInput" name="media" accept="video/*,audio/*,image/*" style="display: none;" onchange="showPreview(event)">
-
+                                    
                                     <div class="buttons">
                                         <!-- Upload button triggers file input -->
-                                        <button type="button" class="btn btn-warning" onclick="document.getElementById('fileInput').click();">Upload file</button>
+                                        <button type="button" class="btn btn-warning" onclick="document.getElementById('fileInput').click();" style="margin-bottom: 20px">Upload file</button>
                                     </div>
-                                    
-
-                                    <!-- Image or file preview -->
-                                    <img id="preview" alt="File preview will appear here.">
+                                    <div id="preview-container">
+                                        <img id="preview-image" style="display: none; max-width: 100%;">
+                                        <video id="preview-video" controls style="display: none; max-width: 100%;"></video>
+                                        <audio id="preview-audio" controls style="display: none;"></audio>
+                                    </div>
                                 </div>
-                                <img src="img/question_media/${requestScope.filename}" alt="alt"/>
 
                                 <script>
                                     // JavaScript to show the preview of the selected file
                                     function showPreview(event) {
                                         const file = event.target.files[0];
-                                        const preview = document.getElementById('preview');
+                                        const imagePreview = document.getElementById('preview-image');
+                                        const videoPreview = document.getElementById('preview-video');
+                                        const audioPreview = document.getElementById('preview-audio');
 
-                                        // Check if the selected file is an image
-                                        if (file && file.type.startsWith('image/')) {
-                                            const reader = new FileReader();
+                                        // Reset all previews
+                                        imagePreview.style.display = 'none';
+                                        videoPreview.style.display = 'none';
+                                        audioPreview.style.display = 'none';
 
-                                            // Set the image source to the selected file
-                                            reader.onload = function (e) {
-                                                preview.src = e.target.result;
-                                            };
+                                        if (file) {
+                                            const fileType = file.type;
 
-                                            // Read the file as a DataURL
-                                            reader.readAsDataURL(file);
-                                        } else {
-                                            preview.src = ""; // Clear preview if not an image
-                                            alert('Please select an image file.');
+                                            if (fileType.startsWith('image/')) {
+                                                // Preview image
+                                                const reader = new FileReader();
+                                                reader.onload = function (e) {
+                                                    imagePreview.src = e.target.result;
+                                                    imagePreview.style.display = 'block';
+                                                };
+                                                reader.readAsDataURL(file);
+                                            } else if (fileType.startsWith('video/')) {
+                                                // Preview video
+                                                const videoURL = URL.createObjectURL(file);
+                                                videoPreview.src = videoURL;
+                                                videoPreview.style.display = 'block';
+                                            } else if (fileType.startsWith('audio/')) {
+                                                // Preview audio
+                                                const audioURL = URL.createObjectURL(file);
+                                                audioPreview.src = audioURL;
+                                                audioPreview.style.display = 'block';
+                                            } else {
+                                                alert('Please select an image, video, or audio file.');
+                                            }
                                         }
                                     }
                                 </script>
