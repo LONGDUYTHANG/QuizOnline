@@ -100,16 +100,18 @@
                 </div> 
                 <!-- login -->
                 <%@include file="login.jsp" %>
-                <!--                                                   register     -->
+                <!-- register     -->
                 <%@include file="register.jsp" %>
-                <!--request pass-->
-                <%@include file="requestPassword.jsp" %>
-
-
+                
+                <%@include file="customer/header.html" %>
+                
             </header>
             <!-- Header Top END ==== -->
-            <!-- Content -->
             
+            
+            
+            
+            <!-- Content -->
             <div class="page-content bg-white">
                 <!-- Main Slider -->
                 <div class="rev-slider" style="height: 250px">
@@ -343,19 +345,18 @@
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
                                 <!--  thêm danh sách bài post m?i nh?t-->
-
                                 <c:forEach items="${requestScope.post_list}" var="c">
-                                    <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> <!-- Kích th??c c? ??nh -->
+                                    <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> 
                                         <a href="blog_detail?blog_id=${c.blog_id}">
-                                            <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> <!-- Kích th??c hình ?nh -->
+                                            <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> 
                                         </a>
-                                        <div class="ttr-post-info" style="padding: 10px; height: 40%;"> <!-- Thông tin bài vi?t -->
+                                        <div class="ttr-post-info" style="padding: 10px; height: 40%;"> 
                                             <ul class="media-post">
                                                 <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>                                      
                                                 <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
                                             </ul>
                                             <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
-                                            <p style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.blog_summary}</p> <!-- Gi?i h?n chi?u dài bài tóm t?t -->
+                                            <p style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.blog_summary}</p> 
                                         </div>
                                     </div>
                                 </c:forEach>
@@ -381,7 +382,7 @@
                                         <a href="blog_detail?blog_id=${c.blog_id}">
                                             <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> <!-- Kích th??c hình ?nh -->
                                         </a>
-                                        <div class="ttr-post-info" style="padding: 10px; height: 40%;"> <!-- Thông tin bài vi?t -->
+                                        <div class="ttr-post-info" style="padding: 10px; height: 40%;">
                                             <ul class="media-post">
                                                 <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
                                                 <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
@@ -523,27 +524,18 @@
         });
         </script>
         <script>
-            //login
             const openLoginButton = document.getElementById('open-login-popup');
             const closeLoginButton = document.getElementById('close-login-popup');
-            const loginPopup = document.getElementById('login-popup');
-            const loginError = document.getElementById('login-error');
-            const checkLoginError = document.getElementById('check-login-error');
-            //register
             const openRegisterButton = document.getElementById('open-register-popup');
             const closeRegisterButton = document.getElementById('close-register-popup');
+            const loginPopup = document.getElementById('login-popup');
             const registerPopup = document.getElementById('register-popup');
+            const loginError = document.getElementById('login-error');
+            const checkLoginError = document.getElementById('check-login-error');
             const emailError = document.getElementById('email-error');
             const checkEmailError = document.getElementById('check-email-error');
             const passError = document.getElementById('pass-error');
             const checkPassError = document.getElementById('check-pass-error');
-            //requestPass
-            const openRequestButton = document.getElementById('open-requestPass-popup');
-            const closeRequestButton = document.getElementById('close-requestPass-popup');
-            const RequestPopup = document.getElementById('requestPass-popup');
-            const requestError = document.getElementById('requestPass-error');
-            const checkRequestError = document.getElementById('check-requestPass-error');
-            
 
             openLoginButton.onclick = function () {
                 loginPopup.style.display = 'flex';
@@ -559,14 +551,6 @@
             closeRegisterButton.onclick = function () {
                 registerPopup.style.display = 'none';
             };
-            openRequestButton.onclick = function () {
-                loginPopup.style.display = 'none';
-                RequestPopup.style.display='flex';
-            };
-            closeRequestButton.onclick =function () {
-                loginPopup.style.display = 'flex';
-                RequestPopup.style.display='none';
-            };
             function LoginAgain() {
                 if (checkLoginError.textContent === loginError.textContent) {
                     loginPopup.style.display = 'flex';
@@ -577,14 +561,6 @@
                 if (checkPassError.textContent === passError.textContent) {
                     registerPopup.style.display = 'flex';
                 }
-                if(requestError.textContent==='Send request success'){
-                    RequestPopup.style.display='flex';
-                }
-                if(requestError.textContent==='Email not existed'){
-                    RequestPopup.style.display='flex';
-                }
-                console.log(requestError.textContent);
-                
 
             }
 
