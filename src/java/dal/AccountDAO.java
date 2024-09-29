@@ -287,10 +287,15 @@ public class AccountDAO extends DBContext {
     public void addAccount(String email, String password) {
         PreparedStatement stm;
         try {
-            String strSelect = "insert into [dbo].[Account](email,password,role_id) VALUES(?,?,1) ";
+            String strSelect = "insert into [dbo].[Account](first_name, last_name, gender, email,password,role_id) "
+                    + "VALUES(?,?,?,?,?,?) ";
             stm = connection.prepareStatement(strSelect);
-            stm.setString(1, email);
-            stm.setString(2, password);
+            stm.setString(1, "default");
+            stm.setString(2, "name");
+            stm.setBoolean(3, true);
+            stm.setString(4, email);
+            stm.setString(5, password);
+            stm.setInt(6, 1);
             stm.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
