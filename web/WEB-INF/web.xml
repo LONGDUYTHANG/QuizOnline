@@ -151,6 +151,10 @@
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
+      <servlet-mapping>
+        <servlet-name>LoginFacebookServlet</servlet-name>
+        <url-pattern>/facebooklogin</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/register</url-pattern>
