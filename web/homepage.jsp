@@ -100,10 +100,11 @@
                 </div> 
                 <!-- login -->
                 <%@include file="login.jsp" %>
-                <!--                                                   register     -->
+                <!-- register     -->
                 <%@include file="register.jsp" %>
                 
                 <%@include file="customer/header.html" %>
+                
             </header>
             <!-- Header Top END ==== -->
             
