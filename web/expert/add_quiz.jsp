@@ -98,33 +98,30 @@
 
                 <main class="content">
                     <div class="container">
-                        <form action="addquiz" method="post" id="quiz">
-                            <!-- Send the value of the active tab -->
-                            <input type="hidden" id="activeTab" name="activeTab" value="${requestScope.activeTab != null ? requestScope.activeTab : 'overview'}">
-                            <div class="tab">
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="#overview" data-bs-toggle="tab" role="tab">Overview</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#setting" data-bs-toggle="tab" role="tab">Setting</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content">
-                                    <!-- Overview Tab -->
-                                    <div class="tab-pane active" id="overview" role="tabpanel">
-                                        <h4>Quiz Details</h4>
-
+                        <div class="tab">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#overview" data-bs-toggle="tab" role="tab">Overview</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#setting" data-bs-toggle="tab" role="tab">Setting</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <!-- Overview Tab -->
+                                <div class="tab-pane active" id="overview" role="tabpanel">
+                                    <h4>Quiz Details</h4>
+                                    <form>
                                         <div class="form-group">
                                             <label for="name">Name</label>
-                                            <input type="text" id="name" name="name" placeholder="Enter exam name" value="${requestScope.name}" required>
+                                            <input type="text" id="name" name="name" placeholder="Enter exam name">
                                         </div>
                                         <div class="form-group">
                                             <label for="subject">Subject</label>
                                             <select id="subject" name="subject_id" required>
+                                                <option value="" disabled selected>Select an option</option>
                                                 <c:forEach var="subject" items="${requestScope.listSubject}">
-                                                    <option value="${subject.subjectId}" 
-                                                            ${subject.subjectId == requestScope.subject_id ? 'selected' : ''}>
+                                                    <option value="${subject.subjectId}">
                                                         ${subject.subjectName}
                                                     </option>
                                                 </c:forEach>
@@ -133,8 +130,9 @@
                                         <div class="form-group">
                                             <label for="level">Exam Level</label>
                                             <select id="level" name="level_id" required>
+                                                <option value="" disabled selected>Select an option</option>
                                                 <c:forEach var="level" items="${requestScope.listLevel}">
-                                                    <option value="${level.level_id}"} ${level.level_id == requestScope.level_id ? 'selected' : ''}> 
+                                                    <option value="${level.level_id}"}> 
                                                         ${level.level_name}
                                                     </option>
                                                 </c:forEach>
@@ -142,17 +140,18 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="duration">Duration (minutes)</label>
-                                            <input type="number" id="duration" name="duration" value="${requestScope.duration != null ? requestScope.duration : 50}">
+                                            <input type="number" id="duration" name="duration" value="50">
                                         </div>
                                         <div class="form-group">
                                             <label for="pass-rate">Pass Rate (%)</label>
-                                            <input type="number" id="pass-rate" name="passrate" value="${requestScope.passrate != null ? requestScope.passrate : 50}">
+                                            <input type="number" id="pass-rate" name="pass-rate" value="50">
                                         </div>
                                         <div class="form-group">
                                             <label for="quiz-type">Quiz Type</label>
-                                            <select id="quiz-type" name="quiztype_id">
+                                            <select id="quiz-type" name="quiz-type">
+                                                <option value="" disabled selected>Select an option</option>
                                                 <c:forEach var="quiztype" items="${requestScope.listQuiz_Type}">
-                                                    <option value="${quiztype.quiz_type_id}" ${quiztype.quiz_type_id == requestScope.quiztype_id ? 'selected' : ''}> 
+                                                    <option value="${quiztype.quiz_type_id}"> 
                                                         ${quiztype.quiz_type_name}
                                                     </option>
                                                 </c:forEach>
@@ -160,164 +159,68 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="description">Description</label>
-                                            <textarea id="description" name="description" placeholder="Enter description" required>${requestScope.description}</textarea>
+                                            <textarea id="description" name="description" placeholder="Enter description"></textarea>
                                         </div>
                                         <button type="submit" class="btn">Submit</button>
                                         <button type="button" class="btn btn-secondary">Back</button>
-                                    </div>
+                                    </form>
+                                </div>
 
-                                    <!-- Settings Tab -->
-                                    <div class="tab-pane" id="setting" role="tabpanel">
-                                        <h4>Settings</h4>
+                                <!-- Settings Tab -->
+                                <div class="tab-pane" id="setting" role="tabpanel">
+                                    <h4>Settings</h4>
+                                    <form>
                                         <div class="form-group">
                                             <label for="total-questions">Total Number of Questions</label>
-                                            <input type="number" id="total-questions" name="totalquestion" value="${requestScope.totalquestion != null ? requestScope.totalquestion : 50}">
+                                            <input type="number" id="total-questions" name="total-questions" value="50">
                                         </div>
-                                        <div class="form-group">
+                                         <div class="form-group">
                                             <label for="question-type">Question Type</label>
                                             <div class="form-inline">
-                                                <input type="radio" id="theo-topic" name="question_type" value="topic" onchange="submitForm()" ${requestScope.question_type == "topic" ? 'checked' : ''}>
+                                                <input type="radio" id="theo-topic" name="question-type" value="topic">
                                                 <label for="theo-topic">By Topic</label>
-                                                <input type="radio" id="theo-group" name="question_type" value="group" onchange="submitForm()" ${requestScope.question_type == "group" ? 'checked' : ''}>
+                                                <input type="radio" id="theo-group" name="question-type" value="group">
                                                 <label for="theo-group">By Group</label>
-                                                <input type="radio" id="theo-domain" name="question_type" value="domain" onchange="submitForm() ${requestScope.question_type == "domain" ? 'checked' : ''}">
+                                                <input type="radio" id="theo-domain" name="question-type" value="domain">
                                                 <label for="theo-domain">By Domain</label>
                                             </div>
                                         </div>
-                                        <!-- Add button -->
-                                        <button id="add-btn" type="button" class="btn btn-secondary" onclick="addGroup()">Add</button>
-                                        <script>
-                                            function submitForm() {
-                                                var form = document.getElementById("quiz");
-                                                form.method = 'get';
-                                                form.submit();
-                                            }
-                                        </script>
                                         Choose Questions by Group
                                         <br>
                                         <br>
                                         <!-- Group Selection 1 -->
                                         <div class="form-group d-flex align-items-center mb-3">
-                                            <label for="group-selection" class="me-3">Group Selection</label>
-                                            <c:choose>
-                                                <c:when test="${requestScope.questionTopic != null}">
-                                                    <select id="group-selection" name="group_selection" class="form-select me-2">
-                                                        <c:forEach var="lesson_topic" items="${requestScope.questionTopic}">
-                                                            <option value="${lesson_topic.lesson_topic_id}"> 
-                                                                ${lesson_topic.lesson_topic_name}
-                                                            </option>
-                                                        </c:forEach>
-                                                        <!-- Add group options dynamically -->
-                                                    </select>
-                                                </c:when>
-                                                <c:when test="${requestScope.questionGroup != null}">
-                                                    <select id="group-selection" name="group_selection" class="form-select me-2">
-                                                        <c:forEach var="dimension" items="${requestScope.questionGroup}">
-                                                            <option value="${dimension.dimension_id}"> 
-                                                                ${dimension.dimension_name}
-                                                            </option>
-                                                        </c:forEach>
-                                                        <!-- Add group options dynamically -->
-                                                    </select>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <select id="group-selection" name="group_selection" class="form-select me-2">
-                                                        <c:forEach var="dimension" items="${requestScope.questionDomain}">
-                                                            <option value="${dimension.dimension_id}"> 
-                                                                ${dimension.dimension_name}
-                                                            </option>
-                                                        </c:forEach>
-                                                        <!-- Add group options dynamically -->
-                                                    </select>
-                                                </c:otherwise>
-                                            </c:choose>
-                                            <input type="number" class="form-control me-2" name="number_of_questions" placeholder="Questions" style="width: 100px;">
+                                            <label for="group-selection-1" class="me-3">Group Selection 1</label>
+                                            <select id="group-selection-1" name="group-selection-1" class="form-select me-2">
+                                                <option value="" disabled selected>Group 1</option>
+                                                <!-- Add group options dynamically -->
+                                            </select>
+                                            <input type="number" class="form-control me-2" id="number-of-questions-1" name="number-of-questions-1" placeholder="Questions" style="width: 100px;">
                                             <button type="button" class="btn btn-secondary">Delete</button>
                                         </div>
-                                        <script>
-                                            // Function to add a new group selection div dynamically
-                                            function addGroup() {
-                                                // The div structure to be cloned and added
-                                                var groupDiv = `
-                                                <div class="form-group d-flex align-items-center mb-3">
-                                                <label for="group-selection" class="me-3">Group Selection</label>
-                <select id="group-selection" name="group_selection" class="form-select me-2">
-                                            <c:choose>
-                                                <c:when test="${requestScope.questionTopic != null}">
-                                                    <c:forEach var="lesson_topic" items="${requestScope.questionTopic}">
-                                <option value="${lesson_topic.lesson_topic_id}"> 
-                                                        ${lesson_topic.lesson_topic_name}
-                                </option>
-                                                    </c:forEach>
-                                                </c:when>
-                                                <c:when test="${requestScope.questionGroup != null}">
-                                                    <c:forEach var="dimension" items="${requestScope.questionGroup}">
-                                <option value="${dimension.dimension_id}"> 
-                                                        ${dimension.dimension_name}
-                                </option>
-                                                    </c:forEach>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <c:forEach var="dimension" items="${requestScope.questionDomain}">
-                                <option value="${dimension.dimension_id}"> 
-                                                        ${dimension.dimension_name}
-                                </option>
-                                                    </c:forEach>
-                                                </c:otherwise>
-                                            </c:choose>
-                </select>
-                <input type="number" class="form-control me-2" name="number_of_questions" placeholder="Questions" style="width: 100px;">
-                <button type="button" class="btn btn-secondary" onclick="this.parentElement.remove()">Delete</button>
-            </div>
-        `;
 
-                                                // Create a new div element to contain the groupDiv
-                                                var newDiv = document.createElement('div');
-                                                newDiv.innerHTML = groupDiv;
-
-                                                // Append the new div to the form or desired location
-                                                document.getElementById("setting").appendChild(newDiv);
-                                            }
-                                        </script>
-                                    </div>
+                                        <!-- Group Selection 2 -->
+                                        <div class="form-group d-flex align-items-center mb-3">
+                                            <label for="group-selection-2" class="me-3">Group Selection 2</label>
+                                            <select id="group-selection-2" name="group-selection-2" class="form-select me-2">
+                                                <option value="" disabled selected>Group 2</option>
+                                                <!-- Add group options dynamically -->
+                                            </select>
+                                            <input type="number" class="form-control me-2" id="number-of-questions-2" name="number-of-questions-2" placeholder="Questions" style="width: 100px;">
+                                            <button type="button" class="btn btn-secondary">Delete</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
-
                 </main>
-                <!-- Script to handle active tab -->
-                <script>
-                    // Set the active tab before form submission
-                    document.querySelectorAll('.nav-link').forEach(tab => {
-                        tab.addEventListener('click', function () {
-                            document.getElementById('activeTab').value = this.getAttribute('href').substring(1);  // Set the active tab id
-                        });
-                    });
 
-                    // When the page loads, activate the correct tab and tab content
-                    document.addEventListener("DOMContentLoaded", function () {
-                        var activeTab = "${requestScope.activeTab}";
-                        if (activeTab) {
-                            // Activate the correct tab link
-                            var tabElement = document.querySelector('a[href="#' + activeTab + '"]');
-                            if (tabElement) {
-                                // Remove 'active' class from previously active tabs
-                                document.querySelectorAll('.nav-link').forEach(tab => tab.classList.remove('active'));
-                                document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active', 'show'));
-
-                                // Add 'active' class to the clicked tab and show the corresponding tab pane
-                                tabElement.classList.add('active');
-                                document.querySelector('#' + activeTab).classList.add('active', 'show');
-                            }
-                        }
-                    });
-                </script>
                 <jsp:include page="footer.jsp" />
             </div>
         </div>
         <jsp:include page="script.jsp" />
-
+        
     </body>
 
 </html>
