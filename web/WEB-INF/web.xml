@@ -45,6 +45,10 @@
         <servlet-class>controller.LoginGoogleServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>LoginFacebookServlet</servlet-name>
+        <servlet-class>controller.LoginFacebookServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>RegisteredSubject</servlet-name>
         <servlet-class>controller.RegisteredSubjectController</servlet-class>
     </servlet>
