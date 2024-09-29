@@ -41,8 +41,7 @@ public class PackageDAO extends DBContext {
 
                 SubjectDAO sDao = new SubjectDAO();
 
-                pkg.setSubject_id(sDao.getSubjectByID(rs.getInt("subject_id")));
-                
+                pkg.setSubject_id(sDao.getSubjectById(rs.getInt("subject_id")));
 
                 packageList.add(pkg);
             }
@@ -109,7 +108,7 @@ public class PackageDAO extends DBContext {
         PackageDAO packageDAO = new PackageDAO();
         List<Package> packageList = packageDAO.getAllPackage1();
         for(Package pp : packageList){
-            System.out.println(pp.getSubject_id().getSubjectId());
+            System.out.println(pp.getSubject_id().getSubject_id());
         }
 
     }
@@ -132,7 +131,7 @@ public class PackageDAO extends DBContext {
                     pkg.setStatus(rs.getString("status"));
 
                     SubjectDAO sDao = new SubjectDAO();
-                    pkg.setSubject_id(sDao.getSubjectByID(rs.getInt("subject_id")));
+                    pkg.setSubject_id(sDao.getSubjectById(rs.getInt("subject_id")));
                 }
             }
         } catch (Exception e) {
@@ -160,7 +159,7 @@ public class PackageDAO extends DBContext {
                     pkg.setStatus(rs.getString("status"));
 
                     SubjectDAO sDao = new SubjectDAO();
-                    pkg.setSubject_id(sDao.getSubjectById(rs.getInt("subject_id")));
+                    pkg.setSubject_id(sDao.getSubjectByID(rs.getInt("subject_id")));
                 }
             }
         } catch (Exception e) {
