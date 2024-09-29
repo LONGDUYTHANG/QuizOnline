@@ -102,10 +102,14 @@
                 <%@include file="login.jsp" %>
                 <!--                                                   register     -->
                 <%@include file="register.jsp" %>
-
-
+                
+                <%@include file="customer/header.html" %>
             </header>
             <!-- Header Top END ==== -->
+            
+            
+            
+            
             <!-- Content -->
             <div class="page-content bg-white">
                 <!-- Main Slider -->
