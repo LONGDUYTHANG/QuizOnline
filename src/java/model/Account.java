@@ -11,7 +11,8 @@ package model;
 public class Account {
 
     private int account_id;
-    private String full_name;
+    private String first_name;
+    private String last_name;
     private boolean gender;
     private String email;
     private String mobile;
@@ -22,17 +23,10 @@ public class Account {
     public Account() {
     }
 
-    public Account(int account_id, String full_name, boolean gender, String email, String mobile) {
+    public Account(int account_id, String first_name, String last_name, boolean gender, String email, String mobile, String password, String avatar, int role_id) {
         this.account_id = account_id;
-        this.full_name = full_name;
-        this.gender = gender;
-        this.email = email;
-        this.mobile = mobile;
-    }
-
-    public Account(int account_id, String full_name, boolean gender, String email, String mobile, String password, String avatar, int role_id) {
-        this.account_id = account_id;
-        this.full_name = full_name;
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.gender = gender;
         this.email = email;
         this.mobile = mobile;
@@ -49,12 +43,20 @@ public class Account {
         this.account_id = account_id;
     }
 
-    public String getFull_name() {
-        return full_name;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     public boolean isGender() {
@@ -104,31 +106,6 @@ public class Account {
     public void setRole_id(int role_id) {
         this.role_id = role_id;
     }
-    private Role role_id1;
-    private int gender1;
-    public Account(int user_id, String full_name, int gender1, String email, String mobile, String password, Role role_id1, String avatar) {
-        this.account_id = user_id;
-        this.full_name = full_name;
-        this.gender1 = gender1;
-        this.email = email;
-        this.mobile = mobile;
-        this.password = password;
-        this.role_id1 = role_id1;
-        this.avatar = avatar;
-    }
-    public Role getRole_id1() {
-        return role_id1;
-    }
 
-    public void setRole_id1(Role role_id1) {
-        this.role_id1 = role_id1;
-    }
-
-    public int getGender1() {
-        return gender1;
-    }
-
-    public void setGender1(int gender1) {
-        this.gender1 = gender1;
-    }
+    
 }

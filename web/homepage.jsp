@@ -580,6 +580,9 @@
                 if(requestError.textContent==='Send request success'){
                     RequestPopup.style.display='flex';
                 }
+                if(requestError.textContent==='Email not existed'){
+                    RequestPopup.style.display='flex';
+                }
                 console.log(requestError.textContent);
                 
 
