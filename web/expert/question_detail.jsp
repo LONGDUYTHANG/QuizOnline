@@ -204,7 +204,7 @@
                     
 
                     <!-- Question Details Section -->
-                    <form id="questiondetail" action="addquestion" method="post">
+                    <form id="questiondetail" action="addquestion" method="post" enctype="multipart/form-data">
                         <div class="container">
                             <div class="question-details">
                                 
@@ -218,7 +218,7 @@
                                         <option value="" disabled selected>Select an option</option>
                                         <c:forEach var="subject" items="${requestScope.listSubject}">
                                             <option value="${subject.subjectId}" 
-                                                    ${subject.subjectId == s.subjectId ? 'selected' : ''}>
+                                                    ${subject.subjectId == requestScope.subject_id ? 'selected' : ''}>
                                                 ${subject.subjectName}
                                             </option>
                                         </c:forEach>
@@ -262,9 +262,8 @@
                                 <div class="form-group">
                                     <label for="level">Level</label>
                                     <select id="level" name="level_id" required>
-                                        <option value="" disabled selected>Select an option</option>
                                         <c:forEach var="level" items="${requestScope.listLevel}">
-                                            <option value="${level.level_id}"> 
+                                            <option value="${level.level_id}" ${level.level_id == requestScope.level_id ? 'selected' : ''}> 
                                                 ${level.level_name}
                                             </option>
                                         </c:forEach>
@@ -275,33 +274,76 @@
                                 <div class="form-group">
                                     <label for="status">Status</label>
                                     <select id="status" name="status"  class="form-control" required>
-                                        <option value="" disabled selected>Select an option</option>
-                                        <option value="1" ${q.getStatus() == 1 ? 'selected' : ''}>Active</option>
-                                        <option value="0" ${q.getStatus() != 1 ? 'selected' : ''}>Inactive</option>
+                                        <option value="1" ${requestScope.status == 1 ? 'selected' : ''}>Active</option>
+                                        <option value="0" ${requestScope.status == 0 ? 'selected' : ''}>Inactive</option>
                                     </select>
                                 </div>
                                     
                                 <!-- Question Content -->
                                 <div class="form-group">
                                     <label for="content">Content</label>
-                                    <textarea id="content" name="content" placeholder="Enter content" required></textarea>
+                                    <textarea id="content" name="content" placeholder="Enter content" required>${requestScope.content}</textarea>
                                 </div>
                                 
                                 <!-- Explanation -->
                                 <div class="form-group">
                                     <label for="explanation">Explanation</label>
-                                    <textarea id="explanation" name="explanation" placeholder="Enter your explanation" required></textarea>
+                                    <textarea id="explanation" name="explanation" placeholder="Enter your explanation" required>${requestScope.explanation}</textarea>
                                 </div>
                                 
                                 <!-- File Upload -->
                                 <div class="form-group">
                                     <label for="file-upload">Enter link or upload file</label>
-                                    <input type="file" id="file-upload" name="media" accept="video/*,audio/*,image/*">
+                                    <input type="file" id="file-upload" name="media" accept="video/*,audio/*,image/*" style="display: none;" onchange="showPreview(event)">
                                     <div class="buttons">
-                                        <button type="button" class="btn btn-warning">Upload file</button>
-                                        <button type="button" class="btn btn-outline-warning">Preview</button>
+                                        <button type="button" class="btn btn-warning" onclick="document.getElementById('file-upload').click();">Upload file</button>
                                     </div>
                                 </div>
+                                <!-- Preview container -->
+                                <div id="preview-container" style="display: flex; justify-content: center; align-items: center; margin-top: 20px; height: 400px; border: 1px solid #ddd; padding: 10px;">
+                                    <p>No file chosen yet</p>
+                                </div>
+
+                                <script>
+                                    function showPreview(event) {
+                                        const file = event.target.files[0];
+                                        const previewContainer = document.getElementById('preview-container');
+
+                                        // Clear any previous preview
+                                        previewContainer.innerHTML = '';
+
+                                        if (file) {
+                                            const fileType = file.type;
+                                            let previewElement;
+
+                                            // Check file type and create appropriate preview
+                                            if (fileType.startsWith('image/')) {
+                                                previewElement = document.createElement('img');
+                                                previewElement.src = URL.createObjectURL(file);
+                                                previewElement.style.maxWidth = '100%'; // Make the image responsive
+                                                previewElement.style.maxHeight = '100%';
+                                            } else if (fileType.startsWith('video/')) {
+                                                previewElement = document.createElement('video');
+                                                previewElement.src = URL.createObjectURL(file);
+                                                previewElement.controls = true;
+                                                previewElement.style.maxWidth = '100%';
+                                                previewElement.style.maxHeight = '100%';
+                                            } else if (fileType.startsWith('audio/')) {
+                                                previewElement = document.createElement('audio');
+                                                previewElement.src = URL.createObjectURL(file);
+                                                previewElement.controls = true;
+                                                previewElement.style.width = '100%'; // Make the audio player full width
+                                            } else {
+                                                previewElement = document.createElement('p');
+                                                previewElement.textContent = 'File type not supported for preview.';
+                                            }
+
+                                            previewContainer.appendChild(previewElement);
+                                        } else {
+                                            previewContainer.innerHTML = '<p>No file chosen yet</p>';
+                                        }
+                                    }
+                                </script>
                             </div>
                         </div>
 
@@ -369,6 +411,7 @@
                                         }
                                     }
                                 </script>
+  
                             </div>
                         </div>
                     </form>
