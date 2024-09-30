@@ -75,7 +75,7 @@ public class AddQuizServlet extends HttpServlet {
         request.setAttribute("quiztype_id", quiztype_id);
         request.setAttribute("description", description);
         request.setAttribute("totalquestion", totalquestion);
-        
+        request.setAttribute("question_type", question_type);
         request.setAttribute("listSubject", dao.getAllSubject());
         request.setAttribute("listLevel", dao.getAllLevel());
         request.setAttribute("listQuiz_Type", dao.getAllQuizType());
@@ -92,6 +92,9 @@ public class AddQuizServlet extends HttpServlet {
             request.setAttribute("questionDomain", dao.getAllDimensionByType(2, Integer.parseInt(subject_id)));
         }
         request.getRequestDispatcher("expert/add_quiz.jsp").forward(request, response);
+        
+        
+        //Add New Comment here
     } 
 
     /** 
@@ -104,7 +107,20 @@ public class AddQuizServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        QuizDAO dao = new QuizDAO();
+        PrintWriter out = response.getWriter();
+        String name = request.getParameter("name");
+        String subject_id = request.getParameter("subject_id");
+        String level_id = request.getParameter("level_id");
+        String duration = request.getParameter("duration");
+        String passrate = request.getParameter("passrate");
+        String quiztype_id = request.getParameter("quiztype_id");
+        String description = request.getParameter("description");
+        String totalquestion = request.getParameter("totalquestion");
+        String question_type = request.getParameter("question_type");
+        String[] group_selection = request.getParameterValues("group_selection");
+        String number_of_questions[] = request.getParameterValues("number_of_questions");
+        
     }
 
     /** 

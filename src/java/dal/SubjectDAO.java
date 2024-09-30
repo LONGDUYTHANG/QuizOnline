@@ -336,44 +336,4 @@ public class SubjectDAO extends DBContext {
 
         return subjects;
     }
-public Subject getSubjectById(int subjectId) {
-        String sql = "SELECT subject_id, subject_name, category_id, status, isFeatured, thumbnail, tagline, description, account_id, created_date "
-                + "FROM Subject WHERE subject_id = ?";
-
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-
-            pstmt.setInt(1, subjectId);
-
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                Subject subject = new Subject();
-
-                subject.setSubject_id(rs.getInt("subject_id"));
-                subject.setSubject_name(rs.getString("subject_name"));
-
-                CategoryDAO cDao = new CategoryDAO();
-                SubjectCategory sc = cDao.getCategoryById(rs.getInt("category_id"));
-                subject.setCategory(sc);
-
-                subject.setStatus1(rs.getInt("status"));
-                subject.setIs_featured(rs.getBoolean("isFeatured"));
-                subject.setThumbnail(rs.getString("thumbnail"));
-                subject.setTag_line(rs.getString("tagline"));
-                subject.setDescription(rs.getString("description"));
-
-                AccountDAO aDao = new AccountDAO();
-                Account acc = aDao.getAccountById1(rs.getString("account_id"));
-                subject.setAccount_id(acc);
-                subject.setCreated_date(rs.getDate("created_date"));
-
-                return subject;
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 }

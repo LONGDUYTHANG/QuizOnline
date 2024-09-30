@@ -106,7 +106,7 @@
 
                                         </div>
                                         <div class="profile-info">
-                                            <h4>${acc.full_name}</h4>
+                                            <h4>${acc.first_name} ${acc.last_name}</h4>
                                         </div>
                                         <hr>
                                         <label style="cursor: pointer" onclick="changeAvatar()" id="changeavt_label">Change Avatar</label>
@@ -165,7 +165,7 @@
                                                             <div class="col-md-5 dashboard_attribute" >
                                                                 <div style="display: flex; justify-content: normal; position: relative">
                                                                     <h6>Total Enrolled Subject</h6>
-                                                                    <a class="dashboard_brief" href="registered_subject" >
+                                                                    <a class="dashboard_brief" href="#" >
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16" style="width: 40px;  color: white;">
                                                                         <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
                                                                         <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
@@ -174,7 +174,7 @@
 
                                                                 </div>
 
-                                                                <p>${sessionScope.enrolled_subject}</p>
+                                                                <p></p>
 
                                                             </div>
                                                             <div class="col-md-1" >
@@ -192,7 +192,7 @@
 
                                                                 </div>
 
-                                                                <p>${sessionScope.finished_quiz}</p>
+                                                                <p>0</p>
 
                                                             </div>
                                                             <div class="col-md-5 dashboard_attribute" style="margin-top: 30px">
@@ -207,7 +207,7 @@
 
                                                                 </div>
 
-                                                                <p>${sessionScope.created_blog}</p>
+                                                                <p></p>
 
                                                             </div>
                                                             <%--
@@ -244,7 +244,7 @@
                                                 <div class="courses-filter">
                                                     <div class="clearfix">
                                                         <ul id="masonry" class="ttr-gallery-listing magnific-image row">
-                                                            <c:forEach items="${sessionScope.recently_enrolled_subject}" var="r_subject">
+                                                            <%--<c:forEach items="${sessionScope.recently_enrolled_subject}" var="r_subject">
                                                                 <li class="action-card col-xl-4 col-lg-6 col-md-12 col-sm-6 publish">
                                                                     <div class="cours-bx">
                                                                         
@@ -260,7 +260,7 @@
                                                                             <div class="review">
                                                                                 <span>Enrolled Date</span>
                                                                                 <br><!-- comment -->
-                                                                                <span>${r_subject.registration_time}</span>
+                                                                                <span>${r_subject.created_date}</span>
                                                                             </div>
                                                                             <div class="price">
                                                                                 <h5>Cost:</h5>
@@ -270,6 +270,7 @@
                                                                     </div>
                                                                 </li>
                                                             </c:forEach>
+                                                            --%>
                                                             
                                                         </ul>
                                                     </div>
@@ -296,7 +297,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-12 col-sm-3 col-md-3 col-lg-2 col-form-label">Full Name</label>
                                                             <div class="col-12 col-sm-9 col-md-9 col-lg-7">
-                                                                <input class="form-control" type="text" value="${acc.full_name}" name="fullname">
+                                                                <input class="form-control" type="text" value="${acc.first_name} ${acc.last_name}" name="fullname">
                                                                 <%-- 
                                                                 private String fullName, email, avatar, password, mobile, gender;
                                                                 private int roleId;
@@ -319,8 +320,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-12 col-sm-3 col-md-3 col-lg-2 col-form-label">Email</label>
                                                             <div class="col-12 col-sm-9 col-md-9 col-lg-7">
-                                                                <input class="form-control" type="email" value="${acc.email}" name="email" id="email" disabled="">
-                                                                <button type="button" class="btn"><a href="update_email">Update Email</a></button>
+                                                                <input class="form-control" type="email" value="${acc.email}" name="email" id="email">
                                                             </div>
                                                         </div>
                                                         <div class="seperator"></div>
