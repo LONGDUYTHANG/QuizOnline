@@ -121,7 +121,8 @@ public class QuizDAO extends DBContext {
             // If a record is found, map it to the Account object
             if (rs.next()) {
                 Account account = new Account();
-                account.setFull_name(rs.getString("full_name"));
+                account.setFirst_name(rs.getString("first_name"));
+                account.setLast_name(rs.getString("last_name"));
                 account.setGender(rs.getInt("gender") == 1); // Assuming gender is stored as a boolean
                 account.setEmail(rs.getString("email"));
                 account.setMobile(rs.getString("mobile"));
