@@ -107,6 +107,8 @@
 
                 <%@include file="common/requestPassword.jsp" %>
                 
+                <%@include file="common/requestPassword.jsp" %>
+                
             </header>
             <!-- Header Top END ==== -->
             
