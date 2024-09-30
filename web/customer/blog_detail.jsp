@@ -220,14 +220,37 @@
                                                 </form>
                                             </div>
                                         </div>
-                                        <div class="widget_tag_cloud">
-                                            <h6>TAGS</h6>
-                                            <div class="tagcloud"> 
-                                                <!--danh sach categories-->
-                                                <a href="#" id="a" onclick="getLinkContent()">Design</a>  
-                                                <button id="categories">Desgin</button>
+                                        <div class="widget widget_tag_cloud">
+                                            <h6 class="widget-title">Categories</h6>
+                                            <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+                                            
+                                            <div class="search-bx style-1">
+                                                <form role="search" method="post">
+                                                    <div class="input-group">
+                                                        <input name="text" class="form-control" placeholder="Enter your keywords..." type="text" id="output">
+                                                        <span class="input-group-btn">
+                                                            <button type="submit" class="fa fa-search text-primary"></button>
+                                                        </span> 
+                                                    </div>
+                                                </form>
+                                                
+                                            </div>                                        
+                                            <br>
+                                            <!-- Danh sách các categories -->
+                                            <div class="category-list" style="margin-bottom: 20px;">
+                                                <c:forEach items="${requestScope.category_list}" var="c">
+                                                    <div style="margin-bottom: 10px;">
+                                                        <input type="checkbox" id="category_${c.category_id}" name="categories" value="${c.category_id}">
+                                                        <label for="category_${c.category_id}" style="font-size: 16px; margin-left: 8px;">${c.category_name}</label>
+                                                    </div>
+                                                </c:forEach>
                                             </div>
-                                        </div>
+
+                                            <!-- Nút tìm ki?m -->
+                                            <!-- style="text-align: center;" -->
+                                           
+                                                
+                                            </div>
                                         <div class="widget recent-posts-entry">
                                             <h6 class="widget-title">Recent Posts</h6>
                                             <div class="widget-post-bx">
