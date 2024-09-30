@@ -50,6 +50,7 @@
 
     </head>
     <body id="bg">
+        <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <div class="page-wraper popup" id="login-popup">
             <div class="account-form popup-content" >
                 <div class="account-form-inner" style="background-color: white">
@@ -62,12 +63,13 @@
                         </div>	
                         <form class="contact-bx" action="login" method="post">
                             <div class="row placeani">
+                                <c:set var="cookie" value="${pageContext.request.cookies}"/>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <p style="color: red" id="login-error">${requestScope.login_error}</p>
-                                        <p style="color: red" id="check-login-error" hidden>Incorrect username or passwword</p>
+                                        <p style="color: red" id="check-login-error" hidden>Incorrect username or password</p>
                                         <label>Email</label>
-                                        <input name="email" type="email" required="" class="form-control">
+                                        <input name="email" type="email" required="" class="form-control" value="${cookie.c_user.value}">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -79,7 +81,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group form-forget">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                                            <input type="checkbox" class="custom-control-input" id="customControlAutosizing" name="rem" ${(cookie.c_check_button!=null?'checked':'')}>
                                             <label class="custom-control-label" for="customControlAutosizing">Remember me</label>
                                         </div>
                                         <a  href="#" class="ml-auto" id="open-requestPass-popup">Forgot Password?</a>

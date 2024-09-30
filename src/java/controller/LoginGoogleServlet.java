@@ -13,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Account;
 import model.GooglePojo;
 import model.GoogleUtils;
@@ -72,16 +73,19 @@ public class LoginGoogleServlet extends HttpServlet {
       GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
       String email=googlePojo.getEmail();
         AccountDAO myAccountDAO=new AccountDAO();
-        Account myAccount =myAccountDAO.getAccountbyEmail(email);
+        Account myAccount =myAccountDAO.getAccountByEmail(email);
         //if email has not been registered, add it to the database 
-        if(myAccount!=null){
+        if(myAccount==null){
             myAccountDAO.addAccount(email, "pass");
         }
       request.setAttribute("id", googlePojo.getId());
       request.setAttribute("name", googlePojo.getName());
       request.setAttribute("email", email);
-      RequestDispatcher dis = request.getRequestDispatcher("customer/homepage_1.jsp");
-      dis.forward(request, response);
+        HttpSession session = request.getSession(true);
+        session.setAttribute("user", myAccount);
+//      RequestDispatcher dis = request.getRequestDispatcher("customer/homepage_1.jsp");
+//      dis.forward(request, response);
+response.sendRedirect("homepage");
     }
     } 
 
