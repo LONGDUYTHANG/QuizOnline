@@ -334,9 +334,7 @@ public class SubjectDAO extends DBContext {
 
         return subjects;
     }
-    
-}
-public Subject getSubjectById(int subjectId) {
+    public Subject getSubjectById(int subjectId) {
         String sql = "SELECT subject_id, subject_name, category_id, status, isFeatured, thumbnail, tagline, description, account_id, created_date "
                 + "FROM Subject WHERE subject_id = ?";
 
@@ -376,3 +374,6 @@ public Subject getSubjectById(int subjectId) {
 
         return null;
     }
+    
+}
+
