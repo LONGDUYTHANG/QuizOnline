@@ -211,7 +211,7 @@ public class SubjectDAO extends DBContext {
     public List<RegisteredSubject> getEnrolledSubjectRecently(Account a) {
         List<RegisteredSubject> subjects = new ArrayList<>();
 
-        String sql = "select top 3 *,CAST(case when valid_to < GETDATE() then 0 else 1 end as bit) as is_expired, cast(r.registration_time as date) enrolled_date from Registration r\n"
+        String sql = "select top 3 *, cast(r.registration_time as date) enrolled_date from Registration r\n"
                 + "join Subject s on r.subject_id = s.subject_id\n"
                 + "where r.account_id = ?\n"
                 + "order by registration_time desc";
@@ -234,16 +234,13 @@ public class SubjectDAO extends DBContext {
                 subject.setTagline(rs.getString("tagline"));
                 subject.setDescription(rs.getString("description"));
 
-                AccountDAO aDao = new AccountDAO();
-                Account acc = aDao.getAccountById(rs.getString("account_id"));
-                subject.setAccountId(acc.getAccount_id());
+                subject.setAccountId(a.getAccount_id());
                 subject.setCreatedDate(rs.getTimestamp("created_date"));
                 subject.setCost(rs.getInt("cost"));
                 subject.setList_price(rs.getDouble("list_price"));
                 subject.setSale_price(rs.getDouble("sale_price"));
                 subject.setRegistration_time(rs.getString("enrolled_date"));
                 subject.setValid_to(rs.getString("valid_to"));
-                subject.setIs_expired(rs.getInt("is_expired") == 1);
                 subject.setNote(rs.getString("note"));
 //                subject.setCreatedDate(rs.g);
 
@@ -253,7 +250,7 @@ public class SubjectDAO extends DBContext {
             e.printStackTrace();
         }
 
-        return subjects;
+        return null;
     }
     public List<RegisteredSubject> getEnrolledSubject(Account a) {
         List<RegisteredSubject> subjects = new ArrayList<>();

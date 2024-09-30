@@ -139,6 +139,10 @@
         <servlet-name>SubjectDetailServlet</servlet-name>
         <servlet-class>controller.SubjectDetailServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateEmail</servlet-name>
+        <servlet-class>controller.UpdateEmail</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -171,4 +175,9 @@
         <servlet-name>SubjectDetailServlet</servlet-name>
         <url-pattern>/subject_details</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateEmail</servlet-name>
+        <url-pattern>/update_email</url-pattern>
+    </servlet-mapping>
+    
 </web-app>
