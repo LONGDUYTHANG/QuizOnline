@@ -99,13 +99,13 @@
                     </div>
                 </div> 
                 <!-- login -->
-                <%@include file="login.jsp" %>
+                <%@include file="common/login.jsp" %>
                 <!-- register     -->
-                <%@include file="register.jsp" %>
+                <%@include file="common/register.jsp" %>
                 
                 <%@include file="customer/header.html" %>
-
-                <%@include file="common/requestPassword.html" %>
+                
+                <%@include file="common/requestPassword.jsp" %>
                 
             </header>
             <!-- Header Top END ==== -->
@@ -526,18 +526,27 @@
         });
         </script>
         <script>
+            //login
             const openLoginButton = document.getElementById('open-login-popup');
             const closeLoginButton = document.getElementById('close-login-popup');
-            const openRegisterButton = document.getElementById('open-register-popup');
-            const closeRegisterButton = document.getElementById('close-register-popup');
             const loginPopup = document.getElementById('login-popup');
-            const registerPopup = document.getElementById('register-popup');
             const loginError = document.getElementById('login-error');
             const checkLoginError = document.getElementById('check-login-error');
+            //register
+            const openRegisterButton = document.getElementById('open-register-popup');
+            const closeRegisterButton = document.getElementById('close-register-popup');
+            const registerPopup = document.getElementById('register-popup');
             const emailError = document.getElementById('email-error');
             const checkEmailError = document.getElementById('check-email-error');
             const passError = document.getElementById('pass-error');
             const checkPassError = document.getElementById('check-pass-error');
+            //requestPass
+            const openRequestButton = document.getElementById('open-requestPass-popup');
+            const closeRequestButton = document.getElementById('close-requestPass-popup');
+            const RequestPopup = document.getElementById('requestPass-popup');
+            const requestError = document.getElementById('requestPass-error');
+            const checkRequestError = document.getElementById('check-requestPass-error');
+            
 
             openLoginButton.onclick = function () {
                 loginPopup.style.display = 'flex';
@@ -553,6 +562,14 @@
             closeRegisterButton.onclick = function () {
                 registerPopup.style.display = 'none';
             };
+            openRequestButton.onclick = function () {
+                loginPopup.style.display = 'none';
+                RequestPopup.style.display='flex';
+            };
+            closeRequestButton.onclick =function () {
+                loginPopup.style.display = 'flex';
+                RequestPopup.style.display='none';
+            };
             function LoginAgain() {
                 if (checkLoginError.textContent === loginError.textContent) {
                     loginPopup.style.display = 'flex';
@@ -563,6 +580,14 @@
                 if (checkPassError.textContent === passError.textContent) {
                     registerPopup.style.display = 'flex';
                 }
+                if(requestError.textContent==='Send request success'){
+                    RequestPopup.style.display='flex';
+                }
+                if(requestError.textContent==='Email not existed'){
+                    RequestPopup.style.display='flex';
+                }
+                console.log(requestError.textContent);
+                
 
             }
 
@@ -580,7 +605,6 @@
                 }
             };
         </script>
-    </body>
+            </body>
 
 </html>
-
