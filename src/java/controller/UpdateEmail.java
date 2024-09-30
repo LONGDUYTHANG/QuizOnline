@@ -87,7 +87,7 @@ public class UpdateEmail extends HttpServlet {
             String formattedNumber = String.format("%04d", rdn);
             session.setAttribute("confirm_code", formattedNumber);
             confirmCode = (String) session.getAttribute("confirm_code");
-            Email.sendEmail(a.getEmail(), confirmCode, a.getFull_name());
+            Email.sendEmail(a.getEmail(), confirmCode, a.getFirst_name() + " " + a.getLast_name());
             request.getRequestDispatcher("customer/update_email.jsp").forward(request, response);
             return;
         }
