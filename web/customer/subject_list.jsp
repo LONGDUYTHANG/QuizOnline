@@ -83,9 +83,9 @@
                                         <form method="get" action="blog_list" style="display: flex; align-items: center; width: 100%;">
                                             <label for="sortBy" style="margin-right: 10px; white-space: nowrap;">Sort by:</label>
                                             <select id="sortBy" name="sortBy" onchange="this.form.submit()" style="flex-grow: 1; max-width: 200px;">
-                                                <option value="created_date" ${param.sortBy == 'created_date' ? 'selected' : ''}>Hottest Blogs</option>
-                                                <option value="title" ${param.sortBy == 'title' ? 'selected' : ''}>Latest Blogs</option>
-                                                <option value="views" ${param.sortBy == 'views' ? 'selected' : ''}>Oldest Blogs</option>
+                                                <option value="created_date" ${param.sortBy == 'created_date' ? 'selected' : ''}>Featured Subjects</option>
+                                                <option value="title" ${param.sortBy == 'title' ? 'selected' : ''}>Latest Subjects</option>
+                                                <option value="views" ${param.sortBy == 'views' ? 'selected' : ''}>Oldest Subjects</option>
                                             </select>
 
                                         </form>
@@ -103,8 +103,9 @@
                                             <div class="ttr-post-info">
 
                                                 <ul class="media-post">
-                                                    <li><a href="#"><i class="fa fa-calendar"></i>${c.createdDate}</a></li>
-                                                    <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
+                                                    <li><i class="fa fa-calendar"></i>${c.createdDate}</a></li>
+                                                    <li><b>${c.tagline}</b></li>
+                                                    <!-- class="fa fa-user" -->
                                                 </ul>
                                                 <h5 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.description}</a></h5>
                                                 <p>${c.description}</p>
@@ -176,7 +177,7 @@
                                         </div>
                                         <br>
                                         <div class="widget recent-posts-entry">
-                                            <h6 class="widget-title">Hottest Posts</h6>
+                                            <h6 class="widget-title">Featured Subjects</h6>
                                             <div class="widget-post-bx">
                                                 <!-- thêm danh sách các bài subject hot nhat-->
                                                 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -185,11 +186,11 @@
                                                         <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
                                                         <div class="ttr-post-info">
                                                             <div class="ttr-post-header">
-                                                                <h6 class="post-title"><a href="blog_detail?blog_id=${c.subjectId}">${c.description}</a></h6>
+                                                                <h6 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.description}</a></h6>
                                                             </div>
                                                             <ul class="media-post">
-                                                                <li><a href="#"><i class="fa fa-calendar"></i>${c.createdDate}</a></li>
-                                                                <!--                                                                <li><a href="#"><i class="fa fa-comments-o"></i>15 Comment</a></li>-->
+                                                                <li>${c.tagline}</li>
+<!--                                                                <li><a href="#"><i class="fa fa-user"></i>By William</a></li>-->
                                                             </ul>
                                                         </div>
                                                     </div>
