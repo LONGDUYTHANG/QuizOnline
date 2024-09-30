@@ -82,12 +82,10 @@ public class UpdateEmail extends HttpServlet {
         AccountDAO ad = new AccountDAO();
         String confirmCode = (String) session.getAttribute("confirm_code");
         if (confirmCode == null) {
-            Random rd = new Random();
-            int rdn = rd.nextInt(999999);
-            String formattedNumber = String.format("%04d", rdn);
+            String formattedNumber = generateOTP();
             session.setAttribute("confirm_code", formattedNumber);
             confirmCode = (String) session.getAttribute("confirm_code");
-            Email.sendEmail(a.getEmail(), confirmCode, a.getFull_name());
+            Email.sendEmail(a.getEmail(), confirmCode, a.getFirst_name() + " " + a.getLast_name());
             request.getRequestDispatcher("customer/update_email.jsp").forward(request, response);
             return;
         }
@@ -104,30 +102,27 @@ public class UpdateEmail extends HttpServlet {
                 return;
             }
         }
-        
+
         String newEmail = request.getParameter("new_email");
         String confirm_new_code = request.getParameter("confirm_new_code");
-        if(newEmail != null && confirm_new_code == null) {
-            if(ad.getAccountByEmail(newEmail) != null) {
+        if (newEmail != null && confirm_new_code == null) {
+            if (ad.getAccountByEmail(newEmail) != null) {
                 request.setAttribute("confirm_ss", true);
                 request.setAttribute("duplicate_email", "Email is used");
                 request.getRequestDispatcher("customer/update_email.jsp").forward(request, response);
                 return;
             }
-            Random rd = new Random();
-            int rdn = rd.nextInt(999999);
-            String formattedNumber = String.format("%06d", rdn);
+            String formattedNumber = generateOTP();
             session.setAttribute("confirm_code", formattedNumber);
             confirmCode = (String) session.getAttribute("confirm_code");
-            Email.sendEmail(newEmail, confirmCode, a.getFull_name());
+            Email.sendEmail(newEmail, confirmCode, a.getFirst_name() + " " + a.getLast_name());
             request.setAttribute("comfirm_new_ss", true);
             session.setAttribute("new_email", newEmail);
             request.getRequestDispatcher("customer/update_email.jsp").forward(request, response);
             return;
         }
-        
-        
-        if(confirm_new_code != null) {
+
+        if (confirm_new_code != null) {
             if (!confirm_new_code.equalsIgnoreCase(confirmCode)) {
                 request.setAttribute("comfirm_new_ss", true);
                 request.setAttribute("confirm_new_err", "Code is not correct");
@@ -135,15 +130,27 @@ public class UpdateEmail extends HttpServlet {
                 return;
             } else {
                 request.setAttribute("update_ss", true);
-                String nE = (String)session.getAttribute("new_email");
+                String nE = (String) session.getAttribute("new_email");
                 ad.updateEmail(nE, a);
-                
+
                 request.getRequestDispatcher("customer/update_email.jsp").forward(request, response);
                 return;
             }
         }
 
         request.getRequestDispatcher("customer/update_email.jsp").forward(request, response);
+    }
+
+    public String generateOTP() {
+        Random rd = new Random();
+        int rdn = rd.nextInt(999999);
+        String formattedNumber = String.format("%06d", rdn);
+        if(formattedNumber.length() < 6) {
+            for (int i = formattedNumber.length(); i < 6; i++) {
+                formattedNumber = "0" + formattedNumber;
+            }
+        }
+        return formattedNumber;
     }
 
     /**

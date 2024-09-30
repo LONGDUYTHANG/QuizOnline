@@ -67,46 +67,64 @@
                         </div>
                     </div>
                 </div>
-                
+
+
+
                 <!-- contact area -->
                 <div class="content-block">
+
                     <div class="section-area section-sp1">
                         <div class="container">
                             <div class="row">
+
                                 <!-- Left part start -->
                                 <div class="col-lg-8">
+                                    <div class="sort-options" style="margin-bottom: 20px; width: 30%; display: flex; align-items: center;">
+                                        <form method="get" action="blog_list" style="display: flex; align-items: center; width: 100%;">
+                                            <label for="sortBy" style="margin-right: 10px; white-space: nowrap;">Sort by:</label>
+                                            <select id="sortBy" name="sortBy" onchange="this.form.submit()" style="flex-grow: 1; max-width: 200px;">
+                                                <option value="created_date" ${param.sortBy == 'created_date' ? 'selected' : ''}>Hottest Blogs</option>
+                                                <option value="title" ${param.sortBy == 'title' ? 'selected' : ''}>Latest Blogs</option>
+                                                <option value="views" ${param.sortBy == 'views' ? 'selected' : ''}>Oldest Blogs</option>
+                                            </select>
+
+                                        </form>
+                                    </div>
+
+
+
                                     <!--thêm lay du lieu all post ? ?ây-->
                                     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                     <c:forEach items="${requestScope.post_list}" var="c">
-                                    <div class="blog-post blog-md clearfix">
-                                        <div class="ttr-post-media"> 
-                                            <a href="blog_detail?blog_id=${c.blog_id}"><img src="${c.thumbnail}" alt=""></a> 
-                                        </div>
-                                        <div class="ttr-post-info">
+                                        <div class="blog-post blog-md clearfix">
+                                            <div class="ttr-post-media"> 
+                                                <a href="blog_detail?blog_id=${c.blog_id}"><img src="${c.thumbnail}" alt=""></a> 
+                                            </div>
+                                            <div class="ttr-post-info">
 
-                                            <ul class="media-post">
-                                                <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
-                                                <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
-                                            </ul>
-                                            <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_summary}</a></h5>
-                                            <p>${c.blog_content}</p>
-                                            <div class="post-extra">
-                                                <a href="blog_detail?blog_id=${c.blog_id}" class="btn-link">READ MORE</a>
-                                                <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>05 Comment</a>
+                                                <ul class="media-post">
+                                                    <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
+                                                    <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
+                                                </ul>
+                                                <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_summary}</a></h5>
+                                                <p>${c.blog_content}</p>
+                                                <div class="post-extra">
+                                                    <a href="blog_detail?blog_id=${c.blog_id}" class="btn-link">READ MORE</a>
+<!--                                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>05 Comment</a>-->
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                     </c:forEach>
 
                                     <!-- Pagination start -->
-                                    <div class="pagination-bx rounded-sm gray clearfix">
-                                        <ul class="pagination">
-                                            <li class="previous"><a href="#"><i class="ti-arrow-left"></i> Prev</a></li>
-                                            <li class="active"><a href="#">1</a></li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li class="next"><a href="#">Next <i class="ti-arrow-right"></i></a></li>
-                                        </ul>
+                                    <div class="col-lg-12 m-b20">
+                                        <div class="pagination-bx rounded-sm gray clearfix" style="text-align: center;">
+                                            <ul class="pagination" style="display: flex; justify-content: center; align-items: center;">
+                                                <li class="previous"><a href="#"><i class="ti-arrow-left"></i> Prev</a></li>
+                                                <li class="active"><a href="#">1</a></li>
+                                                <li class="next"><a href="#">Next <i class="ti-arrow-right"></i></a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                     <!-- Pagination END -->
                                 </div>
@@ -128,48 +146,54 @@
                                             </div>
                                         </div>
                                         <div class="widget widget_tag_cloud">
-                                            <h6 class="widget-title">Tags</h6>
-                                            <div class="tagcloud"> 
-                                                <!--                                                                            l?y t?t c? categories -->										
-                                                <button type="submit" id="myButton" onclick="search()" value="Design">Design</button>
-                                            </div>
+                                            <h6 class="widget-title">Categories</h6>
+                                            <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+                                            <div class="search-bx style-1">
+                                                <form role="search" method="post">
+                                                    <div class="input-group">
+                                                        <input name="text" class="form-control" placeholder="Enter your keywords..." type="text" id="output">
+                                                        <span class="input-group-btn">
+                                                            <button type="submit" class="fa fa-search text-primary"></button>
+                                                        </span> 
+                                                    </div>
+                                                </form>
+
+                                            </div>                                        
                                             <br>
-                                            <div class="widget recent-posts-entry">
-                                                <h6 class="widget-title">Hottest Posts</h6>
-                                                <div class="widget-post-bx">
-                                                    <!-- thêm danh sách các bài post hot nhat-->
-                                                    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-                                                    <c:forEach items="${requestScope.hottest_post_list}" var="c">
-                                                        <div class="widget-post clearfix">
-                                                            <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
-                                                            <div class="ttr-post-info">
-                                                                <div class="ttr-post-header">
-                                                                    <h6 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_summary}</a></h6>
-                                                                </div>
-                                                                <ul class="media-post">
-                                                                    <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
-                                                                    <li><a href="#"><i class="fa fa-comments-o"></i>15 Comment</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </c:forEach>
-                                                </div>
+                                            <!-- Danh sách các categories -->
+                                            <div class="category-list" style="margin-bottom: 20px;">
+                                                <c:forEach items="${requestScope.category_list}" var="c">
+                                                    <div style="margin-bottom: 10px;">
+                                                        <input type="checkbox" id="category_${c.category_id}" name="categories" value="${c.category_id}">
+                                                        <label for="category_${c.category_id}" style="font-size: 16px; margin-left: 8px;">${c.category_name}</label>
+                                                    </div>
+                                                </c:forEach>
                                             </div>
-                                            <div class="widget widget-newslatter">
-                                                <h6 class="widget-title">Newsletter</h6>
-                                                <div class="news-box">
-                                                    <p>Enter your e-mail and subscribe to our newsletter.</p>
-                                                    <form class="subscription-form" action="http://educhamp.themetrades.com/demo/assets/script/mailchamp.php" method="post">
-                                                        <div class="ajax-message"></div>
-                                                        <div class="input-group">
-                                                            <input name="dzEmail" required="required" type="email" class="form-control" placeholder="Your Email Address"/>
-                                                            <button name="submit" value="Submit" type="submit" class="btn black radius-no">
-                                                                <i class="fa fa-paper-plane-o"></i>
-                                                            </button>
+                                   <!-- Nút tìm ki?m -->
+                                        </div>
+                                        <br>
+                                        <div class="widget recent-posts-entry">
+                                            <h6 class="widget-title">Hottest Posts</h6>
+                                            <div class="widget-post-bx">
+                                                <!-- thêm danh sách các bài post hot nhat-->
+                                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+                                                <c:forEach items="${requestScope.hottest_post_list}" var="c">
+                                                    <div class="widget-post clearfix">
+                                                        <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
+                                                        <div class="ttr-post-info">
+                                                            <div class="ttr-post-header">
+                                                                <h6 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_summary}</a></h6>
+                                                            </div>
+                                                            <ul class="media-post">
+                                                                <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
+<!--                                                                <li><a href="#"><i class="fa fa-comments-o"></i>15 Comment</a></li>-->
+                                                            </ul>
                                                         </div>
-                                                    </form>
-                                                </div>
-                                            </div>                                       
+                                                    </div>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
                                     </aside>
                                 </div>
                                 <!-- Side bar END -->
@@ -202,11 +226,11 @@
         <script src="assets/js/contact.js"></script>
         <script src='assets/vendors/switcher/switcher.js'></script>
         <script>
-                                                                                function search() {
-                                                                                    var b = document.getElementById("myButton").value;
-                                                                                    document.getElementById("output").value = b;
+                                                function search() {
+                                                    var b = document.getElementById("myButton").value;
+                                                    document.getElementById("output").value = b;
 
-                                                                                }
+                                                }
         </script>
     </body>
 

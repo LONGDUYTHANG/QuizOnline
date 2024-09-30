@@ -108,7 +108,7 @@ public class PackageDAO extends DBContext {
         PackageDAO packageDAO = new PackageDAO();
         List<Package> packageList = packageDAO.getAllPackage1();
         for(Package pp : packageList){
-            System.out.println(pp.getSubject_id().getSubjectId());
+            System.out.println(pp.getSubject_id().getSubject_id());
         }
 
     }

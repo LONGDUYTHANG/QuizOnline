@@ -5,8 +5,8 @@
 
 package controller;
 
-import dal.TokenForgetDAO;
 import dal.AccountDAO;
+import dal.TokenForgetDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,8 +14,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.TokenForgetPassword;
 import model.Account;
+import model.TokenForgetPassword;
 import model.resetService;
 
 /**
@@ -23,7 +23,7 @@ import model.resetService;
  * @author ADMIN
  */
 public class resetPasswordServlet extends HttpServlet {
-    TokenForgetDAO myTokenDAO = new TokenForgetDAO();
+   TokenForgetDAO myTokenDAO = new TokenForgetDAO();
     AccountDAO myAccountDAO = new AccountDAO();
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -40,10 +40,10 @@ public class resetPasswordServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet resetPassword</title>");  
+            out.println("<title>Servlet resetPasswordServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet resetPassword at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet resetPasswordServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -67,25 +67,25 @@ public class resetPasswordServlet extends HttpServlet {
             resetService service = new resetService();
             if(tokenForgetPassword == null) {
                 request.setAttribute("mess", "token invalid");
-                request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
+                request.getRequestDispatcher("common/requestPassword.jsp").forward(request, response);
                 return;
             }
             if(tokenForgetPassword.isIsUsed()) {
                 request.setAttribute("mess", "token is used");
-                request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
+                request.getRequestDispatcher("common/requestPassword.jsp").forward(request, response);
                 return;
             }
             if(service.isExpireTime(tokenForgetPassword.getExpiryTime())) {
                 request.setAttribute("mess", "token is expiry time");
-                request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
+                request.getRequestDispatcher("common/requestPassword.jsp").forward(request, response);
                 return;
             }
             Account user = myAccountDAO.getAccountById(tokenForgetPassword.getUserId());
             request.setAttribute("email", user.getEmail());
             session.setAttribute("token", tokenForgetPassword.getToken());
-            request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
+            request.getRequestDispatcher("common/resetPassword.jsp").forward(request, response);
         } else {
-            request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
+            request.getRequestDispatcher("common/requestPassword.jsp").forward(request, response);
         }
     } 
 
@@ -99,14 +99,14 @@ public class resetPasswordServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-         String email = request.getParameter("email");
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirm_password");
         //validate password...
         if(!password.equals(confirmPassword)) {
             request.setAttribute("mess", "Confirm password must same password");
             request.setAttribute("email", email);
-            request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
+            request.getRequestDispatcher("common/resetPassword.jsp").forward(request, response);
             return;
         }
         HttpSession session = request.getSession();
@@ -116,7 +116,7 @@ public class resetPasswordServlet extends HttpServlet {
         resetService service = new resetService();
         if (tokenForgetPassword == null) {
             request.setAttribute("mess", "Token invalid");
-            request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
+            request.getRequestDispatcher("common/requestPassword.jsp").forward(request, response);
             return;
         }
         if (tokenForgetPassword.isIsUsed()) {
@@ -126,7 +126,7 @@ public class resetPasswordServlet extends HttpServlet {
         }
         if (service.isExpireTime(tokenForgetPassword.getExpiryTime())) {
             request.setAttribute("mess", "Token is expiry time");
-            request.getRequestDispatcher("requestPassword.jsp").forward(request, response);
+            request.getRequestDispatcher("common/requestPassword.jsp").forward(request, response);
             return;
         }
 
@@ -139,7 +139,7 @@ public class resetPasswordServlet extends HttpServlet {
         myTokenDAO.updateStatus(tokenForgetPassword);
 
         //save user in session and redirect to home
-        request.getRequestDispatcher("homepage_1.jsp").forward(request, response);
+        request.getRequestDispatcher("customer/homepage_1.jsp").forward(request, response);
     }
 
     /** 

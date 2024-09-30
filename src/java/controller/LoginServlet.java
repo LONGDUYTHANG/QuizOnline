@@ -9,6 +9,7 @@ import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -73,6 +74,20 @@ public class LoginServlet extends HttpServlet {
         HttpSession session=request.getSession();
         String email=request.getParameter("email");
         String userPass=request.getParameter("userPass");
+        String remember_me=request.getParameter("rem");
+        //create 2 cookie for email and remember me
+        Cookie user_email= new Cookie("c_user", email);
+        Cookie user_remember_me=new Cookie("c_check_button", remember_me);
+        //if user choose remember me
+        if(remember_me!=null){
+            user_email.setMaxAge(60*60*24*7);//7 days
+            user_remember_me.setMaxAge(60*60*24*7);
+        }else{
+            user_email.setMaxAge(0);
+            user_remember_me.setMaxAge(0);
+        }
+        response.addCookie(user_email);
+        response.addCookie(user_remember_me);
         AccountDAO myAccountDAO=new AccountDAO();
         Account myAccount=myAccountDAO.getAccount(email,userPass);
         if(myAccount.getRole_id()==myAccountDAO.getRole_Id("none")){
