@@ -74,12 +74,9 @@ public class LoginGoogleServlet extends HttpServlet {
         AccountDAO myAccountDAO=new AccountDAO();
         Account myAccount =myAccountDAO.getAccountByEmail(email);
         //if email has not been registered, add it to the database 
-        if(myAccount!=null){
+        if(myAccount==null){
             myAccountDAO.addAccount(email, "pass");
         }
-      request.setAttribute("id", googlePojo.getId());
-      request.setAttribute("name", googlePojo.getName());
-      request.setAttribute("email", email);
       RequestDispatcher dis = request.getRequestDispatcher("customer/homepage_1.jsp");
       dis.forward(request, response);
     }
