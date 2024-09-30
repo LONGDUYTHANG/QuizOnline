@@ -5,6 +5,7 @@
 
 package controller;
 
+import dal.AccountDAO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Account;
 import model.GooglePojo;
 import model.RestFB;
 
@@ -64,9 +66,13 @@ public class LoginFacebookServlet extends HttpServlet {
     } else {
       String accessToken = RestFB.getToken(code);
         GooglePojo user = RestFB.getUserInfo(accessToken);
-      request.setAttribute("id", user.getId());
-      request.setAttribute("name", user.getEmail());
-      RequestDispatcher dis = request.getRequestDispatcher("index.jsp");
+                AccountDAO myAccountDAO =new AccountDAO();
+        Account myAccount =myAccountDAO.getAccountByEmail(user.getEmail());
+        //if email has not been registered, add it to the database 
+        if(myAccount==null){
+            myAccountDAO.addAccount(user.getEmail(), "pass");
+        }
+      RequestDispatcher dis = request.getRequestDispatcher("customer/homepage_1.jsp");
       dis.forward(request, response);
     }
     } 
