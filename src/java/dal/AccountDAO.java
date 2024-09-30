@@ -336,7 +336,7 @@ public class AccountDAO extends DBContext {
                 AccountDAO adao = new AccountDAO();
                 Role role = adao.getRoleById(rs.getInt("role_id"));
 
-                account.setRole_id1(role);
+                account.setRole_id(role.getRole_id());
 
                 return account; 
             }
@@ -350,7 +350,7 @@ public class AccountDAO extends DBContext {
 
     public static void main(String[] args) {
         AccountDAO a= new AccountDAO();
-        System.out.println(a.getAccount("nguyenson221004@gmail.com"));
+        //System.out.println(a.getAccount("nguyenson221004@gmail.com"));
     }
 
 }
