@@ -114,7 +114,7 @@
                                     <!-- Overview Tab -->
                                     <div class="tab-pane active" id="overview" role="tabpanel">
                                         <h4>Quiz Details</h4>
-
+                                        <c:out value="${requestScope.message}"/>
                                         <div class="form-group">
                                             <label for="name">Name</label>
                                             <input type="text" id="name" name="name" placeholder="Enter exam name" value="${requestScope.name}" required>
@@ -171,7 +171,7 @@
                                         <h4>Settings</h4>
                                         <div class="form-group">
                                             <label for="total-questions">Total Number of Questions</label>
-                                            <input type="number" id="total-questions" name="totalquestion" value="${requestScope.totalquestion != null ? requestScope.totalquestion : 50}">
+                                            <input type="number" id="total-questions" name="totalquestion" value="0" readonly>
                                         </div>
                                         <div class="form-group">
                                             <label for="question-type">Question Type</label>
@@ -180,7 +180,7 @@
                                                 <label for="theo-topic">By Topic</label>
                                                 <input type="radio" id="theo-group" name="question_type" value="group" onchange="submitForm()" ${requestScope.question_type == "group" ? 'checked' : ''}>
                                                 <label for="theo-group">By Group</label>
-                                                <input type="radio" id="theo-domain" name="question_type" value="domain" onchange="submitForm() ${requestScope.question_type == "domain" ? 'checked' : ''}">
+                                                <input type="radio" id="theo-domain" name="question_type" value="domain" onchange="submitForm()" ${requestScope.question_type == "domain" ? 'checked' : ''}>
                                                 <label for="theo-domain">By Domain</label>
                                             </div>
                                         </div>
@@ -231,7 +231,7 @@
                                                     </select>
                                                 </c:otherwise>
                                             </c:choose>
-                                            <input type="number" class="form-control me-2" name="number_of_questions" placeholder="Questions" style="width: 100px;">
+                                            <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" placeholder="Questions" style="width: 100px;">
                                             <button type="button" class="btn btn-secondary">Delete</button>
                                         </div>
                                         <script>
@@ -239,37 +239,37 @@
                                             function addGroup() {
                                                 // The div structure to be cloned and added
                                                 var groupDiv = `
-                                                <div class="form-group d-flex align-items-center mb-3">
-                                                <label for="group-selection" class="me-3">Group Selection</label>
-                <select id="group-selection" name="group_selection" class="form-select me-2">
-                                            <c:choose>
-                                                <c:when test="${requestScope.questionTopic != null}">
-                                                    <c:forEach var="lesson_topic" items="${requestScope.questionTopic}">
-                                <option value="${lesson_topic.lesson_topic_id}"> 
-                                                        ${lesson_topic.lesson_topic_name}
-                                </option>
-                                                    </c:forEach>
-                                                </c:when>
-                                                <c:when test="${requestScope.questionGroup != null}">
-                                                    <c:forEach var="dimension" items="${requestScope.questionGroup}">
-                                <option value="${dimension.dimension_id}"> 
-                                                        ${dimension.dimension_name}
-                                </option>
-                                                    </c:forEach>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <c:forEach var="dimension" items="${requestScope.questionDomain}">
-                                <option value="${dimension.dimension_id}"> 
-                                                        ${dimension.dimension_name}
-                                </option>
-                                                    </c:forEach>
-                                                </c:otherwise>
-                                            </c:choose>
-                </select>
-                <input type="number" class="form-control me-2" name="number_of_questions" placeholder="Questions" style="width: 100px;">
-                <button type="button" class="btn btn-secondary" onclick="this.parentElement.remove()">Delete</button>
-            </div>
-        `;
+                                                        <div class="form-group d-flex align-items-center mb-3">
+                                                            <label for="group-selection" class="me-3">Group Selection</label>
+                                                            <select id="group-selection" name="group_selection" class="form-select me-2">
+                                                                                        <c:choose>
+                                                                                            <c:when test="${requestScope.questionTopic != null}">
+                                                                                                <c:forEach var="lesson_topic" items="${requestScope.questionTopic}">
+                                                                            <option value="${lesson_topic.lesson_topic_id}"> 
+                                                                                                    ${lesson_topic.lesson_topic_name}
+                                                                            </option>
+                                                                                                </c:forEach>
+                                                                                            </c:when>
+                                                                                            <c:when test="${requestScope.questionGroup != null}">
+                                                                                                <c:forEach var="dimension" items="${requestScope.questionGroup}">
+                                                                            <option value="${dimension.dimension_id}"> 
+                                                                                                    ${dimension.dimension_name}
+                                                                            </option>
+                                                                                                </c:forEach>
+                                                                                            </c:when>
+                                                                                            <c:otherwise>
+                                                                                                <c:forEach var="dimension" items="${requestScope.questionDomain}">
+                                                                            <option value="${dimension.dimension_id}"> 
+                                                                                                    ${dimension.dimension_name}
+                                                                            </option>
+                                                                                                </c:forEach>
+                                                                                            </c:otherwise>
+                                                                                        </c:choose>
+                                                            </select>
+                                                            <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" placeholder="Questions" style="width: 100px;">
+                                                            <button type="button" class="btn btn-secondary" onclick="removeGroup(this)">Delete</button>
+                                                        </div>
+                                                    `;
 
                                                 // Create a new div element to contain the groupDiv
                                                 var newDiv = document.createElement('div');
@@ -277,8 +277,44 @@
 
                                                 // Append the new div to the form or desired location
                                                 document.getElementById("setting").appendChild(newDiv);
+
+                                                // Attach event listener for the new input
+                                                attachInputListener(newDiv.querySelector('.number-of-questions'));
                                             }
+
+                                            // Function to attach the input listener
+                                            function attachInputListener(input) {
+                                                input.addEventListener('input', updateTotalQuestions);
+                                            }
+
+                                            // Function to update total questions
+                                            function updateTotalQuestions() {
+                                                const totalQuestionsInput = document.getElementById('total-questions');
+                                                let total = 0;
+
+                                                // Sum values of all number_of_questions inputs
+                                                const numberOfQuestionsInputs = document.querySelectorAll('.number-of-questions');
+                                                numberOfQuestionsInputs.forEach(input => {
+                                                    total += Number(input.value) || 0;
+                                                });
+
+                                                // Update the total questions input
+                                                totalQuestionsInput.value = total;
+                                            }
+
+                                            // Function to remove the group and update total questions
+                                            function removeGroup(button) {
+                                                const groupDiv = button.parentElement;
+                                                groupDiv.remove();
+                                                updateTotalQuestions(); // Update the total after removing
+                                            }
+
+                                            // Initial event listener setup for existing inputs (if any)
+                                            document.querySelectorAll('.number-of-questions').forEach(input => {
+                                                attachInputListener(input);
+                                            });
                                         </script>
+
                                     </div>
                                 </div>
                             </div>
@@ -313,6 +349,8 @@
                         }
                     });
                 </script>
+
+
                 <jsp:include page="footer.jsp" />
             </div>
         </div>

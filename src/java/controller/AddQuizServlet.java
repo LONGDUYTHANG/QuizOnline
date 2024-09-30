@@ -12,8 +12,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import model.Quiz;
 import model.Subject;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -76,12 +83,14 @@ public class AddQuizServlet extends HttpServlet {
         request.setAttribute("description", description);
         request.setAttribute("totalquestion", totalquestion);
         request.setAttribute("question_type", question_type);
+        
         request.setAttribute("listSubject", dao.getAllSubject());
         request.setAttribute("listLevel", dao.getAllLevel());
         request.setAttribute("listQuiz_Type", dao.getAllQuizType());
         //Get activeTab
         String activeTab = request.getParameter("activeTab");
         request.setAttribute("activeTab", activeTab);
+        
         if (question_type.equals("topic")) {
             request.setAttribute("questionTopic", dao.getAllLessonTopicBySubjectId(Integer.parseInt(subject_id)));
         }
@@ -118,9 +127,66 @@ public class AddQuizServlet extends HttpServlet {
         String description = request.getParameter("description");
         String totalquestion = request.getParameter("totalquestion");
         String question_type = request.getParameter("question_type");
-        String[] group_selection = request.getParameterValues("group_selection");
-        String number_of_questions[] = request.getParameterValues("number_of_questions");
         
+        
+        request.setAttribute("name", name);
+        request.setAttribute("subject_id", Integer.parseInt(subject_id));
+        request.setAttribute("level_id", level_id);
+        request.setAttribute("duration", duration);
+        request.setAttribute("passrate", passrate);
+        request.setAttribute("quiztype_id", quiztype_id);
+        request.setAttribute("description", description);
+        request.setAttribute("totalquestion", totalquestion);
+        request.setAttribute("question_type", question_type);
+        
+        request.setAttribute("listSubject", dao.getAllSubject());
+        request.setAttribute("listLevel", dao.getAllLevel());
+        request.setAttribute("listQuiz_Type", dao.getAllQuizType());
+        
+        String number_of_questions[] = request.getParameterValues("number_of_questions");
+        String group_selection[] = request.getParameterValues("group_selection");
+        
+        //This line is temporary, the account_id should be selected from session
+        int account_id = 2;
+      
+        out.print("OKKKKK");
+        //Declare hashmap
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < group_selection.length; i++) {
+            int selection_id = Integer.parseInt(group_selection[i]);
+            int number_of_question = Integer.parseInt(number_of_questions[i]);
+            this.addGroup(selection_id, number_of_question, map);
+        }
+        if (question_type.equals("topic")) {
+            for (Integer key : map.keySet()) {
+                int available = dao.getNumberOfQuestionBySubjectAndLessonTopic(Integer.parseInt(subject_id), key);
+                if (map.get(key) > available) {
+                    request.setAttribute("message", "Not enough question for " + dao.getLessonTopicById(key).getLesson_topic_name() + ", available: " + available);
+                    request.getRequestDispatcher("expert/add_quiz.jsp").forward(request, response);
+                }
+            }
+        } else {
+            for (Integer key : map.keySet()) {
+                int available = dao.getNumberOfQuestionBySubjectAndDimensionId(Integer.parseInt(subject_id), key);
+                if (map.get(key) > available) {
+                    request.setAttribute("message", "Not enough question for " + dao.getDimensionById(key).getDimension_name() + ", available: " + available);
+                    request.getRequestDispatcher("expert/add_quiz.jsp").forward(request, response);
+                }
+            }
+        }
+
+    }
+    
+    
+    private void addGroup(int key, int value, HashMap<Integer, Integer> groupMap) {
+        // Check if the key exists
+        if (groupMap.containsKey(key)) {
+            // Accumulate the value
+            groupMap.put(key, groupMap.get(key) + value);
+        } else {
+            // Add the new key-value pair
+            groupMap.put(key, value);
+        }
     }
 
     /** 
