@@ -99,13 +99,13 @@
                     </div>
                 </div> 
                 <!-- login -->
-                <%@include file="common/login.jsp" %>
+                <%@include file="login.jsp" %>
                 <!-- register     -->
-                <%@include file="common/register.jsp" %>
+                <%@include file="register.jsp" %>
                 
-                <%@include file="customer/header.html" %>
+                <%@include file="header.html" %>
                 
-                <%@include file="common/requestPassword.jsp" %>
+                <%@include file="requestPassword.jsp" %>
                 
             </header>
             <!-- Header Top END ==== -->
@@ -404,7 +404,7 @@
             </div>
             <!-- Content END-->
             <!-- Footer ==== -->
-            <%@include file="customer/footer.html" %>
+            <%@include file="\customer\footer.html" %>
             <!-- Footer END ==== -->
             <button class="back-to-top fa fa-chevron-up" ></button>
         </div>

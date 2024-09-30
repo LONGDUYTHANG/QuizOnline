@@ -25,6 +25,7 @@ public class Account {
 
     public Account(int account_id, String first_name, String last_name, boolean gender, String email, String mobile, String password, String avatar, int role_id) {
         this.account_id = account_id;
+
         this.first_name = first_name;
         this.last_name = last_name;
         this.gender = gender;
@@ -35,6 +36,25 @@ public class Account {
         this.role_id = role_id;
     }
 
+    public Account(String first_name, String last_name, boolean gender, String mobile) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.gender = gender;
+        this.mobile = mobile;
+    }
+
+    public Account(int account_id, String first_name, String last_name, boolean gender, String mobile) {
+        this.account_id = account_id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.gender = gender;
+        this.mobile = mobile;
+    }
+    
+    
+
+    
+    
     public int getAccount_id() {
         return account_id;
     }

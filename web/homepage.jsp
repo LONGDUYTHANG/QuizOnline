@@ -104,7 +104,7 @@
                 <%@include file="common/register.jsp" %>
                 
                 <%@include file="customer/header.html" %>
-                
+
                 <%@include file="common/requestPassword.jsp" %>
                 
             </header>
