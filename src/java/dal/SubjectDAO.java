@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Account;
 import model.RegisteredSubject;
+import model.Role;
 import model.Subject;
 import model.SubjectCategory;
 
@@ -348,8 +349,9 @@ public class SubjectDAO extends DBContext {
             if (rs.next()) {
                 Account account = new Account();
                 account.setAccount_id(rs.getInt("account_id"));
-                account.setFull_name(rs.getString("full_name"));
-                account.setGender1(rs.getInt("gender")); // Assuming gender is stored as a boolean
+                account.setFirst_name(rs.getString("first_name"));
+                account.setLast_name(rs.getString("last_name"));
+                account.setGender(rs.getBoolean("gender")); // Assuming gender is stored as a boolean
                 account.setEmail(rs.getString("email"));
                 account.setMobile(rs.getString("mobile"));
                 account.setPassword(rs.getString("password"));
@@ -358,7 +360,7 @@ public class SubjectDAO extends DBContext {
                 AccountDAO adao = new AccountDAO();
                 Role role = adao.getRoleById(rs.getInt("role_id"));
 
-                account.setRole_id1(role);
+                account.setRole_id(role.getRole_id());
 
                 return account; 
             }
