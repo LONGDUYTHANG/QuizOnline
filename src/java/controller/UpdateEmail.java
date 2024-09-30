@@ -119,7 +119,7 @@ public class UpdateEmail extends HttpServlet {
             String formattedNumber = String.format("%06d", rdn);
             session.setAttribute("confirm_code", formattedNumber);
             confirmCode = (String) session.getAttribute("confirm_code");
-            Email.sendEmail(newEmail, confirmCode, a.getFull_name());
+            Email.sendEmail(newEmail, confirmCode, a.getFirst_name() + " " + a.getLast_name());
             request.setAttribute("comfirm_new_ss", true);
             session.setAttribute("new_email", newEmail);
             request.getRequestDispatcher("customer/update_email.jsp").forward(request, response);

@@ -103,9 +103,9 @@
                 <!-- register     -->
                 <%@include file="register.jsp" %>
                 
-                <%@include file="customer/header.html" %>
-
-                <%@include file="common/requestPassword.jsp" %>
+                <%@include file="header.html" %>
+                
+                <%@include file="requestPassword.jsp" %>
                 
             </header>
             <!-- Header Top END ==== -->
@@ -236,19 +236,19 @@
                             </div>
                             <div class="row">
                                 <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                    <!-- th√™m subjedt list -->
+                                    <!-- thÍm subjedt list -->
                                     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                     <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                                     <c:forEach items="${requestScope.subject_list}" var="c">
                                         <c:if test="${fn:contains(c.description, param.keyword) || fn:contains(c.subjectName, param.keyword)}">
-                                            <div class="item" style="width: 300px; height: 350px;"> <!-- K√≠ch th??c c? ??nh -->
-                                                <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;"> <!-- B?o ??m k√≠ch th??c -->
-                                                    <div class="action-box" style="width: 100%; height: 57%;"> <!-- T? l? h√¨nh ?nh c? ??nh -->
-                                                        <img src="${c.thumbnail}" alt="" style="width: 100%; height: 100%;"> <!-- K√≠ch th??c h√¨nh ?nh -->
+                                            <div class="item" style="width: 300px; height: 350px;"> <!-- KÌch th??c c? ??nh -->
+                                                <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;"> <!-- B?o ??m kÌch th??c -->
+                                                    <div class="action-box" style="width: 100%; height: 57%;"> <!-- T? l? hÏnh ?nh c? ??nh -->
+                                                        <img src="${c.thumbnail}" alt="" style="width: 100%; height: 100%;"> <!-- KÌch th??c hÏnh ?nh -->
                                                         <a href="subject_details?subject_id=${c.subjectId}" class="btn">Read More</a>
                                                     </div>
                                                     <div class="info-bx text-center" style="padding: 10px;">
-                                                        <!-- S? d?ng CSS ?? c?t ?o?n text khi qu√° d√†i -->
+                                                        <!-- S? d?ng CSS ?? c?t ?o?n text khi qu· d‡i -->
                                                         <h5>
                                                             <a href="subject_details?subject_id=${c.subjectId}" 
                                                                style="color: black; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
@@ -346,7 +346,7 @@
                                 </div>
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                <!--  th√™m danh s√°ch b√†i post m?i nh?t-->
+                                <!--  thÍm danh s·ch b‡i post m?i nh?t-->
                                 <c:forEach items="${requestScope.post_list}" var="c">
                                     <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> 
                                         <a href="blog_detail?blog_id=${c.blog_id}">
@@ -377,12 +377,12 @@
                                 </div>
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                <!--  th√™m danh s√°ch b√†i post hot nh?t-->
+                                <!--  thÍm danh s·ch b‡i post hot nh?t-->
                                 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                 <c:forEach items="${requestScope.hottest_post_list}" var="c">
-                                    <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> <!-- K√≠ch th??c c? ??nh -->
+                                    <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> <!-- KÌch th??c c? ??nh -->
                                         <a href="blog_detail?blog_id=${c.blog_id}">
-                                            <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> <!-- K√≠ch th??c h√¨nh ?nh -->
+                                            <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> <!-- KÌch th??c hÏnh ?nh -->
                                         </a>
                                         <div class="ttr-post-info" style="padding: 10px; height: 40%;">
                                             <ul class="media-post">
@@ -390,7 +390,7 @@
                                                 <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
                                             </ul>
                                             <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
-                                            <p style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.blog_summary}</p> <!-- Gi?i h?n chi?u d√†i b√†i t√≥m t?t -->
+                                            <p style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.blog_summary}</p> <!-- Gi?i h?n chi?u d‡i b‡i tÛm t?t -->
                                         </div>
                                     </div>
                                 </c:forEach>
@@ -404,7 +404,7 @@
             </div>
             <!-- Content END-->
             <!-- Footer ==== -->
-            <%@include file="customer/footer.html" %>
+            <%@include file="\customer\footer.html" %>
             <!-- Footer END ==== -->
             <button class="back-to-top fa fa-chevron-up" ></button>
         </div>
@@ -526,18 +526,27 @@
         });
         </script>
         <script>
+            //login
             const openLoginButton = document.getElementById('open-login-popup');
             const closeLoginButton = document.getElementById('close-login-popup');
-            const openRegisterButton = document.getElementById('open-register-popup');
-            const closeRegisterButton = document.getElementById('close-register-popup');
             const loginPopup = document.getElementById('login-popup');
-            const registerPopup = document.getElementById('register-popup');
             const loginError = document.getElementById('login-error');
             const checkLoginError = document.getElementById('check-login-error');
+            //register
+            const openRegisterButton = document.getElementById('open-register-popup');
+            const closeRegisterButton = document.getElementById('close-register-popup');
+            const registerPopup = document.getElementById('register-popup');
             const emailError = document.getElementById('email-error');
             const checkEmailError = document.getElementById('check-email-error');
             const passError = document.getElementById('pass-error');
             const checkPassError = document.getElementById('check-pass-error');
+            //requestPass
+            const openRequestButton = document.getElementById('open-requestPass-popup');
+            const closeRequestButton = document.getElementById('close-requestPass-popup');
+            const RequestPopup = document.getElementById('requestPass-popup');
+            const requestError = document.getElementById('requestPass-error');
+            const checkRequestError = document.getElementById('check-requestPass-error');
+            
 
             openLoginButton.onclick = function () {
                 loginPopup.style.display = 'flex';
@@ -553,6 +562,14 @@
             closeRegisterButton.onclick = function () {
                 registerPopup.style.display = 'none';
             };
+            openRequestButton.onclick = function () {
+                loginPopup.style.display = 'none';
+                RequestPopup.style.display='flex';
+            };
+            closeRequestButton.onclick =function () {
+                loginPopup.style.display = 'flex';
+                RequestPopup.style.display='none';
+            };
             function LoginAgain() {
                 if (checkLoginError.textContent === loginError.textContent) {
                     loginPopup.style.display = 'flex';
@@ -563,11 +580,19 @@
                 if (checkPassError.textContent === passError.textContent) {
                     registerPopup.style.display = 'flex';
                 }
+                if(requestError.textContent==='Send request success'){
+                    RequestPopup.style.display='flex';
+                }
+                if(requestError.textContent==='Email not existed'){
+                    RequestPopup.style.display='flex';
+                }
+                console.log(requestError.textContent);
+                
 
             }
 
 
-            // ?√≥ng pop-up khi nh?n ra ngo√†i
+            // ?Ûng pop-up khi nh?n ra ngo‡i
             window.onclick = function (event) {
                 if (event.target === loginPopup) {
                     loginPopup.style.display = 'none';
@@ -580,7 +605,7 @@
                 }
             };
         </script>
-    </body>
+            </body>
 
 </html>
 

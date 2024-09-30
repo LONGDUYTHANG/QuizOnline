@@ -10,6 +10,9 @@ import java.util.List;
 import model.SubjectCategory;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import model.Category;
+import model.Subject;
 
 /**
  *
@@ -58,6 +61,28 @@ public class CategoryDAO extends DBContext {
         }
 
         return category; 
+    }
+ 
+ public ArrayList<Category> getCategory() {
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<Category> category_list = new ArrayList<>();
+        try {
+            String strSelect = "SELECT * FROM Category ";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Category category = new Category();
+                category.setCategory_id(rs.getInt("category_id"));
+                category.setCategory_name(rs.getString("category_name"));
+                
+
+                category_list.add(category);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return category_list;
     }
     
    

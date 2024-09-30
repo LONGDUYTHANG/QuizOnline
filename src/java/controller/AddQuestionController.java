@@ -9,10 +9,14 @@ import dal.QuestionDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import model.Answer;
 import model.Question;
 
@@ -20,6 +24,7 @@ import model.Question;
  *
  * @author FPT SHOP
  */
+@MultipartConfig
 public class AddQuestionController extends HttpServlet {
    
     /** 
@@ -90,7 +95,17 @@ public class AddQuestionController extends HttpServlet {
             int lesson_topic_id = Integer.parseInt(lesson_topic_id_raw);
             int level_id = Integer.parseInt(level_id_raw);
             boolean status = Boolean.parseBoolean(status_raw);
-            Question question = new Question(subject_id, dimension_id, lesson_topic_id, level_id, status, content, explanation, media);
+            
+            //Get an image
+            Part mediaPart = request.getPart("media");
+            String realPath = request.getServletContext().getRealPath("/img/question_media");
+            String filename = Paths.get(mediaPart.getSubmittedFileName()).getFileName().toString();
+            if (!Files.exists(Paths.get(realPath))) {
+                Files.createDirectory(Paths.get(realPath));
+            }
+            mediaPart.write(realPath + "/" + filename);
+            
+            Question question = new Question(subject_id, dimension_id, lesson_topic_id, level_id, status, content, explanation, filename);
             
             //Add Question
             dao.addQuestion(question);

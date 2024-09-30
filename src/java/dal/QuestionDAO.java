@@ -185,7 +185,7 @@ public class QuestionDAO extends DBContext {
             st.setBoolean(5, question.isStatus());
             st.setString(6, question.getQuestion_content());
             st.setString(7, question.getExplanation());
-            st.setString(8, question.getMedia() == null ? "null" : question.getMedia());
+            st.setString(8, question.getMedia());
             st.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex);
