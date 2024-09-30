@@ -74,7 +74,7 @@ public class requestPasswordServlet extends HttpServlet {
           AccountDAO myAccountDAO = new AccountDAO();
         String email = request.getParameter("email");
         //email co ton tai trong db
-        Account user = myAccountDAO.getAccount(email);
+        Account user = myAccountDAO.getAccountbyEmail(email);
         if(user == null) {
             request.setAttribute("request_error", "Email not existed");
             request.getRequestDispatcher("homepage.jsp").forward(request, response);
@@ -96,7 +96,7 @@ public class requestPasswordServlet extends HttpServlet {
             request.getRequestDispatcher("homepage.jsp").forward(request, response);
             return;
         }
-        boolean isSend = service.sendEmail(email, linkReset, user.getFull_name());
+        boolean isSend = service.sendEmail(email, linkReset, user.getFirst_name()+user.getLast_name());
         if(!isSend) {
             request.setAttribute("request_error", "Can not send request");
             request.getRequestDispatcher("homepage.jsp").forward(request, response);
