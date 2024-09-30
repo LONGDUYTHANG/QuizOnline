@@ -66,6 +66,7 @@
                         <form class="contact-bx" action="requestPassword" method="post">
                             <div class="row placeani">
                                 <div class="col-lg-12">
+                                    
                                     <div class="form-group">
                                         <p style="color: red" id="requestPass-error">${requestScope.request_error}</p>
                                         <p style="color: red" id="check-requestPass-error" hidden>Email not existed</p>
