@@ -104,6 +104,8 @@
                 <%@include file="common/register.jsp" %>
                 
                 <%@include file="customer/header.html" %>
+
+                <%@include file="common/requestPassword.jsp" %>
                 
                 <%@include file="common/requestPassword.jsp" %>
                 
@@ -236,19 +238,19 @@
                             </div>
                             <div class="row">
                                 <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                    <!-- thÍm subjedt list -->
+                                    <!-- th√™m subjedt list -->
                                     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                     <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                                     <c:forEach items="${requestScope.subject_list}" var="c">
                                         <c:if test="${fn:contains(c.description, param.keyword) || fn:contains(c.subjectName, param.keyword)}">
-                                            <div class="item" style="width: 300px; height: 350px;"> <!-- KÌch th??c c? ??nh -->
-                                                <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;"> <!-- B?o ??m kÌch th??c -->
-                                                    <div class="action-box" style="width: 100%; height: 57%;"> <!-- T? l? hÏnh ?nh c? ??nh -->
-                                                        <img src="${c.thumbnail}" alt="" style="width: 100%; height: 100%;"> <!-- KÌch th??c hÏnh ?nh -->
+                                            <div class="item" style="width: 300px; height: 350px;"> <!-- K√≠ch th??c c? ??nh -->
+                                                <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;"> <!-- B?o ??m k√≠ch th??c -->
+                                                    <div class="action-box" style="width: 100%; height: 57%;"> <!-- T? l? h√¨nh ?nh c? ??nh -->
+                                                        <img src="${c.thumbnail}" alt="" style="width: 100%; height: 100%;"> <!-- K√≠ch th??c h√¨nh ?nh -->
                                                         <a href="subject_details?subject_id=${c.subjectId}" class="btn">Read More</a>
                                                     </div>
                                                     <div class="info-bx text-center" style="padding: 10px;">
-                                                        <!-- S? d?ng CSS ?? c?t ?o?n text khi qu· d‡i -->
+                                                        <!-- S? d?ng CSS ?? c?t ?o?n text khi qu√° d√†i -->
                                                         <h5>
                                                             <a href="subject_details?subject_id=${c.subjectId}" 
                                                                style="color: black; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
@@ -346,7 +348,7 @@
                                 </div>
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                <!--  thÍm danh s·ch b‡i post m?i nh?t-->
+                                <!--  th√™m danh s√°ch b√†i post m?i nh?t-->
                                 <c:forEach items="${requestScope.post_list}" var="c">
                                     <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> 
                                         <a href="blog_detail?blog_id=${c.blog_id}">
@@ -377,12 +379,12 @@
                                 </div>
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
-                                <!--  thÍm danh s·ch b‡i post hot nh?t-->
+                                <!--  th√™m danh s√°ch b√†i post hot nh?t-->
                                 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                 <c:forEach items="${requestScope.hottest_post_list}" var="c">
-                                    <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> <!-- KÌch th??c c? ??nh -->
+                                    <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> <!-- K√≠ch th??c c? ??nh -->
                                         <a href="blog_detail?blog_id=${c.blog_id}">
-                                            <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> <!-- KÌch th??c hÏnh ?nh -->
+                                            <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> <!-- K√≠ch th??c h√¨nh ?nh -->
                                         </a>
                                         <div class="ttr-post-info" style="padding: 10px; height: 40%;">
                                             <ul class="media-post">
@@ -390,7 +392,7 @@
                                                 <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
                                             </ul>
                                             <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
-                                            <p style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.blog_summary}</p> <!-- Gi?i h?n chi?u d‡i b‡i tÛm t?t -->
+                                            <p style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.blog_summary}</p> <!-- Gi?i h?n chi?u d√†i b√†i t√≥m t?t -->
                                         </div>
                                     </div>
                                 </c:forEach>
@@ -592,7 +594,7 @@
             }
 
 
-            // ?Ûng pop-up khi nh?n ra ngo‡i
+            // ?√≥ng pop-up khi nh?n ra ngo√†i
             window.onclick = function (event) {
                 if (event.target === loginPopup) {
                     loginPopup.style.display = 'none';
@@ -608,4 +610,3 @@
             </body>
 
 </html>
-

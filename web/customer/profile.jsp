@@ -106,7 +106,7 @@
 
                                         </div>
                                         <div class="profile-info">
-                                            <h4>${acc.full_name}</h4>
+                                            <h4>${acc.first_name} ${acc.last_name}</h4>
                                         </div>
                                         <hr>
                                         <label style="cursor: pointer" onclick="changeAvatar()" id="changeavt_label">Change Avatar</label>
@@ -174,7 +174,7 @@
 
                                                                 </div>
 
-                                                                <p>${sessionScope.enrolled_subject}</p>
+                                                                <p></p>
 
                                                             </div>
                                                             <div class="col-md-1" >
@@ -207,7 +207,7 @@
 
                                                                 </div>
 
-                                                                <p>${sessionScope.created_blog}</p>
+                                                                <p></p>
 
                                                             </div>
                                                             <%--
@@ -244,7 +244,7 @@
                                                 <div class="courses-filter">
                                                     <div class="clearfix">
                                                         <ul id="masonry" class="ttr-gallery-listing magnific-image row">
-                                                            <c:forEach items="${sessionScope.recently_enrolled_subject}" var="r_subject">
+                                                            <%--<c:forEach items="${sessionScope.recently_enrolled_subject}" var="r_subject">
                                                                 <li class="action-card col-xl-4 col-lg-6 col-md-12 col-sm-6 publish">
                                                                     <div class="cours-bx">
                                                                         
@@ -270,6 +270,7 @@
                                                                     </div>
                                                                 </li>
                                                             </c:forEach>
+                                                            --%>
                                                             
                                                         </ul>
                                                     </div>
@@ -296,7 +297,9 @@
                                                         <div class="form-group row">
                                                             <label class="col-12 col-sm-3 col-md-3 col-lg-2 col-form-label">Full Name</label>
                                                             <div class="col-12 col-sm-9 col-md-9 col-lg-7">
-                                                                <input class="form-control" type="text" value="${acc.full_name}" name="fullname">
+
+                                                                <input class="form-control" type="text" value="${acc.first_name} ${acc.last_name}" name="fullname">
+
                                                                 <%-- 
                                                                 private String fullName, email, avatar, password, mobile, gender;
                                                                 private int roleId;
@@ -306,20 +309,21 @@
                                                         <div class="form-group row">
                                                             <label class="col-12 col-sm-3 col-md-3 col-lg-2 col-form-label">Gender</label>
                                                             <div class="col-12 col-sm-9 col-md-9 col-lg-7" style="display: flex; align-items: center">
-                                                                <input type="radio" name="gender" value="Male" ${acc.gender ? 'checked':''}/>&nbsp;Male 
-                                                                <input style="margin-left: 50px" type="radio" name="gender" value="Female" ${acc.gender ? '':'checked'}/>&nbsp;Female
+                                                                <input type="radio" name="gender" value="Male" ${acc.gender ? 'checked':''} required=""/>&nbsp;Male 
+                                                                <input style="margin-left: 50px" type="radio" name="gender" value="Female" ${acc.gender ? '':'checked'} required/>&nbsp;Female
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <label class="col-12 col-sm-3 col-md-3 col-lg-2 col-form-label">Phone No.</label>
                                                             <div class="col-12 col-sm-9 col-md-9 col-lg-7" >
-                                                                <input class="form-control" type="text" value="${acc.mobile}" name="mobile" id="mobile">
+                                                                <input class="form-control" type="text" value="${acc.mobile}" name="mobile" id="mobile" required>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <label class="col-12 col-sm-3 col-md-3 col-lg-2 col-form-label">Email</label>
                                                             <div class="col-12 col-sm-9 col-md-9 col-lg-7">
-                                                                <input class="form-control" type="email" value="${acc.email}" name="email" id="email">
+                                                                <input class="form-control" type="email" value="${acc.email}" name="email" id="email" disabled="">
+                                                                <button type="button" class="btn"><a href="update_email">Update Email</a></button>
                                                             </div>
                                                         </div>
                                                         <div class="seperator"></div>
