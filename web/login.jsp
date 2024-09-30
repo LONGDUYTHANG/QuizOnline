@@ -82,7 +82,7 @@
                                             <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
                                             <label class="custom-control-label" for="customControlAutosizing">Remember me</label>
                                         </div>
-                                        <a href="forget-password.html" class="ml-auto">Forgot Password?</a>
+                                        <a  href="#" class="ml-auto" id="open-requestPass-popup">Forgot Password?</a>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 m-b30">
@@ -91,7 +91,8 @@
                                 <div class="col-lg-12">
                                     <h6>Login with Social media</h6>
                                     <div class="d-flex">
-                                        <a class="btn flex-fill m-r5 facebook" href="#"><i class="fa fa-facebook"></i>Facebook</a>
+                                        <a class="btn flex-fill m-r5 facebook" href="https://www.facebook.com/v20.0/dialog/oauth?
+  client_id=881147463974671&redirect_uri=http://localhost:8080/quizonline/facebooklogin"><i class="fa fa-facebook"></i>Facebook</a>
                                         <a class="btn flex-fill m-l5 google-plus" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/quizonline/googlelogin&response_type=code
                                            &client_id=393624416817-8crlnf1o21kjk410epg6pjg7q6bohd79.apps.googleusercontent.com&approval_prompt=force"><i class="fa fa-google-plus"></i>Google Plus</a>
                                     </div>
