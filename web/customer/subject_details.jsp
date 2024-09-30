@@ -47,7 +47,7 @@
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
 
-        
+
     </head>
     <body id="bg">
         <%@include file="header.html" %>
@@ -74,6 +74,14 @@
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="course-detail-bx">
                                         <div class="course-price">
+                                            <label for="courseDuration">Choose duration:</label>
+                                            <select id="courseDuration" name="courseDuration" class="form-control" onchange="updatePrice()">
+                                                <option value="3months" data-price="120">3 months</option>
+                                                <option value="6months" data-price="200">6 months</option>
+                                                <option value="9months" data-price="270">9 months</option>
+                                            </select>
+                                        </div> 
+                                        <div class="course-price" style="margin-bottom: 5px;">
                                             <del>$190</del>
                                             <h4 class="price">$120</h4>
                                         </div>	
@@ -135,7 +143,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="courese-overview" id="overview">
                                         <h4>Overview</h4>
                                         <div class="row">
@@ -153,7 +161,7 @@
                                             <div class="col-md-12 col-lg-8">
                                                 <h5 class="m-b5">Course Description</h5>
                                                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry?s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-                                                
+
                                             </div>
                                         </div>
                                     </div>

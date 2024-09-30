@@ -105,7 +105,6 @@
                                                 <ul class="media-post">
                                                     <li><i class="fa fa-calendar"></i>${c.createdDate}</a></li>
                                                     <li><b>${c.tagline}</b></li>
-                                                    <!-- class="fa fa-user" -->
                                                 </ul>
                                                 <h5 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.description}</a></h5>
                                                 <p>${c.description}</p>
