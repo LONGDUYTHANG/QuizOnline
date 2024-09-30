@@ -174,7 +174,7 @@
 
                                                                 </div>
 
-                                                                <p></p>
+                                                                <p>${sessionScope.enrolled_subject}</p>
 
                                                             </div>
                                                             <div class="col-md-1" >
@@ -192,7 +192,7 @@
 
                                                                 </div>
 
-                                                                <p>0</p>
+                                                                <p>${sessionScope.finished_quiz}</p>
 
                                                             </div>
                                                             <div class="col-md-5 dashboard_attribute" style="margin-top: 30px">
@@ -207,7 +207,7 @@
 
                                                                 </div>
 
-                                                                <p></p>
+                                                                <p>${sessionScope.created_blog}</p>
 
                                                             </div>
                                                             <%--
@@ -240,14 +240,15 @@
                                                 </div>
                                                 <div class="profile-head" style="margin-top: 20px">
                                                     <h3>Recently Enrolled Subjects</h3>
+                                                    
                                                 </div>
                                                 <div class="courses-filter">
                                                     <div class="clearfix">
                                                         <ul id="masonry" class="ttr-gallery-listing magnific-image row">
-                                                            <%--<c:forEach items="${sessionScope.recently_enrolled_subject}" var="r_subject">
+                                                            <c:forEach items="${sessionScope.recently_enrolled_subject}" var="r_subject">
                                                                 <li class="action-card col-xl-4 col-lg-6 col-md-12 col-sm-6 publish">
                                                                     <div class="cours-bx">
-                                                                        
+
                                                                         <div class="action-box">
                                                                             <img src="${r_subject.thumbnail}" alt="">
                                                                             <a href="subject_details?subject_id=${r_subject.subjectId}" class="btn">Read More</a>
@@ -260,7 +261,7 @@
                                                                             <div class="review">
                                                                                 <span>Enrolled Date</span>
                                                                                 <br><!-- comment -->
-                                                                                <span>${r_subject.created_date}</span>
+                                                                                <span>${r_subject.registration_time}</span>
                                                                             </div>
                                                                             <div class="price">
                                                                                 <h5>Cost:</h5>
@@ -270,11 +271,15 @@
                                                                     </div>
                                                                 </li>
                                                             </c:forEach>
-                                                            --%>
-                                                            
+
                                                         </ul>
                                                     </div>
                                                 </div>
+                                                <c:if test="${sessionScope.no_enrolled_subject}">
+                                                    <div class="profile-head" >
+                                                        <h3>NO ENROLLED SUBJECT</h3>
+                                                    </div>
+                                                </c:if>
                                             </div>
                                             <!--                                            xử lý dữ liệu ở đây-->
 

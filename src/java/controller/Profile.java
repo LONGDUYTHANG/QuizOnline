@@ -81,10 +81,13 @@ public class Profile extends HttpServlet {
         session.setAttribute("enrolled_subject", enrolledSubject);
         session.setAttribute("created_blog", numberBlogs);
         session.setAttribute("finished_quiz", quizDone);
-        //List<RegisteredSubject> listSubject = sd.getEnrolledSubjectRecently(ac);
+        List<RegisteredSubject> listSubject = sd.getEnrolledSubjectRecently(ac);
 //        PrintWriter out = response.getWriter();
 //        out.print(ac);
-        //session.setAttribute("recently_enrolled_subject", listSubject);
+        if(listSubject == null) {
+            session.setAttribute("no_enrolled_subject", true);
+        }
+        session.setAttribute("recently_enrolled_subject", listSubject);
         request.getRequestDispatcher("customer/profile.jsp").forward(request, response);
     }
 
