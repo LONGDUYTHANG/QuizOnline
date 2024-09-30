@@ -100,16 +100,6 @@
                                             </div>
                                         </div>
                                         <div class="cours-more-info">
-                                            <div class="review">
-                                                <span>3 Review</span>
-                                                <ul class="cours-star">
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                </ul>
-                                            </div>
                                             <div class="price categories">
                                                 <span>Categories</span>
                                                 <h5 class="text-primary">Frontend</h5>
@@ -120,7 +110,6 @@
                                                 <li><a class="nav-link" href="#overview"><i class="ti-zip"></i>Overview</a></li>
                                                 <li><a class="nav-link" href="#curriculum"><i class="ti-bookmark-alt"></i>Curriculum</a></li>
                                                 <li><a class="nav-link" href="#instructor"><i class="ti-user"></i>Instructor</a></li>
-                                                <li><a class="nav-link" href="#reviews"><i class="ti-comments"></i>Reviews</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -160,8 +149,7 @@
                                             </div>
                                             <div class="col-md-12 col-lg-8">
                                                 <h5 class="m-b5">Course Description</h5>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry?s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-
+                                                <p>${c.description}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -242,12 +230,6 @@
                                             <div class="instructor-info">
                                                 <h6>Keny White </h6>
                                                 <span>Professor</span>
-                                                <ul class="list-inline m-tb10">
-                                                    <li><a href="#" class="btn sharp-sm facebook"><i class="fa fa-facebook"></i></a></li>
-                                                    <li><a href="#" class="btn sharp-sm twitter"><i class="fa fa-twitter"></i></a></li>
-                                                    <li><a href="#" class="btn sharp-sm linkedin"><i class="fa fa-linkedin"></i></a></li>
-                                                    <li><a href="#" class="btn sharp-sm google-plus"><i class="fa fa-google-plus"></i></a></li>
-                                                </ul>
                                                 <p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</p>
                                             </div>
                                         </div>
@@ -258,101 +240,10 @@
                                             <div class="instructor-info">
                                                 <h6>Keny White </h6>
                                                 <span>Professor</span>
-                                                <ul class="list-inline m-tb10">
-                                                    <li><a href="#" class="btn sharp-sm facebook"><i class="fa fa-facebook"></i></a></li>
-                                                    <li><a href="#" class="btn sharp-sm twitter"><i class="fa fa-twitter"></i></a></li>
-                                                    <li><a href="#" class="btn sharp-sm linkedin"><i class="fa fa-linkedin"></i></a></li>
-                                                    <li><a href="#" class="btn sharp-sm google-plus"><i class="fa fa-google-plus"></i></a></li>
-                                                </ul>
                                                 <p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="" id="reviews">
-                                        <h4>Reviews</h4>
-
-                                        <div class="review-bx">
-                                            <div class="all-review">
-                                                <h2 class="rating-type">3</h2>
-                                                <ul class="cours-star">
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                </ul>
-                                                <span>3 Rating</span>
-                                            </div>
-                                            <div class="review-bar">
-                                                <div class="bar-bx">
-                                                    <div class="side">
-                                                        <div>5 star</div>
-                                                    </div>
-                                                    <div class="middle">
-                                                        <div class="bar-container">
-                                                            <div class="bar-5" style="width:90%;"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="side right">
-                                                        <div>150</div>
-                                                    </div>
-                                                </div>
-                                                <div class="bar-bx">
-                                                    <div class="side">
-                                                        <div>4 star</div>
-                                                    </div>
-                                                    <div class="middle">
-                                                        <div class="bar-container">
-                                                            <div class="bar-5" style="width:70%;"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="side right">
-                                                        <div>140</div>
-                                                    </div>
-                                                </div>
-                                                <div class="bar-bx">
-                                                    <div class="side">
-                                                        <div>3 star</div>
-                                                    </div>
-                                                    <div class="middle">
-                                                        <div class="bar-container">
-                                                            <div class="bar-5" style="width:50%;"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="side right">
-                                                        <div>120</div>
-                                                    </div>
-                                                </div>
-                                                <div class="bar-bx">
-                                                    <div class="side">
-                                                        <div>2 star</div>
-                                                    </div>
-                                                    <div class="middle">
-                                                        <div class="bar-container">
-                                                            <div class="bar-5" style="width:40%;"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="side right">
-                                                        <div>110</div>
-                                                    </div>
-                                                </div>
-                                                <div class="bar-bx">
-                                                    <div class="side">
-                                                        <div>1 star</div>
-                                                    </div>
-                                                    <div class="middle">
-                                                        <div class="bar-container">
-                                                            <div class="bar-5" style="width:20%;"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="side right">
-                                                        <div>80</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </div>
 
                             </div>
