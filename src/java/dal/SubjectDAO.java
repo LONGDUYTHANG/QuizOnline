@@ -333,4 +333,40 @@ public class SubjectDAO extends DBContext {
 
         return subjects;
     }
+    public Account getAccountById1(String accountId) {
+        String sql = "SELECT account_id, full_name, gender, email, mobile, password, avatar, role_id "
+                + "FROM Account WHERE account_id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            // Set the account ID parameter
+            pstmt.setString(1, accountId);
+
+            // Execute the query
+            ResultSet rs = pstmt.executeQuery();
+
+            // If a record is found, map it to the Account object
+            if (rs.next()) {
+                Account account = new Account();
+                account.setAccount_id(rs.getInt("account_id"));
+                account.setFull_name(rs.getString("full_name"));
+                account.setGender1(rs.getInt("gender")); // Assuming gender is stored as a boolean
+                account.setEmail(rs.getString("email"));
+                account.setMobile(rs.getString("mobile"));
+                account.setPassword(rs.getString("password"));
+                account.setAvatar(rs.getString("avatar"));
+
+                AccountDAO adao = new AccountDAO();
+                Role role = adao.getRoleById(rs.getInt("role_id"));
+
+                account.setRole_id1(role);
+
+                return account; 
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); 
+        }
+
+        return null;
+    }
 }
