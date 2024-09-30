@@ -141,6 +141,17 @@ public class AccountDAO extends DBContext {
             // Execute the query
             ResultSet rs = pstmt.executeQuery();
 
+            /*
+             [account_id]
+      ,[first_name]
+      ,[last_name]
+      ,[gender]
+      ,[email]
+      ,[mobile]
+      ,[password]
+      ,[avatar]
+      ,[role_id]
+            */
             // If a record is found, map it to the Account object
             if (rs.next()) {
                 Account account = new Account();
@@ -347,5 +358,10 @@ public class AccountDAO extends DBContext {
         }
 
         return null;
+    }
+    public static void main(String[] args) {
+        AccountDAO ad = new AccountDAO();
+        Account a = ad.getAccountById("4");
+        System.out.println(a);
     }
 }
