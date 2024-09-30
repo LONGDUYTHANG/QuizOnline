@@ -72,6 +72,8 @@ public class LoginFacebookServlet extends HttpServlet {
         if(myAccount==null){
             myAccountDAO.addAccount(user.getEmail(), "pass");
         }
+       HttpSession session = request.getSession(true);
+        session.setAttribute("user", myAccount);
       RequestDispatcher dis = request.getRequestDispatcher("customer/homepage_1.jsp");
       dis.forward(request, response);
     }
