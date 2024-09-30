@@ -40,8 +40,6 @@ public class Email {
         props.put("mail.smtp.auth", true);
         props.put("mail.smtp.starttls.enable", true);
 
-        Random rd = new Random();
-        int rdn = rd.nextInt();
         
         //create Authenticator
         Authenticator auth = new Authenticator() {
@@ -67,7 +65,7 @@ public class Email {
             //receiver
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
             //title
-            msg.setSubject("Mail testing");
+            msg.setSubject("Update Email");
             //set send Date
             msg.setSentDate(new Date());
             //set response email
@@ -86,20 +84,20 @@ public class Email {
                 + "\n"
                 + "    <table style=\"width: 100%; max-width: 600px; margin: 20px auto; background-color: #ffffff; border-collapse: collapse;\">\n"
 + "        <tr>\n"
-                + "            <td style=\"padding: 20px; text-align: center; background-color: #4CAF50; color: #ffffff; font-size: 24px;\">\n"
-                + "                Password Reset Code\n"
+                + "            <td style=\"padding: 20px; text-align: center; background-color: #0865FF; color: #ffffff; font-size: 24px;\">\n"
+                + "                Update Email Code\n"
                 + "            </td>\n"
                 + "        </tr>\n"
                 + "        <tr>\n"
                 + "            <td style=\"padding: 20px;\">\n"
                 + "                <p>Hi "+ accountName +",</p>\n"
                 + "                <p>Someone has requested a new email for your account. If you didn't make this request, just ignore this email. If you'd like to proceed, please use the following code to reset your password:</p>\n"
-                + "                <p style=\"font-size: 28px; font-weight: bold; color: #4CAF50;\">" + code + "</p>\n"
+                + "                <p style=\"font-size: 28px; font-weight: bold; color: #0865FF;\">" + code + "</p>\n"
                 + "                <p>Thanks for reading!</p>\n"
                 + "            </td>\n"
                 + "        </tr>\n"
                 + "        <tr>\n"
-                + "            <td style=\"padding: 20px; text-align: center; background-color: #4CAF50; color: #ffffff;\">\n"
+                + "            <td style=\"padding: 20px; text-align: center; background-color: #0865FF; color: #ffffff;\">\n"
                 + "                &copy; 2024 Quiz Online\n"
                 + "            </td>\n"
                 + "        </tr>\n"
