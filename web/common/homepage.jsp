@@ -99,13 +99,13 @@
                     </div>
                 </div> 
                 <!-- login -->
-                <%@include file="login.jsp" %>
+                <%@include file="common/login.jsp" %>
                 <!-- register     -->
-                <%@include file="register.jsp" %>
+                <%@include file="common/register.jsp" %>
                 
                 <%@include file="customer/header.html" %>
                 
-                <%@include file="requestPassword.jsp" %>
+                <%@include file="common/requestPassword.jsp" %>
                 
             </header>
             <!-- Header Top END ==== -->
