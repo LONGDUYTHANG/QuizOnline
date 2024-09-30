@@ -327,7 +327,6 @@ public class AccountDAO extends DBContext {
     }
     public static void main(String[] args) {
         AccountDAO a= new AccountDAO();
-        Account h= a.getAccountByEmail("nguyenson221004@gmail.com");
-        System.out.println(h==null);
+        a.addAccount("a@gmail.com", "a");
     }
 }
