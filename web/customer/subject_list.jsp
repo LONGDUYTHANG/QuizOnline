@@ -63,7 +63,7 @@
                 <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner3.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <h1 class="text-white">All Courses</h1>
+                            <h1 class="text-white">All Subjects</h1>
                         </div>
                     </div>
                 </div>
@@ -105,20 +105,21 @@
                                         <c:forEach items="${requestScope.subject_list}" var="c">
                                             <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
                                                 <!-- thêm danh sách các subject-->
-
-                                                <div class="cours-bx">
-                                                    <div class="action-box">
-                                                        <img src="${c.thumbnail}" alt="">
+                                                <div class="cours-bx" style="max-width: 300px; margin: 0 auto;">
+                                                    <div class="action-box" style="height: 200px;">
+                                                        <img src="${c.thumbnail}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
                                                         <a href="subject_details?subject_id=${c.subjectId}" class="btn">Read More</a>
                                                     </div>
                                                     <div class="info-bx text-center">
-                                                        <h5><a href="subject_details?subject_id=${c.subjectId}">${c.description}</a></h5>
-                                                        <span>${c.tagline}</span>
+                                                        <h5 style="font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                            <a href="subject_details?subject_id=${c.subjectId}">${c.description}</a>
+                                                        </h5>
+                                                        <span style="font-size: 14px;">${c.tagline}</span>
                                                     </div>
-                                                    <div class="cours-more-info">
+                                                    <div class="cours-more-info" style="padding-top: 10px;">
                                                         <div class="review">
-                                                            <span>3 Review</span>
-                                                            <ul class="cours-star">
+                                                            <span style="font-size: 12px;">3 Review</span>
+                                                            <ul class="cours-star" style="padding-left: 0; list-style: none;">
                                                                 <li class="active"><i class="fa fa-star"></i></li>
                                                                 <li class="active"><i class="fa fa-star"></i></li>
                                                                 <li class="active"><i class="fa fa-star"></i></li>
@@ -127,8 +128,8 @@
                                                             </ul>
                                                         </div>
                                                         <div class="price">
-                                                            <del>$190</del>
-                                                            <h5>$120</h5>
+                                                            <del style="font-size: 14px;">$190</del>
+                                                            <h5 style="font-size: 18px;">$120</h5>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -138,12 +139,10 @@
                                         <!--                                        list subject-->
 
                                         <div class="col-lg-12 m-b20">
-                                            <div class="pagination-bx rounded-sm gray clearfix">
-                                                <ul class="pagination">
+                                            <div class="pagination-bx rounded-sm gray clearfix" style="text-align: center;">
+                                                <ul class="pagination" style="display: flex; justify-content: center; align-items: center;">
                                                     <li class="previous"><a href="#"><i class="ti-arrow-left"></i> Prev</a></li>
                                                     <li class="active"><a href="#">1</a></li>
-                                                    <li><a href="#">2</a></li>
-                                                    <li><a href="#">3</a></li>
                                                     <li class="next"><a href="#">Next <i class="ti-arrow-right"></i></a></li>
                                                 </ul>
                                             </div>
