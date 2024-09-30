@@ -261,14 +261,8 @@
                                                     </div>
                                                     <div class="cours-more-info">
                                                         <div class="review">
-                                                            <span>3 Review</span>
-                                                            <ul class="cours-star">
-                                                                <li class="active"><i class="fa fa-star"></i></li>
-                                                                <li class="active"><i class="fa fa-star"></i></li>
-                                                                <li class="active"><i class="fa fa-star"></i></li>
-                                                                <li><i class="fa fa-star"></i></li>
-                                                                <li><i class="fa fa-star"></i></li>
-                                                            </ul>
+                                                            <span><i class="fa fa-user"></i> By Phunanh</span>
+                                                            <span><i class="fa fa-calendar"></i> ${c.createdDate}</span>
                                                         </div>
                                                         <div class="price">
                                                             <del>$190</del>
