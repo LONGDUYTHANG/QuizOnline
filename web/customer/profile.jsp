@@ -320,7 +320,8 @@
                                                         <div class="form-group row">
                                                             <label class="col-12 col-sm-3 col-md-3 col-lg-2 col-form-label">Email</label>
                                                             <div class="col-12 col-sm-9 col-md-9 col-lg-7">
-                                                                <input class="form-control" type="email" value="${acc.email}" name="email" id="email">
+                                                                <input class="form-control" type="email" value="${acc.email}" name="email" id="email" disabled="">
+                                                                <button type="button" class="btn"><a href="update_email">Update Email</a></button>
                                                             </div>
                                                         </div>
                                                         <div class="seperator"></div>
