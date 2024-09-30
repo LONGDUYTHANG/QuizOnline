@@ -360,8 +360,13 @@ public class AccountDAO extends DBContext {
         return null;
     }
     public static void main(String[] args) {
+<<<<<<< HEAD
         AccountDAO ad = new AccountDAO();
         Account a = ad.getAccountById("4");
         System.out.println(a);
+=======
+        AccountDAO a= new AccountDAO();
+        a.addAccount("a@gmail.com", "a");
+>>>>>>> master
     }
 }
