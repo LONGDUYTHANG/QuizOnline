@@ -72,7 +72,7 @@ public class LoginGoogleServlet extends HttpServlet {
       GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
       String email=googlePojo.getEmail();
         AccountDAO myAccountDAO=new AccountDAO();
-        Account myAccount =myAccountDAO.getAccountbyEmail(email);
+        Account myAccount =myAccountDAO.getAccountByEmail(email);
         //if email has not been registered, add it to the database 
         if(myAccount!=null){
             myAccountDAO.addAccount(email, "pass");
