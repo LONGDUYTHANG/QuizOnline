@@ -121,6 +121,10 @@
             #message {
                 display: none;
             }
+            .required-asterisk {
+                color: red;
+            }
+
         </style>
     </head>
 
@@ -175,31 +179,31 @@
                     <!-- Submit the form when clicking on Save button -->
                     <script>
                         function submitForm() {
-            const requiredFields = [
-                document.getElementById('subject'),
-                document.getElementById('dimension'),
-                document.getElementById('lesson'),
-                document.getElementById('level'),
-                document.getElementById('status'),
-                document.getElementById('content'),
-                document.getElementById('explanation'),
-                document.getElementById('answer')
-            ];
+                            const requiredFields = [
+                                document.getElementById('subject'),
+                                document.getElementById('dimension'),
+                                document.getElementById('lesson'),
+                                document.getElementById('level'),
+                                document.getElementById('status'),
+                                document.getElementById('content'),
+                                document.getElementById('explanation'),
+                                document.getElementById('answer')
+                            ];
 
-            // Check if all required fields are filled
-            for (let field of requiredFields) {
-                if (!field.value.trim()) {
-                    alert('Please fill in all required fields.');
-                    field.focus(); // Focus on the first empty field
-                    return; // Stop form submission
-                }
-            }
+                            // Check if all required fields are filled
+                            for (let field of requiredFields) {
+                                if (!field.value.trim()) {
+                                    alert('Please fill in all required fields.');
+                                    field.focus(); // Focus on the first empty field
+                                    return; // Stop form submission
+                                }
+                            }
 
-            // Confirm before submission
-            if (confirm('Do you want to add new Question?')) {
-                document.getElementById('questiondetail').submit();
-            }
-        }
+                            // Confirm before submission
+                            if (confirm('Do you want to add new Question?')) {
+                                document.getElementById('questiondetail').submit();
+                            }
+                        }
                     </script>
                     
 
@@ -212,7 +216,7 @@
                                 
                                 <!-- Subject drop down -->
                                 <div class="form-group">
-                                    <label for="subject">Subject</label>
+                                    <label for="subject" >Subject <span class="required-asterisk">*</span></label>
                                     <c:set var="s" value="${requestScope.subject}"/>
                                     <select id="subject" name="subject_id" required>
                                         <option value="" disabled selected>Select an option</option>
@@ -236,7 +240,7 @@
                                 
                                 <!-- Dimension drop down -->
                                 <div class="form-group">
-                                    <label for="dimension">Dimension</label>
+                                    <label for="dimension">Dimension <span class="required-asterisk">*</span></label>
                                     <select id="dimension" name="dimension_id" required>
                                         <c:forEach var="dimension" items="${requestScope.listDimension}">
                                             <option value="${dimension.dimension_id}"> 
@@ -248,7 +252,7 @@
                                 
                                 <!-- Lesson drop down -->
                                 <div class="form-group">
-                                    <label for="lesson">Lesson</label>
+                                    <label for="lesson">Lesson <span class="required-asterisk">*</span></label>
                                     <select id="lesson" name="lesson_topic_id" required>
                                         <c:forEach var="lesson" items="${requestScope.listLesson_Topic}">
                                             <option value="${lesson.lesson_topic_id}"> 
@@ -260,7 +264,7 @@
                                 
                                 <!-- Level drop down -->
                                 <div class="form-group">
-                                    <label for="level">Level</label>
+                                    <label for="level">Level <span class="required-asterisk">*</span></label>
                                     <select id="level" name="level_id" required>
                                         <c:forEach var="level" items="${requestScope.listLevel}">
                                             <option value="${level.level_id}" ${level.level_id == requestScope.level_id ? 'selected' : ''}> 
@@ -272,7 +276,7 @@
                                 
                                 <!-- Status drop down -->
                                 <div class="form-group">
-                                    <label for="status">Status</label>
+                                    <label for="status">Status <span class="required-asterisk">*</span></label>
                                     <select id="status" name="status"  class="form-control" required>
                                         <option value="1" ${requestScope.status == 1 ? 'selected' : ''}>Active</option>
                                         <option value="0" ${requestScope.status == 0 ? 'selected' : ''}>Inactive</option>
@@ -281,13 +285,13 @@
                                     
                                 <!-- Question Content -->
                                 <div class="form-group">
-                                    <label for="content">Content</label>
+                                    <label for="content">Content <span class="required-asterisk">*</span></label>
                                     <textarea id="content" name="content" placeholder="Enter content" required>${requestScope.content}</textarea>
                                 </div>
                                 
                                 <!-- Explanation -->
                                 <div class="form-group">
-                                    <label for="explanation">Explanation</label>
+                                    <label for="explanation">Explanation <span class="required-asterisk">*</span></label>
                                     <textarea id="explanation" name="explanation" placeholder="Enter your explanation" required>${requestScope.explanation}</textarea>
                                 </div>
                                 
@@ -357,7 +361,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="answer">Answer</label>
+                                    <label for="answer">Answer <span class="required-asterisk">*</span></label>
                                     <!-- Check mark icon and input -->
                                     <span class="correct-icon" style="display:none;">✔️</span>
                                     <input type="hidden" name="is_correct" class="is-correct" value="false">
@@ -391,7 +395,7 @@
                                         const newFormGroup = document.createElement('div');
                                         newFormGroup.classList.add('form-group');
                                         newFormGroup.innerHTML = newFormGroup.innerHTML = `
-                                        <label for="answer">Answer</label>
+                                        <label for="answer">Answer <span class="required-asterisk">*</span></label>
                                         <span class="correct-icon" style="display:none;">✔️</span>
                                         <input type="hidden" name="is_correct" class="is-correct" value="false">
                                         <input style="margin-bottom: 5px" type="text" id="answer" name="answer" required>

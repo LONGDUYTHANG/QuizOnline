@@ -122,6 +122,7 @@
                                         <div class="form-group">
                                             <label for="subject">Subject</label>
                                             <select id="subject" name="subject_id" required>
+                                                <option value="" disabled selected>Select an option</option>
                                                 <c:forEach var="subject" items="${requestScope.listSubject}">
                                                     <option value="${subject.subjectId}" 
                                                             ${subject.subjectId == requestScope.subject_id ? 'selected' : ''}>
@@ -129,6 +130,15 @@
                                                     </option>
                                                 </c:forEach>
                                             </select>
+                                            <!<!-- Submit form directly when clicking on each subject -->
+                                            <script>
+                                                document.getElementById('subject').addEventListener('change', function () {
+                                                    var form = document.getElementById('quiz');
+                                                    form.action = 'addquiz'; // Set the URL of the target servlet
+                                                    form.method = 'get';
+                                                    form.submit(); // Submit the form
+                                                });
+                                            </script>
                                         </div>
                                         <div class="form-group">
                                             <label for="level">Exam Level</label>
@@ -142,15 +152,15 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="duration">Duration (minutes)</label>
-                                            <input type="number" id="duration" name="duration" value="${requestScope.duration != null ? requestScope.duration : 50}">
+                                            <input type="number" id="duration" name="duration" value="${requestScope.duration != null ? requestScope.duration : 50}" min="1" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="pass-rate">Pass Rate (%)</label>
-                                            <input type="number" id="pass-rate" name="passrate" value="${requestScope.passrate != null ? requestScope.passrate : 50}">
+                                            <input type="number" id="pass-rate" name="passrate" value="${requestScope.passrate != null ? requestScope.passrate : 50}" min="1" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="quiz-type">Quiz Type</label>
-                                            <select id="quiz-type" name="quiztype_id">
+                                            <select id="quiz-type" name="quiztype_id" required>
                                                 <c:forEach var="quiztype" items="${requestScope.listQuiz_Type}">
                                                     <option value="${quiztype.quiz_type_id}" ${quiztype.quiz_type_id == requestScope.quiztype_id ? 'selected' : ''}> 
                                                         ${quiztype.quiz_type_name}
@@ -176,7 +186,7 @@
                                         <div class="form-group">
                                             <label for="question-type">Question Type</label>
                                             <div class="form-inline">
-                                                <input type="radio" id="theo-topic" name="question_type" value="topic" onchange="submitForm()" ${requestScope.question_type == "topic" ? 'checked' : ''}>
+                                                <input type="radio" id="theo-topic" name="question_type" value="topic" onchange="submitForm()" ${requestScope.question_type == null || requestScope.question_type == "topic" ? 'checked' : ''}>
                                                 <label for="theo-topic">By Topic</label>
                                                 <input type="radio" id="theo-group" name="question_type" value="group" onchange="submitForm()" ${requestScope.question_type == "group" ? 'checked' : ''}>
                                                 <label for="theo-group">By Group</label>
@@ -201,7 +211,7 @@
                                             <label for="group-selection" class="me-3">Group Selection</label>
                                             <c:choose>
                                                 <c:when test="${requestScope.questionTopic != null}">
-                                                    <select id="group-selection" name="group_selection" class="form-select me-2">
+                                                    <select id="group-selection" name="group_selection" class="form-select me-2" required>
                                                         <c:forEach var="lesson_topic" items="${requestScope.questionTopic}">
                                                             <option value="${lesson_topic.lesson_topic_id}"> 
                                                                 ${lesson_topic.lesson_topic_name}
@@ -211,7 +221,7 @@
                                                     </select>
                                                 </c:when>
                                                 <c:when test="${requestScope.questionGroup != null}">
-                                                    <select id="group-selection" name="group_selection" class="form-select me-2">
+                                                    <select id="group-selection" name="group_selection" class="form-select me-2" required>
                                                         <c:forEach var="dimension" items="${requestScope.questionGroup}">
                                                             <option value="${dimension.dimension_id}"> 
                                                                 ${dimension.dimension_name}
@@ -221,7 +231,7 @@
                                                     </select>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <select id="group-selection" name="group_selection" class="form-select me-2">
+                                                    <select id="group-selection" name="group_selection" class="form-select me-2" required>
                                                         <c:forEach var="dimension" items="${requestScope.questionDomain}">
                                                             <option value="${dimension.dimension_id}"> 
                                                                 ${dimension.dimension_name}
@@ -231,7 +241,7 @@
                                                     </select>
                                                 </c:otherwise>
                                             </c:choose>
-                                            <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" placeholder="Questions" style="width: 100px;">
+                                            <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" placeholder="Questions" style="width: 100px; caret-color: transparent;" onkeydown="return false;" value="0" min="0">
                                             <button type="button" class="btn btn-secondary">Delete</button>
                                         </div>
                                         <script>
@@ -266,7 +276,7 @@
                                                                                             </c:otherwise>
                                                                                         </c:choose>
                                                             </select>
-                                                            <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" placeholder="Questions" style="width: 100px;">
+                                                            <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" placeholder="Questions" style="width: 100px; caret-color: transparent;" onkeydown="return false;" value="0" min="0">
                                                             <button type="button" class="btn btn-secondary" onclick="removeGroup(this)">Delete</button>
                                                         </div>
                                                     `;

@@ -143,13 +143,22 @@ public class AddQuizServlet extends HttpServlet {
         request.setAttribute("listLevel", dao.getAllLevel());
         request.setAttribute("listQuiz_Type", dao.getAllQuizType());
         
+        if (question_type.equals("topic")) {
+            request.setAttribute("questionTopic", dao.getAllLessonTopicBySubjectId(Integer.parseInt(subject_id)));
+        }
+        else if (question_type.equals("group")) {
+            request.setAttribute("questionGroup", dao.getAllDimensionByType(1, Integer.parseInt(subject_id)));
+        }
+        else {
+            request.setAttribute("questionDomain", dao.getAllDimensionByType(2, Integer.parseInt(subject_id)));
+        }
+        
         String number_of_questions[] = request.getParameterValues("number_of_questions");
         String group_selection[] = request.getParameterValues("group_selection");
         
         //This line is temporary, the account_id should be selected from session
         int account_id = 2;
       
-        out.print("OKKKKK");
         //Declare hashmap
         HashMap<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < group_selection.length; i++) {
@@ -174,7 +183,7 @@ public class AddQuizServlet extends HttpServlet {
                 }
             }
         }
-
+        out.print("okok");
     }
     
     

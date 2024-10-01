@@ -408,6 +408,6 @@ public class QuizDAO extends DBContext {
     
     public static void main(String[] args) {
         QuizDAO dao = new QuizDAO();
-        dao.addQuiz(new Quiz("Quiz2", 4, 1, 20, Duration.ofMinutes(50), 50, 1, "description", Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), 1));
+        System.out.println(dao.getNumberOfQuestionBySubjectAndDimensionId(4, 2));
     }
 }
