@@ -251,7 +251,7 @@ public class SubjectDAO extends DBContext {
             e.printStackTrace();
         }
 
-        return null;
+        return subjects;
     }
     public List<RegisteredSubject> getEnrolledSubject(Account a) {
         List<RegisteredSubject> subjects = new ArrayList<>();
