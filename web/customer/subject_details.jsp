@@ -128,7 +128,7 @@
                                                 <h2 class="post-title">${c.subjectName}</h2>
                                             </div>
                                             <div class="ttr-post-text">
-                                                <p>${c.description}</p>
+                                                <p>${c.tagline}</p>
                                             </div>
                                         </div>
                                     </div>
