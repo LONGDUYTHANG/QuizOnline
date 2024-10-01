@@ -62,16 +62,23 @@ public class BlogListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PostDAO myPostDAO = new PostDAO();
-        ArrayList<Post> post_list = myPostDAO.getPost();
+        String keyword = request.getParameter("keyword");
+
+        ArrayList<Post> post_list;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            post_list = myPostDAO.searchPosts(keyword);
+        } else {
+            post_list = myPostDAO.getPost();
+        }
         request.setAttribute("post_list", post_list);
 
         ArrayList<Post> hottest_post_list = myPostDAO.getHottestPost();
         request.setAttribute("hottest_post_list", hottest_post_list);
-        
+
         CategoryDAO myCategoryDAO = new CategoryDAO();
         List<Category> category_list = myCategoryDAO.getCategory();
         request.setAttribute("category_list", category_list);
-        
+
         request.getRequestDispatcher("customer/blog_list.jsp").forward(request, response);
 
     }
