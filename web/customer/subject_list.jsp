@@ -96,7 +96,7 @@
                                                         <li><i class="fa fa-calendar"></i>${c.createdDate}</a></li>
                                                         <li><b>${c.tagline}</b></li>
                                                     </ul>
-                                                    <h5 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.description}</a></h5>
+                                                    <h5 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.subjectName}</a></h5>
                                                     <p>${c.description}</p>
                                                     <div class="post-extra">
                                                         <del>$190</del>
@@ -177,7 +177,7 @@
                                                         <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
                                                         <div class="ttr-post-info">
                                                             <div class="ttr-post-header">
-                                                                <h6 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.description}</a></h6>
+                                                                <h6 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.subjectName}</a></h6>
                                                             </div>
                                                             <ul class="media-post">
                                                                 <li>${c.tagline}</li>
