@@ -303,7 +303,7 @@
                                                             <label class="col-12 col-sm-3 col-md-3 col-lg-2 col-form-label">Full Name</label>
                                                             <div class="col-12 col-sm-9 col-md-9 col-lg-7">
 
-                                                                <input class="form-control" type="text" value="${acc.first_name} ${acc.last_name}" name="fullname">
+                                                                <input class="form-control" type="text" value="${acc.first_name} ${acc.last_name}" name="fullname" required="">
 
                                                                 <%-- 
                                                                 private String fullName, email, avatar, password, mobile, gender;
@@ -355,6 +355,7 @@
                                                                 <div class="col-12 col-sm-9 col-md-9 col-lg-7" style="display: ">
                                                                     <button type="button" class="btn" id="updatepro" onclick="updateProfile()">Save changes</button>
                                                                     <button type="reset" class="btn-secondry">Cancel</button>
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
