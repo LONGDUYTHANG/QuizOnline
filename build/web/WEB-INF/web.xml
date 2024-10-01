@@ -45,6 +45,10 @@
         <servlet-class>controller.LoginGoogleServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>LoginFacebookServlet</servlet-name>
+        <servlet-class>controller.LoginFacebookServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>requestPasswordServlet</servlet-name>
         <servlet-class>controller.requestPasswordServlet</servlet-class>
     </servlet>
@@ -107,6 +111,10 @@
     <servlet-mapping>
         <servlet-name>LoginGoogleServlet</servlet-name>
         <url-pattern>/googlelogin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginFacebookServlet</servlet-name>
+        <url-pattern>/facebooklogin</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>requestPasswordServlet</servlet-name>
