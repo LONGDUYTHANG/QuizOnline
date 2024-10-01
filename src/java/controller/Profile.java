@@ -88,6 +88,7 @@ public class Profile extends HttpServlet {
             session.setAttribute("no_enrolled_subject", true);
         }
         session.setAttribute("recently_enrolled_subject", listSubject);
+        //out.print(listSubject);
         request.getRequestDispatcher("customer/profile.jsp").forward(request, response);
     }
 
