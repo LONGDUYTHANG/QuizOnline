@@ -99,12 +99,14 @@ public class AddQuestionController extends HttpServlet {
             //Get an image
             Part mediaPart = request.getPart("media");
             String realPath = request.getServletContext().getRealPath("/img/question_media");
+            //realPath = realPath.replace("/build", "");
             String filename = Paths.get(mediaPart.getSubmittedFileName()).getFileName().toString();
             if (!Files.exists(Paths.get(realPath))) {
                 Files.createDirectory(Paths.get(realPath));
             }
-            mediaPart.write(realPath + "/" + filename);
-            
+            if (mediaPart.getSize() != 0) {
+                mediaPart.write(realPath + "/" + filename);
+            }
             Question question = new Question(subject_id, dimension_id, lesson_topic_id, level_id, status, content, explanation, filename);
             
             //Add Question
@@ -127,7 +129,7 @@ public class AddQuestionController extends HttpServlet {
             //redirect to question_detail_validation servlet
             response.sendRedirect("question_detail_validation?message=" + URLEncoder.encode("true", "UTF-8"));
         } catch(Exception ex) {
-            System.out.println(ex);
+            out.println(ex);
         }
         
         

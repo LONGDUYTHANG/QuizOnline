@@ -12,8 +12,18 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import model.Quiz;
 import model.Subject;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import model.Question;
+import model.Quiz_Question;
 
 /**
  *
@@ -76,12 +86,14 @@ public class AddQuizServlet extends HttpServlet {
         request.setAttribute("description", description);
         request.setAttribute("totalquestion", totalquestion);
         request.setAttribute("question_type", question_type);
+        
         request.setAttribute("listSubject", dao.getAllSubject());
         request.setAttribute("listLevel", dao.getAllLevel());
         request.setAttribute("listQuiz_Type", dao.getAllQuizType());
         //Get activeTab
         String activeTab = request.getParameter("activeTab");
         request.setAttribute("activeTab", activeTab);
+        
         if (question_type.equals("topic")) {
             request.setAttribute("questionTopic", dao.getAllLessonTopicBySubjectId(Integer.parseInt(subject_id)));
         }
@@ -118,9 +130,106 @@ public class AddQuizServlet extends HttpServlet {
         String description = request.getParameter("description");
         String totalquestion = request.getParameter("totalquestion");
         String question_type = request.getParameter("question_type");
-        String[] group_selection = request.getParameterValues("group_selection");
-        String number_of_questions[] = request.getParameterValues("number_of_questions");
         
+        
+        request.setAttribute("name", name);
+        request.setAttribute("subject_id", Integer.parseInt(subject_id));
+        request.setAttribute("level_id", level_id);
+        request.setAttribute("duration", duration);
+        request.setAttribute("passrate", passrate);
+        request.setAttribute("quiztype_id", quiztype_id);
+        request.setAttribute("description", description);
+        request.setAttribute("totalquestion", totalquestion);
+        request.setAttribute("question_type", question_type);
+        
+        request.setAttribute("listSubject", dao.getAllSubject());
+        request.setAttribute("listLevel", dao.getAllLevel());
+        request.setAttribute("listQuiz_Type", dao.getAllQuizType());
+        
+        if (question_type.equals("topic")) {
+            request.setAttribute("questionTopic", dao.getAllLessonTopicBySubjectId(Integer.parseInt(subject_id)));
+        }
+        else if (question_type.equals("group")) {
+            request.setAttribute("questionGroup", dao.getAllDimensionByType(1, Integer.parseInt(subject_id)));
+        }
+        else {
+            request.setAttribute("questionDomain", dao.getAllDimensionByType(2, Integer.parseInt(subject_id)));
+        }
+        
+        String number_of_questions[] = request.getParameterValues("number_of_questions");
+        String group_selection[] = request.getParameterValues("group_selection");
+        
+        //This line is temporary, the account_id should be selected from session
+        int account_id = 1;
+      
+        //Build logic for retrive questions 
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < group_selection.length; i++) {
+            int selection_id = Integer.parseInt(group_selection[i]);
+            int number_of_question = Integer.parseInt(number_of_questions[i]);
+            this.addGroup(selection_id, number_of_question, map);
+        }
+        if (question_type.equals("topic")) {
+            for (Integer key : map.keySet()) {
+                int available = dao.getNumberOfQuestionBySubjectAndLessonTopic(Integer.parseInt(subject_id), key, Integer.parseInt(level_id));
+                if (map.get(key) > available) {
+                    request.setAttribute("message", "Not enough question for " + dao.getLessonTopicById(key).getLesson_topic_name() + ", available: " + available);
+                    request.getRequestDispatcher("expert/add_quiz.jsp").forward(request, response);
+                    return;
+                }
+            }
+        } else {
+            for (Integer key : map.keySet()) {
+                int available = dao.getNumberOfQuestionBySubjectAndDimensionId(Integer.parseInt(subject_id), key, Integer.parseInt(level_id));
+                if (map.get(key) > available) {
+                    request.setAttribute("message", "Not enough question for " + dao.getDimensionById(key).getDimension_name() + ", available: " + available);
+                    request.getRequestDispatcher("expert/add_quiz.jsp").forward(request, response);
+                    return;
+                }
+            }
+        }
+        
+        //Add to database after logic
+        try {
+            int subject_id_new = Integer.parseInt(subject_id);
+            int level_id_new = Integer.parseInt(level_id);
+            double duration_new = Double.parseDouble(duration);
+            double passrate_new = Double.parseDouble(passrate);
+            int quiz_type_id_new = Integer.parseInt(quiztype_id);
+            int total_question_new = Integer.parseInt(totalquestion);
+
+            //Add Quiz
+            dao.addQuiz(new Quiz(name, subject_id_new, level_id_new, total_question_new, Duration.ofMillis((long) (duration_new * 60 * 1000)), passrate_new, quiz_type_id_new, description, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), account_id));
+            //Add Quiz Question
+            for (Integer key : map.keySet()) {
+                List<Question> listQuestion;
+                if (question_type.equals("topic")) {
+                    listQuestion = dao.getAllSelectQuestionByTopic(subject_id_new, key, map.get(key), level_id_new);
+                }
+                else {
+                    listQuestion = dao.getAllSelectQuestionByDimension(subject_id_new, key, map.get(key), level_id_new);
+                }
+                for (Question question : listQuestion) {
+                    dao.addQuizQuestion(new Quiz_Question(dao.getNewlyAddedQuiz().getQuiz_id(), question.getQuestion_id()));
+                }
+            }
+
+        } catch (Exception ex) {
+            out.print(ex);
+        }
+        response.sendRedirect("addnewquizvalidation?message=" + URLEncoder.encode("true", "UTF-8"));
+    }
+    
+    
+    private void addGroup(int key, int value, HashMap<Integer, Integer> groupMap) {
+        // Check if the key exists
+        if (groupMap.containsKey(key)) {
+            // Accumulate the value
+            groupMap.put(key, groupMap.get(key) + value);
+        } else {
+            // Add the new key-value pair
+            groupMap.put(key, value);
+        }
     }
 
     /** 

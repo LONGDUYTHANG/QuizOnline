@@ -65,6 +65,10 @@ public class AddNewQuizValidationServlet extends HttpServlet {
         request.setAttribute("listSubject", listSubject);
         request.setAttribute("listLevel", listLevel);
         request.setAttribute("listQuiz_Type", listQuiz_Type);
+        
+        //Send a message to question_detail.jsp, alert that user added quiz successfully
+        String message = request.getParameter("message");
+        request.setAttribute("showSuccessMessage", message);
         request.getRequestDispatcher("expert/add_quiz.jsp").forward(request, response);
     } 
 
