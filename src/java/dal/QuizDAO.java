@@ -276,12 +276,13 @@ public class QuizDAO extends DBContext {
         }
     }
     
-    public int getNumberOfQuestionBySubjectAndLessonTopic(int subject_id, int lesson_topic_id) {
-        String sql = "SELECT COUNT(question_id) AS result FROM Question WHERE subject_id = ? AND lesson_topic_id = ?";
+    public int getNumberOfQuestionBySubjectAndLessonTopic(int subject_id, int lesson_topic_id, int level_id) {
+        String sql = "SELECT COUNT(question_id) AS result FROM Question WHERE subject_id = ? AND lesson_topic_id = ? AND level_id = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, subject_id);
             st.setInt(2, lesson_topic_id);
+            st.setInt(3, level_id);
             ResultSet rs = st.executeQuery();
             int result = 0;
             if (rs.next()) {
@@ -294,12 +295,13 @@ public class QuizDAO extends DBContext {
         return -1;
     }
     
-    public int getNumberOfQuestionBySubjectAndDimensionId(int subject_id, int dimension_id) {
-        String sql = "SELECT COUNT(question_id) AS result FROM Question WHERE subject_id = ? AND dimension_id = ?";
+    public int getNumberOfQuestionBySubjectAndDimensionId(int subject_id, int dimension_id, int level_id) {
+        String sql = "SELECT COUNT(question_id) AS result FROM Question WHERE subject_id = ? AND dimension_id = ? AND level_id = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, subject_id);
             st.setInt(2, dimension_id);
+            st.setInt(3, level_id);
             ResultSet rs = st.executeQuery();
             int result = 0;
             if (rs.next()) {
@@ -348,14 +350,15 @@ public class QuizDAO extends DBContext {
         return null;
     }
     
-    public List<Question> getAllSelectQuestionByTopic(int subject_id_raw, int lesson_topic_id_raw, int number_of_questions_raw) {
+    public List<Question> getAllSelectQuestionByTopic(int subject_id_raw, int lesson_topic_id_raw, int number_of_questions_raw, int level_id_raw) {
         List<Question> list = new ArrayList<>();
-        String sql = "SELECT TOP " + number_of_questions_raw + " * from Question where subject_id = ? and lesson_topic_id = ?\n"
+        String sql = "SELECT TOP " + number_of_questions_raw + " * from Question where subject_id = ? and lesson_topic_id = ? and level_id = ?\n"
             + "ORDER BY NEWID()";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, subject_id_raw);
             st.setInt(2, lesson_topic_id_raw);
+            st.setInt(3, level_id_raw);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 int question_id = rs.getInt("question_id");
@@ -377,14 +380,15 @@ public class QuizDAO extends DBContext {
         return list;
     }
     
-    public List<Question> getAllSelectQuestionByDimension(int subject_id_raw, int dimension_id_raw, int number_of_questions_raw) {
+    public List<Question> getAllSelectQuestionByDimension(int subject_id_raw, int dimension_id_raw, int number_of_questions_raw, int level_id_raw) {
         List<Question> list = new ArrayList<>();
-        String sql = "SELECT TOP " + number_of_questions_raw + " * from Question where subject_id = ? and dimension_id = ?\n"
+        String sql = "SELECT TOP " + number_of_questions_raw + " * from Question where subject_id = ? and dimension_id = ? AND level_id = ?\n"
             + "ORDER BY NEWID()";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, subject_id_raw);
             st.setInt(2, dimension_id_raw);
+            st.setInt(3, level_id_raw);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 int question_id = rs.getInt("question_id");
@@ -406,8 +410,64 @@ public class QuizDAO extends DBContext {
         return list;
     }
     
+    public List<Quiz> getAllQuiz() {
+        List<Quiz> list = new ArrayList<>();
+        String sql = "SELECT * FROM Quiz";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int quiz_id = rs.getInt("quiz_id");
+                String quiz_name = rs.getString("quiz_name");
+                int subject_id = rs.getInt("subject_id");
+                int level_id = rs.getInt("level_id");
+                int number_of_questions = rs.getInt("number_of_questions");
+                float duration = rs.getFloat("duration");
+                float passrate = rs.getFloat("passrate");
+                int quiz_type_id = rs.getInt("quiz_type_id");
+                String quiz_description = rs.getString("quiz_description");
+                Timestamp created_date = rs.getTimestamp("created_date");
+                Timestamp updated_date = rs.getTimestamp("updated_date");
+                int account_id = rs.getInt("account_id");
+
+                list.add(new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ofMillis((long) (duration * 60 * 1000)), passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return list;
+    }
+    
+    public Quiz getNewlyAddedQuiz() {
+        String sql = "SELECT top 1 * FROM Quiz ORDER BY quiz_id DESC";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int quiz_id = rs.getInt("quiz_id");
+                String quiz_name = rs.getString("quiz_name");
+                int subject_id = rs.getInt("subject_id");
+                int level_id = rs.getInt("level_id");
+                int number_of_questions = rs.getInt("number_of_questions");
+                float duration = rs.getFloat("duration");
+                float passrate = rs.getFloat("passrate");
+                int quiz_type_id = rs.getInt("quiz_type_id");
+                String quiz_description = rs.getString("quiz_description");
+                Timestamp created_date = rs.getTimestamp("created_date");
+                Timestamp updated_date = rs.getTimestamp("updated_date");
+                int account_id = rs.getInt("account_id");
+                
+                return new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ZERO, passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
+    
     public static void main(String[] args) {
         QuizDAO dao = new QuizDAO();
-        System.out.println(dao.getNumberOfQuestionBySubjectAndDimensionId(4, 2));
+        Quiz quiz = dao.getNewlyAddedQuiz();
+        System.out.println(quiz);
     }
 }

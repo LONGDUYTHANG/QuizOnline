@@ -99,6 +99,7 @@ public class AddQuestionController extends HttpServlet {
             //Get an image
             Part mediaPart = request.getPart("media");
             String realPath = request.getServletContext().getRealPath("/img/question_media");
+            //realPath = realPath.replace("/build", "");
             String filename = Paths.get(mediaPart.getSubmittedFileName()).getFileName().toString();
             if (!Files.exists(Paths.get(realPath))) {
                 Files.createDirectory(Paths.get(realPath));

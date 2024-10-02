@@ -86,6 +86,9 @@
                 align-items: center;
                 gap: 10px;
             }
+            #message {
+                display: none;
+            }
         </style>
     </head>
 
@@ -97,6 +100,39 @@
                 <jsp:include page="navbar.jsp" />
 
                 <main class="content">
+                    <div id="message" class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <div class="alert-message">
+                            <strong>Changes saved</strong> Quiz have been updated
+                        </div>
+                    </div>
+                    <!-- Handle Showing success message -->
+                    <script>
+                        document.addEventListener('DOMContentLoaded', (event) => {
+                            let showMessageSuccess = ${requestScope.showSuccessMessage};
+                            let message = document.getElementById('message');
+
+                            if (showMessageSuccess) {
+                                // Show the message initially
+                                message.style.display = 'block';
+                                message.style.opacity = 1;
+
+                                // Fade out after 0.5 seconds
+                                setTimeout(() => {
+                                    let opacity = 1;
+                                    let interval = setInterval(() => {
+                                        if (opacity <= 0) {
+                                            clearInterval(interval);
+                                            message.style.display = 'none';
+                                        } else {
+                                            opacity -= 0.05; // Adjust the decrement step for different speeds
+                                            message.style.opacity = opacity;
+                                        }
+                                    }, 50); // Adjust interval timing as needed
+                                }, 1000); // Show duration before starting fade-out
+                            }
+                        });
+                    </script>
                     <div class="container">
                         <form action="addquiz" method="post" id="quiz">
                             <!-- Send the value of the active tab -->
@@ -172,7 +208,7 @@
                                             <label for="description">Description</label>
                                             <textarea id="description" name="description" placeholder="Enter description" required>${requestScope.description}</textarea>
                                         </div>
-                                        <button type="submit" class="btn">Submit</button>
+                                        <button type="submit" class="btn" onclick="return confirm('Do you want to save these changes?')">Submit</button>
                                         <button type="button" class="btn btn-secondary">Back</button>
                                     </div>
 

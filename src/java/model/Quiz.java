@@ -154,6 +154,11 @@ public class Quiz {
         this.account_id = account_id;
     }
 
+    @Override
+    public String toString() {
+        return "Quiz{" + "quiz_id=" + quiz_id + ", quiz_name=" + quiz_name + ", subject_id=" + subject_id + ", level_id=" + level_id + ", number_of_questions=" + number_of_questions + ", duration=" + duration + ", passrate=" + passrate + ", quiz_type_id=" + quiz_type_id + ", quiz_description=" + quiz_description + ", created_date=" + created_date + ", updated_date=" + updated_date + ", account_id=" + account_id + '}';
+    }
+
     
     
 }
