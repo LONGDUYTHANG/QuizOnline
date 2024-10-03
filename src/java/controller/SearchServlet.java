@@ -73,7 +73,6 @@ public class SearchServlet extends HttpServlet {
 
         if (keyword != null && !keyword.trim().isEmpty()) {
             for (Subject subject : subject_list) {
-                // Kiểm tra xem mô tả có chứa từ khóa không (phân biệt chữ hoa chữ thường)
                 if (subject.getDescription().toLowerCase().contains(keyword.trim().toLowerCase())) {
                     filteredSubjects.add(subject);
                 }
