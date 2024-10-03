@@ -456,4 +456,29 @@ public class SubjectDAO extends DBContext {
         return null;
     }
 
+    public List<Subject> getFeaturedSubjects() {
+    List<Subject> subjects = getSubject(); 
+    List<Subject> featuredSubjects = new ArrayList<>();
+
+    for (Subject subject : subjects) {
+        if (subject.isIsFeatured()) { 
+            featuredSubjects.add(subject);
+        }
+    }
+
+    return featuredSubjects;
+}
+    
+    public List<Subject> getLatestSubjects() {
+    List<Subject> subjects = getSubject(); 
+    subjects.sort((s1, s2) -> s2.getCreatedDate().compareTo(s1.getCreatedDate())); 
+    return subjects;
+}
+    
+public List<Subject> getOldestSubjects() {
+    List<Subject> subjects = getSubject(); 
+    subjects.sort((s1, s2) -> s1.getCreatedDate().compareTo(s2.getCreatedDate()));
+    return subjects;
+}
+
 }
