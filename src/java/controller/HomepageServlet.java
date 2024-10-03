@@ -74,9 +74,8 @@ public class HomepageServlet extends HttpServlet {
         //subject_list
         SubjectDAO testDAO = new SubjectDAO();
         List<Subject> subject_list = testDAO.getSubject();
-        request.setAttribute("subject_list", subject_list);
-
-        request.getRequestDispatcher("homepage.jsp").forward(request, response);
+        request.setAttribute("subject_list", subject_list);      
+        request.getRequestDispatcher("common/homepage.jsp").forward(request, response);
     }
 
     /**

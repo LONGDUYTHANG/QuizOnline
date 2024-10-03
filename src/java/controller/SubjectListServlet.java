@@ -12,8 +12,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import model.Account;
 import model.Category;
 import model.Subject;
 import model.SubjectCategory;
@@ -54,7 +56,6 @@ public class SubjectListServlet extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -63,36 +64,25 @@ public class SubjectListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SubjectDAO subjectDAO = new SubjectDAO();
-        ArrayList<Subject> subject_list = subjectDAO.getSubject();
+        SubjectDAO mySubjectDAO = new SubjectDAO();
+        ArrayList<Subject> subject_list = mySubjectDAO.getSubject();
         request.setAttribute("subject_list", subject_list);
-
-        List<Subject> featured_subject_list = subjectDAO.getFeaturedSubjects();
-        request.setAttribute("featured_subject_list", featured_subject_list);
 
         CategoryDAO myCategoryDAO = new CategoryDAO();
         List<Category> category_list = myCategoryDAO.getCategory();
         request.setAttribute("category_list", category_list);
 
-        String sort = request.getParameter("sort");
-
-        if ("featured".equals(sort)) {
-            subject_list = (ArrayList<Subject>) subjectDAO.getFeaturedSubjects();
-        } else if ("latest".equals(sort)) {
-            subject_list = (ArrayList<Subject>) subjectDAO.getLatestSubjects();
-        } else if ("oldest".equals(sort)) {
-            subject_list = (ArrayList<Subject>) subjectDAO.getOldestSubjects();
+        HttpSession session = request.getSession(false);
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) {
+            request.getRequestDispatcher("common/subject_list.jsp").forward(request, response);
         } else {
-            subject_list = subjectDAO.getSubject();
+            request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
         }
-        request.setAttribute("subject_list", subject_list);
-
-        request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
      *
      * @param request servlet request
      * @param response servlet response
