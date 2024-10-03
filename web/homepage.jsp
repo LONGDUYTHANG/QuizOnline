@@ -215,12 +215,12 @@
                 </div>  
                 <!-- Main Slider -->
                 <div class="content-block">
-                    <!-- Featured Subject -->
+                    <!-- All Subject -->
                     <div class="section-area section-sp2 popular-courses-bx" style="height: 510px">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 heading-bx left">
-                                    <h2 class="title-head" style="color: white">Featured <span>Subject</span></h2>
+                                    <h2 class="title-head" style="color: white">All <span>Subject</span></h2>
                                 </div>
                             </div>
                             <div class="row">
