@@ -61,24 +61,33 @@ public class SearchByCategory extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Lấy danh sách category_id từ checkbox
         String category = request.getParameter("categories");
+        String keyword = request.getParameter("text");
 
         SubjectDAO mySubjectDAO = new SubjectDAO();
-        ArrayList<Subject> subject_list = mySubjectDAO.getSubject();
+        List<Subject> subject_list = mySubjectDAO.getSubject();
 
         List<Subject> featured_subject_list = mySubjectDAO.getSubject();
         request.setAttribute("featured_subject_list", featured_subject_list);
-        
-        CategoryDAO myCategoryDAO = new CategoryDAO();
-        List<Category> category_list = myCategoryDAO.getCategory();
-        request.setAttribute("category_list", category_list);
-        
-        // Kiểm tra nếu người dùng đã chọn category
-        ArrayList<Subject> filteredSubjectsByCategory = mySubjectDAO.searchSubjectsByCategory(category);
 
-        request.setAttribute("subject_list", filteredSubjectsByCategory);
-       // request.setAttribute("subject_list", subject_list);
+        CategoryDAO myCategoryDAO = new CategoryDAO();
+        List<Category> category_list;
+        if (keyword != null && !keyword.isEmpty()) {
+            category_list = myCategoryDAO.searchCategories(keyword);
+        } else {
+            category_list = myCategoryDAO.getCategory();
+        }
+        request.setAttribute("category_list", category_list);
+
+        List<Subject> filteredSubjectsByCategory = mySubjectDAO.searchSubjectsByCategory(category);
+
+        // Chỉ gán nếu filteredSubjectsByCategory không rỗng
+        if (filteredSubjectsByCategory != null && !filteredSubjectsByCategory.isEmpty()) {
+            request.setAttribute("subject_list", filteredSubjectsByCategory);
+        } else {
+            request.setAttribute("subject_list", subject_list);
+        }
+
         request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
     }
 
