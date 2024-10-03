@@ -12,8 +12,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import model.Account;
 import model.Category;
 import model.Post;
 
@@ -78,9 +80,13 @@ public class BlogListServlet extends HttpServlet {
         CategoryDAO myCategoryDAO = new CategoryDAO();
         List<Category> category_list = myCategoryDAO.getCategory();
         request.setAttribute("category_list", category_list);
-
-        request.getRequestDispatcher("customer/blog_list.jsp").forward(request, response);
-
+ HttpSession session = request.getSession(false);
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) {
+            request.getRequestDispatcher("common/blog_list.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("customer/blog_list.jsp").forward(request, response);
+        }
     }
 
     /**

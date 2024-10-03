@@ -54,9 +54,9 @@
             <div id="loading-icon-bx"></div>
 
             <!-- Header Top -->
-            <%@include file="header.html" %>
+           <%@include file="header.html" %>
             <!-- Content -->
-            <div class="page-content bg-white">
+            <div class="page-content ">
                 <!-- inner page banner -->
                 <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
                     <div class="container">
