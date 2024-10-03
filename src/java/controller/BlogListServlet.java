@@ -65,13 +65,31 @@ public class BlogListServlet extends HttpServlet {
             throws ServletException, IOException {
         PostDAO myPostDAO = new PostDAO();
         String keyword = request.getParameter("keyword");
+        String sortBy = request.getParameter("sortBy");
 
         ArrayList<Post> post_list;
-        if (keyword != null && !keyword.trim().isEmpty()) {
+
+        if (sortBy != null) {
+            switch (sortBy) {
+                case "latest":
+                    post_list = myPostDAO.getLatestPosts(); 
+                    break;
+                case "oldest":
+                    post_list = myPostDAO.getOldestPosts(); 
+                    break;
+                case "hottest":
+                    post_list = myPostDAO.getHottestPost1();
+                    break;
+                default:
+                    post_list = myPostDAO.getPost(); 
+                    break;
+            }
+        } else if (keyword != null && !keyword.trim().isEmpty()) {
             post_list = myPostDAO.searchPosts(keyword);
         } else {
             post_list = myPostDAO.getPost();
         }
+
         request.setAttribute("post_list", post_list);
 
         ArrayList<Post> hottest_post_list = myPostDAO.getHottestPost();

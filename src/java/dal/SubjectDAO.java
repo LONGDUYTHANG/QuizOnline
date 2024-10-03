@@ -55,7 +55,7 @@ public class SubjectDAO extends DBContext {
         }
         return subject_list;
     }
-  
+
     /**
      * Get information of a subject given by the subject ID
      *
@@ -125,7 +125,7 @@ public class SubjectDAO extends DBContext {
 
         return subjects;
     }
-    
+
     public List<Subject> getFeaturedSubject() {
         List<Subject> subjects = new ArrayList<>();
         String sql = "SELECT TOP 5 * FROM Subject;";
@@ -165,7 +165,7 @@ public class SubjectDAO extends DBContext {
         SubjectDAO a = new SubjectDAO();
         ArrayList<Subject> h = a.searchSubjectsByCategory("technology");
         System.out.println(h.size());
-        
+
     }
 
     public void createNewSubject(String subjectName, String subjectCategory, int status, boolean featured, String thumbnail, String tagLine, String description, String accountId) {
@@ -240,7 +240,7 @@ public class SubjectDAO extends DBContext {
 
         return subjects;
     }
-    
+
     public ArrayList<Subject> searchSubjectsByCategory(String keyword) {
         ArrayList<Subject> subjects = new ArrayList<>();
         String sql = "SELECT * FROM Subject WHERE category_id in (select category_id from Category where category_name= ?)";
@@ -457,28 +457,28 @@ public class SubjectDAO extends DBContext {
     }
 
     public List<Subject> getFeaturedSubjects() {
-    List<Subject> subjects = getSubject(); 
-    List<Subject> featuredSubjects = new ArrayList<>();
+        List<Subject> subjects = getSubject();
+        List<Subject> featuredSubjects = new ArrayList<>();
 
-    for (Subject subject : subjects) {
-        if (subject.isIsFeatured()) { 
-            featuredSubjects.add(subject);
+        for (Subject subject : subjects) {
+            if (subject.isIsFeatured()) {
+                featuredSubjects.add(subject);
+            }
         }
+
+        return featuredSubjects;
     }
 
-    return featuredSubjects;
-}
-    
     public List<Subject> getLatestSubjects() {
-    List<Subject> subjects = getSubject(); 
-    subjects.sort((s1, s2) -> s2.getCreatedDate().compareTo(s1.getCreatedDate())); 
-    return subjects;
-}
-    
-public List<Subject> getOldestSubjects() {
-    List<Subject> subjects = getSubject(); 
-    subjects.sort((s1, s2) -> s1.getCreatedDate().compareTo(s2.getCreatedDate()));
-    return subjects;
-}
+        List<Subject> subjects = getSubject();
+        subjects.sort((s1, s2) -> s2.getCreatedDate().compareTo(s1.getCreatedDate()));
+        return subjects;
+    }
+
+    public List<Subject> getOldestSubjects() {
+        List<Subject> subjects = getSubject();
+        subjects.sort((s1, s2) -> s1.getCreatedDate().compareTo(s2.getCreatedDate()));
+        return subjects;
+    }
 
 }
