@@ -71,7 +71,7 @@ public class SubjectListServlet extends HttpServlet {
         CategoryDAO myCategoryDAO = new CategoryDAO();
         List<Category> category_list = myCategoryDAO.getCategory();
         request.setAttribute("category_list", category_list);
-
+        
         request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
     }
 

@@ -66,10 +66,10 @@ public class CategoryDAO extends DBContext {
 
     public List<Category> searchCategories(String keyword) {
         List<Category> categoryList = new ArrayList<>();
-        String sql = "SELECT * FROM Category WHERE category_name LIKE ?"; // Truy vấn tìm kiếm
+        String sql = "SELECT * FROM Category WHERE category_name LIKE ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, "%" + keyword + "%"); // Thêm ký tự % vào từ khóa
+            ps.setString(1, "%" + keyword + "%"); 
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {

@@ -142,96 +142,94 @@
                                         </div>
                                         <div class="widget widget_tag_cloud">
                                             <h6 class="widget-title">Categories</h6>
-                                            <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+                                            <!-- Form tìm ki?m category theo t? khóa -->
                                             <div class="search-bx style-1">
-                                                <form role="search" method="post">
+                                                <form role="search" method="get" action="searchByCategory">
                                                     <div class="input-group">
                                                         <input name="text" class="form-control" placeholder="Enter your keywords..." type="text" id="output">
                                                         <span class="input-group-btn">
                                                             <button type="submit" class="fa fa-search text-primary"></button>
-                                                        </span> 
+                                                        </span>
                                                     </div>
                                                 </form>
-
-                                            </div>                                        
+                                            </div>
                                             <br>
-                                            <!-- Danh sách các categories -->
 
                                             <!-- Danh sách các categories -->
                                             <div class="category-list" style="margin-bottom: 20px;">
                                                 <form id="categoryForm" action="searchByCategory" method="get">
                                                     <c:forEach items="${requestScope.category_list}" var="c">
                                                         <div style="margin-bottom: 10px;">
-                                                            <input type="checkbox" id="category_${c.category_id}"  name="categories" value="${c.category_name}" 
-                                                                   onchange="document.getElementById('categoryForm').submit();">
+                                                            <input type="checkbox" id="category_${c.category_id}" name="categories" value="${c.category_name}" onchange="document.getElementById('categoryForm').submit();">
                                                             <label for="category_${c.category_id}" style="font-size: 16px; margin-left: 8px;">${c.category_name}</label>
                                                         </div>
                                                     </c:forEach>
                                                 </form>
                                             </div>
 
-                                            <!-- Nút tìm ki?m -->
-                                        </div>
-                                        <br>
-                                        <div class="widget recent-posts-entry">
-                                            <h6 class="widget-title">Featured Subjects</h6>
-                                            <div class="widget-post-bx">
-                                                <!-- thêm danh sách các bài subject hot nhat-->
-                                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-                                                <c:forEach items="${requestScope.featured_subject_list}" var="c">
-                                                    <div class="widget-post clearfix">
-                                                        <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
-                                                        <div class="ttr-post-info">
-                                                            <div class="ttr-post-header">
-                                                                <h6 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.subjectName}</a></h6>
-                                                            </div>
-                                                            <ul class="media-post">
-                                                                <li>${c.tagline}</li>
-                                                                <!--                                                                <li><a href="#"><i class="fa fa-user"></i>By William</a></li>-->
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </c:forEach>
-                                            </div>
-                                        </div>
-                                    </aside>
+                                        <!-- Nút tìm ki?m -->
                                 </div>
-                                <!-- Side bar END -->
+                                <br>
+                                <div class="widget recent-posts-entry">
+                                    <h6 class="widget-title">Featured Subjects</h6>
+                                    <div class="widget-post-bx">
+                                        <!-- thêm danh sách các bài subject hot nhat-->
+                                        <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+                                        <c:forEach items="${requestScope.featured_subject_list}" var="c">
+                                            <div class="widget-post clearfix">
+                                                <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
+                                                <div class="ttr-post-info">
+                                                    <div class="ttr-post-header">
+                                                        <h6 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.subjectName}</a></h6>
+                                                    </div>
+                                                    <ul class="media-post">
+                                                        <li>${c.tagline}</li>
+                                                        <!--                                                                <li><a href="#"><i class="fa fa-user"></i>By William</a></li>-->
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                </aside>
                             </div>
+                            <!-- Side bar END -->
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Content END-->
-            <!-- Footer ==== -->
-            <%@include file="footer.html" %>
-            <!-- Footer END ==== -->
-            <!-- scroll top button -->
-            <button class="back-to-top fa fa-chevron-up" ></button>
         </div>
-        <!-- External JavaScripts -->
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/vendors/bootstrap/js/popper.min.js"></script>
-        <script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
-        <script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
-        <script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
-        <script src="assets/vendors/counter/waypoints-min.js"></script>
-        <script src="assets/vendors/counter/counterup.min.js"></script>
-        <script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
-        <script src="assets/vendors/masonry/masonry.js"></script>
-        <script src="assets/vendors/masonry/filter.js"></script>
-        <script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
-        <script src="assets/js/functions.js"></script>
-        <script src="assets/js/contact.js"></script>
-        <script src='assets/vendors/switcher/switcher.js'></script>
-        <script>
-                                                                       function search() {
-                                                                           var b = document.getElementById("myButton").value;
-                                                                           document.getElementById("output").value = b;
+        <!-- Content END-->
+        <!-- Footer ==== -->
+        <%@include file="footer.html" %>
+        <!-- Footer END ==== -->
+        <!-- scroll top button -->
+        <button class="back-to-top fa fa-chevron-up" ></button>
+    </div>
+    <!-- External JavaScripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/vendors/bootstrap/js/popper.min.js"></script>
+    <script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+    <script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
+    <script src="assets/vendors/counter/waypoints-min.js"></script>
+    <script src="assets/vendors/counter/counterup.min.js"></script>
+    <script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
+    <script src="assets/vendors/masonry/masonry.js"></script>
+    <script src="assets/vendors/masonry/filter.js"></script>
+    <script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
+    <script src="assets/js/functions.js"></script>
+    <script src="assets/js/contact.js"></script>
+    <script src='assets/vendors/switcher/switcher.js'></script>
+    <script>
+                                                                function search() {
+                                                                    var b = document.getElementById("myButton").value;
+                                                                    document.getElementById("output").value = b;
 
-                                                                       }
-        </script>
-    </body>
+                                                                }
+    </script>
+</body>
 
 </html>
