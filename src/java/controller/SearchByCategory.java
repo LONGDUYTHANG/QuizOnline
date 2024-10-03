@@ -81,7 +81,6 @@ public class SearchByCategory extends HttpServlet {
 
         List<Subject> filteredSubjectsByCategory = mySubjectDAO.searchSubjectsByCategory(category);
 
-        // Chỉ gán nếu filteredSubjectsByCategory không rỗng
         if (filteredSubjectsByCategory != null && !filteredSubjectsByCategory.isEmpty()) {
             request.setAttribute("subject_list", filteredSubjectsByCategory);
         } else {
