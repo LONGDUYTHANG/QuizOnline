@@ -5,6 +5,7 @@
 package controller;
 
 import dal.SubjectDAO;
+import dao.CategoryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,14 +13,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import model.Post;
+import java.util.List;
+import model.Category;
 import model.Subject;
 
 /**
  *
  * @author Phuong Anh
  */
-public class SearchServlet extends HttpServlet {
+public class SearchByCategory extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +40,10 @@ public class SearchServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SearchServlet</title>");
+            out.println("<title>Servlet SearchByCategory</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SearchServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SearchByCategory at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,43 +59,27 @@ public class SearchServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String keyword = request.getParameter("keyword");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Lấy danh sách category_id từ checkbox
+        String category = request.getParameter("categories");
 
         SubjectDAO mySubjectDAO = new SubjectDAO();
         ArrayList<Subject> subject_list = mySubjectDAO.getSubject();
-        ArrayList<Subject> filteredSubjects = mySubjectDAO.searchSubjects(keyword);
 
-        dal.PostDAO myPostDAO = new dal.PostDAO();
-        ArrayList<Post> post_list = myPostDAO.getPost();
-        request.setAttribute("post_list", post_list);
+        List<Subject> featured_subject_list = mySubjectDAO.getSubject();
+        request.setAttribute("featured_subject_list", featured_subject_list);
+        
+        CategoryDAO myCategoryDAO = new CategoryDAO();
+        List<Category> category_list = myCategoryDAO.getCategory();
+        request.setAttribute("category_list", category_list);
+        
+        // Kiểm tra nếu người dùng đã chọn category
+        ArrayList<Subject> filteredSubjectsByCategory = mySubjectDAO.searchSubjectsByCategory(category);
 
-        ArrayList<Post> hottest_post_list = myPostDAO.getHottestPost();
-        request.setAttribute("hottest_post_list", hottest_post_list);
-
-        if (keyword != null && !keyword.trim().isEmpty()) {
-            for (Subject subject : subject_list) {
-                // Kiểm tra xem mô tả có chứa từ khóa không (phân biệt chữ hoa chữ thường)
-                if (subject.getDescription().toLowerCase().contains(keyword.trim().toLowerCase())) {
-                    filteredSubjects.add(subject);
-                }
-            }
-        } else {
-            filteredSubjects = subject_list;
-        }
-
-        request.setAttribute("subject_list", filteredSubjects);
-        request.setAttribute("keyword", keyword);
-
-        String page = request.getParameter("page");
-
-        if ("subject".equals(page)) {
-            request.getRequestDispatcher("subject_list.jsp").forward(request, response);
-        } else if ("blog".equals(page)) {
-            request.getRequestDispatcher("blog_list.jsp").forward(request, response);
-        } else {
-            request.getRequestDispatcher("homepage.jsp").forward(request, response);
-        }
+        request.setAttribute("subject_list", filteredSubjectsByCategory);
+       // request.setAttribute("subject_list", subject_list);
+        request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
     }
 
     /**
@@ -107,7 +93,7 @@ public class SearchServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        processRequest(request, response);
     }
 
     /**

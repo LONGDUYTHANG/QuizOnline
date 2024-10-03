@@ -56,6 +56,8 @@ public class HomepageServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    int numberOfSubject = 6;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -67,12 +69,12 @@ public class HomepageServlet extends HttpServlet {
         //hottest_post_list
         ArrayList<Post> hottest_post_list = myPostDAO.getHottestPost();
         request.setAttribute("hottest_post_list", hottest_post_list);
-        
+
         //subject_list
-        SubjectDAO mySubjectDAO = new SubjectDAO();
-        ArrayList<Subject> subject_list = mySubjectDAO.getSubject();
+        SubjectDAO testDAO = new SubjectDAO();
+        ArrayList<Subject> subject_list = testDAO.getSubject();
         request.setAttribute("subject_list", subject_list);
-        
+
         request.getRequestDispatcher("homepage.jsp").forward(request, response);
     }
 

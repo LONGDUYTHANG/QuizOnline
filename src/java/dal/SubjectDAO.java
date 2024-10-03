@@ -32,7 +32,7 @@ public class SubjectDAO extends DBContext {
         ResultSet rs;
         ArrayList<Subject> subject_list = new ArrayList<>();
         try {
-            String strSelect = "SELECT * FROM Subject ";
+            String strSelect = "SELECT * FROM Subject";
             stm = connection.prepareStatement(strSelect);
             rs = stm.executeQuery();
             while (rs.next()) {
@@ -55,7 +55,7 @@ public class SubjectDAO extends DBContext {
         }
         return subject_list;
     }
-
+  
     /**
      * Get information of a subject given by the subject ID
      *
@@ -125,13 +125,47 @@ public class SubjectDAO extends DBContext {
 
         return subjects;
     }
+    
+    public List<Subject> getFeaturedSubject() {
+        List<Subject> subjects = new ArrayList<>();
+        String sql = "SELECT TOP 5 * FROM Subject;";
+
+        try (
+                PreparedStatement pstmt = connection.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Subject subject = new Subject();
+                subject.setSubjectId(rs.getInt("subject_id"));
+                subject.setSubjectName(rs.getString("subject_name"));
+
+                CategoryDAO cDao = new CategoryDAO();
+                SubjectCategory sc = cDao.getCategoryById(rs.getInt("category_id"));
+                subject.setCategoryId(rs.getInt("category_id"));
+
+                subject.setStatus(rs.getInt("status") == 1);
+                subject.setIsFeatured(rs.getBoolean("isFeatured"));
+                subject.setThumbnail(rs.getString("thumbnail"));
+                subject.setTagline(rs.getString("tagline"));
+                subject.setDescription(rs.getString("description"));
+
+                AccountDAO aDao = new AccountDAO();
+                Account acc = aDao.getAccountById(rs.getString("account_id"));
+                subject.setAccountId(acc.getAccount_id());
+//                subject.setCreatedDate(rs.g);
+
+                subjects.add(subject);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return subjects;
+    }
 
     public static void main(String[] args) {
         SubjectDAO a = new SubjectDAO();
-        ArrayList<Subject> h = a.getSubject();
-        for (Subject s : h) {
-            System.out.println(s.getDescription());
-        }
+        ArrayList<Subject> h = a.searchSubjectsByCategory("technology");
+        System.out.println(h.size());
+        
     }
 
     public void createNewSubject(String subjectName, String subjectCategory, int status, boolean featured, String thumbnail, String tagLine, String description, String accountId) {
@@ -206,8 +240,37 @@ public class SubjectDAO extends DBContext {
 
         return subjects;
     }
+    
+    public ArrayList<Subject> searchSubjectsByCategory(String keyword) {
+        ArrayList<Subject> subjects = new ArrayList<>();
+        String sql = "SELECT * FROM Subject WHERE category_id in (select category_id from Category where category_name= ?)";
 
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            // Sử dụng % để tìm kiếm bất kỳ vị trí nào trong tên hoặc mô tả
+            pstmt.setString(1, keyword);
 
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Subject subject = new Subject();
+                subject.setSubjectId(rs.getInt("subject_id"));
+                subject.setSubjectName(rs.getString("subject_name"));
+                subject.setCategoryId(rs.getInt("category_id"));
+                subject.setStatus(rs.getInt("status") == 1);
+                subject.setIsFeatured(rs.getBoolean("isFeatured"));
+                subject.setThumbnail(rs.getString("thumbnail"));
+                subject.setTagline(rs.getString("tagline"));
+                subject.setDescription(rs.getString("description"));
+                subject.setAccountId(rs.getInt("account_id"));
+                subject.setCreatedDate(rs.getTimestamp("created_date"));
+
+                subjects.add(subject);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return subjects;
+    }
 
     public List<RegisteredSubject> getEnrolledSubjectRecently(Account a) {
         List<RegisteredSubject> subjects = new ArrayList<>();
@@ -253,6 +316,7 @@ public class SubjectDAO extends DBContext {
 
         return subjects;
     }
+
     public List<RegisteredSubject> getEnrolledSubject(Account a) {
         List<RegisteredSubject> subjects = new ArrayList<>();
         String sql = "select *,CAST(case when valid_to < GETDATE() then 0 else 1 end as bit) as is_expired, cast(r.registration_time as date) enrolled_date from Registration r\n"
@@ -299,7 +363,7 @@ public class SubjectDAO extends DBContext {
 
         return subjects;
     }
-    
+
     public List<Subject> getAllSubject1() {
         List<Subject> subjects = new ArrayList<>();
         String sql = "SELECT subject_id, subject_name, category_id, status, isFeatured, thumbnail, tagline, description, account_id, created_date FROM Subject";
@@ -334,6 +398,23 @@ public class SubjectDAO extends DBContext {
 
         return subjects;
     }
+
+    public int countSubjects() {
+        String sql = "SELECT COUNT(*) AS totalSubjects FROM Subject";
+        int count = 0;
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("totalSubjects");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
     public Subject getSubjectById(int subjectId) {
         String sql = "SELECT subject_id, subject_name, category_id, status, isFeatured, thumbnail, tagline, description, account_id, created_date "
                 + "FROM Subject WHERE subject_id = ?";
@@ -374,6 +455,5 @@ public class SubjectDAO extends DBContext {
 
         return null;
     }
-    
-}
 
+}
