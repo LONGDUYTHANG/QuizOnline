@@ -4,7 +4,8 @@
  */
 package controller;
 
-import dal.*;
+import dal.SubjectDAO;
+import dao.CategoryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +14,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
-import model.Post;
+import model.Category;
 import model.Subject;
 
 /**
  *
- * @author ADMIN
+ * @author Phuong Anh
  */
-public class HomepageServlet extends HttpServlet {
+public class SearchByCategory extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +40,10 @@ public class HomepageServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomepageServlet</title>");
+            out.println("<title>Servlet SearchByCategory</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HomepageServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SearchByCategory at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,25 +58,36 @@ public class HomepageServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    int numberOfSubject = 6;
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //post_list
-        dal.PostDAO myPostDAO = new dal.PostDAO();
-        ArrayList<Post> post_list = myPostDAO.getPost();
-        request.setAttribute("post_list", post_list);
+        String category = request.getParameter("categories");
+        String keyword = request.getParameter("text");
 
-        //hottest_post_list
-        ArrayList<Post> hottest_post_list = myPostDAO.getHottestPost();
-        request.setAttribute("hottest_post_list", hottest_post_list);
+        SubjectDAO mySubjectDAO = new SubjectDAO();
+        List<Subject> subject_list = mySubjectDAO.getSubject();
 
-        //subject_list
-        SubjectDAO testDAO = new SubjectDAO();
-        List<Subject> subject_list = testDAO.getSubject();
-        request.setAttribute("subject_list", subject_list);      
-        request.getRequestDispatcher("common/homepage.jsp").forward(request, response);
+        List<Subject> featured_subject_list = mySubjectDAO.getFeaturedSubjects();
+        request.setAttribute("featured_subject_list", featured_subject_list);
+
+        CategoryDAO myCategoryDAO = new CategoryDAO();
+        List<Category> category_list;
+        if (keyword != null && !keyword.isEmpty()) {
+            category_list = myCategoryDAO.searchCategories(keyword);
+        } else {
+            category_list = myCategoryDAO.getCategory();
+        }
+        request.setAttribute("category_list", category_list);
+
+        List<Subject> filteredSubjectsByCategory = mySubjectDAO.searchSubjectsByCategory(category);
+
+        if (filteredSubjectsByCategory != null && !filteredSubjectsByCategory.isEmpty()) {
+            request.setAttribute("subject_list", filteredSubjectsByCategory);
+        } else {
+            request.setAttribute("subject_list", subject_list);
+        }
+
+        request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
     }
 
     /**
