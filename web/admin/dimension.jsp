@@ -124,7 +124,7 @@
                                         <label for="validationDefault05" class="form-label">Subject</label>
                                         <select name="subject_id" class="form-select" id="validationDefault05" required="">
                                             <c:forEach items="${listSubject}" var="listType">
-                                                <option value="${listType.subjectId}">${listType.subjectName}</option>
+                                                <option value="${listType.subject_id}">${listType.subject_name}</option>
                                             </c:forEach>
 
 

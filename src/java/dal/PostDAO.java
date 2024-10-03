@@ -81,6 +81,39 @@ public class PostDAO extends DBContext {
         return hottest_post_list;
     }
 
+    public ArrayList<Post> searchPosts(String keyword) {
+    ArrayList<Post> filteredPosts = new ArrayList<>();
+    String query = "SELECT * FROM Blog WHERE blog_title LIKE ? OR blog_content LIKE ?"; // Tìm kiếm theo tiêu đề hoặc nội dung
+
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setString(1, "%" + keyword + "%");
+        stmt.setString(2, "%" + keyword + "%");
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            Post post = new Post();
+            post.setBlog_id(rs.getInt("blog_id"));
+            post.setBlog_title(rs.getString("blog_title"));
+            post.setThumbnail(rs.getString("thumbnail"));
+            post.setCreated_date(rs.getString("created_date"));
+            post.setBlog_summary(rs.getString("blog_summary"));
+            post.setBlog_content(rs.getString("blog_content"));
+            post.setUpdated_date(rs.getString("updated_date"));
+            post.setIsFeatured(rs.getBoolean("isFeatured"));
+            post.setStatus(rs.getBoolean("status"));
+            post.setCategory_id(rs.getInt("category_id"));
+            post.setAccount_id(rs.getInt("account_id"));
+            post.setNumber_of_access(rs.getInt("number_of_access"));
+
+            filteredPosts.add(post);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return filteredPosts;
+}
+
+    
     public Post getPostByBlogID(int blog_id) {
         PreparedStatement stm;
         ResultSet rs;

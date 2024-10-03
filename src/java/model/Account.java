@@ -19,6 +19,8 @@ public class Account {
     private String password;
     private String avatar;
     private int role_id;
+    private Role role_id1;
+    private int gender1;
 
     public Account() {
     }
@@ -50,11 +52,7 @@ public class Account {
         this.gender = gender;
         this.mobile = mobile;
     }
-    
-    
 
-    
-    
     public int getAccount_id() {
         return account_id;
     }
@@ -127,5 +125,20 @@ public class Account {
         this.role_id = role_id;
     }
 
-    
+    public Role getRole_id1() {
+        return role_id1;
+    }
+
+    public void setRole_id1(Role role_id1) {
+        this.role_id1 = role_id1;
+    }
+
+    public int getGender1() {
+        return gender1;
+    }
+
+    public void setGender1(int gender1) {
+        this.gender1 = gender1;
+    }
+
 }
