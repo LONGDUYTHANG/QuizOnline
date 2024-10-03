@@ -52,7 +52,9 @@ public class SubjectListServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method.    *
+     * Handles the HTTP <code>GET</code> method.
+     *
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -61,22 +63,37 @@ public class SubjectListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SubjectDAO testDAO = new SubjectDAO();
-        ArrayList<Subject> subject_list = testDAO.getSubject();
+        SubjectDAO subjectDAO = new SubjectDAO();
+        ArrayList<Subject> subject_list = subjectDAO.getSubject();
         request.setAttribute("subject_list", subject_list);
-        
-        List<Subject> featured_subject_list = testDAO.getSubject();
+
+        List<Subject> featured_subject_list = subjectDAO.getFeaturedSubjects();
         request.setAttribute("featured_subject_list", featured_subject_list);
 
         CategoryDAO myCategoryDAO = new CategoryDAO();
         List<Category> category_list = myCategoryDAO.getCategory();
         request.setAttribute("category_list", category_list);
-        
+
+        String sort = request.getParameter("sort");
+
+        if ("featured".equals(sort)) {
+            subject_list = (ArrayList<Subject>) subjectDAO.getFeaturedSubjects();
+        } else if ("latest".equals(sort)) {
+            subject_list = (ArrayList<Subject>) subjectDAO.getLatestSubjects();
+        } else if ("oldest".equals(sort)) {
+            subject_list = (ArrayList<Subject>) subjectDAO.getOldestSubjects();
+        } else {
+            subject_list = subjectDAO.getSubject();
+        }
+        request.setAttribute("subject_list", subject_list);
+
         request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.    *
+     * Handles the HTTP <code>POST</code> method.
+     *
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -90,6 +107,7 @@ public class SubjectListServlet extends HttpServlet {
 
     /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

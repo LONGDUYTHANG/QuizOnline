@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.List;
 import model.Post;
 import model.Subject;
 
@@ -72,7 +73,7 @@ public class HomepageServlet extends HttpServlet {
 
         //subject_list
         SubjectDAO testDAO = new SubjectDAO();
-        ArrayList<Subject> subject_list = testDAO.getSubject();
+        List<Subject> subject_list = testDAO.getSubject();
         request.setAttribute("subject_list", subject_list);
 
         request.getRequestDispatcher("homepage.jsp").forward(request, response);

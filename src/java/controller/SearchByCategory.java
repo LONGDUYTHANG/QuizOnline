@@ -67,7 +67,7 @@ public class SearchByCategory extends HttpServlet {
         SubjectDAO mySubjectDAO = new SubjectDAO();
         List<Subject> subject_list = mySubjectDAO.getSubject();
 
-        List<Subject> featured_subject_list = mySubjectDAO.getSubject();
+        List<Subject> featured_subject_list = mySubjectDAO.getFeaturedSubjects();
         request.setAttribute("featured_subject_list", featured_subject_list);
 
         CategoryDAO myCategoryDAO = new CategoryDAO();
