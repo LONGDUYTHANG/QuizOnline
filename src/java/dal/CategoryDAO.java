@@ -22,36 +22,37 @@ public class CategoryDAO extends DBContext {
 
     public List<SubjectCategory> getAllCategory() {
         List<SubjectCategory> categories = new ArrayList<>();
-        String sql = "SELECT * FROM Category"; 
+        String sql = "SELECT * FROM Category";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                SubjectCategory category = new SubjectCategory(); 
-                category.setCategory_id(rs.getInt("category_id")); 
+                SubjectCategory category = new SubjectCategory();
+                category.setCategory_id(rs.getInt("category_id"));
                 category.setCategory_name(rs.getString("category_name"));
-                categories.add(category); 
+                categories.add(category);
             }
 
         } catch (Exception e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
 
-        return categories; 
+        return categories;
     }
- public SubjectCategory getCategoryById(int categoryId) {
+
+    public SubjectCategory getCategoryById(int categoryId) {
         String sql = "SELECT * FROM Category WHERE category_id = ?";
         SubjectCategory category = null;
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, categoryId);
-            
+
             ResultSet rs = pstmt.executeQuery();
-            
+
             if (rs.next()) {
-                category = new SubjectCategory(); 
+                category = new SubjectCategory();
                 category.setCategory_id(rs.getInt("category_id"));
                 category.setCategory_name(rs.getString("category_name"));
             }
@@ -60,10 +61,31 @@ public class CategoryDAO extends DBContext {
             e.printStackTrace(); //
         }
 
-        return category; 
+        return category;
     }
- 
- public ArrayList<Category> getCategory() {
+
+    public List<Category> searchCategories(String keyword) {
+        List<Category> categoryList = new ArrayList<>();
+        String sql = "SELECT * FROM Category WHERE category_name LIKE ?"; // Truy vấn tìm kiếm
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, "%" + keyword + "%"); // Thêm ký tự % vào từ khóa
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Category category = new Category();
+                category.setCategory_id(rs.getInt("category_id"));
+                category.setCategory_name(rs.getString("category_name"));
+                categoryList.add(category);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return categoryList;
+    }
+
+    public ArrayList<Category> getCategory() {
         PreparedStatement stm;
         ResultSet rs;
         ArrayList<Category> category_list = new ArrayList<>();
@@ -75,7 +97,6 @@ public class CategoryDAO extends DBContext {
                 Category category = new Category();
                 category.setCategory_id(rs.getInt("category_id"));
                 category.setCategory_name(rs.getString("category_name"));
-                
 
                 category_list.add(category);
             }
@@ -84,7 +105,5 @@ public class CategoryDAO extends DBContext {
         }
         return category_list;
     }
-    
-   
 
 }

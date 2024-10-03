@@ -5,6 +5,7 @@
 package controller;
 
 import dal.PostDAO;
+import dao.CategoryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.List;
+import model.Category;
 import model.Post;
 
 /**
@@ -71,6 +74,10 @@ public class BlogDetailServlet extends HttpServlet {
         
         ArrayList<Post> post_list = myPostDAO.getPost();
         request.setAttribute("post_list", post_list);
+        
+        CategoryDAO myCategoryDAO = new CategoryDAO();
+        List<Category> category_list = myCategoryDAO.getCategory();
+        request.setAttribute("category_list", category_list);
 
         
         request.getRequestDispatcher("customer/blog_detail.jsp").forward(request, response);

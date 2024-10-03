@@ -76,7 +76,7 @@ public class DimensionController extends HttpServlet {
         request.setAttribute("listDimensionType", listDimensionType);
 
         SubjectDAO sDao = new SubjectDAO();
-        List<Subject> listSubject = sDao.getAllSubject();
+        List<Subject> listSubject = sDao.getAllSubject1();
         request.setAttribute("listSubject", listSubject);
         if (action != null) {
 

@@ -47,7 +47,7 @@
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
 
-        
+
     </head>
     <body id="bg">
         <%@include file="header.html" %>
@@ -74,11 +74,19 @@
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="course-detail-bx">
                                         <div class="course-price">
+                                            <label for="courseDuration">Choose duration:</label>
+                                            <select id="courseDuration" name="courseDuration" class="form-control" onchange="updatePrice()">
+                                                <option value="3months" data-price="120">3 months</option>
+                                                <option value="6months" data-price="200">6 months</option>
+                                                <option value="9months" data-price="270">9 months</option>
+                                            </select>
+                                        </div> 
+                                        <div class="course-price" style="margin-bottom: 5px;">
                                             <del>$190</del>
                                             <h4 class="price">$120</h4>
                                         </div>	
                                         <div class="course-buy-now text-center">
-                                            <a href="#" class="btn radius-xl text-uppercase">Buy Now This Courses</a>
+                                            <a href="register_subject?subject_id=${c.subjectId}" class="btn radius-xl text-uppercase">Buy Now This Courses</a>
                                         </div>
                                         <div class="teacher-bx">
                                             <div class="teacher-info">
@@ -92,16 +100,6 @@
                                             </div>
                                         </div>
                                         <div class="cours-more-info">
-                                            <div class="review">
-                                                <span>3 Review</span>
-                                                <ul class="cours-star">
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                </ul>
-                                            </div>
                                             <div class="price categories">
                                                 <span>Categories</span>
                                                 <h5 class="text-primary">Frontend</h5>
@@ -112,7 +110,6 @@
                                                 <li><a class="nav-link" href="#overview"><i class="ti-zip"></i>Overview</a></li>
                                                 <li><a class="nav-link" href="#curriculum"><i class="ti-bookmark-alt"></i>Curriculum</a></li>
                                                 <li><a class="nav-link" href="#instructor"><i class="ti-user"></i>Instructor</a></li>
-                                                <li><a class="nav-link" href="#reviews"><i class="ti-comments"></i>Reviews</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -131,11 +128,11 @@
                                                 <h2 class="post-title">${c.subjectName}</h2>
                                             </div>
                                             <div class="ttr-post-text">
-                                                <p>${c.description}</p>
+                                                <p>${c.tagline}</p>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="courese-overview" id="overview">
                                         <h4>Overview</h4>
                                         <div class="row">
@@ -152,20 +149,7 @@
                                             </div>
                                             <div class="col-md-12 col-lg-8">
                                                 <h5 class="m-b5">Course Description</h5>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry?s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-                                                <h5 class="m-b5">Certification</h5>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry?s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-                                                <h5 class="m-b5">Learning Outcomes</h5>
-                                                <ul class="list-checked primary">
-                                                    <li>Over 37 lectures and 55.5 hours of content!</li>
-                                                    <li>LIVE PROJECT End to End Software Testing Training Included.</li>
-                                                    <li>Learn Software Testing and Automation basics from a professional trainer from your own desk.</li>
-                                                    <li>Information packed practical training starting from basics to advanced testing techniques.</li>
-                                                    <li>Best suitable for beginners to advanced level users and who learn faster when demonstrated.</li>
-                                                    <li>Course content designed by considering current software testing technology and the job market.</li>
-                                                    <li>Practical assignments at the end of every session.</li>
-                                                    <li>Practical learning experience with live project work and examples.cv</li>
-                                                </ul>
+                                                <p>${c.description}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -246,12 +230,6 @@
                                             <div class="instructor-info">
                                                 <h6>Keny White </h6>
                                                 <span>Professor</span>
-                                                <ul class="list-inline m-tb10">
-                                                    <li><a href="#" class="btn sharp-sm facebook"><i class="fa fa-facebook"></i></a></li>
-                                                    <li><a href="#" class="btn sharp-sm twitter"><i class="fa fa-twitter"></i></a></li>
-                                                    <li><a href="#" class="btn sharp-sm linkedin"><i class="fa fa-linkedin"></i></a></li>
-                                                    <li><a href="#" class="btn sharp-sm google-plus"><i class="fa fa-google-plus"></i></a></li>
-                                                </ul>
                                                 <p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</p>
                                             </div>
                                         </div>
@@ -262,101 +240,10 @@
                                             <div class="instructor-info">
                                                 <h6>Keny White </h6>
                                                 <span>Professor</span>
-                                                <ul class="list-inline m-tb10">
-                                                    <li><a href="#" class="btn sharp-sm facebook"><i class="fa fa-facebook"></i></a></li>
-                                                    <li><a href="#" class="btn sharp-sm twitter"><i class="fa fa-twitter"></i></a></li>
-                                                    <li><a href="#" class="btn sharp-sm linkedin"><i class="fa fa-linkedin"></i></a></li>
-                                                    <li><a href="#" class="btn sharp-sm google-plus"><i class="fa fa-google-plus"></i></a></li>
-                                                </ul>
                                                 <p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="" id="reviews">
-                                        <h4>Reviews</h4>
-
-                                        <div class="review-bx">
-                                            <div class="all-review">
-                                                <h2 class="rating-type">3</h2>
-                                                <ul class="cours-star">
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                </ul>
-                                                <span>3 Rating</span>
-                                            </div>
-                                            <div class="review-bar">
-                                                <div class="bar-bx">
-                                                    <div class="side">
-                                                        <div>5 star</div>
-                                                    </div>
-                                                    <div class="middle">
-                                                        <div class="bar-container">
-                                                            <div class="bar-5" style="width:90%;"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="side right">
-                                                        <div>150</div>
-                                                    </div>
-                                                </div>
-                                                <div class="bar-bx">
-                                                    <div class="side">
-                                                        <div>4 star</div>
-                                                    </div>
-                                                    <div class="middle">
-                                                        <div class="bar-container">
-                                                            <div class="bar-5" style="width:70%;"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="side right">
-                                                        <div>140</div>
-                                                    </div>
-                                                </div>
-                                                <div class="bar-bx">
-                                                    <div class="side">
-                                                        <div>3 star</div>
-                                                    </div>
-                                                    <div class="middle">
-                                                        <div class="bar-container">
-                                                            <div class="bar-5" style="width:50%;"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="side right">
-                                                        <div>120</div>
-                                                    </div>
-                                                </div>
-                                                <div class="bar-bx">
-                                                    <div class="side">
-                                                        <div>2 star</div>
-                                                    </div>
-                                                    <div class="middle">
-                                                        <div class="bar-container">
-                                                            <div class="bar-5" style="width:40%;"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="side right">
-                                                        <div>110</div>
-                                                    </div>
-                                                </div>
-                                                <div class="bar-bx">
-                                                    <div class="side">
-                                                        <div>1 star</div>
-                                                    </div>
-                                                    <div class="middle">
-                                                        <div class="bar-container">
-                                                            <div class="bar-5" style="width:20%;"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="side right">
-                                                        <div>80</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </div>
 
                             </div>
