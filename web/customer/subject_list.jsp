@@ -156,13 +156,17 @@
                                             </div>                                        
                                             <br>
                                             <!-- Danh sách các categories -->
+
                                             <div class="category-list" style="margin-bottom: 20px;">
-                                                <c:forEach items="${requestScope.category_list}" var="c">
-                                                    <div style="margin-bottom: 10px;">
-                                                        <input type="checkbox" id="category_${c.category_id}" name="categories" value="${c.category_id}">
-                                                        <label for="category_${c.category_id}" style="font-size: 16px; margin-left: 8px;">${c.category_name}</label>
-                                                    </div>
-                                                </c:forEach>
+                                                <form action="searchByCategory">
+                                                    <c:forEach items="${requestScope.category_list}" var="c">
+                                                        <div style="margin-bottom: 10px;">
+                                                            <input type="checkbox" id="category_${c.category_id}"  name="categories" value="${c.category_name}">
+                                                            <label for="category_${c.category_id}" style="font-size: 16px; margin-left: 8px;">${c.category_name}</label>
+                                                        </div>
+                                                    </c:forEach>
+                                                     <input type="submit" value="Submit">
+                                                </form>
                                             </div>
                                             <!-- Nút tìm ki?m -->
                                         </div>
@@ -172,7 +176,7 @@
                                             <div class="widget-post-bx">
                                                 <!-- thêm danh sách các bài subject hot nhat-->
                                                 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-                                                <c:forEach items="${requestScope.subject_list}" var="c">
+                                                <c:forEach items="${requestScope.featured_subject_list}" var="c">
                                                     <div class="widget-post clearfix">
                                                         <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
                                                         <div class="ttr-post-info">
