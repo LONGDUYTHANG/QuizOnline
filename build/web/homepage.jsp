@@ -74,6 +74,7 @@
                 text-align: center;
                 max-width: 400px;
                 margin: auto;
+                margin-top: 60px
             }
 
 
@@ -85,28 +86,14 @@
             <div id="loading-icon-bx"></div>
             <!-- Header Top ==== -->
             <header class="header rs-nav header-transparent">
-                <div class="top-bar" style="background-color: #0a0e13">
-                    <div class="container">
-                        <div class="row d-flex justify-content-between">
-
-                            <div class="topbar-right">
-                                <ul style="display: flex" >
-                                    <li><a href="#" id="open-login-popup"  >Login</a></li>
-                                    <li><a href="#" id="open-register-popup">Register</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
+                 
                 <!-- login -->
                 <%@include file="common/login.jsp" %>
                 <!-- register     -->
                 <%@include file="common/register.jsp" %>
                 
-                <%@include file="customer/header.html" %>
-
-                <%@include file="common/requestPassword.jsp" %>
-                
+                <%@include file="common/header.html" %>
+            
                 <%@include file="common/requestPassword.jsp" %>
                 
             </header>

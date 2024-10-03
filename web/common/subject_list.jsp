@@ -47,16 +47,47 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
+             <style>
+            .popup {
+                display: none;
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.7);
+                justify-content: center;
+                align-items: center;
+            }
+            .popup-content {
+                background: white;
+                padding: 20px;
+                border-radius: 5px;
+                text-align: center;
+                max-width: 400px;
+                margin: auto;
+            }
+
+
+        </style>
 
     </head>
     <body id="bg">
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
+            <header class="header rs-nav header-transparent">
+                <!-- login -->
+                <%@include file="login.jsp" %>
+                <!-- register     -->
+                <%@include file="register.jsp" %>
 
-            <!-- Header Top -->
-           <%@include file="header.html" %>
+                <%@include file="header.html" %>
+
+                <%@include file="requestPassword.jsp" %>
+
+            </header>
             <!-- Content -->
-            <div class="page-content ">
+            <div class="page-content">
                 <!-- inner page banner -->
                 <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
                     <div class="container">
@@ -76,10 +107,10 @@
                                     <div class="sort-options" style="margin-bottom: 20px; width: 30%; display: flex; align-items: center;">
                                         <form method="get" action="subject_list" style="display: flex; align-items: center; width: 100%;">
                                             <label for="sortBy" style="margin-right: 10px; white-space: nowrap;">Sort by:</label>
-                                            <select id="sortBy" name="sort" onchange="this.form.submit()" style="flex-grow: 1; max-width: 200px;">
-                                                <option value="featured" ${param.sort == 'featured' ? 'selected' : ''}>Featured Subjects</option>
-                                                <option value="latest" ${param.sort == 'latest' ? 'selected' : ''}>Latest Subjects</option>
-                                                <option value="oldest" ${param.sort == 'oldest' ? 'selected' : ''}>Oldest Subjects</option>
+                                            <select id="sortBy" name="sortBy" onchange="this.form.submit()" style="flex-grow: 1; max-width: 200px;">
+                                                <option value="created_date" ${param.sortBy == 'created_date' ? 'selected' : ''}>Featured Subjects</option>
+                                                <option value="title" ${param.sortBy == 'title' ? 'selected' : ''}>Latest Subjects</option>
+                                                <option value="views" ${param.sortBy == 'views' ? 'selected' : ''}>Oldest Subjects</option>
                                             </select>
                                         </form>
                                     </div>
@@ -142,32 +173,29 @@
                                         </div>
                                         <div class="widget widget_tag_cloud">
                                             <h6 class="widget-title">Categories</h6>
-
-                                            <!-- Form tìm ki?m category theo t? khóa -->
+                                            <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                             <div class="search-bx style-1">
-                                                <form role="search" method="get" action="searchByCategory">
+                                                <form role="search" method="post">
                                                     <div class="input-group">
                                                         <input name="text" class="form-control" placeholder="Enter your keywords..." type="text" id="output">
                                                         <span class="input-group-btn">
                                                             <button type="submit" class="fa fa-search text-primary"></button>
-                                                        </span>
+                                                        </span> 
                                                     </div>
                                                 </form>
-                                            </div>
-                                            <br>
 
+                                            </div>                                        
+                                            <br>
                                             <!-- Danh sách các categories -->
                                             <div class="category-list" style="margin-bottom: 20px;">
-                                                <form id="categoryForm" action="searchByCategory" method="get">
-                                                    <c:forEach items="${requestScope.category_list}" var="c">
-                                                        <div style="margin-bottom: 10px;">
-                                                            <input type="checkbox" id="category_${c.category_id}" name="categories" value="${c.category_name}" onchange="document.getElementById('categoryForm').submit();">
-                                                            <label for="category_${c.category_id}" style="font-size: 16px; margin-left: 8px;">${c.category_name}</label>
-                                                        </div>
-                                                    </c:forEach>
-                                                </form>
+                                                <c:forEach items="${requestScope.category_list}" var="c">
+                                                    <div style="margin-bottom: 10px;">
+                                                        <input type="checkbox" id="category_${c.category_id}" name="categories" value="${c.category_id}">
+                                                        <label for="category_${c.category_id}" style="font-size: 16px; margin-left: 8px;">${c.category_name}</label>
+                                                    </div>
+                                                </c:forEach>
                                             </div>
-
+                                            <!-- Nút tìm ki?m -->
                                         </div>
                                         <br>
                                         <div class="widget recent-posts-entry">
@@ -175,7 +203,7 @@
                                             <div class="widget-post-bx">
                                                 <!-- thêm danh sách các bài subject hot nhat-->
                                                 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-                                                <c:forEach items="${requestScope.featured_subject_list}" var="c">
+                                                <c:forEach items="${requestScope.subject_list}" var="c">
                                                     <div class="widget-post clearfix">
                                                         <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
                                                         <div class="ttr-post-info">
@@ -223,11 +251,91 @@
         <script src="assets/js/contact.js"></script>
         <script src='assets/vendors/switcher/switcher.js'></script>
         <script>
-                                                                function search() {
-                                                                    var b = document.getElementById("myButton").value;
-                                                                    document.getElementById("output").value = b;
+                                                function search() {
+                                                    var b = document.getElementById("myButton").value;
+                                                    document.getElementById("output").value = b;
 
-                                                                }
+                                                }
+        </script>
+        <script>
+            //login
+            const openLoginButton = document.getElementById('open-login-popup');
+            const closeLoginButton = document.getElementById('close-login-popup');
+            const loginPopup = document.getElementById('login-popup');
+            const loginError = document.getElementById('login-error');
+            const checkLoginError = document.getElementById('check-login-error');
+            //register
+            const openRegisterButton = document.getElementById('open-register-popup');
+            const closeRegisterButton = document.getElementById('close-register-popup');
+            const registerPopup = document.getElementById('register-popup');
+            const emailError = document.getElementById('email-error');
+            const checkEmailError = document.getElementById('check-email-error');
+            const passError = document.getElementById('pass-error');
+            const checkPassError = document.getElementById('check-pass-error');
+            //requestPass
+            const openRequestButton = document.getElementById('open-requestPass-popup');
+            const closeRequestButton = document.getElementById('close-requestPass-popup');
+            const RequestPopup = document.getElementById('requestPass-popup');
+            const requestError = document.getElementById('requestPass-error');
+            const checkRequestError = document.getElementById('check-requestPass-error');
+            
+
+            openLoginButton.onclick = function () {
+                loginPopup.style.display = 'flex';
+            };
+
+            openRegisterButton.onclick = function () {
+                registerPopup.style.display = 'flex';
+            };
+
+            closeLoginButton.onclick = function () {
+                loginPopup.style.display = 'none';
+            };
+            closeRegisterButton.onclick = function () {
+                registerPopup.style.display = 'none';
+            };
+            openRequestButton.onclick = function () {
+                loginPopup.style.display = 'none';
+                RequestPopup.style.display='flex';
+            };
+            closeRequestButton.onclick =function () {
+                loginPopup.style.display = 'flex';
+                RequestPopup.style.display='none';
+            };
+            function LoginAgain() {
+                if (checkLoginError.textContent === loginError.textContent) {
+                    loginPopup.style.display = 'flex';
+                }
+                if (checkEmailError.textContent === emailError.textContent) {
+                    registerPopup.style.display = 'flex';
+                }
+                if (checkPassError.textContent === passError.textContent) {
+                    registerPopup.style.display = 'flex';
+                }
+                if(requestError.textContent==='Send request success'){
+                    RequestPopup.style.display='flex';
+                }
+                if(requestError.textContent==='Email not existed'){
+                    RequestPopup.style.display='flex';
+                }
+                console.log(requestError.textContent);
+                
+
+            }
+
+
+            // ?óng pop-up khi nh?n ra ngoài
+            window.onclick = function (event) {
+                if (event.target === loginPopup) {
+                    loginPopup.style.display = 'none';
+                }
+            };
+
+            window.onclick = function (event) {
+                if (event.target === registerPopup) {
+                    registerPopup.style.display = 'none';
+                }
+            };
         </script>
     </body>
 
