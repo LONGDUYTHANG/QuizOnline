@@ -157,17 +157,19 @@
                                             <br>
                                             <!-- Danh sách các categories -->
 
+                                            <!-- Danh sách các categories -->
                                             <div class="category-list" style="margin-bottom: 20px;">
-                                                <form action="searchByCategory">
+                                                <form id="categoryForm" action="searchByCategory" method="get">
                                                     <c:forEach items="${requestScope.category_list}" var="c">
                                                         <div style="margin-bottom: 10px;">
-                                                            <input type="checkbox" id="category_${c.category_id}"  name="categories" value="${c.category_name}">
+                                                            <input type="checkbox" id="category_${c.category_id}"  name="categories" value="${c.category_name}" 
+                                                                   onchange="document.getElementById('categoryForm').submit();">
                                                             <label for="category_${c.category_id}" style="font-size: 16px; margin-left: 8px;">${c.category_name}</label>
                                                         </div>
                                                     </c:forEach>
-                                                     <input type="submit" value="Submit">
                                                 </form>
                                             </div>
+
                                             <!-- Nút tìm ki?m -->
                                         </div>
                                         <br>
@@ -224,11 +226,11 @@
         <script src="assets/js/contact.js"></script>
         <script src='assets/vendors/switcher/switcher.js'></script>
         <script>
-                                                function search() {
-                                                    var b = document.getElementById("myButton").value;
-                                                    document.getElementById("output").value = b;
+                                                                       function search() {
+                                                                           var b = document.getElementById("myButton").value;
+                                                                           document.getElementById("output").value = b;
 
-                                                }
+                                                                       }
         </script>
     </body>
 
