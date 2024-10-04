@@ -75,9 +75,9 @@ public class SearchByCategory extends HttpServlet {
         List<Subject> featured_subject_list = mySubjectDAO.getSubject();
         request.setAttribute("featured_subject_list", featured_subject_list);
 
-        List<Post> blog_list = myPostDAO.getPost();
-        List<Post> hottest_list = myPostDAO.getHottestPost();
-        request.setAttribute("hottest_list", hottest_list);
+        List<Post> post_list = myPostDAO.getPost();
+        List<Post> hottest_post_list = myPostDAO.getHottestPost();
+        request.setAttribute("hottest_post_list", hottest_post_list);
 
         List<Category> category_list;
         if (keyword != null && !keyword.isEmpty()) {
@@ -97,9 +97,9 @@ public class SearchByCategory extends HttpServlet {
         }
 
         if (filteredBlogsByCategory != null && !filteredBlogsByCategory.isEmpty()) {
-            request.setAttribute("blog_list", filteredBlogsByCategory);
+            request.setAttribute("post_list", filteredBlogsByCategory);
         } else {
-            request.setAttribute("blog_list", blog_list);
+            request.setAttribute("post_list", post_list);
         }
 
         if ("blogs".equals(view)) {
