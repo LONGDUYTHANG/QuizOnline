@@ -467,7 +467,9 @@ public class QuizDAO extends DBContext {
     
     public static void main(String[] args) {
         QuizDAO dao = new QuizDAO();
-        Quiz quiz = dao.getNewlyAddedQuiz();
-        System.out.println(quiz);
+        List<Quiz> list = dao.getAllQuiz();
+        for (Quiz quiz : list) {
+            System.out.println(quiz);
+        }
     }
 }
