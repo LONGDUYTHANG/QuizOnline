@@ -5,7 +5,9 @@
 
 package controller;
 
+import dal.AccountDAO;
 import dal.SubjectDAO;
+import dao.CategoryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -56,9 +58,13 @@ public class Expert_SubjectListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        SubjectDAO dao = new SubjectDAO();
-        List<Subject> listSubject = dao.getListSubject();
+        SubjectDAO sdao = new SubjectDAO();
+        CategoryDAO cdao = new CategoryDAO();
+        AccountDAO adao = new AccountDAO();
+        List<Subject> listSubject = sdao.getListSubject();
         request.setAttribute("listSubject", listSubject);
+        request.setAttribute("cdao", cdao);
+        request.setAttribute("adao", adao);
         request.getRequestDispatcher("expert/subject_list.jsp").forward(request, response);
     } 
 
