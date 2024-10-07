@@ -97,14 +97,20 @@
                         <div class="header">
                             <h2>Lesson Details</h2>
                             <div class="button-group">
-                                <button class="edit-btn">Edit</button>
-                                <button class="delete-btn">Delete</button>
+                                <button class="btn btn-primary" onclick="submitForm()">Save</button>
+                                <button class="btn btn-outline-primary">Back</button>
                             </div>
                         </div>
-                        <form>
+                        <script>
+                            function submitForm() {
+                                var form = document.getElementById('form1');
+                                form.submit();
+                            }
+                        </script>
+                        <form id="form1" action="addlesson" method="post">
                             <div class="form-group">
                                 <label for="type">Type</label>
-                                <select id="type-selector-lesson">
+                                <select id="type-selector-lesson" name="type">
                                     <option value="lesson">Lesson Topic</option>
                                     <option value="video">Video</option>
                                     <option value="quiz">Quiz</option>
@@ -113,24 +119,29 @@
 
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" id="name" value="Course 1: Programming Concepts" disabled>
+                                <input type="text" id="name" name="name" placeholder="Enter Lesson Name">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="topic">Topic</label>
+                                <input type="text" id="topic" name="topic">
                             </div>
 
                             <div class="form-group">
                                 <label for="summary">Summary</label>
-                                <textarea id="summary" disabled>Sample text for summary</textarea>
+                                <textarea id="summary" name="summary" placeholder="Enter Summary"></textarea>
                             </div>
 
                             <div class="form-group">
                                 <label for="order">Order</label>
-                                <input type="number" id="order" value="1">
+                                <input type="number" id="order" name="order" value="1">
                             </div>
 
                             <div class="form-group">
                                 <label for="status">Status</label>
-                                <select id="status">
-                                    <option>Active</option>
-                                    <option>Inactive</option>
+                                <select id="status" name="status">
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
                                 </select>
                             </div>
                         </form>
@@ -141,14 +152,14 @@
                         <div class="header">
                             <h2>Lesson Details</h2>
                             <div class="button-group">
-                                <button class="edit-btn">Edit</button>
-                                <button class="delete-btn">Delete</button>
+                                <button class="btn btn-primary">Save</button>
+                                <button class="btn btn-outline-primary">Back</button>
                             </div>
                         </div>
                         <form>
                             <div class="form-group">
                                 <label for="type">Type</label>
-                                <select id="type-selector-video">
+                                <select id="type-selector-video" name="type">
                                     <option value="lesson">Lesson Topic</option>
                                     <option value="video" selected>Video</option>
                                     <option value="quiz">Quiz</option>
@@ -157,28 +168,28 @@
 
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" id="name" value="Advanced Programming Concepts" disabled>
+                                <input type="text" id="name" placeholder="Enter Lesson Name" name="name">
                             </div>
 
                             <div class="form-group">
                                 <label for="topic">Topic</label>
-                                <input type="text" id="topic" value="Week 2: Object-Oriented Programming" disabled>
+                                <input type="text" id="topic" name="topic">
                             </div>
 
                             <div class="form-group">
                                 <label for="summary">Summary</label>
-                                <textarea id="summary" disabled>Sample text for summary</textarea>
+                                <textarea id="summary" name="summary" placeholder="Enter summary"></textarea>
                             </div>
 
                             <div class="form-group">
                                 <label for="video-link">Video Link</label>
-                                <input type="url" id="video-link" value="https://www.youtube.com/watch?v=example" disabled>
+                                <input type="url" id="video-link" name="url" placeholder="Ex: https://www.youtube.com/embed/example">
                                 <iframe src="https://www.youtube.com/embed/example" frameborder="0" allowfullscreen></iframe>
                             </div>
 
                             <div class="form-group">
                                 <label for="content">Content</label>
-                                <textarea id="content">Add Lesson Details...</textarea>
+                                <textarea id="content" name="content" placeholder="Enter Lesson Content"></textarea>
                             </div>
                         </form>
                     </div>
@@ -188,14 +199,14 @@
                         <div class="header">
                             <h2>Lesson Details</h2>
                             <div class="button-group">
-                                <button class="edit-btn">Edit</button>
-                                <button class="delete-btn">Delete</button>
+                                <button class="btn btn-primary">Save</button>
+                                <button class="btn btn-outline-primary">Back</button>
                             </div>
                         </div>
                         <form>
-                            <div class="form-group">
+                            <div class="form-group" name="lesson_type">
                                 <label for="type">Type</label>
-                                <select id="type-selector-quiz">
+                                <select id="type-selector-quiz" name="type">
                                     <option value="lesson">Lesson Topic</option>
                                     <option value="video">Video</option>
                                     <option value="quiz" selected>Quiz</option>
@@ -209,7 +220,7 @@
 
                             <div class="form-group">
                                 <label for="quiz-type">Quiz Type</label>
-                                <select id="quiz-type">
+                                <select id="quiz-type" name="quiz_type">
                                     <option>Multiple Choice</option>
                                     <option>True/False</option>
                                     <option>Short Answer</option>
@@ -219,7 +230,7 @@
 
                             <div class="form-group">
                                 <label for="summary">Summary</label>
-                                <textarea id="summary" disabled>Review Chapter 1</textarea>
+                                <textarea id="summary" name="summary"></textarea>
                             </div>
 
                             <div class="form-group">

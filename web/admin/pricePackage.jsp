@@ -163,7 +163,7 @@
                                         <label for="validationDefault05" class="form-label">Subject</label>
                                         <select name="dimension_type_id" class="form-select" id="validationDefault05" required="">
                                             <c:forEach items="${listSubject}" var="listType">
-                                                <option value="${listType.subject_id}">${listType.subject_name}</option>
+                                                <option value="${listType.subjectId}">${listType.subjectName}</option>
                                             </c:forEach>
 
 
@@ -212,8 +212,8 @@
                                                 <th style="width: 15%;">List Price</th>
                                                 <th style="width: 15%;">Sale Price</th>
                                                 <th style="width: 15%;">Subject Name</th>
-                                                <th class="d-none d-md-table-cell" style="width: 10%;">Status</th>
-                                                <th style="width: 10%;">Actions</th>
+                                                <th style="width: 15%;">Status</th>
+                                                <th style="width: 15%;">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -224,7 +224,7 @@
                                                     <td>${list.getDuration()}</td>
                                                     <td>${list.getListPrice()}</td>
                                                     <td>${list.getSalePrice()}</td> <!-- Changed from listPrice to salePrice -->
-                                                    <td>${list.subject_id.getSubject_name()}</td>
+                                                    <td>${list.getSubject(requestScope.dao).getSubjectName()}</td>
                                                     <td class="d-none d-md-table-cell">${list.getStatus()}</td>
                                                     <td class="table-action">
                                                         <!-- Edit Button -->

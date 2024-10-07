@@ -5,18 +5,21 @@
 
 package controller;
 
+import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Subject;
 
 /**
  *
  * @author FPT SHOP
  */
-public class AddLessonServlet extends HttpServlet {
+public class Expert_SubjectListServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,10 +36,10 @@ public class AddLessonServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddLessonServlet</title>");  
+            out.println("<title>Servlet Expert_SubjectListServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddLessonServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet Expert_SubjectListServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -53,9 +56,11 @@ public class AddLessonServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("expert/add_lesson.jsp").forward(request, response);
-        
-    }
+        SubjectDAO dao = new SubjectDAO();
+        List<Subject> listSubject = dao.getListSubject();
+        request.setAttribute("listSubject", listSubject);
+        request.getRequestDispatcher("expert/subject_list.jsp").forward(request, response);
+    } 
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -67,22 +72,7 @@ public class AddLessonServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String subject_id = request.getParameter("subject_id");
-        String type = request.getParameter("type");
-        if (type.equals("lesson")) {
-            String name = request.getParameter("summary");
-            String summary = request.getParameter("summary");
-            String order = request.getParameter("order");
-            String status = request.getParameter("status");
-        }
-        else if (type.equals("video")) {
-            
-        }
-        else {
-            
-        }
-    request.getRequestDispatcher("expert/add_lesson.jsp").forward(request, response);
-
+        processRequest(request, response);
     }
 
     /** 
