@@ -61,11 +61,12 @@ public class PricePackage extends HttpServlet {
             throws ServletException, IOException {
 
         PackageDAO pDao = new PackageDAO();
+        SubjectDAO dao = new SubjectDAO();
         List<Package> listAllPackage = pDao.getAllPackage1();
         request.setAttribute("listAllPackage", listAllPackage);
-
+        request.setAttribute("dao", dao);
         SubjectDAO sDao = new SubjectDAO();
-        List<Subject> listSubject = sDao.getAllSubject1();
+        List<Subject> listSubject = sDao.getListSubject();
         request.setAttribute("listSubject", listSubject);
 
         String action = request.getParameter("action");
