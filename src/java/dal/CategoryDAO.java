@@ -105,5 +105,32 @@ public class CategoryDAO extends DBContext {
         }
         return category_list;
     }
+    
+    public Category getCategoryByID(int categoryId) {
+        String sql = "SELECT * FROM Category WHERE category_id = ?";
+        Category category = null;
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, categoryId);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                category = new Category();
+                category.setCategory_id(rs.getInt("category_id"));
+                category.setCategory_name(rs.getString("category_name"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace(); //
+        }
+
+        return category;
+    }
+    public static void main(String[] args) {
+        CategoryDAO dao = new CategoryDAO();
+        Category c = dao.getCategoryByID(1);
+        System.out.println(c);
+    }
 
 }

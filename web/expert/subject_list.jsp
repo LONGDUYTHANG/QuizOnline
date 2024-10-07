@@ -135,7 +135,8 @@
                                     <th>Subject Name</th>
                                     <th>Category</th>
                                     <th>Number of lesson</th>
-                                    <th>Owner</th>
+                                    <th>Expert</th>
+                                    <th>Number of Lessons</th>
                                     <th>Status</th>
                                     <th>Option</th>
                                 </tr>
@@ -145,14 +146,14 @@
                                     <tr>
                                         <td>${subject.subjectId}</td>
                                         <td>${subject.subjectName}</td>
+                                        <td>${subject.getCategory(requestScope.cdao).getCategory_name()}</td>
                                         <td>cell</td>
+                                        <td>${subject.getAccount(requestScope.adao).getLast_name()}</td>
                                         <td>cell</td>
-                                        <td>cell</td>
-                                        <td>cell</td>
-                                        <c:if test="${question.status == true}">
+                                        <c:if test="${subject.status == true}">
                                             <td style="width: 120px"><span class="status status-published">Published</span></td>
                                         </c:if>
-                                        <c:if test="${question.status == false}">
+                                        <c:if test="${subject.status == false}">
                                             <td style="width: 120px"><span class="status status-unpublished">UnPublished</span></td>
                                         </c:if>    
                                         <td style="width: 120px">

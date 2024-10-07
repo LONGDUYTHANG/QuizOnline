@@ -4,6 +4,8 @@
  */
 package model;
 
+import dal.AccountDAO;
+import dao.CategoryDAO;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -120,6 +122,14 @@ public class Subject {
 
     public void setCreatedDate(Timestamp createdDate) {
         this.createdDate = createdDate;
+    }
+    
+    public Category getCategory(CategoryDAO dao) {
+        return dao.getCategoryByID(categoryId);
+    }
+    
+    public Account getAccount(AccountDAO dao) {
+        return dao.getAccountById(accountId);
     }
     
     @Override

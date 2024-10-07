@@ -141,4 +141,10 @@ public class Account {
         this.gender1 = gender1;
     }
 
+    @Override
+    public String toString() {
+        return "Account{" + "account_id=" + account_id + ", first_name=" + first_name + ", last_name=" + last_name + ", gender=" + gender + ", email=" + email + ", mobile=" + mobile + ", password=" + password + ", avatar=" + avatar + ", role_id=" + role_id + ", role_id1=" + role_id1 + ", gender1=" + gender1 + '}';
+    }
+    
+
 }
