@@ -16,18 +16,29 @@ public class RegistrationList {
     String subject_name;
     String package_name;
     double cost;
+    String status;
 
     public RegistrationList() {
     }
 
-    public RegistrationList(String email, LocalDateTime registration_time, String subject_name, String package_name, double cost) {
+    public RegistrationList(String email, LocalDateTime registration_time, String subject_name, String package_name, double cost, String status) {
         this.email = email;
         this.registration_time = registration_time;
         this.subject_name = subject_name;
         this.package_name = package_name;
         this.cost = cost;
+        this.status = status;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    
     public String getEmail() {
         return email;
     }
