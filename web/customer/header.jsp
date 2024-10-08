@@ -1,16 +1,42 @@
-<%-- 
-    Document   : header
-    Created on : Oct 4, 2024, 3:25:43 PM
-    Author     : ADMIN
---%>
-
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-        
-        <link rel="stylesheet" type="text/css" href="admin/assets/css/assets.css">
+<html lang="en">
+
+<!-- Mirrored from educhamp.themetrades.com/demo/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:08:15 GMT -->
+<head>
+
+	<!-- META ============================================= -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+	<meta name="robots" content="" />
+	
+	<!-- DESCRIPTION -->
+	<meta name="description" content="EduChamp : Education HTML Template" />
+	
+	<!-- OG -->
+	<meta property="og:title" content="EduChamp : Education HTML Template" />
+	<meta property="og:description" content="EduChamp : Education HTML Template" />
+	<meta property="og:image" content="" />
+	<meta name="format-detection" content="telephone=no">
+	
+	<!-- FAVICONS ICON ============================================= -->
+	<link rel="icon" href="../error-404.html" type="image/x-icon" />
+	<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
+	
+	<!-- PAGE TITLE HERE ============================================= -->
+	<title>EduChamp : Education HTML Template </title>
+	
+	<!-- MOBILE SPECIFIC ============================================= -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!--[if lt IE 9]>
+	<script src="assets/js/html5shiv.min.js"></script>
+	<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+	
+	<!-- All PLUGINS CSS ============================================= -->
+	<link rel="stylesheet" type="text/css" href="admin/assets/css/assets.css">
 	<link rel="stylesheet" type="text/css" href="admin/assets/vendors/calendar/fullcalendar.css">
 	
 	<!-- TYPOGRAPHY ============================================= -->
@@ -23,11 +49,19 @@
 	<link rel="stylesheet" type="text/css" href="admin/assets/css/style.css">
 	<link rel="stylesheet" type="text/css" href="admin/assets/css/dashboard.css">
 	<link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
-    </head>
-    <body class="ttr-opened-sidebar ttr-pinned-sidebar">
-
-		        <header class="ttr-header">
+	
+</head>
+<body class="ttr-opened-sidebar ttr-pinned-sidebar">
+	
+	<!-- header start -->
+	<header class="ttr-header">
 		<div class="ttr-header-wrapper">
+			<!--sidebar menu toggler start -->
+			<div class="ttr-toggle-sidebar ttr-material-button">
+				<i class="ti-close ttr-open-icon"></i>
+				<i class="ti-menu ttr-close-icon"></i>
+			</div>
+			<!--sidebar menu toggler end -->
 			<!--logo start -->
 			<div class="ttr-logo-box">
 				<div>
@@ -42,13 +76,17 @@
 				<!-- header left menu start -->
 				<ul class="ttr-header-navigation">
 					<li>
-						<a href="../index.html" class="ttr-material-button ttr-submenu-toggle">Home</a>
+						<a href="../index.html" class="ttr-material-button ttr-submenu-toggle">HOME</a>
 					</li>
 					<li>
-						<a href="#" class="ttr-material-button ttr-submenu-toggle">Subject</a>
-					</li>
-                                        					<li>
-						<a href="#" class="ttr-material-button ttr-submenu-toggle">Blog</a>
+						<a href="#" class="ttr-material-button ttr-submenu-toggle">QUICK MENU <i class="fa fa-angle-down"></i></a>
+						<div class="ttr-header-submenu">
+							<ul>
+								<li><a href="../courses.html">Our Courses</a></li>
+								<li><a href="../event.html">New Event</a></li>
+								<li><a href="../membership.html">Membership</a></li>
+							</ul>
+						</div>
 					</li>
 				</ul>
 				<!-- header left menu end -->
@@ -56,6 +94,9 @@
 			<div class="ttr-header-right ttr-with-seperator">
 				<!-- header right menu start -->
 				<ul class="ttr-header-navigation">
+					<li>
+						<a href="#" class="ttr-material-button ttr-search-toggle"><i class="fa fa-search"></i></a>
+					</li>
 					<li>
 						<a href="#" class="ttr-material-button ttr-submenu-toggle"><i class="fa fa-bell"></i></a>
 						<div class="ttr-header-submenu noti-menu">
@@ -140,11 +181,56 @@
 							</ul>
 						</div>
 					</li>
+					<li class="ttr-hide-on-mobile">
+						<a href="#" class="ttr-material-button"><i class="ti-layout-grid3-alt"></i></a>
+						<div class="ttr-header-submenu ttr-extra-menu">
+							<a href="#">
+								<i class="fa fa-music"></i>
+								<span>Musics</span>
+							</a>
+							<a href="#">
+								<i class="fa fa-youtube-play"></i>
+								<span>Videos</span>
+							</a>
+							<a href="#">
+								<i class="fa fa-envelope"></i>
+								<span>Emails</span>
+							</a>
+							<a href="#">
+								<i class="fa fa-book"></i>
+								<span>Reports</span>
+							</a>
+							<a href="#">
+								<i class="fa fa-smile-o"></i>
+								<span>Persons</span>
+							</a>
+							<a href="#">
+								<i class="fa fa-picture-o"></i>
+								<span>Pictures</span>
+							</a>
+						</div>
+					</li>
 				</ul>
 				<!-- header right menu end -->
 			</div>
+			<!--header search panel start -->
+			<div class="ttr-search-bar">
+				<form class="ttr-search-form">
+					<div class="ttr-search-input-wrapper">
+						<input type="text" name="qq" placeholder="search something..." class="ttr-search-input">
+						<button type="submit" name="search" class="ttr-search-submit"><i class="ti-arrow-right"></i></button>
+					</div>
+					<span class="ttr-search-close ttr-search-toggle">
+						<i class="ti-close"></i>
+					</span>
+				</form>
+			</div>
+			<!--header search panel end -->
 		</div>
 	</header>
+	<!-- header end -->
+	<!-- Left sidebar menu start -->
+
 <!-- External JavaScripts -->
 <script src="admin/assets/js/jquery.min.js"></script>
 <script src="admin/assets/vendors/bootstrap/js/popper.min.js"></script>
@@ -164,7 +250,7 @@
 <script src="admin/assets/js/admin.js"></script>
 <script src='admin/assets/vendors/calendar/moment.min.js'></script>
 <script src='admin/assets/vendors/calendar/fullcalendar.js'></script>
-
+<script src='admin/assets/vendors/switcher/switcher.js'></script>
 <script>
   $(document).ready(function() {
 
@@ -244,5 +330,7 @@
   });
 
 </script>
-    </body>
+</body>
+
+<!-- Mirrored from educhamp.themetrades.com/demo/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:09:05 GMT -->
 </html>

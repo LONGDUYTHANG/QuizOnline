@@ -68,6 +68,10 @@
         <servlet-name>Expert_SubjectListServlet</servlet-name>
         <servlet-class>controller.Expert_SubjectListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegistrationListServlet</servlet-name>
+        <servlet-class>controller.RegistrationListServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
         <url-pattern>/demo</url-pattern>
@@ -147,6 +151,10 @@
     <servlet-mapping>
         <servlet-name>Expert_SubjectListServlet</servlet-name>
         <url-pattern>/exsubjectlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegistrationListServlet</servlet-name>
+        <url-pattern>/registrationlist</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>

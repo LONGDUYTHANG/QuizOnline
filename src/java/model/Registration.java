@@ -15,7 +15,7 @@ public class Registration {
     LocalDateTime registration_time;
     int subject_id;
     int package_id;
-    int cost;
+    double cost;
     LocalDateTime valid_from;
     LocalDateTime valid_to;
     int account_id;
@@ -27,7 +27,7 @@ public class Registration {
     public Registration() {
     }
 
-    public Registration(int registration_id,LocalDateTime  registration_time, int subject_id, int package_id, int cost, LocalDateTime valid_from, LocalDateTime valid_to, int account_id, int status_id, double list_price, double sale_price, String note) {
+    public Registration(int registration_id,LocalDateTime  registration_time, int subject_id, int package_id, double cost, LocalDateTime valid_from, LocalDateTime valid_to, int account_id, int status_id, double list_price, double sale_price, String note) {
         this.registration_id = registration_id;
         this.registration_time = registration_time;
         this.subject_id = subject_id;
@@ -74,11 +74,11 @@ public class Registration {
         this.package_id = package_id;
     }
 
-    public int getCost() {
+    public double getCost() {
         return cost;
     }
 
-    public void setCost(int cost) {
+    public void setCost(double cost) {
         this.cost = cost;
     }
 
