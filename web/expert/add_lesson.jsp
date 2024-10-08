@@ -5,6 +5,7 @@
 
     <head>
         <jsp:include page="head.jsp" />
+        <link rel="canonical" href="forms-editors.html" />
         <style>
             .container {
                 max-width: 900px;
@@ -15,7 +16,7 @@
                 box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
                 display: none; /* Hide by default */
             }
-            
+
             .lesson-details {
                 background-color: #fff;
                 padding: 20px;
@@ -97,12 +98,12 @@
                         <div class="header">
                             <h2>Lesson Details</h2>
                             <div class="button-group">
-                                <button class="btn btn-primary" onclick="submitForm()">Save</button>
+                                <button class="btn btn-primary" onclick="submitForm1()">Save</button>
                                 <button class="btn btn-outline-primary">Back</button>
                             </div>
                         </div>
                         <script>
-                            function submitForm() {
+                            function submitForm1() {
                                 var form = document.getElementById('form1');
                                 form.submit();
                             }
@@ -121,10 +122,14 @@
                                 <label for="name">Name</label>
                                 <input type="text" id="name" name="name" placeholder="Enter Lesson Name">
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="topic">Topic</label>
-                                <input type="text" id="topic" name="topic">
+                                <select type="text" id="topic" name="topic">
+                                    <c:forEach var="lesson_topic" items="${requestScope.listLesson_Topic}">
+                                        <option value="${lesson_topic.lesson_topic_id}">${lesson_topic.lesson_topic_name}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
 
                             <div class="form-group">
@@ -152,11 +157,24 @@
                         <div class="header">
                             <h2>Lesson Details</h2>
                             <div class="button-group">
-                                <button class="btn btn-primary">Save</button>
+                                <button class="btn btn-primary" onclick="submitForm2()">Save</button>
                                 <button class="btn btn-outline-primary">Back</button>
                             </div>
                         </div>
-                        <form>
+                        <script>
+                            function submitForm2() {
+                                // Get the content from Quill editor
+                                var quillEditor = new Quill('#quill-editor');
+                                var quillContent = quillEditor.root.innerHTML; // Get the HTML content
+
+                                // Set the content into the hidden input field
+                                document.getElementById('quillContent').value = quillContent;
+
+                                // Submit the form
+                                document.getElementById('form2').submit();
+                            }
+                        </script>
+                        <form id="form2" action="addlesson" method="post">
                             <div class="form-group">
                                 <label for="type">Type</label>
                                 <select id="type-selector-video" name="type">
@@ -173,23 +191,89 @@
 
                             <div class="form-group">
                                 <label for="topic">Topic</label>
-                                <input type="text" id="topic" name="topic">
+                                <select type="text" id="topic" name="topic">
+                                    <c:forEach var="lesson_topic" items="${requestScope.listLesson_Topic}">
+                                        <option value="${lesson_topic.lesson_topic_id}">${lesson_topic.lesson_topic_name}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="summary">Summary</label>
                                 <textarea id="summary" name="summary" placeholder="Enter summary"></textarea>
                             </div>
+                            
+                            <div class="form-group">
+                                <label for="order">Order</label>
+                                <input type="number" id="order" name="order" value="1">
+                            </div>
 
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select id="status" name="status">
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                            </div>
+                            
                             <div class="form-group">
                                 <label for="video-link">Video Link</label>
                                 <input type="url" id="video-link" name="url" placeholder="Ex: https://www.youtube.com/embed/example">
-                                <iframe src="https://www.youtube.com/embed/example" frameborder="0" allowfullscreen></iframe>
                             </div>
 
                             <div class="form-group">
                                 <label for="content">Content</label>
-                                <textarea id="content" name="content" placeholder="Enter Lesson Content"></textarea>
+                                <div class="card-body">
+                                    <div class="clearfix">
+                                        <div id="quill-toolbar">
+                                            <span class="ql-formats">
+                                                <select class="ql-font"></select>
+                                                <select class="ql-size"></select>
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-bold"></button>
+                                                <button class="ql-italic"></button>
+                                                <button class="ql-underline"></button>
+                                                <button class="ql-strike"></button>
+                                            </span>
+                                            <span class="ql-formats">
+                                                <select class="ql-color"></select>
+                                                <select class="ql-background"></select>
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-script" value="sub"></button>
+                                                <button class="ql-script" value="super"></button>
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-header" value="1"></button>
+                                                <button class="ql-header" value="2"></button>
+                                                <button class="ql-blockquote"></button>
+                                                <button class="ql-code-block"></button>
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-list" value="ordered"></button>
+                                                <button class="ql-list" value="bullet"></button>
+                                                <button class="ql-indent" value="-1"></button>
+                                                <button class="ql-indent" value="+1"></button>
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-direction" value="rtl"></button>
+                                                <select class="ql-align"></select>
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-link"></button>
+                                                <button class="ql-image"></button>
+                                                <button class="ql-video"></button>
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-clean"></button>
+                                            </span>
+                                        </div>
+                                        <div id="quill-editor">
+                                        </div>
+                                        <input type="hidden" name="quillContent" id="quillContent">
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -199,11 +283,17 @@
                         <div class="header">
                             <h2>Lesson Details</h2>
                             <div class="button-group">
-                                <button class="btn btn-primary">Save</button>
+                                <button class="btn btn-primary" onclick="submitForm3()">Save</button>
                                 <button class="btn btn-outline-primary">Back</button>
                             </div>
                         </div>
-                        <form>
+                        <script>
+                            function submitForm3() {
+                                // Submit the form
+                                document.getElementById('form3').submit();
+                            }
+                        </script>
+                        <form id="form3" action="addlesson" method="post">
                             <div class="form-group" name="lesson_type">
                                 <label for="type">Type</label>
                                 <select id="type-selector-quiz" name="type">
@@ -215,27 +305,52 @@
 
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" id="name" value="Quiz 1: Programming Concepts" disabled>
+                                <input type="text" id="name" name="name" placeholder="Enter Lesson Name">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="topic">Topic</label>
+                                <select type="text" id="topic" name="topic">
+                                    <c:forEach var="lesson_topic" items="${requestScope.listLesson_Topic}">
+                                        <option value="${lesson_topic.lesson_topic_id}">${lesson_topic.lesson_topic_name}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="quiz-type">Quiz Type</label>
                                 <select id="quiz-type" name="quiz_type">
-                                    <option>Multiple Choice</option>
-                                    <option>True/False</option>
-                                    <option>Short Answer</option>
-                                    <option>Matching</option>
+                                    <c:forEach var="quiz_type" items="${requestScope.listQuiz_Type}">
+                                        <option value="${quiz_type.quiz_type_id}">${quiz_type.quiz_type_name}</option>
+                                    </c:forEach>
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="summary">Summary</label>
-                                <textarea id="summary" name="summary"></textarea>
+                                <textarea id="summary" name="summary" placeholder="Enter Summary"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="order">Order</label>
+                                <input type="number" id="order" name="order" value="1">
                             </div>
 
                             <div class="form-group">
-                                <label for="selected-chapter">Selected Chapter</label>
-                                <input type="text" id="selected-chapter" value="Review Chapter 1" disabled>
+                                <label for="status">Status</label>
+                                <select id="status" name="status">
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="quiz">Quiz Selected</label>
+                                <select id="quiz" name="quiz">
+                                    <c:forEach var="quiz" items="${requestScope.listQuiz}">
+                                        <option value="${quiz.quiz_id}">${quiz.quiz_name}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
                         </form>
                     </div>
@@ -249,37 +364,55 @@
         <!-- JavaScript for dynamic screen switching -->
         <script>
             function handleTypeChange(selectedType) {
-    // Hide all containers
-    document.getElementById('lesson-topic').style.display = 'none';
-    document.getElementById('video').style.display = 'none';
-    document.getElementById('quiz').style.display = 'none';
+                // Hide all containers
+                document.getElementById('lesson-topic').style.display = 'none';
+                document.getElementById('video').style.display = 'none';
+                document.getElementById('quiz').style.display = 'none';
 
-    // Show the selected container and set the dropdown value correctly
-    if (selectedType === 'lesson') {
-        document.getElementById('lesson-topic').style.display = 'block';
-        document.getElementById('type-selector-lesson').value = 'lesson'; // Reset to Lesson
-    } else if (selectedType === 'video') {
-        document.getElementById('video').style.display = 'block';
-        document.getElementById('type-selector-video').value = 'video'; // Reset to Video
-    } else if (selectedType === 'quiz') {
-        document.getElementById('quiz').style.display = 'block';
-        document.getElementById('type-selector-quiz').value = 'quiz'; // Reset to Quiz
-    }
-}
+                // Show the selected container and set the dropdown value correctly
+                if (selectedType === 'lesson') {
+                    document.getElementById('lesson-topic').style.display = 'block';
+                    document.getElementById('type-selector-lesson').value = 'lesson'; // Reset to Lesson
+                } else if (selectedType === 'video') {
+                    document.getElementById('video').style.display = 'block';
+                    document.getElementById('type-selector-video').value = 'video'; // Reset to Video
+                } else if (selectedType === 'quiz') {
+                    document.getElementById('quiz').style.display = 'block';
+                    document.getElementById('type-selector-quiz').value = 'quiz'; // Reset to Quiz
+                }
+            }
 
 // Add event listeners to dropdowns dynamically
-document.querySelectorAll('select[id^="type-selector-"]').forEach(function(dropdown) {
-    dropdown.addEventListener('change', function() {
-        handleTypeChange(this.value);
-    });
-});
+            document.querySelectorAll('select[id^="type-selector-"]').forEach(function (dropdown) {
+                dropdown.addEventListener('change', function () {
+                    handleTypeChange(this.value);
+                });
+            });
 
 // Initialize the correct screen based on the selected value of any visible dropdown
-window.addEventListener('load', function() {
-    let selectedType = document.getElementById('type-selector-lesson').value || 'lesson';
-    handleTypeChange(selectedType);
-});
+            window.addEventListener('load', function () {
+                let selectedType = document.getElementById('type-selector-lesson').value || 'lesson';
+                handleTypeChange(selectedType);
+            });
 
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var editor = new Quill("#quill-editor", {
+                    modules: {
+                        toolbar: "#quill-toolbar"
+                    },
+                    placeholder: "Type something",
+                    theme: "snow"
+                });
+                var bubbleEditor = new Quill("#quill-bubble-editor", {
+                    placeholder: "Compose an epic...",
+                    modules: {
+                        toolbar: "#quill-bubble-toolbar"
+                    },
+                    theme: "bubble"
+                });
+            });
         </script>
     </body>
 </html>
