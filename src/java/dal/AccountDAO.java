@@ -367,7 +367,6 @@ public class AccountDAO extends DBContext {
         public String getEmailById(int accountId) {
         String sql = "SELECT email"
                 + " FROM Account WHERE account_id = ?";
-
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             // Set the account ID parameter
             pstmt.setInt(1, accountId);
