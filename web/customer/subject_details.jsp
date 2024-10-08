@@ -102,7 +102,9 @@
                                         <div class="cours-more-info">
                                             <div class="price categories">
                                                 <span>Categories</span>
-                                                <h5 class="text-primary">Frontend</h5>
+                                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+                                                <c:set var="c" value="${requestScope.mySubject}" />
+                                                <h5 class="text-primary">${c.categoryId}</h5>
                                             </div>
                                         </div>
                                         <div class="course-info-list scroll-page">

@@ -5,7 +5,8 @@
 package controller;
 
 import dal.SubjectDAO;
-import dao.CategoryDAO;
+import dal.CategoryDAO;
+import dal.PostDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import model.Category;
+import model.Post;
 import model.Subject;
 
 /**
@@ -63,14 +65,20 @@ public class SearchByCategory extends HttpServlet {
             throws ServletException, IOException {
         String category = request.getParameter("categories");
         String keyword = request.getParameter("text");
+        String view = request.getParameter("view");
 
         SubjectDAO mySubjectDAO = new SubjectDAO();
-        List<Subject> subject_list = mySubjectDAO.getSubject();
+        PostDAO myPostDAO = new PostDAO();
+        CategoryDAO myCategoryDAO = new CategoryDAO();
 
-        List<Subject> featured_subject_list = mySubjectDAO.getFeaturedSubjects();
+        List<Subject> subject_list = mySubjectDAO.getSubject();
+        List<Subject> featured_subject_list = mySubjectDAO.getSubject();
         request.setAttribute("featured_subject_list", featured_subject_list);
 
-        CategoryDAO myCategoryDAO = new CategoryDAO();
+        List<Post> post_list = myPostDAO.getPost();
+        List<Post> hottest_post_list = myPostDAO.getHottestPost();
+        request.setAttribute("hottest_post_list", hottest_post_list);
+
         List<Category> category_list;
         if (keyword != null && !keyword.isEmpty()) {
             category_list = myCategoryDAO.searchCategories(keyword);
@@ -80,6 +88,7 @@ public class SearchByCategory extends HttpServlet {
         request.setAttribute("category_list", category_list);
 
         List<Subject> filteredSubjectsByCategory = mySubjectDAO.searchSubjectsByCategory(category);
+        List<Post> filteredBlogsByCategory = myPostDAO.searchBlogsByCategory(category);
 
         if (filteredSubjectsByCategory != null && !filteredSubjectsByCategory.isEmpty()) {
             request.setAttribute("subject_list", filteredSubjectsByCategory);
@@ -87,7 +96,19 @@ public class SearchByCategory extends HttpServlet {
             request.setAttribute("subject_list", subject_list);
         }
 
-        request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
+        if (filteredBlogsByCategory != null && !filteredBlogsByCategory.isEmpty()) {
+            request.setAttribute("post_list", filteredBlogsByCategory);
+        } else {
+            request.setAttribute("post_list", post_list);
+        }
+
+        if ("blogs".equals(view)) {
+            request.getRequestDispatcher("customer/blog_list.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
+        }
+
+
     }
 
     /**

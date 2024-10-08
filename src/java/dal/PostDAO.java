@@ -54,7 +54,39 @@ public class PostDAO extends DBContext {
         ResultSet rs;
         ArrayList<Post> hottest_post_list = new ArrayList<>();
         try {
-            String strSelect = "SELECT Top 5 * FROM Blog order by [number_of_access] desc";
+            String strSelect = "SELECT TOP 3 * FROM Blog order by [number_of_access] desc";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Post post = new Post();
+                post.setBlog_id(rs.getInt("blog_id"));
+                post.setBlog_title(rs.getString("blog_title"));
+                post.setThumbnail(rs.getString("thumbnail"));
+                post.setCreated_date(rs.getString("created_date"));
+                post.setBlog_summary(rs.getString("blog_summary"));
+                post.setBlog_title(rs.getString("blog_title"));
+                post.setBlog_content(rs.getString("blog_content"));
+                post.setUpdated_date(rs.getString("updated_date"));
+                post.setIsFeatured(rs.getBoolean("isFeatured"));
+                post.setStatus(rs.getBoolean("status"));
+                post.setCategory_id(rs.getInt("category_id"));
+                post.setAccount_id(rs.getInt("account_id"));
+                post.setNumber_of_access(rs.getInt("number_of_access"));
+
+                hottest_post_list.add(post);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return hottest_post_list;
+    }
+
+    public ArrayList<Post> getHottestPost1() {
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<Post> hottest_post_list = new ArrayList<>();
+        try {
+            String strSelect = "SELECT * FROM Blog order by [number_of_access] desc";
             stm = connection.prepareStatement(strSelect);
             rs = stm.executeQuery();
             while (rs.next()) {
@@ -82,38 +114,37 @@ public class PostDAO extends DBContext {
     }
 
     public ArrayList<Post> searchPosts(String keyword) {
-    ArrayList<Post> filteredPosts = new ArrayList<>();
-    String query = "SELECT * FROM Blog WHERE blog_title LIKE ? OR blog_content LIKE ?"; // Tìm kiếm theo tiêu đề hoặc nội dung
+        ArrayList<Post> filteredPosts = new ArrayList<>();
+        String query = "SELECT * FROM Blog WHERE blog_title LIKE ? OR blog_content LIKE ?"; // Tìm kiếm theo tiêu đề hoặc nội dung
 
-    try (PreparedStatement stmt = connection.prepareStatement(query)) {
-        stmt.setString(1, "%" + keyword + "%");
-        stmt.setString(2, "%" + keyword + "%");
-        ResultSet rs = stmt.executeQuery();
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, "%" + keyword + "%");
+            stmt.setString(2, "%" + keyword + "%");
+            ResultSet rs = stmt.executeQuery();
 
-        while (rs.next()) {
-            Post post = new Post();
-            post.setBlog_id(rs.getInt("blog_id"));
-            post.setBlog_title(rs.getString("blog_title"));
-            post.setThumbnail(rs.getString("thumbnail"));
-            post.setCreated_date(rs.getString("created_date"));
-            post.setBlog_summary(rs.getString("blog_summary"));
-            post.setBlog_content(rs.getString("blog_content"));
-            post.setUpdated_date(rs.getString("updated_date"));
-            post.setIsFeatured(rs.getBoolean("isFeatured"));
-            post.setStatus(rs.getBoolean("status"));
-            post.setCategory_id(rs.getInt("category_id"));
-            post.setAccount_id(rs.getInt("account_id"));
-            post.setNumber_of_access(rs.getInt("number_of_access"));
+            while (rs.next()) {
+                Post post = new Post();
+                post.setBlog_id(rs.getInt("blog_id"));
+                post.setBlog_title(rs.getString("blog_title"));
+                post.setThumbnail(rs.getString("thumbnail"));
+                post.setCreated_date(rs.getString("created_date"));
+                post.setBlog_summary(rs.getString("blog_summary"));
+                post.setBlog_content(rs.getString("blog_content"));
+                post.setUpdated_date(rs.getString("updated_date"));
+                post.setIsFeatured(rs.getBoolean("isFeatured"));
+                post.setStatus(rs.getBoolean("status"));
+                post.setCategory_id(rs.getInt("category_id"));
+                post.setAccount_id(rs.getInt("account_id"));
+                post.setNumber_of_access(rs.getInt("number_of_access"));
 
-            filteredPosts.add(post);
+                filteredPosts.add(post);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return filteredPosts;
     }
-    return filteredPosts;
-}
 
-    
     public Post getPostByBlogID(int blog_id) {
         PreparedStatement stm;
         ResultSet rs;
@@ -160,11 +191,110 @@ public class PostDAO extends DBContext {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, a.getAccount_id());
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 count = rs.getInt("count_blog");
             }
         } catch (Exception e) {
         }
         return count;
     }
+
+    public ArrayList<Post> getLatestPosts() {
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<Post> latestPosts = new ArrayList<>();
+        try {
+            String strSelect = "SELECT * FROM Blog ORDER BY created_date DESC"; // Sắp xếp theo ngày tạo mới nhất
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Post post = new Post();
+                // Thiết lập các thuộc tính cho đối tượng Post
+                post.setBlog_id(rs.getInt("blog_id"));
+                post.setBlog_title(rs.getString("blog_title"));
+                post.setThumbnail(rs.getString("thumbnail"));
+                post.setCreated_date(rs.getString("created_date"));
+                post.setBlog_summary(rs.getString("blog_summary"));
+                post.setBlog_content(rs.getString("blog_content"));
+                post.setUpdated_date(rs.getString("updated_date"));
+                post.setIsFeatured(rs.getBoolean("isFeatured"));
+                post.setStatus(rs.getBoolean("status"));
+                post.setCategory_id(rs.getInt("category_id"));
+                post.setAccount_id(rs.getInt("account_id"));
+                post.setNumber_of_access(rs.getInt("number_of_access"));
+
+                latestPosts.add(post);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return latestPosts;
+    }
+
+    public ArrayList<Post> getOldestPosts() {
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<Post> oldestPosts = new ArrayList<>();
+        try {
+            String strSelect = "SELECT * FROM Blog ORDER BY created_date ASC"; // Sắp xếp theo ngày tạo cũ nhất
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Post post = new Post();
+                // Thiết lập các thuộc tính cho đối tượng Post
+                post.setBlog_id(rs.getInt("blog_id"));
+                post.setBlog_title(rs.getString("blog_title"));
+                post.setThumbnail(rs.getString("thumbnail"));
+                post.setCreated_date(rs.getString("created_date"));
+                post.setBlog_summary(rs.getString("blog_summary"));
+                post.setBlog_content(rs.getString("blog_content"));
+                post.setUpdated_date(rs.getString("updated_date"));
+                post.setIsFeatured(rs.getBoolean("isFeatured"));
+                post.setStatus(rs.getBoolean("status"));
+                post.setCategory_id(rs.getInt("category_id"));
+                post.setAccount_id(rs.getInt("account_id"));
+                post.setNumber_of_access(rs.getInt("number_of_access"));
+
+                oldestPosts.add(post);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return oldestPosts;
+    }
+
+    public ArrayList<Post> searchBlogsByCategory(String keyword) {
+        ArrayList<Post> search_post = new ArrayList<>();
+        
+        String sql = "SELECT * FROM Blog WHERE category_id in (select category_id from Category where category_name= ?)";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            // Sử dụng % để tìm kiếm bất kỳ vị trí nào trong tên hoặc mô tả
+            pstmt.setString(1, keyword);
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Post post = new Post();
+                post.setBlog_id(rs.getInt("blog_id"));
+                post.setBlog_title(rs.getString("blog_title"));
+                post.setThumbnail(rs.getString("thumbnail"));
+                post.setCreated_date(rs.getString("created_date"));
+                post.setBlog_summary(rs.getString("blog_summary"));
+                post.setBlog_content(rs.getString("blog_content"));
+                post.setUpdated_date(rs.getString("updated_date"));
+                post.setIsFeatured(rs.getBoolean("isFeatured"));
+                post.setStatus(rs.getBoolean("status"));
+                post.setCategory_id(rs.getInt("category_id"));
+                post.setAccount_id(rs.getInt("account_id"));
+                post.setNumber_of_access(rs.getInt("number_of_access"));
+
+                search_post.add(post);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return search_post;
+    }
+
 }

@@ -87,8 +87,13 @@
                 </a>
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-link" href="#">
+                <a class="sidebar-link" href="quizlist">
                     <i class="align-middle" data-feather="check-circle"></i> <span class="align-middle">Quiz List</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="addnewquizvalidation">
+                    <i class="align-middle" data-feather="check-circle"></i> <span class="align-middle">New Quiz</span>
                 </a>
             </li>
             <li class="sidebar-item">
