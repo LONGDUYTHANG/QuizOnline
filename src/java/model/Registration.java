@@ -4,7 +4,7 @@
  */
 package model;
 
-import java.security.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -12,12 +12,12 @@ import java.security.Timestamp;
  */
 public class Registration {
     int registration_id;
-    Timestamp registration_time;
+    LocalDateTime registration_time;
     int subject_id;
     int package_id;
     int cost;
-    Timestamp valid_from;
-    Timestamp valid_to;
+    LocalDateTime valid_from;
+    LocalDateTime valid_to;
     int account_id;
     int status_id;
     double list_price;
@@ -27,7 +27,7 @@ public class Registration {
     public Registration() {
     }
 
-    public Registration(int registration_id, Timestamp registration_time, int subject_id, int package_id, int cost, Timestamp valid_from, Timestamp valid_to, int account_id, int status_id, double list_price, double sale_price, String note) {
+    public Registration(int registration_id,LocalDateTime  registration_time, int subject_id, int package_id, int cost, LocalDateTime valid_from, LocalDateTime valid_to, int account_id, int status_id, double list_price, double sale_price, String note) {
         this.registration_id = registration_id;
         this.registration_time = registration_time;
         this.subject_id = subject_id;
@@ -50,11 +50,11 @@ public class Registration {
         this.registration_id = registration_id;
     }
 
-    public Timestamp getRegistration_time() {
+    public LocalDateTime  getRegistration_time() {
         return registration_time;
     }
 
-    public void setRegistration_time(Timestamp registration_time) {
+    public void setRegistration_time(LocalDateTime  registration_time) {
         this.registration_time = registration_time;
     }
 
@@ -82,19 +82,19 @@ public class Registration {
         this.cost = cost;
     }
 
-    public Timestamp getValid_from() {
+    public LocalDateTime getValid_from() {
         return valid_from;
     }
 
-    public void setValid_from(Timestamp valid_from) {
+    public void setValid_from(LocalDateTime valid_from) {
         this.valid_from = valid_from;
     }
 
-    public Timestamp getValid_to() {
+    public LocalDateTime getValid_to() {
         return valid_to;
     }
 
-    public void setValid_to(Timestamp valid_to) {
+    public void setValid_to(LocalDateTime valid_to) {
         this.valid_to = valid_to;
     }
 
@@ -137,6 +137,8 @@ public class Registration {
     public void setNote(String note) {
         this.note = note;
     }
+
+   
     
     
 }
