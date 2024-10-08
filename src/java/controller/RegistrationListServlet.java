@@ -8,6 +8,7 @@ package controller;
 import dal.AccountDAO;
 import dal.PackageDAO;
 import dal.RegistrationDAO;
+import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,7 +16,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import model.RegistrationList;
+import model.Registration;
 
 /**
  *
@@ -60,11 +61,13 @@ public class RegistrationListServlet extends HttpServlet {
     throws ServletException, IOException {
         RegistrationDAO myRegistrationDAO =new RegistrationDAO();
         //get list of register subject from user
-        ArrayList<RegistrationList> registration_list= myRegistrationDAO.getRegistrationList();
+        ArrayList<Registration> registration_list= myRegistrationDAO.getRegistrationList();
         AccountDAO myAccountDAO =new AccountDAO();
         PackageDAO myPackageDAO=new PackageDAO();
+        SubjectDAO mySubjectDAO =new SubjectDAO();
         
-        request.setAttribute("accountDAp", myAccountDAO);
+        request.setAttribute("accountDAO", myAccountDAO);
+        request.setAttribute("subjectDAO", mySubjectDAO);
         request.setAttribute("packageDAO", myPackageDAO);
         request.setAttribute("registrationDAO", myRegistrationDAO);
         request.setAttribute("registration_list", registration_list);
