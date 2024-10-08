@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+
 package controller;
 
+import dal.AccountDAO;
 import dal.SubjectDAO;
 import dal.CategoryDAO;
 import java.io.IOException;
@@ -12,50 +14,42 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
-import model.Account;
-import model.Category;
 import model.Subject;
-import model.SubjectCategory;
 
 /**
  *
- * @author Phuong Anh
+ * @author FPT SHOP
  */
-public class SubjectListServlet extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+public class Expert_SubjectListServlet extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SubjectListServlet</title>");
+            out.println("<title>Servlet Expert_SubjectListServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SubjectListServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Expert_SubjectListServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -63,27 +57,19 @@ public class SubjectListServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        SubjectDAO mySubjectDAO = new SubjectDAO();
-        ArrayList<Subject> subject_list = mySubjectDAO.getSubject();
-        request.setAttribute("subject_list", subject_list);
+    throws ServletException, IOException {
+        SubjectDAO sdao = new SubjectDAO();
+        CategoryDAO cdao = new CategoryDAO();
+        AccountDAO adao = new AccountDAO();
+        List<Subject> listSubject = sdao.getListSubject();
+        request.setAttribute("listSubject", listSubject);
+        request.setAttribute("cdao", cdao);
+        request.setAttribute("adao", adao);
+        request.getRequestDispatcher("expert/subject_list.jsp").forward(request, response);
+    } 
 
-        CategoryDAO myCategoryDAO = new CategoryDAO();
-        List<Category> category_list = myCategoryDAO.getCategory();
-        request.setAttribute("category_list", category_list);
-
-        HttpSession session = request.getSession(false);
-        Account user = (Account) session.getAttribute("user");
-        if (user == null) {
-            request.getRequestDispatcher("common/subject_list.jsp").forward(request, response);
-        } else {
-            request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
-        }
-    }
-
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -91,13 +77,12 @@ public class SubjectListServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override
