@@ -359,10 +359,40 @@ public class AccountDAO extends DBContext {
 
         return null;
     }
+        /**
+         * Get email of an user through account id
+         * @param accountId
+         * @return a string
+         */
+        public String getEmailById(int accountId) {
+        String sql = "SELECT email"
+                + " FROM Account WHERE account_id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            // Set the account ID parameter
+            pstmt.setInt(1, accountId);
+
+            // Execute the query
+            ResultSet rs = pstmt.executeQuery();
+
+            // If a record is found, map it to the Account object
+            if (rs.next()) {
+                return  rs.getString("email");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); 
+        }
+
+        return null;
+    }
+    
+    
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
         Account a = dao.getAccountById(2);
-        System.out.println(a);
+        String h=dao.getEmailById(3);
+        System.out.println(h);
     }
     
 }
