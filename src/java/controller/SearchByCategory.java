@@ -5,7 +5,7 @@
 package controller;
 
 import dal.SubjectDAO;
-import dao.CategoryDAO;
+import dal.CategoryDAO;
 import dal.PostDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
