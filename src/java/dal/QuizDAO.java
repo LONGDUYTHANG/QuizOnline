@@ -438,6 +438,34 @@ public class QuizDAO extends DBContext {
         return list;
     }
     
+    public Quiz getQuiz(int quizId) {
+        String sql = "SELECT * FROM Quiz where quiz_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, quizId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int quiz_id = rs.getInt("quiz_id");
+                String quiz_name = rs.getString("quiz_name");
+                int subject_id = rs.getInt("subject_id");
+                int level_id = rs.getInt("level_id");
+                int number_of_questions = rs.getInt("number_of_questions");
+                float duration = rs.getFloat("duration");
+                float passrate = rs.getFloat("passrate");
+                int quiz_type_id = rs.getInt("quiz_type_id");
+                String quiz_description = rs.getString("quiz_description");
+                Timestamp created_date = rs.getTimestamp("created_date");
+                Timestamp updated_date = rs.getTimestamp("updated_date");
+                int account_id = rs.getInt("account_id");
+
+                return new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ofMillis((long) (duration * 60 * 1000)), passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
+    
     public Quiz getNewlyAddedQuiz() {
         String sql = "SELECT top 1 * FROM Quiz ORDER BY quiz_id DESC";
         try {
@@ -467,7 +495,8 @@ public class QuizDAO extends DBContext {
     
     public static void main(String[] args) {
         QuizDAO dao = new QuizDAO();
-        Quiz quiz = dao.getNewlyAddedQuiz();
+        List<Quiz> quiz = dao.getAllQuiz();
+        //Quiz quiz = dao.getNewlyAddedQuiz();
         System.out.println(quiz);
     }
 }

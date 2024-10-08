@@ -56,6 +56,10 @@
         <servlet-name>resetPasswordServlet</servlet-name>
         <servlet-class>controller.resetPasswordServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>QuizHandling</servlet-name>
+        <servlet-class>controller.QuizHandling</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
         <url-pattern>/demo</url-pattern>
@@ -124,6 +128,10 @@
         <servlet-name>resetPasswordServlet</servlet-name>
         <url-pattern>/resetPassword</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QuizHandling</servlet-name>
+        <url-pattern>/quiz_handling</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>
     </welcome-file-list>
@@ -187,5 +195,4 @@
         <servlet-name>UpdateEmail</servlet-name>
         <url-pattern>/update_email</url-pattern>
     </servlet-mapping>
-    
 </web-app>
