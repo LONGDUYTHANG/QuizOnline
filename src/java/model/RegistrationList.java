@@ -78,5 +78,8 @@ public class RegistrationList {
     public void setCost(double cost) {
         this.cost = cost;
     }
-    
+    public Account get(int account_id){
+        Account myAccount =new Account();
+        return myAccount;
+    }
 }

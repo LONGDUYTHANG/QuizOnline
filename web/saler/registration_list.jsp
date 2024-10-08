@@ -1,6 +1,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -109,7 +110,6 @@
             });
         </script>
     </head>
-
     <body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-layout="default">
         <div class="wrapper">
             <jsp:include page="expert_sidebar.jsp" />
@@ -118,38 +118,31 @@
                 <jsp:include page="navbar.jsp"/>
 
                 <main class="content">
-
-                    <div class="header">
-                        <h1>Question List</h1>
-                        <nav>
-                            <button onclick="window.location.href='#'" class="btn btn-success">Question Import <i class="align-middle me-2 fas fa-fw fa-file-excel"></i></button>
-                            <button onclick="window.location.href='question_detail_validation'" class="btn btn-orange">New Question <i class="align-middle me-2 fas fa-fw fa-plus-circle"></i></button>
-                        </nav>
-                    </div>
                     <div class="container">
 
                         <table id="questionTable" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Content</th>
+                                    <th>Email</th>
+                                    <th>Registration Time</th>
                                     <th>Subject</th>
-                                    <th>Level</th>
+                                    <th>Package</th>
+                                    <th>Cost</th>
                                     <th>Status</th>
-                                    <th>Option</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach var="question" items="${requestScope.listQuestion}">
-                                    <tr>
-                                        <td>${question.question_id}</td>
-                                        <td>${question.question_content}</td>
-                                        <td>${question.getSubject(requestScope.dao).getSubjectName()}</td>
-                                        <td>${question.getLevel(requestScope.dao).getLevel_name()}</td>
-                                        <c:if test="${question.status == true}">
+                                <c:forEach var="registration" items="${requestScope.registration_list}">
+                                    <tr data-href="addlesson?subjectId=${subject.subjectId}" style="cursor: pointer;">
+                                        <td>${requestScope.accountDAO.get}</td>
+                                        <td>${subject.subjectName}</td>
+                                        <td>${subject.getCategory(requestScope.cdao).getCategory_name()}</td>
+                                        <td>cell</td>
+                                        <td>${subject.getAccount(requestScope.adao).getLast_name()}</td>
+                                        <c:if test="${subject.status == true}">
                                             <td style="width: 120px"><span class="status status-published">Published</span></td>
                                         </c:if>
-                                        <c:if test="${question.status == false}">
+                                        <c:if test="${subject.status == false}">
                                             <td style="width: 120px"><span class="status status-unpublished">UnPublished</span></td>
                                         </c:if>    
                                         <td style="width: 120px">
@@ -162,9 +155,7 @@
                             </tbody>
                         </table>
                     </div>
-                </main>
-
-                <jsp:include page="footer.jsp"/>    
+                </main>   
             </div>
         </div>
         <jsp:include page="script.jsp"/>
