@@ -8,9 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import model.Account;
 import model.Registration;
-import model.RegistrationList;
+
 
 /**
  *
@@ -24,27 +23,22 @@ public class RegistrationDAO extends DBContext {
      *
      * @return an array list
      */
-    public ArrayList<RegistrationList> getRegistrationList() {
+    public ArrayList<Registration> getRegistrationList() {
         PreparedStatement stm;
         ResultSet rs;
-        ArrayList<RegistrationList> registration_list = new ArrayList<RegistrationList>();
+        ArrayList<Registration> registration_list = new ArrayList<Registration>();
         try {
-            String strSelect = "SELECT A.email, B.registration_time, C.subject_name , D.package_name, B.cost, E.status_name FROM\n"
-                    + "Account A, Registration B, Subject C, Package D, Registration_Status E  \n"
-                    + "WHERE A.account_id=B.account_id \n"
-                    + "and B.subject_id=C.subject_id\n"
-                    + "and B.package_id=D.package_id\n"
-                    + "and B.status_id=E.status_id ";
+            String strSelect = "SELECT registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id FROM Registration";
             stm = connection.prepareStatement(strSelect);
             rs = stm.executeQuery();
             if (rs.next()) {
-                RegistrationList registration = new RegistrationList();
-                registration.setEmail(rs.getString("email"));
+                Registration registration = new Registration();
+                registration.setAccount_id(rs.getInt("account_id"));
                 registration.setRegistration_time(rs.getTimestamp("registration_time").toLocalDateTime());
-                registration.setSubject_name(rs.getString("subject_name"));
-                registration.setPackage_name(rs.getString("package_name"));
+                registration.setSubject_id(rs.getInt("subject_id"));
+                registration.setPackage_id(rs.getInt("package_id"));
                 registration.setCost(rs.getDouble("cost"));
-                registration.setStatus(rs.getString("status_name"));
+                registration.setStatus_id(rs.getInt("status_id"));
                 registration_list.add(registration);
             }
         } catch (SQLException e) {
@@ -52,10 +46,32 @@ public class RegistrationDAO extends DBContext {
         }
         return registration_list;
     }
+    
+    /**
+     * Get status of a registration by status_id
+     * @param status_id
+     * @return 
+     */
+       public String getRegistrationStatus(int status_id) {
+        PreparedStatement stm;
+        ResultSet rs;
+        try {
+            String strSelect = "SELECT  status_name FROM Registration_Status WHERE status_id = ?";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, status_id);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getString("status_name");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
     public static void main(String[] args) {
-        
-        RegistrationDAO h= new RegistrationDAO();
-        ArrayList<RegistrationList> a= h.getRegistrationList();
-        System.out.println(a.get(0).getEmail());
+        RegistrationDAO a= new RegistrationDAO();
+        ArrayList<Registration> h= a.getRegistrationList();
+        System.out.println(h.get(0).getRegistration_time());
+      
     }
 }
