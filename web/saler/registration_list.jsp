@@ -134,17 +134,11 @@
                             <tbody>
                                 <c:forEach var="registration" items="${requestScope.registration_list}">
                                     <tr data-href="addlesson?subjectId=${subject.subjectId}" style="cursor: pointer;">
-                                        <td>${requestScope.accountDAO.get}</td>
-                                        <td>${subject.subjectName}</td>
-                                        <td>${subject.getCategory(requestScope.cdao).getCategory_name()}</td>
-                                        <td>cell</td>
-                                        <td>${subject.getAccount(requestScope.adao).getLast_name()}</td>
-                                        <c:if test="${subject.status == true}">
-                                            <td style="width: 120px"><span class="status status-published">Published</span></td>
-                                        </c:if>
-                                        <c:if test="${subject.status == false}">
-                                            <td style="width: 120px"><span class="status status-unpublished">UnPublished</span></td>
-                                        </c:if>    
+                                        <td>${requestScope.accountDAO.getEmailById(registration.account_id)}</td>
+                                        <td>${registration.registration_time}</td>
+                                        <td>${requestScope.subjectDAO.getSubjectByID(registration.subject_id).getSubjectName()}</td>
+                                        <td>${requestScope.packageDAO.getPricePackageById(registration.package_id).getPackage_name()}</td>
+                                        <td>${registration.cost}</td>
                                         <td style="width: 120px">
                                             <button type="button" class="btn btn-success"><i class="align-middle me-2 fas fa-fw fa-edit"></i></button>
                                             <button type="button" class="btn btn-danger"><i class="align-middle me-2 fas fa-fw fa-trash-alt"></i></button>
