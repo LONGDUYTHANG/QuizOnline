@@ -120,10 +120,9 @@
                 <main class="content">
 
                     <div class="header">
-                        <h1>Question List</h1>
+                        <h1>Quiz List</h1>
                         <nav>
-                            <button onclick="window.location.href='#'" class="btn btn-success">Question Import <i class="align-middle me-2 fas fa-fw fa-file-excel"></i></button>
-                            <button onclick="window.location.href='question_detail_validation'" class="btn btn-orange">New Question <i class="align-middle me-2 fas fa-fw fa-plus-circle"></i></button>
+                            <button onclick="window.location.href='addnewquizvalidation'" class="btn btn-orange">New Quiz <i class="align-middle me-2 fas fa-fw fa-plus-circle"></i></button>
                         </nav>
                     </div>
                     <div class="container">
@@ -132,26 +131,25 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Content</th>
+                                    <th>Name</th>
                                     <th>Subject</th>
                                     <th>Level</th>
-                                    <th>Status</th>
+                                    <th>Number of Question</th>
+                                    <th>Duration</th>
+                                    <th>Pass Rate</th>
                                     <th>Option</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach var="question" items="${requestScope.listQuestion}">
+                                <c:forEach var="quiz" items="${requestScope.listQuiz}">
                                     <tr>
-                                        <td>${question.question_id}</td>
-                                        <td>${question.question_content}</td>
-                                        <td>${question.getSubject(requestScope.dao).getSubjectName()}</td>
-                                        <td>${question.getLevel(requestScope.dao).getLevel_name()}</td>
-                                        <c:if test="${question.status == true}">
-                                            <td style="width: 120px"><span class="status status-published">Published</span></td>
-                                        </c:if>
-                                        <c:if test="${question.status == false}">
-                                            <td style="width: 120px"><span class="status status-unpublished">UnPublished</span></td>
-                                        </c:if>    
+                                        <td>${quiz.quiz_id}</td>
+                                        <td>${quiz.quiz_name}</td>
+                                        <td>${quiz.getSubject(requestScope.dao).getSubjectName()}</td>
+                                        <td>${quiz.getLevel(requestScope.dao).getLevel_name()}</td>
+                                        <td>${quiz.number_of_questions}</td>
+                                        <td>${quiz.duration}</td>
+                                        <td>${quiz.passrate}</td>
                                         <td style="width: 120px">
                                             <button type="button" class="btn btn-success"><i class="align-middle me-2 fas fa-fw fa-edit"></i></button>
                                             <button type="button" class="btn btn-danger"><i class="align-middle me-2 fas fa-fw fa-trash-alt"></i></button>

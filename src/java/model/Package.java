@@ -4,6 +4,9 @@
  */
 package model;
 
+import dal.PackageDAO;
+import dal.SubjectDAO;
+
 /**
  *
  * @author trung
@@ -15,12 +18,12 @@ public class Package {
     private double listPrice;
     private double salePrice;
     private String status;
-    private Subject subject_id;
+    private int subject_id;
 
     public Package() {
     }
 
-    public Package(int package_id, String package_name, int duration, double listPrice, double salePrice, String status, Subject subject_id) {
+    public Package(int package_id, String package_name, int duration, double listPrice, double salePrice, String status, int subject_id) {
         this.package_id = package_id;
         this.package_name = package_name;
         this.duration = duration;
@@ -79,12 +82,16 @@ public class Package {
         this.status = status;
     }
 
-    public Subject getSubject_id() {
+    public int getSubject_id() {
         return subject_id;
     }
 
-    public void setSubject_id(Subject subject_id) {
+    public void setSubject_id(int subject_id) {
         this.subject_id = subject_id;
+    }
+    
+    public Subject getSubject(SubjectDAO dao) {
+        return dao.getSubjectByID(subject_id);
     }
 
     @Override

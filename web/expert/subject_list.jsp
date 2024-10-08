@@ -89,6 +89,10 @@
                 background-color: #f8d7da;
                 color: #721c24;
             }
+            table tbody tr:hover {
+                background-color: #f5f5f5; /* Light gray background */
+                cursor: pointer; /* Change cursor to pointer */
+            }
         </style>
 
         <!-- jQuery (Required for DataTables) -->
@@ -100,13 +104,25 @@
 
         <script>
             $(document).ready(function () {
-                $('#questionTable').DataTable({
-                    "paging": true,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true
-                });
-            });
+    // Initialize DataTable
+    $('#questionTable').DataTable({
+        "paging": true,
+        "searching": true,
+        "ordering": true,
+        "info": true
+    });
+
+    // Click event for table rows
+    $('#questionTable tbody').on('click', 'tr', function (e) {
+        // Exclude buttons from triggering the row click
+        if (!$(e.target).closest('button').length) { 
+            var href = $(this).data('href'); // Get the data-href attribute
+            if (href) {
+                window.location.href = href;  // Redirect to the URL in data-href
+            }
+        }
+    });
+});
         </script>
     </head>
 
@@ -120,10 +136,10 @@
                 <main class="content">
 
                     <div class="header">
-                        <h1>Question List</h1>
+                        <h1>Subject List</h1>
                         <nav>
                             <button onclick="window.location.href='#'" class="btn btn-success">Question Import <i class="align-middle me-2 fas fa-fw fa-file-excel"></i></button>
-                            <button onclick="window.location.href='question_detail_validation'" class="btn btn-orange">New Question <i class="align-middle me-2 fas fa-fw fa-plus-circle"></i></button>
+                            <button onclick="window.location.href='#'" class="btn btn-orange">New Question <i class="align-middle me-2 fas fa-fw fa-plus-circle"></i></button>
                         </nav>
                     </div>
                     <div class="container">
@@ -132,24 +148,26 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Content</th>
-                                    <th>Subject</th>
-                                    <th>Level</th>
+                                    <th>Subject Name</th>
+                                    <th>Category</th>
+                                    <th>Number of lesson</th>
+                                    <th>Expert</th>
                                     <th>Status</th>
                                     <th>Option</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach var="question" items="${requestScope.listQuestion}">
-                                    <tr>
-                                        <td>${question.question_id}</td>
-                                        <td>${question.question_content}</td>
-                                        <td>${question.getSubject(requestScope.dao).getSubjectName()}</td>
-                                        <td>${question.getLevel(requestScope.dao).getLevel_name()}</td>
-                                        <c:if test="${question.status == true}">
+                                <c:forEach var="subject" items="${requestScope.listSubject}">
+                                    <tr data-href="addlesson?subjectId=${subject.subjectId}" style="cursor: pointer;">
+                                        <td>${subject.subjectId}</td>
+                                        <td>${subject.subjectName}</td>
+                                        <td>${subject.getCategory(requestScope.cdao).getCategory_name()}</td>
+                                        <td>cell</td>
+                                        <td>${subject.getAccount(requestScope.adao).getLast_name()}</td>
+                                        <c:if test="${subject.status == true}">
                                             <td style="width: 120px"><span class="status status-published">Published</span></td>
                                         </c:if>
-                                        <c:if test="${question.status == false}">
+                                        <c:if test="${subject.status == false}">
                                             <td style="width: 120px"><span class="status status-unpublished">UnPublished</span></td>
                                         </c:if>    
                                         <td style="width: 120px">

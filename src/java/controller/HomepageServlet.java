@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.List;
 import model.Post;
 import model.Subject;
 
@@ -56,6 +57,8 @@ public class HomepageServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    int numberOfSubject = 6;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -67,13 +70,12 @@ public class HomepageServlet extends HttpServlet {
         //hottest_post_list
         ArrayList<Post> hottest_post_list = myPostDAO.getHottestPost();
         request.setAttribute("hottest_post_list", hottest_post_list);
-        
+
         //subject_list
-        SubjectDAO mySubjectDAO = new SubjectDAO();
-        ArrayList<Subject> subject_list = mySubjectDAO.getSubject();
-        request.setAttribute("subject_list", subject_list);
-        
-        request.getRequestDispatcher("homepage.jsp").forward(request, response);
+        SubjectDAO testDAO = new SubjectDAO();
+        List<Subject> subject_list = testDAO.getSubject();
+        request.setAttribute("subject_list", subject_list);      
+        request.getRequestDispatcher("common/homepage.jsp").forward(request, response);
     }
 
     /**

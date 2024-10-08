@@ -62,7 +62,6 @@ public class SearchServlet extends HttpServlet {
 
         SubjectDAO mySubjectDAO = new SubjectDAO();
         ArrayList<Subject> subject_list = mySubjectDAO.getSubject();
-
         ArrayList<Subject> filteredSubjects = mySubjectDAO.searchSubjects(keyword);
 
         dal.PostDAO myPostDAO = new dal.PostDAO();
@@ -74,7 +73,6 @@ public class SearchServlet extends HttpServlet {
 
         if (keyword != null && !keyword.trim().isEmpty()) {
             for (Subject subject : subject_list) {
-                // Kiểm tra xem mô tả có chứa từ khóa không (phân biệt chữ hoa chữ thường)
                 if (subject.getDescription().toLowerCase().contains(keyword.trim().toLowerCase())) {
                     filteredSubjects.add(subject);
                 }
@@ -108,7 +106,7 @@ public class SearchServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doGet(request, response);
     }
 
     /**

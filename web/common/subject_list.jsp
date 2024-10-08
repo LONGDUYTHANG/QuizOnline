@@ -47,23 +47,52 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
+             <style>
+            .popup {
+                display: none;
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.7);
+                justify-content: center;
+                align-items: center;
+            }
+            .popup-content {
+                background: white;
+                padding: 20px;
+                border-radius: 5px;
+                text-align: center;
+                max-width: 400px;
+                margin: auto;
+            }
+
+
+        </style>
 
     </head>
-
     <body id="bg">
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
+            <header class="header rs-nav header-transparent">
+                <!-- login -->
+                <%@include file="login.jsp" %>
+                <!-- register     -->
+                <%@include file="register.jsp" %>
 
-            <!-- Header Top ==== -->
-            <%@include file="header.html" %>
-            <!-- header END ==== -->
+                <%@include file="header.html" %>
+
+                <%@include file="requestPassword.jsp" %>
+
+            </header>
             <!-- Content -->
-            <div class="page-content bg-white">
+            <div class="page-content">
                 <!-- inner page banner -->
                 <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <h1 class="text-white">Blog List </h1>
+                            <h1 class="text-white">Subject List</h1>
                         </div>
                     </div>
                 </div>
@@ -73,37 +102,38 @@
                     <div class="section-area section-sp1">
                         <div class="container">
                             <div class="row">
-
                                 <!-- Left part start -->
                                 <div class="col-lg-8">
                                     <div class="sort-options" style="margin-bottom: 20px; width: 30%; display: flex; align-items: center;">
-                                        <form method="get" action="blog_list" style="display: flex; align-items: center; width: 100%;">
+                                        <form method="get" action="subject_list" style="display: flex; align-items: center; width: 100%;">
                                             <label for="sortBy" style="margin-right: 10px; white-space: nowrap;">Sort by:</label>
                                             <select id="sortBy" name="sortBy" onchange="this.form.submit()" style="flex-grow: 1; max-width: 200px;">
-                                                <option value="oldest" ${param.sortBy == 'oldest' ? 'selected' : ''}>Oldest Blogs</option>
-                                                <option value="latest" ${param.sortBy == 'latest' ? 'selected' : ''}>Latest Blogs</option>
-                                                <option value="hottest" ${param.sortBy == 'hottest' ? 'selected' : ''}>Hottest Blogs</option>
+                                                <option value="created_date" ${param.sortBy == 'created_date' ? 'selected' : ''}>Featured Subjects</option>
+                                                <option value="title" ${param.sortBy == 'title' ? 'selected' : ''}>Latest Subjects</option>
+                                                <option value="views" ${param.sortBy == 'views' ? 'selected' : ''}>Oldest Subjects</option>
                                             </select>
                                         </form>
                                     </div>
-
-
+                                    <%-- Thêm mã l?c subject --%>
                                     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-                                    <c:forEach items="${requestScope.post_list}" var="c">
-                                        <c:if test="${param.keyword == null || (c.blog_content.contains(param.keyword) || c.blog_summary.contains(param.keyword))}">
+                                    <c:forEach items="${requestScope.subject_list}" var="c">
+                                        <c:if test="${param.keyword == null || param.keyword == '' || c.description.toLowerCase().contains(param.keyword.toLowerCase())}">
                                             <div class="blog-post blog-md clearfix">
-                                                <div class="ttr-post-media">
-                                                    <a href="blog_detail?blog_id=${c.blog_id}"><img src="${c.thumbnail}" alt=""></a>
+                                                <div class="ttr-post-media"> 
+                                                    <a href="subject_details?subject_id=${c.subjectId}"><img src="${c.thumbnail}" alt=""></a> 
                                                 </div>
                                                 <div class="ttr-post-info">
                                                     <ul class="media-post">
-                                                        <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
-                                                        <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
+                                                        <li><i class="fa fa-calendar"></i>${c.createdDate}</a></li>
+                                                        <li><b>${c.tagline}</b></li>
                                                     </ul>
-                                                    <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_summary}</a></h5>
-                                                    <p>${c.blog_content}</p>
+                                                    <h5 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.subjectName}</a></h5>
+                                                    <p>${c.description}</p>
                                                     <div class="post-extra">
-                                                        <a href="blog_detail?blog_id=${c.blog_id}" class="btn-link">READ MORE</a>
+                                                        <del>$190</del>
+                                                        <h4 class="price">$120</h4>
+                                                        <div style="margin-left: 50px;"></div> 
+                                                        <a href="register_subject?subject_id=${c.subjectId}" class="btn btn-primary">Register</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -129,7 +159,7 @@
                                         <div class="widget">
                                             <h6 class="widget-title">Search</h6>
                                             <div class="search-bx style-1">
-                                                <form role="search" method="get" action="blog_list">
+                                                <form role="search" method="get" action="subject_list">
                                                     <div class="input-group">
                                                         <input name="keyword" value="${param.keyword != null ? param.keyword : ''}" class="form-control" placeholder="Enter your keywords..." type="text" id="output">
                                                         <span class="input-group-btn">
@@ -137,25 +167,24 @@
                                                         </span>
                                                     </div>
                                                 </form>
+
                                             </div>
+
                                         </div>
                                         <div class="widget widget_tag_cloud">
                                             <h6 class="widget-title">Categories</h6>
                                             <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
                                             <div class="search-bx style-1">
-                                                <form action="searchByCategory" method="get"> <!-- Chuy?n h??ng ??n servlet -->
+                                                <form role="search" method="post">
                                                     <div class="input-group">
                                                         <input name="text" class="form-control" placeholder="Enter your keywords..." type="text" id="output">
-                                                        <input type="hidden" name="view" value="blogs"> 
-                                                        <input type="hidden" name="categories" value="?"> 
                                                         <span class="input-group-btn">
                                                             <button type="submit" class="fa fa-search text-primary"></button>
                                                         </span> 
                                                     </div>
                                                 </form>
-                                            </div>
 
+                                            </div>                                        
                                             <br>
                                             <!-- Danh sách các categories -->
                                             <div class="category-list" style="margin-bottom: 20px;">
@@ -170,20 +199,20 @@
                                         </div>
                                         <br>
                                         <div class="widget recent-posts-entry">
-                                            <h6 class="widget-title">Hottest Posts</h6>
+                                            <h6 class="widget-title">Featured Subjects</h6>
                                             <div class="widget-post-bx">
-                                                <!-- thêm danh sách các bài post hot nhat-->
+                                                <!-- thêm danh sách các bài subject hot nhat-->
                                                 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-                                                <c:forEach items="${requestScope.hottest_post_list}" var="c">
+                                                <c:forEach items="${requestScope.subject_list}" var="c">
                                                     <div class="widget-post clearfix">
                                                         <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
                                                         <div class="ttr-post-info">
                                                             <div class="ttr-post-header">
-                                                                <h6 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_summary}</a></h6>
+                                                                <h6 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.subjectName}</a></h6>
                                                             </div>
                                                             <ul class="media-post">
-                                                                <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
-                                                                <!--                                                                <li><a href="#"><i class="fa fa-comments-o"></i>15 Comment</a></li>-->
+                                                                <li>${c.tagline}</li>
+                                                                <!--                                                                <li><a href="#"><i class="fa fa-user"></i>By William</a></li>-->
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -227,6 +256,86 @@
                                                     document.getElementById("output").value = b;
 
                                                 }
+        </script>
+        <script>
+            //login
+            const openLoginButton = document.getElementById('open-login-popup');
+            const closeLoginButton = document.getElementById('close-login-popup');
+            const loginPopup = document.getElementById('login-popup');
+            const loginError = document.getElementById('login-error');
+            const checkLoginError = document.getElementById('check-login-error');
+            //register
+            const openRegisterButton = document.getElementById('open-register-popup');
+            const closeRegisterButton = document.getElementById('close-register-popup');
+            const registerPopup = document.getElementById('register-popup');
+            const emailError = document.getElementById('email-error');
+            const checkEmailError = document.getElementById('check-email-error');
+            const passError = document.getElementById('pass-error');
+            const checkPassError = document.getElementById('check-pass-error');
+            //requestPass
+            const openRequestButton = document.getElementById('open-requestPass-popup');
+            const closeRequestButton = document.getElementById('close-requestPass-popup');
+            const RequestPopup = document.getElementById('requestPass-popup');
+            const requestError = document.getElementById('requestPass-error');
+            const checkRequestError = document.getElementById('check-requestPass-error');
+            
+
+            openLoginButton.onclick = function () {
+                loginPopup.style.display = 'flex';
+            };
+
+            openRegisterButton.onclick = function () {
+                registerPopup.style.display = 'flex';
+            };
+
+            closeLoginButton.onclick = function () {
+                loginPopup.style.display = 'none';
+            };
+            closeRegisterButton.onclick = function () {
+                registerPopup.style.display = 'none';
+            };
+            openRequestButton.onclick = function () {
+                loginPopup.style.display = 'none';
+                RequestPopup.style.display='flex';
+            };
+            closeRequestButton.onclick =function () {
+                loginPopup.style.display = 'flex';
+                RequestPopup.style.display='none';
+            };
+            function LoginAgain() {
+                if (checkLoginError.textContent === loginError.textContent) {
+                    loginPopup.style.display = 'flex';
+                }
+                if (checkEmailError.textContent === emailError.textContent) {
+                    registerPopup.style.display = 'flex';
+                }
+                if (checkPassError.textContent === passError.textContent) {
+                    registerPopup.style.display = 'flex';
+                }
+                if(requestError.textContent==='Send request success'){
+                    RequestPopup.style.display='flex';
+                }
+                if(requestError.textContent==='Email not existed'){
+                    RequestPopup.style.display='flex';
+                }
+                console.log(requestError.textContent);
+                
+
+            }
+
+
+            // ?óng pop-up khi nh?n ra ngoài
+            window.onclick = function (event) {
+                if (event.target === loginPopup) {
+                    loginPopup.style.display = 'none';
+                }
+            };
+
+            window.onclick = function (event) {
+                if (event.target === registerPopup) {
+                    registerPopup.style.display = 'none';
+                }
+            };
         </script>
     </body>
 

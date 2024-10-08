@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dao;
+package dal;
 
 import dal.DBContext;
 import java.util.ArrayList;
@@ -66,10 +66,10 @@ public class CategoryDAO extends DBContext {
 
     public List<Category> searchCategories(String keyword) {
         List<Category> categoryList = new ArrayList<>();
-        String sql = "SELECT * FROM Category WHERE category_name LIKE ?"; // Truy vấn tìm kiếm
+        String sql = "SELECT * FROM Category WHERE category_name LIKE ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, "%" + keyword + "%"); // Thêm ký tự % vào từ khóa
+            ps.setString(1, "%" + keyword + "%"); 
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -104,6 +104,33 @@ public class CategoryDAO extends DBContext {
             System.out.println(e);
         }
         return category_list;
+    }
+    
+    public Category getCategoryByID(int categoryId) {
+        String sql = "SELECT * FROM Category WHERE category_id = ?";
+        Category category = null;
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, categoryId);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                category = new Category();
+                category.setCategory_id(rs.getInt("category_id"));
+                category.setCategory_name(rs.getString("category_name"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace(); //
+        }
+
+        return category;
+    }
+    public static void main(String[] args) {
+        CategoryDAO dao = new CategoryDAO();
+        Category c = dao.getCategoryByID(1);
+        System.out.println(c);
     }
 
 }

@@ -4,6 +4,7 @@
  */
 package model;
 
+import dal.QuizDAO;
 import java.sql.Timestamp;
 import java.time.Duration;
 /**
@@ -152,6 +153,14 @@ public class Quiz {
 
     public void setAccount_id(int account_id) {
         this.account_id = account_id;
+    }
+    
+    public Subject getSubject(QuizDAO dao) {
+        return dao.getSubjectById(subject_id);
+    }
+    
+    public Level getLevel(QuizDAO dao) {
+        return dao.getLevelById(level_id);
     }
 
     @Override

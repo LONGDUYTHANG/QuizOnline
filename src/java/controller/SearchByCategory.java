@@ -6,25 +6,24 @@ package controller;
 
 import dal.SubjectDAO;
 import dal.CategoryDAO;
+import dal.PostDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import model.Account;
 import model.Category;
+import model.Post;
 import model.Subject;
-import model.SubjectCategory;
 
 /**
  *
  * @author Phuong Anh
  */
-public class SubjectListServlet extends HttpServlet {
+public class SearchByCategory extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +42,10 @@ public class SubjectListServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SubjectListServlet</title>");
+            out.println("<title>Servlet SearchByCategory</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SubjectListServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SearchByCategory at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,21 +63,52 @@ public class SubjectListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SubjectDAO mySubjectDAO = new SubjectDAO();
-        ArrayList<Subject> subject_list = mySubjectDAO.getSubject();
-        request.setAttribute("subject_list", subject_list);
+        String category = request.getParameter("categories");
+        String keyword = request.getParameter("text");
+        String view = request.getParameter("view");
 
+        SubjectDAO mySubjectDAO = new SubjectDAO();
+        PostDAO myPostDAO = new PostDAO();
         CategoryDAO myCategoryDAO = new CategoryDAO();
-        List<Category> category_list = myCategoryDAO.getCategory();
+
+        List<Subject> subject_list = mySubjectDAO.getSubject();
+        List<Subject> featured_subject_list = mySubjectDAO.getSubject();
+        request.setAttribute("featured_subject_list", featured_subject_list);
+
+        List<Post> post_list = myPostDAO.getPost();
+        List<Post> hottest_post_list = myPostDAO.getHottestPost();
+        request.setAttribute("hottest_post_list", hottest_post_list);
+
+        List<Category> category_list;
+        if (keyword != null && !keyword.isEmpty()) {
+            category_list = myCategoryDAO.searchCategories(keyword);
+        } else {
+            category_list = myCategoryDAO.getCategory();
+        }
         request.setAttribute("category_list", category_list);
 
-        HttpSession session = request.getSession(false);
-        Account user = (Account) session.getAttribute("user");
-        if (user == null) {
-            request.getRequestDispatcher("common/subject_list.jsp").forward(request, response);
+        List<Subject> filteredSubjectsByCategory = mySubjectDAO.searchSubjectsByCategory(category);
+        List<Post> filteredBlogsByCategory = myPostDAO.searchBlogsByCategory(category);
+
+        if (filteredSubjectsByCategory != null && !filteredSubjectsByCategory.isEmpty()) {
+            request.setAttribute("subject_list", filteredSubjectsByCategory);
+        } else {
+            request.setAttribute("subject_list", subject_list);
+        }
+
+        if (filteredBlogsByCategory != null && !filteredBlogsByCategory.isEmpty()) {
+            request.setAttribute("post_list", filteredBlogsByCategory);
+        } else {
+            request.setAttribute("post_list", post_list);
+        }
+
+        if ("blogs".equals(view)) {
+            request.getRequestDispatcher("customer/blog_list.jsp").forward(request, response);
         } else {
             request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
         }
+
+
     }
 
     /**
