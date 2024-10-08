@@ -143,7 +143,7 @@
                                         <div class="widget widget_tag_cloud">
                                             <h6 class="widget-title">Categories</h6>
 
-                                            <!-- Form tìm ki?m category theo t? khóa -->
+                                            <!-- Form search category by keyword  -->
                                             <div class="search-bx style-1">
                                                 <form role="search" method="get" action="searchByCategory">
                                                     <div class="input-group">
@@ -156,7 +156,7 @@
                                             </div>
                                             <br>
 
-                                            <!-- Danh sách các categories -->
+                                            <!-- list categories -->
                                             <div class="category-list" style="margin-bottom: 20px;">
                                                 <form id="categoryForm" action="searchByCategory" method="get">
                                                     <c:forEach items="${requestScope.category_list}" var="c">

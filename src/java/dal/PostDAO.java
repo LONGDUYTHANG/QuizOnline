@@ -269,7 +269,6 @@ public class PostDAO extends DBContext {
         String sql = "SELECT * FROM Blog WHERE category_id in (select category_id from Category where category_name= ?)";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            // Sử dụng % để tìm kiếm bất kỳ vị trí nào trong tên hoặc mô tả
             pstmt.setString(1, keyword);
 
             ResultSet rs = pstmt.executeQuery();
