@@ -493,6 +493,36 @@ public class QuizDAO extends DBContext {
         return null;
     }
     
+    public int getNumberOfQuestion(int quizId) {
+        String sql = "select number_of_questions from Quiz where quiz_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, quizId);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("number_of_questions");
+            }
+            
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
+    public int getDuration(int quiz_id) {
+        String sql = "select duration from Quiz where quiz_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, quiz_id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("duration");
+            }
+            
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
     public static void main(String[] args) {
         QuizDAO dao = new QuizDAO();
         List<Quiz> list = dao.getAllQuiz();

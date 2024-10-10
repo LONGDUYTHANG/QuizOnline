@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import model.Registration;
 import model.RegistrationList;
 
 /**
@@ -60,7 +61,7 @@ public class RegistrationListServlet extends HttpServlet {
     throws ServletException, IOException {
         RegistrationDAO myRegistrationDAO =new RegistrationDAO();
         //get list of register subject from user
-        ArrayList<RegistrationList> registration_list= myRegistrationDAO.getRegistrationList();
+        ArrayList<Registration> registration_list= myRegistrationDAO.getRegistrationList();
         AccountDAO myAccountDAO =new AccountDAO();
         PackageDAO myPackageDAO=new PackageDAO();
         
