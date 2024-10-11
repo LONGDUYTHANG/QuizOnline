@@ -92,7 +92,7 @@
 
      
     </head>
-    <body>
+    <body >
         <div class="wrapper">
             <jsp:include page="sidebar.jsp" />
             
@@ -113,7 +113,7 @@
                                     <th>Status</th>
                                 </tr>
                             </thead>
-                                <c:forEach var="registration" items="${requestScope.registration_list}">
+                            <c:forEach var="registration" items="${requestScope.registration_list}">
                                     <tr>
                                         <td>${requestScope.accountDAO.getEmailById(registration.account_id)}</td>
                                         <td>${registration.registration_time}</td>
