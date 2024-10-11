@@ -17,7 +17,6 @@ import java.util.List;
 import model.Package;
 import model.Subject;
 
-
 @WebServlet(name = "PricePackage", urlPatterns = {"/price-package"})
 public class PricePackage extends HttpServlet {
 
@@ -68,6 +67,12 @@ public class PricePackage extends HttpServlet {
         SubjectDAO sDao = new SubjectDAO();
         List<Subject> listSubject = sDao.getListSubject();
         request.setAttribute("listSubject", listSubject);
+        String sid = request.getParameter("id");
+        int packageId;
+        if (sid != null) {
+            packageId = Integer.parseInt(sid);
+            request.setAttribute("subject_id", packageId);
+        }
 
         String action = request.getParameter("action");
         if (action != null) {
