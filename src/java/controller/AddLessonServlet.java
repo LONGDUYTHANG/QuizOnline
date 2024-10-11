@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.Lesson;
 import model.Lesson_Topic;
 import model.Quiz;
 import model.Quiz_Type;
@@ -63,6 +64,8 @@ public class AddLessonServlet extends HttpServlet {
         List<Lesson_Topic> listLesson_Topic = dao.getAllLessonTopicBySubjectId(Integer.parseInt(subjectId));
         List<Quiz_Type> listQuiz_Type = dao.getAllQuizType();
         List<Quiz> listQuiz = dao.getAllQuizBySubjectId(Integer.parseInt(subjectId));
+        
+        request.setAttribute("subjectId", subjectId);
         request.setAttribute("listLesson_Topic", listLesson_Topic);
         request.setAttribute("listQuiz_Type", listQuiz_Type);
         request.setAttribute("listQuiz", listQuiz);
@@ -81,21 +84,26 @@ public class AddLessonServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         PrintWriter out = response.getWriter();
+        LessonDAO dao = new LessonDAO();
+        String subjectId = request.getParameter("subjectId");
         String type = request.getParameter("type");
         if (type.equals("lesson")) {
             String name = request.getParameter("name");
             String summary = request.getParameter("summary");
-            String topic = request.getParameter("topic");
-            String order = request.getParameter("order");
-            String status = request.getParameter("status");
+            String topic_raw = request.getParameter("topic");
+            String order_raw = request.getParameter("order");
+            String status_raw = request.getParameter("status");
             
-            out.println(type);
-            out.println(name);
-            out.println(summary);
-            out.println(topic);
-            out.println(order);
-            out.println(status);
-            out.println();
+            try {
+                int subject_id = Integer.parseInt(subjectId);
+                int topic = Integer.parseInt(topic_raw);
+                int order = Integer.parseInt(order_raw);
+                Boolean status = Boolean.parseBoolean(status_raw);
+                dao.addLesson(new Lesson( name, order, summary, status, 1, subject_id, topic, "", "", 8));
+            }
+            catch(Exception ex) {
+                out.println(ex);
+            }
         }
         else if (type.equals("video")) {
             String name = request.getParameter("name");
