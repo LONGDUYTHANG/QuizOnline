@@ -76,6 +76,10 @@
         <servlet-name>RegistrationListServlet</servlet-name>
         <servlet-class>controller.RegistrationListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchRegistrationServlet</servlet-name>
+        <servlet-class>controller.SearchRegistrationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
         <url-pattern>/demo</url-pattern>
@@ -164,6 +168,10 @@
     <servlet-mapping>
         <servlet-name>RegistrationListServlet</servlet-name>
         <url-pattern>/registrationlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchRegistrationServlet</servlet-name>
+        <url-pattern>/searchregistration</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>
