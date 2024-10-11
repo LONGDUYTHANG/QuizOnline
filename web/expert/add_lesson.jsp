@@ -109,6 +109,7 @@
                             }
                         </script>
                         <form id="form1" action="addlesson" method="post">
+                            <input type="hidden" value="${requestScope.subjectId}" name="subjectId">
                             <div class="form-group">
                                 <label for="type">Type</label>
                                 <select id="type-selector-lesson" name="type">
@@ -175,6 +176,7 @@
                             }
                         </script>
                         <form id="form2" action="addlesson" method="post">
+                            <input type="hidden" value="${requestScope.subjectId}">
                             <div class="form-group">
                                 <label for="type">Type</label>
                                 <select id="type-selector-video" name="type">
@@ -294,6 +296,7 @@
                             }
                         </script>
                         <form id="form3" action="addlesson" method="post">
+                            <input type="hidden" value="${requestScope.subjectId}">
                             <div class="form-group" name="lesson_type">
                                 <label for="type">Type</label>
                                 <select id="type-selector-quiz" name="type">
