@@ -5,7 +5,7 @@
 package model;
 
 import dal.AccountDAO;
-import dao.CategoryDAO;
+import dal.CategoryDAO;
 import java.sql.Timestamp;
 import java.util.Date;
 
