@@ -14,11 +14,14 @@
     <form class="d-none d-sm-inline-block" action="searchregistration">
         <div class="input-group input-group-navbar">
             <input type="text" class="form-control" name="email" placeholder="Search by email…" aria-label="Search" >
-            <button class="btn" name="search" type="submit">
+            <button class="btn"  type="submit">
                 <i class="align-middle" data-feather="search"></i>
             </button>
         </div>
     </form>
+    <div style="margin-left: 20px">
+        <a href="searchregistration" target="_self">All Registration</a>
+        </div>
     <div class="navbar-collapse collapse">
         <ul class="navbar-nav navbar-align">
             <li class="nav-item">
