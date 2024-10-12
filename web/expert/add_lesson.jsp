@@ -73,14 +73,11 @@
                 resize: vertical;
             }
 
-            iframe {
-                width: 100%;
-                height: 300px;
-                margin-top: 15px;
-            }
-
             button {
                 cursor: pointer;
+            }
+            #message {
+                display: none;
             }
         </style>
     </head>
@@ -88,13 +85,46 @@
     <body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-layout="default">
         <div class="wrapper">
             <jsp:include page="expert_sidebar.jsp" />
-
+            
             <div class="main">
                 <jsp:include page="navbar.jsp"/>
 
                 <main class="content">
                     <!-- Page 1: Lesson Topic -->
                     <div class="container lesson-topic" id="lesson-topic">
+                        <div id="message" class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <div class="alert-message">
+                            <strong>Changes saved</strong> Quiz have been updated
+                        </div>
+                    </div>
+                    <!-- Handle Showing success message -->
+                    <script>
+                        document.addEventListener('DOMContentLoaded', (event) => {
+                            let showMessageSuccess = ${requestScope.showSuccessMessage};
+                            let message = document.getElementById('message');
+
+                            if (showMessageSuccess) {
+                                // Show the message initially
+                                message.style.display = 'block';
+                                message.style.opacity = 1;
+
+                                // Fade out after 0.5 seconds
+                                setTimeout(() => {
+                                    let opacity = 1;
+                                    let interval = setInterval(() => {
+                                        if (opacity <= 0) {
+                                            clearInterval(interval);
+                                            message.style.display = 'none';
+                                        } else {
+                                            opacity -= 0.05; // Adjust the decrement step for different speeds
+                                            message.style.opacity = opacity;
+                                        }
+                                    }, 50); // Adjust interval timing as needed
+                                }, 1000); // Show duration before starting fade-out
+                            }
+                        });
+                    </script>
                         <div class="header">
                             <h2>Lesson Details</h2>
                             <div class="button-group">
@@ -176,7 +206,7 @@
                             }
                         </script>
                         <form id="form2" action="addlesson" method="post">
-                            <input type="hidden" value="${requestScope.subjectId}">
+                            <input type="hidden" value="${requestScope.subjectId}" name="subjectId">
                             <div class="form-group">
                                 <label for="type">Type</label>
                                 <select id="type-selector-video" name="type">
@@ -296,7 +326,7 @@
                             }
                         </script>
                         <form id="form3" action="addlesson" method="post">
-                            <input type="hidden" value="${requestScope.subjectId}">
+                            <input type="hidden" value="${requestScope.subjectId}" name="subjectId">
                             <div class="form-group" name="lesson_type">
                                 <label for="type">Type</label>
                                 <select id="type-selector-quiz" name="type">
