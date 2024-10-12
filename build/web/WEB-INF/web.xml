@@ -76,6 +76,31 @@
         <servlet-name>RegistrationListServlet</servlet-name>
         <servlet-class>controller.RegistrationListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchRegistrationServlet</servlet-name>
+        <servlet-class>controller.SearchRegistrationServlet</servlet-class>
+    </servlet>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 7e72ed80b7f4d153c4ca751e03832f2875918b4e
+    <servlet>
+        <servlet-name>SortRegistrationServlet</servlet-name>
+        <servlet-class>controller.SortRegistrationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FilterRegistrationServlet</servlet-name>
+        <servlet-class>controller.FilterRegistrationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegistrationDetailServlet</servlet-name>
+        <servlet-class>controller.RegistrationDetailServlet</servlet-class>
+    </servlet>
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 84a2921233652f1ab22d51b179b3950ec227aef6
+>>>>>>> 7e72ed80b7f4d153c4ca751e03832f2875918b4e
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
         <url-pattern>/demo</url-pattern>
@@ -165,6 +190,31 @@
         <servlet-name>RegistrationListServlet</servlet-name>
         <url-pattern>/registrationlist</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchRegistrationServlet</servlet-name>
+        <url-pattern>/searchregistration</url-pattern>
+    </servlet-mapping>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 7e72ed80b7f4d153c4ca751e03832f2875918b4e
+    <servlet-mapping>
+        <servlet-name>SortRegistrationServlet</servlet-name>
+        <url-pattern>/sortregistration</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FilterRegistrationServlet</servlet-name>
+        <url-pattern>/filterregistration</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegistrationDetailServlet</servlet-name>
+        <url-pattern>/registrationdetail</url-pattern>
+    </servlet-mapping>
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 84a2921233652f1ab22d51b179b3950ec227aef6
+>>>>>>> 7e72ed80b7f4d153c4ca751e03832f2875918b4e
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>
     </welcome-file-list>
