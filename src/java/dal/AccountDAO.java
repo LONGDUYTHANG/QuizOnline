@@ -7,6 +7,8 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import model.Account;
 import model.Role;
 
@@ -48,7 +50,7 @@ public class AccountDAO extends DBContext {
         }
         return myAccount;
     }
-    
+
     public Account getAccount(String email) {
         PreparedStatement stm;
         ResultSet rs;
@@ -151,7 +153,7 @@ public class AccountDAO extends DBContext {
       ,[password]
       ,[avatar]
       ,[role_id]
-            */
+             */
             // If a record is found, map it to the Account object
             if (rs.next()) {
                 Account account = new Account();
@@ -212,7 +214,7 @@ public class AccountDAO extends DBContext {
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, a.getFirst_name());
-             pstmt.setString(2, a.getLast_name());
+            pstmt.setString(2, a.getLast_name());
             pstmt.setInt(3, a.isGender() ? 1 : 0);
             pstmt.setString(4, a.getMobile());
             pstmt.setInt(5, a.getAccount_id());
@@ -307,7 +309,7 @@ public class AccountDAO extends DBContext {
         } catch (Exception e) {
         }
     }
-    
+
     public void updateEmail(String newEmail, Account a) {
         String sql = """
                      UPDATE [dbo].[Account]
@@ -322,6 +324,7 @@ public class AccountDAO extends DBContext {
         } catch (SQLException e) {
         }
     }
+
     public Account getAccountById1(String accountId) {
         String sql = "SELECT account_id, full_name, gender, email, mobile, password, avatar, role_id "
                 + "FROM Account WHERE account_id = ?";
@@ -350,21 +353,23 @@ public class AccountDAO extends DBContext {
 
                 account.setRole_id(role.getRole_id());
 
-                return account; 
+                return account;
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
 
         return null;
     }
-        /**
-         * Get email of an user through account id
-         * @param accountId
-         * @return a string
-         */
-        public String getEmailById(int accountId) {
+
+    /**
+     * Get email of an user through account id
+     *
+     * @param accountId
+     * @return a string
+     */
+    public String getEmailById(int accountId) {
         String sql = "SELECT email"
                 + " FROM Account WHERE account_id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -376,22 +381,85 @@ public class AccountDAO extends DBContext {
 
             // If a record is found, map it to the Account object
             if (rs.next()) {
-                return  rs.getString("email");
+                return rs.getString("email");
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
 
         return null;
     }
-    
-    
+
+    public List<Account> getAllAccount() {
+        List<Account> accounts = new ArrayList<>();
+        String sql = "SELECT * FROM Account";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Account account = new Account();
+                account.setAccount_id(rs.getInt("account_id"));
+                account.setFirst_name(rs.getString("first_name"));
+                account.setLast_name(rs.getString("last_name"));
+                account.setGender(rs.getBoolean("gender"));
+                account.setEmail(rs.getString("email"));
+                account.setMobile(rs.getString("mobile"));
+                account.setAvatar(rs.getString("avatar"));
+
+                AccountDAO adao = new AccountDAO();
+                Role role = adao.getRoleById(rs.getInt("role_id"));
+                account.setRole_id1(role);
+                accounts.add(account);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return accounts;
+    }
+    // Phương thức để tạo tài khoản mới
+    public boolean createAccount(String firstName, String lastName, String email, String mobile, int gender, int role) {
+        String sql = "INSERT INTO Account (first_name, last_name, email, mobile, gender, role_id,[password]) VALUES (N'?', N'?', ?, ?, ?, ?,'Abc123@')";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, firstName);
+            pstmt.setString(2, lastName);
+            pstmt.setString(3, email);
+            pstmt.setString(4, mobile);
+            pstmt.setInt(5, gender); // Giả sử 1 là nam và 0 là nữ
+            pstmt.setInt(6, role); // ID của vai trò
+            
+            int rowsAffected = pstmt.executeUpdate(); // Thực thi truy vấn thêm
+            return rowsAffected > 0; // Trả về true nếu có ít nhất một hàng được thêm
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Trả về false nếu có lỗi
+        }
+    }
+public boolean updateStatus(int account_id, String status) {
+    String sql = "UPDATE [dbo].[Account] SET status = ? WHERE account_id = ?";
+
+    try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        pstmt.setString(1, status);
+        pstmt.setInt(2, account_id);
+
+        int rowsAffected = pstmt.executeUpdate();
+        return rowsAffected > 0; // Trả về true nếu việc cập nhật thành công
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false; // Trả về false nếu xảy ra lỗi
+    }
+}
+
+
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
-        Account a = dao.getAccountById(2);
-        String h=dao.getEmailById(3);
-        System.out.println(h);
+
+       Account account = dao.getAccountById(2);
+        System.out.println(account.getStatus());
     }
-    
+
 }
