@@ -102,10 +102,9 @@
                                         <div class="col-md-3">
                                             <label for="validationDefault05" class="form-label">Subject</label>
                                             <select name="dimension_type_id" class="form-select" id="validationDefault05" required="">
-                                                <option value="${pricePackage.getSubject_id().getSubject_id()}">${pricePackage.getSubject_id().getSubject_name()}</option>
 
                                                 <c:forEach items="${listSubject}" var="listType">
-                                                    <option value="${listType.subject_id}">${listType.subject_name}</option>
+                                                    <option value="${listType.subjectId}" ${listType.subjectId == pricePackage.subject_id ? 'selected':''}>${listType.subjectName}</option>
                                                 </c:forEach>
 
 

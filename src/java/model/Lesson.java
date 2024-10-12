@@ -37,6 +37,19 @@ public class Lesson {
         this.lesson_content = lesson_content;
         this.quiz_id = quiz_id;
     }
+    
+    public Lesson(String lesson_name, int lesson_order, String summary, boolean status, int lesson_type_id, int subject_id, int lesson_topic_id, String video_link, String lesson_content, int quiz_id) {
+        this.lesson_name = lesson_name;
+        this.lesson_order = lesson_order;
+        this.summary = summary;
+        this.status = status;
+        this.lesson_type_id = lesson_type_id;
+        this.subject_id = subject_id;
+        this.lesson_topic_id = lesson_topic_id;
+        this.video_link = video_link;
+        this.lesson_content = lesson_content;
+        this.quiz_id = quiz_id;
+    }
 
     public int getLesson_id() {
         return lesson_id;

@@ -57,6 +57,10 @@
         <servlet-class>controller.resetPasswordServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>QuizHandling</servlet-name>
+        <servlet-class>controller.QuizHandling</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>SearchByCategory</servlet-name>
         <servlet-class>controller.SearchByCategory</servlet-class>
     </servlet>
@@ -155,6 +159,11 @@
     <servlet-mapping>
         <servlet-name>resetPasswordServlet</servlet-name>
         <url-pattern>/resetPassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+
+        <servlet-name>QuizHandling</servlet-name>
+        <url-pattern>/quiz_handling</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SearchByCategory</servlet-name>
