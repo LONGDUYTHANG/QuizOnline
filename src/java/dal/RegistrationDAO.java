@@ -7,6 +7,8 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import model.Registration;
 import model.Registration_Status;
@@ -299,7 +301,64 @@ public class RegistrationDAO extends DBContext {
         }
         return registration_list;
     }
+    
+    /**
+     * Update a registration 
+     * @param package_id
+     * @param list_price
+     * @param sale_price
+     * @param cost
+     * @param status_id
+     * @param valid_from
+     * @param valid_to
+     * @param note
+     * @param registration_id 
+     */
+    public void UpdateRegistration(int package_id, double list_price, double sale_price, double cost,
+    int status_id, String valid_from, String valid_to,String note, int registration_id){
+        PreparedStatement stm;
+        try {
+            String strSelect = "UPDATE Registration"
+                    + " SET package_id=?,"
+                    + " list_price=?,"
+                    + " sale_price=?,"
+                    + " cost=?,"
+                    + " status_id=?,"
+                    + " valid_from=?,"
+                    + " valid_to=?,"
+                    + " note=?"
+                    + " WHERE registration_id= ?";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, package_id);
+            stm.setDouble(2, list_price);
+            stm.setDouble(3, sale_price);
+            stm.setDouble(4, cost);
+            stm.setInt(5, status_id);
+            stm.setString(6, valid_from);
+            stm.setString(7, valid_to);
+            stm.setString(8, note);
+            stm.setInt(9, registration_id);
+            stm.executeUpdate();
+    }catch (SQLException e){
+         System.out.println(e);
+    }
+    }
 
+    /**
+     * Delete an unused registration
+     * @param registration_id 
+     */
+    public void DeleteRegistration(int registration_id){
+             PreparedStatement stm;
+        try {
+            String strSelect = "DELETE FROM Registration WHERE registration_id=?";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, registration_id);
+            stm.executeUpdate();
+    }catch (SQLException e){
+         System.out.println(e);
+    }
+    }
     public ArrayList<Registration> getView() {
         PreparedStatement stm;
         ResultSet rs;
@@ -365,6 +424,6 @@ public class RegistrationDAO extends DBContext {
 //        System.out.println(h2.size());
 //        System.out.println(common_registration.size());
 //        System.out.println(huyen.getSubject_id());
-
+          a.UpdateRegistration(2, 100, 200, 150, 2, "2024-10-3", "2024-10-19", "huyen", 4);
     }
 }
