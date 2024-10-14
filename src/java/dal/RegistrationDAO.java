@@ -7,8 +7,6 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import model.Registration;
 import model.Registration_Status;
@@ -210,16 +208,29 @@ public class RegistrationDAO extends DBContext {
      * @param subject_name
      * @return an array list of registration list
      */
-    public ArrayList<Registration> filterRegistrationListBySubject(String subject_name) {
+    public ArrayList<Registration> filterRegistrationList(String subject_name, String lower_registration_date,
+            String upper_registration_date,  String status_name) {
         PreparedStatement stm;
+        PreparedStatement stm_view;
         ResultSet rs;
         ArrayList<Registration> registration_list = new ArrayList<Registration>();
         try {
             String strSelect = "Select registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id FROM Registration"
-                    + " WHERE  subject_id in(SELECT subject_id FROM Subject where subject_name LIKE ?)";
+                    + " WHERE  subject_id in(SELECT subject_id FROM Subject where subject_name LIKE ?)"
+                    + " AND registration_time >= '"+lower_registration_date+" 00:00:00.000' AND registration_time <= '"+upper_registration_date+" 23:59:00.000'"
+                    + " AND status_id IN (SELECT status_id FROM Registration_Status WHERE status_name LIKE ?)";
+            
+            String strView = "ALTER VIEW [RegistrationView] AS Select registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id FROM Registration"
+                    + " WHERE  subject_id in(SELECT subject_id FROM Subject where subject_name LIKE '"+subject_name+"' )"
+                    + " AND registration_time >= '"+lower_registration_date+" 00:00:00.000' AND registration_time <= '"+upper_registration_date+" 23:59:00.000'"
+                    + " AND status_id IN (SELECT status_id FROM Registration_Status WHERE status_name LIKE '"+status_name+"') ";
             stm = connection.prepareStatement(strSelect);
+            stm_view=connection.prepareStatement(strView);
             stm.setString(1, subject_name);
+            stm.setString(2, status_name);
+            
             rs = stm.executeQuery();
+            stm_view.executeUpdate();
             while (rs.next()) {
                 Registration registration = new Registration();
                 registration.setAccount_id(rs.getInt("account_id"));
@@ -238,72 +249,8 @@ public class RegistrationDAO extends DBContext {
     }
 
     /**
-     * Get a registration list based on registration time
+     * Update a registration
      *
-     * @param registration_time
-     * @return an array list of registrations
-     */
-    public ArrayList<Registration> filterRegistrationListByDate(String registration_time) {
-        PreparedStatement stm;
-        ResultSet rs;
-        ArrayList<Registration> registration_list = new ArrayList<Registration>();
-        try {
-            String strSelect = "Select registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id FROM Registration"
-                    + " WHERE registration_time >= '" + registration_time + "' AND registration_time <= '" + registration_time + " 23:59:00.000' ";
-            stm = connection.prepareStatement(strSelect);
-            rs = stm.executeQuery();
-            while (rs.next()) {
-                Registration registration = new Registration();
-                registration.setAccount_id(rs.getInt("account_id"));
-                registration.setRegistration_id(rs.getInt("registration_id"));
-                registration.setRegistration_time(rs.getTimestamp("registration_time").toLocalDateTime());
-                registration.setSubject_id(rs.getInt("subject_id"));
-                registration.setPackage_id(rs.getInt("package_id"));
-                registration.setCost(rs.getDouble("cost"));
-                registration.setStatus_id(rs.getInt("status_id"));
-                registration_list.add(registration);
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return registration_list;
-    }
-
-    /**
-     * Get a registration list based on status
-     *
-     * @param status
-     * @return an array list of registrations
-     */
-    public ArrayList<Registration> filterRegistrationListByStatus(String status) {
-        PreparedStatement stm;
-        ResultSet rs;
-        ArrayList<Registration> registration_list = new ArrayList<Registration>();
-        try {
-            String strSelect = "Select registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id FROM Registration"
-                    + " WHERE status_id IN (SELECT status_id FROM Registration_Status WHERE status_name LIKE ?) ";
-            stm = connection.prepareStatement(strSelect);
-            stm.setString(1, status);
-            rs = stm.executeQuery();
-            while (rs.next()) {
-                Registration registration = new Registration();
-                registration.setAccount_id(rs.getInt("account_id"));
-                registration.setRegistration_id(rs.getInt("registration_id"));
-                registration.setRegistration_time(rs.getTimestamp("registration_time").toLocalDateTime());
-                registration.setSubject_id(rs.getInt("subject_id"));
-                registration.setPackage_id(rs.getInt("package_id"));
-                registration.setCost(rs.getDouble("cost"));
-                registration.setStatus_id(rs.getInt("status_id"));
-                registration_list.add(registration);
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return registration_list;
-    }
-    
-    /**
-     * Update a registration 
      * @param package_id
      * @param list_price
      * @param sale_price
@@ -312,10 +259,10 @@ public class RegistrationDAO extends DBContext {
      * @param valid_from
      * @param valid_to
      * @param note
-     * @param registration_id 
+     * @param registration_id
      */
     public void UpdateRegistration(int package_id, double list_price, double sale_price, double cost,
-    int status_id, String valid_from, String valid_to,String note, int registration_id){
+            int status_id, String valid_from, String valid_to, String note, int registration_id) {
         PreparedStatement stm;
         try {
             String strSelect = "UPDATE Registration"
@@ -339,26 +286,28 @@ public class RegistrationDAO extends DBContext {
             stm.setString(8, note);
             stm.setInt(9, registration_id);
             stm.executeUpdate();
-    }catch (SQLException e){
-         System.out.println(e);
-    }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
     /**
      * Delete an unused registration
-     * @param registration_id 
+     *
+     * @param registration_id
      */
-    public void DeleteRegistration(int registration_id){
-             PreparedStatement stm;
+    public void DeleteRegistration(int registration_id) {
+        PreparedStatement stm;
         try {
             String strSelect = "DELETE FROM Registration WHERE registration_id=?";
             stm = connection.prepareStatement(strSelect);
             stm.setInt(1, registration_id);
             stm.executeUpdate();
-    }catch (SQLException e){
-         System.out.println(e);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
-    }
+
     public ArrayList<Registration> getView() {
         PreparedStatement stm;
         ResultSet rs;
@@ -412,18 +361,8 @@ public class RegistrationDAO extends DBContext {
 
     public static void main(String[] args) {
         RegistrationDAO a = new RegistrationDAO();
-//        ArrayList<Registration> h = a.filterRegistrationListByDate("2024-10-08");
-//        ArrayList<Registration> h1 = a.filterRegistrationListBySubject("python");
-//        ArrayList<Registration> h2 = a.filterRegistrationListByStatus("Canceled");
-//        ArrayList<Registration> common_registration = new ArrayList<>(h1);
-//        common_registration.retainAll(h);
-//        Registration huyen = a.getRegistrationById(0);
-//        //common_registration.retainAll(h2);
-//        System.out.println(h.size());
-//        System.out.println(h1.size());
-//        System.out.println(h2.size());
-//        System.out.println(common_registration.size());
-//        System.out.println(huyen.getSubject_id());
-          a.UpdateRegistration(2, 100, 200, 150, 2, "2024-10-3", "2024-10-19", "huyen", 4);
+        ArrayList<Registration> h = a.filterRegistrationList("%%","2024-10-08","2024-10-08", "%%");
+
+        System.out.println(h.size());
     }
 }
