@@ -21,6 +21,7 @@ public class Account {
     private int role_id;
     private Role role_id1;
     private int gender1;
+    private String status;
 
     public Account() {
     }
@@ -36,6 +37,20 @@ public class Account {
         this.password = password;
         this.avatar = avatar;
         this.role_id = role_id;
+    }
+    public Account(int account_id, String first_name, String last_name, boolean gender, String email, String mobile, String password, String avatar, int role_id, Role role_id1, int gender1, String status) {
+        this.account_id = account_id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.gender = gender;
+        this.email = email;
+        this.mobile = mobile;
+        this.password = password;
+        this.avatar = avatar;
+        this.role_id = role_id;
+        this.role_id1 = role_id1;
+        this.gender1 = gender1;
+        this.status = status;
     }
 
     public Account(String first_name, String last_name, boolean gender, String mobile) {
@@ -76,6 +91,14 @@ public class Account {
     public void setLast_name(String last_name) {
         this.last_name = last_name;
     }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 
     public boolean isGender() {
         return gender;
