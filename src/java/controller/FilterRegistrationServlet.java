@@ -79,46 +79,37 @@ public class FilterRegistrationServlet extends HttpServlet {
         AccountDAO myAccountDAO =new AccountDAO();
         PackageDAO myPackageDAO=new PackageDAO();
         SubjectDAO mySubjectDAO =new SubjectDAO();
-        //Create registration list for filtering by subject
+
         String subject_name = request.getParameter("subject_name");
-        ArrayList<Registration> registration_list_by_subject = new ArrayList<>();
-        //Create registration list for filtering by registration date
-        String registration_date = request.getParameter("date");
-        ArrayList<Registration> registration_list_by_date = new ArrayList<>();
-        //Create registration list for filtering by status
+        
+        String lower_registration_date = request.getParameter("date");
+        String upper_registration_date="";
         String status = request.getParameter("status");
-        ArrayList<Registration> registration_list_by_status = new ArrayList<>();
+        ArrayList<Registration> filtered_registration_list = new ArrayList<>();
         //Check registration list for filtering by subject
-        if (subject_name == null) {
-            registration_list_by_subject = myRegistrationDAO.getRegistrationList();
-        } else {
-            registration_list_by_subject = myRegistrationDAO.filterRegistrationListBySubject(subject_name);
+        if (subject_name.equals("")) {
+            subject_name="%%";
         }
-        //Check registration list for filtering by registration date
-        if (registration_date == null) {
-            registration_list_by_date = myRegistrationDAO.getRegistrationList();
-        } else {
-            registration_list_by_date = myRegistrationDAO.filterRegistrationListByDate(registration_date);
-        }
-        //Check registration list for filtering by status
-        if (status == null) {
-            registration_list_by_status = myRegistrationDAO.getRegistrationList();
-        } else {
-            registration_list_by_status = myRegistrationDAO.filterRegistrationListByStatus(status);
-        }
-        //List combines all three filters
-        ArrayList<Registration> common_registration=new ArrayList<>(registration_list_by_subject);
-        common_registration.retainAll(registration_list_by_date);
-        common_registration.retainAll(registration_list_by_status);
-        PrintWriter out =response.getWriter();
-        out.print(registration_date);
+        //Check registration date
+        if (lower_registration_date.equals("")) {
+            //if empty set it to be a default value
+            lower_registration_date="2000-01-01";
+            upper_registration_date="9999-12-31";
+        }  
+        filtered_registration_list=myRegistrationDAO.filterRegistrationList(subject_name, lower_registration_date, upper_registration_date, status);
         request.setAttribute("accountDAO", myAccountDAO);
         request.setAttribute("subjectDAO", mySubjectDAO);
         request.setAttribute("packageDAO", myPackageDAO);
         request.setAttribute("registrationDAO", myRegistrationDAO);
-        request.setAttribute("registration_list", registration_list_by_date);
+        request.setAttribute("registration_list", filtered_registration_list);
+        //if inputted subject_name is different from default value
+        if(!subject_name.equals("%%")){
         request.setAttribute("subject_name", subject_name);
-        request.setAttribute("registration_date", registration_date);
+        }
+        //if inputted registration date is different from default value
+        if(!lower_registration_date.equals("2000-01-01")){
+        request.setAttribute("registration_date", lower_registration_date);
+        }
         request.setAttribute("status", status);
         request.getRequestDispatcher("saler/registration_list.jsp").forward(request, response);
         
