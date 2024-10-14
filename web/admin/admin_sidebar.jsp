@@ -57,24 +57,15 @@
                 
             </li>
 
-            <li class="sidebar-item">
-                <a data-bs-target="#pages" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Registration Manager</span>
-                </a>
-                
-            </li>
+           
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="pages-profile.html">
-                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>
+                <a class="sidebar-link" href="managerAccount">
+                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">Manager account</span>
                 </a>
             </li>
 
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="pages-invoice.html">
-                    <i class="align-middle" data-feather="credit-card"></i> <span class="align-middle">Change password</span>
-                </a>
-            </li>
+           
 
 
             <li class="sidebar-header">
@@ -101,6 +92,11 @@
             <li class="sidebar-item">
                 <a class="sidebar-link" href="tables-bootstrap.html">
                     <i class="align-middle" data-feather="list"></i> <span class="align-middle">Question List</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="slider">
+                    <i class="align-middle" data-feather="list"></i> <span class="align-middle">Slider</span>
                 </a>
             </li>
 

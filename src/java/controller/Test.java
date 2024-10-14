@@ -5,24 +5,20 @@
 
 package controller;
 
-import dal.AccountDAO;
-import dal.PackageDAO;
-import dal.RegistrationDAO;
-import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import model.Registration;
 
 /**
  *
- * @author ADMIN
+ * @author trung
  */
-public class RegistrationListServlet extends HttpServlet {
+@WebServlet(name="Test", urlPatterns={"/Test"})
+public class Test extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -39,10 +35,10 @@ public class RegistrationListServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegistrationListServlet</title>");  
+            out.println("<title>Servlet Test</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RegistrationListServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet Test at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,20 +55,7 @@ public class RegistrationListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        RegistrationDAO myRegistrationDAO =new RegistrationDAO();
-        //get list of register subject from user
-        ArrayList<Registration> registration_list= myRegistrationDAO.getRegistrationList();
-        AccountDAO myAccountDAO =new AccountDAO();
-        PackageDAO myPackageDAO=new PackageDAO();
-        SubjectDAO mySubjectDAO =new SubjectDAO();
-        
-        request.setAttribute("accountDAO", myAccountDAO);
-        request.setAttribute("subjectDAO", mySubjectDAO);
-        request.setAttribute("packageDAO", myPackageDAO);
-        request.setAttribute("registrationDAO", myRegistrationDAO);
-        request.setAttribute("registration_list", registration_list);
-        request.getRequestDispatcher("saler/registration_list.jsp").forward(request, response);
-        
+        request.getRequestDispatcher("admin/test.jsp").forward(request, response);
     } 
 
     /** 
