@@ -84,6 +84,7 @@ public class RegistrationDetailServlet extends HttpServlet {
         }
         //Send information about registration
         Registration registration_detail=myRegistrationDAO.getRegistrationById(registration_id);
+        request.setAttribute("registration_id", registration_id);
         request.setAttribute("subject", mySubjectDAO.getSubjectByID(registration_detail.getSubject_id()).getSubjectName());
         request.setAttribute("registration_time", registration_detail.getRegistration_time());
         request.setAttribute("list_price", registration_detail.getList_price());
@@ -118,7 +119,6 @@ public class RegistrationDetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /** 
