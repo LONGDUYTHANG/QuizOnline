@@ -165,7 +165,6 @@ public class AccountDAO extends DBContext {
                 account.setPassword(rs.getString("password"));
                 account.setAvatar(rs.getString("avatar"));
                 account.setRole_id(rs.getInt("role_id"));
-                account.setStatus(rs.getString("status"));
 
                 AccountDAO aDao = new AccountDAO();
                 Role role = aDao.getRoleById(rs.getInt("role_id"));
@@ -463,9 +462,9 @@ public class AccountDAO extends DBContext {
 
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
-        Account a = dao.getAccountById(1);
-        String h = dao.getEmailById(3);
-        System.out.println(h);
+        Account a = dao.getAccountById(3);
+        //String h = dao.getEmailById(3);
+        System.out.println(a.getEmail());
     }
 
 }
