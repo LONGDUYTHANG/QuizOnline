@@ -101,15 +101,19 @@
 
                 <main class="content">
                     <div class="container">
-                        <div class="row p-3"> Registration Details</div>
+                        <div class="row p-3" > <h3>Registration Details</h3></div>
                         <div class="row p-3">
                             <div class="col-4">
                                 <p class="form-label" style="font-weight: bolder">Subject</p><!-- comment -->
-                                <input type="text" value="${requestScope.subject}">
+                                <input disabled type="text" value="${requestScope.subject}">
                             </div>
                             <div class="col-4">
                                 <p class="form-label" style="font-weight: bolder">Price Package</p>
-                                <input type="text" value="${requestScope.price_package}">
+                                <select name="package" style="width: 195px;height: 28px" >
+                                    <c:forEach items="${requestScope.package_list}" var="s">
+                                        <option value="${s.package_id}" ${s.package_name eq requestScope.price_package?'selected':''}>${s.package_name}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
                             <div class="col-4">
                                 <p class="form-label" style="font-weight: bolder">Sale</p>
@@ -124,24 +128,28 @@
                             </div>
                             <div class="col-4">
                                 <p class="form-label" style="font-weight: bolder">Sale Price</p>
-                                <input type="text" value="${requestScope.saleprice}">
+                                <input type="text" value="${requestScope.sale_price}">
                             </div>
                             <div class="col-4">
                                 <p class="form-label" style="font-weight: bolder">Status</p>
-                                <input type="text" value="${requestScope.subject}">
+                                 <select name="package" style="width: 195px;height: 28px" >
+                                    <c:forEach items="${requestScope.status_list}" var="s">
+                                        <option value="${s.status_id}" ${s.status_name eq requestScope.status?'selected':''}>${s.status_name}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
                         </div>
                         <div class="row p-3">
                             <div class="col-4">
                                 <p class="form-label" style="font-weight: bolder">Registration Time</p>
-                                <input type="text" value="${requestScope.registration_time}">
+                                <input type="text" value="${requestScope.registration_time}" disabled>
                             </div>
                             <div class="col-4">
                                 <p class="form-label" style="font-weight: bolder">Valid From</p>
                                 <input type="date" value="${requestScope.from}"><br>
                             </div>
                             <div class="col-4">
-                               <p class="form-label" style="font-weight: bolder">Valid To</p>
+                                <p class="form-label" style="font-weight: bolder">Valid To</p>
                                 <input type="date" value="${requestScope.to}"><br>
                             </div>
                         </div>
@@ -155,8 +163,8 @@
                                 <input type="text" value="${requestScope.name}">
                             </div>
                             <div class="col-3">
-                               <p class="form-label" style="font-weight: bolder">Gender</p>
-                                <input type="text" value="${requestScope.gender}">
+                                <p class="form-label" style="font-weight: bolder">Gender</p>
+                                <input type="text" value="${requestScope.gender == 1?'Male':'Female'}">
                             </div>
                             <div class="col-3">
                                 <p class="form-label" style="font-weight: bolder">Email</p>
