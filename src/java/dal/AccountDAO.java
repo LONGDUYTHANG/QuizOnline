@@ -427,7 +427,7 @@ public class AccountDAO extends DBContext {
 
     // Phương thức để tạo tài khoản mới
     public boolean createAccount(String firstName, String lastName, String email, String mobile, int gender, int role) {
-        String sql = "INSERT INTO Account (first_name, last_name, email, mobile, gender, role_id,[password]) VALUES (N'?', N'?', ?, ?, ?, ?,'Abc123@')";
+        String sql = "INSERT INTO Account (first_name, last_name, email, mobile, gender, role_id,[password]) VALUES (?, ?, ?, ?, ?, ?,'Abc123@')";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, firstName);
