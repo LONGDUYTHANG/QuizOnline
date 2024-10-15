@@ -92,6 +92,10 @@
         <servlet-name>RegistrationDetailServlet</servlet-name>
         <servlet-class>controller.RegistrationDetailServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ImportQuestionServlet</servlet-name>
+        <servlet-class>controller.ImportQuestionServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
         <url-pattern>/demo</url-pattern>
@@ -161,7 +165,6 @@
         <url-pattern>/resetPassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
         <servlet-name>QuizHandling</servlet-name>
         <url-pattern>/quiz_handling</url-pattern>
     </servlet-mapping>
@@ -196,6 +199,10 @@
     <servlet-mapping>
         <servlet-name>RegistrationDetailServlet</servlet-name>
         <url-pattern>/registrationdetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ImportQuestionServlet</servlet-name>
+        <url-pattern>/import</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>

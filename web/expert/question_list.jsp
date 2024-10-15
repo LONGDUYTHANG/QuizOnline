@@ -171,7 +171,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="importForm" method="post" action="yourImportEndpoint" enctype="multipart/form-data">
+                                    <form id="importForm" method="post" action="import" enctype="multipart/form-data">
                                         <div class="mb-3">
                                             <label for="fileInput" class="form-label">Select Excel File</label>
                                             <input type="file" class="form-control" id="fileInput" name="file" accept=".xls,.xlsx" required>
