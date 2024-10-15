@@ -99,82 +99,100 @@
             <div class="main">
                 <jsp:include page="navbar.jsp"/>
 
-                <main class="content">
-                    <div class="container">
-                        <div class="row p-3"> Registration Details</div>
-                        <div class="row p-3">
-                            <div class="col-4">
-                                <p class="form-label" style="font-weight: bolder">Subject</p><!-- comment -->
-                                <input type="text" value="${requestScope.subject}">
+                <main class="content" >
+                    <form action="updateregistration" method="post">
+                        <div class="container">
+                            <div class="row p-3" > 
+                                <div class="col-4">
+                                    <h3>Registration Details</h3>
+                                </div>
+                            </div>      
+                            <div class="row p-3">
+                                <div class="col-4">
+                                    <p class="form-label" style="font-weight: bolder">Subject</p><!-- comment -->
+                                    <input disabled type="text" value="${requestScope.subject}">
+                                </div>
+                                <div class="col-4">
+                                    <p class="form-label" style="font-weight: bolder">Price Package</p>
+                                    <select name="package" style="width: 195px;height: 28px" >
+                                        <c:forEach items="${requestScope.package_list}" var="s">
+                                            <option value="${s.package_id}" ${s.package_name eq requestScope.price_package?'selected':''}>${s.package_name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="col-4">
+                                    <p class="form-label" style="font-weight: bolder">Sale</p>
+                                    <input type="text" value="${requestScope.sale}">
+                                </div>
                             </div>
-                            <div class="col-4">
-                                <p class="form-label" style="font-weight: bolder">Price Package</p>
-                                <input type="text" value="${requestScope.price_package}">
-                            </div>
-                            <div class="col-4">
-                                <p class="form-label" style="font-weight: bolder">Sale</p>
-                                <input type="text" value="${requestScope.sale}">
-                            </div>
-                        </div>
 
-                        <div class="row p-3">
-                            <div class="col-4">
-                                <p class="form-label" style="font-weight: bolder">List Price</p>
-                                <input type="text" value="${requestScope.list_price}">
+                            <div class="row p-3">
+                                <div class="col-4">
+                                    <p class="form-label" style="font-weight: bolder">List Price</p>
+                                    <input type="text" name="list_price" value="${requestScope.list_price}">
+                                </div>
+                                <div class="col-4">
+                                    <p class="form-label" style="font-weight: bolder">Sale Price</p>
+                                    <input type="text" name="sale_price" value="${requestScope.sale_price}">
+                                </div>
+                                <div class="col-4">
+                                    <p class="form-label" style="font-weight: bolder">Status</p>
+                                    <select name="status" style="width: 195px;height: 28px" >
+                                        <c:forEach items="${requestScope.status_list}" var="s">
+                                            <option value="${s.status_id}" ${s.status_name eq requestScope.status?'selected':''}>${s.status_name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-4">
-                                <p class="form-label" style="font-weight: bolder">Sale Price</p>
-                                <input type="text" value="${requestScope.saleprice}">
+                            <div class="row p-3">
+                                <div class="col-4">
+                                    <p class="form-label" style="font-weight: bolder">Registration Time</p>
+                                    <input type="text" value="${requestScope.registration_time}" disabled>
+                                </div>
+                                <div class="col-4">
+                                    <p class="form-label" style="font-weight: bolder">Valid From</p>
+                                    <input type="date" name="from" value="${requestScope.from}"><br>
+                                </div>
+                                <div class="col-4">
+                                    <p class="form-label" style="font-weight: bolder">Valid To</p>
+                                    <input type="date" name="to" value="${requestScope.to}"><br>
+                                </div>
                             </div>
-                            <div class="col-4">
-                                <p class="form-label" style="font-weight: bolder">Status</p>
-                                <input type="text" value="${requestScope.subject}">
-                            </div>
-                        </div>
-                        <div class="row p-3">
-                            <div class="col-4">
-                                <p class="form-label" style="font-weight: bolder">Registration Time</p>
-                                <input type="text" value="${requestScope.registration_time}">
-                            </div>
-                            <div class="col-4">
-                                <p class="form-label" style="font-weight: bolder">Valid From</p>
-                                <input type="date" value="${requestScope.from}"><br>
-                            </div>
-                            <div class="col-4">
-                               <p class="form-label" style="font-weight: bolder">Valid To</p>
-                                <input type="date" value="${requestScope.to}"><br>
-                            </div>
-                        </div>
 
-                    </div>
-
-                    <div class="container" style="margin-top: 5%">
-                        <div class="row p-3">
-                            <div class="col-3">
-                                <p class="form-label" style="font-weight: bolder">Full Name</p>
-                                <input type="text" value="${requestScope.name}">
-                            </div>
-                            <div class="col-3">
-                               <p class="form-label" style="font-weight: bolder">Gender</p>
-                                <input type="text" value="${requestScope.gender}">
-                            </div>
-                            <div class="col-3">
-                                <p class="form-label" style="font-weight: bolder">Email</p>
-                                <input type="text" value="${requestScope.email}">
-                            </div>
-                            <div class="col-3">
-                                <p class="form-label" style="font-weight: bolder">Mobile</p>
-                                <input type="text" value="${requestScope.mobile}">
-                            </div>
                         </div>
-                        <div class="row p-3">
-                            <div class="col-12">
-                                <p class="form-label" style="font-weight: bolder">Note</p>
-                                <input type="text" value="${requestScope.note}">
+                        <div class="container" style="margin-top: 5%">
+                            <div class="row p-3">
+                                <div class="col-3">
+                                    <p class="form-label" style="font-weight: bolder">Full Name</p>
+                                    <input type="text" value="${requestScope.name}" disabled>
+                                </div>
+                                <div class="col-3">
+                                    <p class="form-label" style="font-weight: bolder">Gender</p>
+                                    <input type="text" value="${requestScope.gender == 1?'Male':'Female'}" disabled>
+                                </div>
+                                <div class="col-3">
+                                    <p class="form-label" style="font-weight: bolder">Email</p>
+                                    <input type="text" value="${requestScope.email}" disabled>
+                                </div>
+                                <div class="col-3">
+                                    <p class="form-label" style="font-weight: bolder">Mobile</p>
+                                    <input type="text" value="${requestScope.mobile}" disabled>
+                                </div>
                             </div>
-                        </div>
+                            <div class="row p-3">
+                                <div class="col-10">
+                                    <p class="form-label" style="font-weight: bolder; width: 100px">Note</p>
+                                    <input type="text" name="note" value="${requestScope.note}">
+                                    <input type="text" name="registration_id" value="${requestScope.registration_id}" hidden>
+                                </div>
+                                <div class="col-2">
+                                    <button class="btn btn-success" type="submit" ><i class="align-middle me-2 fas fa-fw fa-edit"></i></button>
+                                    <button type="button" class="btn btn-danger" ><a href="b.jsp" style="color: white"><i class="fa-solid fa-house"></i></a></button>
+                                </div>
+                            </div>
 
-                    </div>
+                        </div>                           
+                    </form>
                 </main>   
             </div>
         </div>

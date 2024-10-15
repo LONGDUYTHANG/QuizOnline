@@ -5,6 +5,8 @@
 
 package controller;
 
+import dal.AccountDAO;
+import dal.PackageDAO;
 import dal.RegistrationDAO;
 import dal.SubjectDAO;
 import java.io.IOException;
@@ -13,6 +15,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import model.Account;
 import model.Registration;
 
 /**
@@ -45,6 +50,11 @@ public class RegistrationDetailServlet extends HttpServlet {
         }
     } 
 
+    public String getFormatDate(LocalDateTime myDateObj) {
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = myDateObj.format(myFormatObj);
+        return formattedDate;
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
      * Handles the HTTP <code>GET</code> method.
@@ -57,16 +67,45 @@ public class RegistrationDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         RegistrationDAO myRegistrationDAO=new RegistrationDAO();
+        AccountDAO myAccountDAO=new AccountDAO();
+        PackageDAO myPackageDAO=new PackageDAO();
         SubjectDAO mySubjectDAO=new SubjectDAO();
-        String account_id=request.getParameter("aid");
+        String raw_account_id=request.getParameter("aid");
+        int account_id=0;
+        try {
+            account_id=Integer.parseInt(raw_account_id);
+        } catch (NumberFormatException e) {
+        }
         String raw_registration_id=request.getParameter("rid");
         int registration_id=0;
         try {
             registration_id=Integer.parseInt(raw_registration_id);
         } catch (NumberFormatException e) {
         }
+        //Send information about registration
         Registration registration_detail=myRegistrationDAO.getRegistrationById(registration_id);
+        request.setAttribute("registration_id", registration_id);
         request.setAttribute("subject", mySubjectDAO.getSubjectByID(registration_detail.getSubject_id()).getSubjectName());
+        request.setAttribute("registration_time", registration_detail.getRegistration_time());
+        request.setAttribute("list_price", registration_detail.getList_price());
+        request.setAttribute("sale_price", registration_detail.getSale_price());
+        //send status information
+        request.setAttribute("status", myRegistrationDAO.getRegistrationStatus(registration_detail.getStatus_id()));
+        request.setAttribute("status_list", myRegistrationDAO.getRegistrationStatus());
+        //send valid time
+        request.setAttribute("from", getFormatDate(registration_detail.getValid_from()));
+        request.setAttribute("to", getFormatDate(registration_detail.getValid_to()));
+        //send package information
+        request.setAttribute("price_package", myPackageDAO.getPricePackageById(registration_detail.getPackage_id()).getPackage_name());
+        request.setAttribute("package_list", myPackageDAO.getAllPackage());
+
+        //send registration about user
+        Account myAccount = myAccountDAO.getAccountById(account_id);
+        request.setAttribute("name", myAccount.getFirst_name()+" "+myAccount.getLast_name());
+        request.setAttribute("gender", myAccount.getGender1());
+        request.setAttribute("email", myAccount.getEmail());
+        request.setAttribute("mobile", myAccount.getMobile());
+        
         request.getRequestDispatcher("saler/registration_details.jsp").forward(request, response);
     } 
 
@@ -80,7 +119,6 @@ public class RegistrationDetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /** 
