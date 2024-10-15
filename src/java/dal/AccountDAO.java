@@ -165,6 +165,10 @@ public class AccountDAO extends DBContext {
                 account.setPassword(rs.getString("password"));
                 account.setAvatar(rs.getString("avatar"));
                 account.setRole_id(rs.getInt("role_id"));
+
+                AccountDAO aDao = new AccountDAO();
+                Role role = aDao.getRoleById(rs.getInt("role_id"));
+                account.setRole_id1(role);
                 account.setAccount_id(rs.getInt("account_id"));
                 return account;
             }
@@ -420,6 +424,7 @@ public class AccountDAO extends DBContext {
 
         return accounts;
     }
+
     // Phương thức để tạo tài khoản mới
     public boolean createAccount(String firstName, String lastName, String email, String mobile, int gender, int role) {
         String sql = "INSERT INTO Account (first_name, last_name, email, mobile, gender, role_id,[password]) VALUES (N'?', N'?', ?, ?, ?, ?,'Abc123@')";
@@ -431,7 +436,7 @@ public class AccountDAO extends DBContext {
             pstmt.setString(4, mobile);
             pstmt.setInt(5, gender); // Giả sử 1 là nam và 0 là nữ
             pstmt.setInt(6, role); // ID của vai trò
-            
+
             int rowsAffected = pstmt.executeUpdate(); // Thực thi truy vấn thêm
             return rowsAffected > 0; // Trả về true nếu có ít nhất một hàng được thêm
         } catch (SQLException e) {
@@ -439,6 +444,7 @@ public class AccountDAO extends DBContext {
             return false; // Trả về false nếu có lỗi
         }
     }
+
 public boolean updateStatus(int account_id, String status) {
     String sql = "UPDATE [dbo].[Account] SET status = ? WHERE account_id = ?";
 
@@ -460,6 +466,7 @@ public boolean updateStatus(int account_id, String status) {
 
        Account account = dao.getAccountById(2);
         System.out.println(account.getStatus());
+
     }
 
 }

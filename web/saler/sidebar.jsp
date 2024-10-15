@@ -5,8 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="dal.RegistrationDAO" %>
+<%@ page import="model.Registration_Status" %>
 <!DOCTYPE html>
-<nav id="sidebar" class="sidebar js-sidebar">
+<nav id="sidebar" class="sidebar js-sidebar" >
     <div class="sidebar-content js-simplebar">
         <a class="sidebar-brand" href="index.html">
             <span class="sidebar-brand-text align-middle">
@@ -31,23 +34,49 @@
                 <a class="sidebar-link" href="#" onclick="showSortOption()">
                     <i class="fa-solid fa-sort"></i> <span class="align-middle">    Sort</span>
                 </a>
-                <div id="sortOption" style="display: none">
-                    <p class="sidebar-header">Type</p>
-                    <input  type="radio" name="type" value="descending" style="margin-left: 20px"> Descending <br>
-                    <input type="radio" name="type" value="ascending" style="margin-left: 20px">  Ascending
-                    <p class="sidebar-header">Field</p>
-                    <input  type="checkbox" name="type" value="cost" style="margin-left: 20px"> Cost <br>
-                    <input type="checkbox" name="type" value="date" style="margin-left: 20px">  Registration Date
+                <div id="sortOption" >
+                    <form action="sortregistration">
+                        <p class="sidebar-header">Type</p>
+                        <input  type="radio" name="type" value="desc" ${requestScope.type eq 'desc'?'checked':''} style="margin-left: 20px"> Descending <br>
+                        <input type="radio" name="type" value="asc" ${requestScope.type eq 'asc'?'checked':''} style="margin-left: 20px">  Ascending
+                        <p class="sidebar-header">Field</p>
+                        <input  type="radio" name="field" id="field_cost" value="cost" ${requestScope.field eq 'cost'?'checked':''} style="margin-left: 20px"> Cost <br>
+                        <input type="radio" name="field" id="field_date" value="date" ${requestScope.field eq 'date'?'checked':''} style="margin-left: 20px">  Registration Date <br><br>
+                        <input type="submit" name="sort" value="Sort" style="margin-left: 20px">
+                    </form>
                 </div>
             </li>
 
             <li class="sidebar-item">
                 <a class="sidebar-link" href="pages-invoice.html">
-                   <i class="fa-solid fa-filter"></i><span class="align-middle">Filter</span>
+                    <i class="fa-solid fa-filter"></i><span class="align-middle">Filter</span>
                 </a>
+                <div id="filterOption" >
+                    <form action="filterregistration" method="post">
+                        <span class="sidebar-header">Subject Name</span>
+                        <input type="text" name="subject_name"  value="${requestScope.subject_name}" style="margin-left: 20px"><br>
+                        <span class="sidebar-header">Registration Time</span>
+                        <input type="date" name="date"  ${requestScope.date } value="${requestScope.registration_date}" style="margin-left: 20px"><br>
+                        <span class="sidebar-header">Status</span><br>
+                        <select name="status" style="margin-left: 20px">
+                            <% 
+                                RegistrationDAO myRegistrationDAO = new RegistrationDAO();
+                                ArrayList<Registration_Status> status_list = myRegistrationDAO.getRegistrationStatus();
+                                String status = (String) request.getAttribute("status");
+                                for (int i = 0; i < status_list.size(); i++) {
+                            %>
+                            <option value="<%= status_list.get(i).getStatus_name() %>" 
+                                    <%= status != null && status.equals(status_list.get(i).getStatus_name()) ? "selected" : "" %> >
+                                <%= status_list.get(i).getStatus_name() %>
+                            </option>
+                            <% } %>
+                        </select><br><br>
+                        <input type="submit" name="sort" value="Filter" style="margin-left: 20px">
+                    </form>
+                </div>
             </li>
-            
-      </ul>
+
+        </ul>
 
     </div>
 </nav>
@@ -72,15 +101,22 @@
             }
         });
     };
-    
+
     function showSortOption() {
         var sort_option = document.getElementById('sortOption');
-        if(sort_option.style.display==='none'){
-              sort_option.style.display='';
-        }else{
-            sort_option.style.display='none'
+        if (sort_option.style.display === 'none') {
+            sort_option.style.display = '';
+        } else {
+            sort_option.style.display = 'none';
         }
-    
-    
-}
+    }
+    function saveStatus() {
+        var sort_option = document.getElementById('sortOption');
+        var field_cost = document.getElementById('field_cost');
+        var field_date = document.getElementById('field_date');
+        if (field_cost.checked === true || field_date.checked === true) {
+            sort_option.style.display = '';
+        }
+
+    }
 </script>

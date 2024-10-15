@@ -92,7 +92,7 @@
 
      
     </head>
-    <body>
+    <body >
         <div class="wrapper">
             <jsp:include page="sidebar.jsp" />
             
@@ -101,10 +101,11 @@
 
                 <main class="content">
                     <div class="container">
-
+                        <%int id=1;%>
                         <table  class="table table-striped">
                             <thead>
                                 <tr>
+                                    <th>Id</th>
                                     <th>Email</th>
                                     <th>Registration Time</th>
                                     <th>Subject</th>
@@ -113,20 +114,23 @@
                                     <th>Status</th>
                                 </tr>
                             </thead>
-                                <c:forEach var="registration" items="${requestScope.registration_list}">
+                            <c:forEach var="registration" items="${requestScope.registration_list}">
                                     <tr>
+                                        <td><%=id%></td>
                                         <td>${requestScope.accountDAO.getEmailById(registration.account_id)}</td>
                                         <td>${registration.registration_time}</td>
                                         <td>${requestScope.subjectDAO.getSubjectByID(registration.subject_id).getSubjectName()}</td>
                                         <td>${requestScope.packageDAO.getPricePackageById(registration.package_id).getPackage_name()}</td>
                                         <td>${registration.cost}</td>
-                                        
+                                        <td>${requestScope.registrationDAO.getRegistrationStatus(registration.status_id)}</td>
                                         <td style="width: 120px">
                                             <button type="button" class="btn btn-success" ><a href="registrationdetail?rid=${registration.registration_id}&aid=${registration.account_id}" style="color: white"><i class="align-middle me-2 fas fa-fw fa-edit"></i></a></button>
-                                            <button type="button" class="btn btn-danger" ><a href="b.jsp" style="color: white"><i class="align-middle me-2 fas fa-fw fa-trash-alt"></a></i></button>
+                                            <button type="button" class="btn btn-danger" ><a href="deleteregistration?rid=${registration.registration_id}" style="color: white"><i class="align-middle me-2 fas fa-fw fa-trash-alt"></a></i></button>
                                         </td>
                                     </tr>
+                                    <%id++;%>
                                 </c:forEach>
+                                    <%id=0;%>
                         </table>
                     </div>
                 </main>   

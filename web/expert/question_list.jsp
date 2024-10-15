@@ -113,7 +113,7 @@
     <body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-layout="default">
         <div class="wrapper">
             <jsp:include page="expert_sidebar.jsp" />
-            
+
             <div class="main">
                 <jsp:include page="navbar.jsp"/>
 
@@ -122,8 +122,8 @@
                     <div class="header">
                         <h1>Question List</h1>
                         <nav>
-                            <button onclick="window.location.href='#'" class="btn btn-success">Question Import <i class="align-middle me-2 fas fa-fw fa-file-excel"></i></button>
-                            <button onclick="window.location.href='question_detail_validation'" class="btn btn-orange">New Question <i class="align-middle me-2 fas fa-fw fa-plus-circle"></i></button>
+                            <button onclick="$('#importModal').modal('show');" class="btn btn-success">Question Import <i class="align-middle me-2 fas fa-fw fa-file-excel"></i></button>
+                            <button onclick="window.location.href = 'question_detail_validation'" class="btn btn-orange">New Question <i class="align-middle me-2 fas fa-fw fa-plus-circle"></i></button>
                         </nav>
                     </div>
                     <div class="container">
@@ -161,6 +161,26 @@
                                 <!-- More rows can be added here -->
                             </tbody>
                         </table>
+                    </div>
+                    <!-- Import Modal -->
+                    <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="importModalLabel">Import Questions</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="importForm" method="post" action="import" enctype="multipart/form-data">
+                                        <div class="mb-3">
+                                            <label for="fileInput" class="form-label">Select Excel File</label>
+                                            <input type="file" class="form-control" id="fileInput" name="file" accept=".xls,.xlsx" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Upload</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </main>
 
