@@ -308,30 +308,6 @@ public class RegistrationDAO extends DBContext {
         }
     }
 
-    public ArrayList<Registration> getView() {
-        PreparedStatement stm;
-        ResultSet rs;
-        ArrayList<Registration> registration_list = new ArrayList<Registration>();
-        try {
-            String strSelect = "SELECT registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id FROM RegistrationView";
-            stm = connection.prepareStatement(strSelect);
-            rs = stm.executeQuery();
-            while (rs.next()) {
-                Registration registration = new Registration();
-                registration.setAccount_id(rs.getInt("account_id"));
-                registration.setRegistration_id(rs.getInt("registration_id"));
-                registration.setRegistration_time(rs.getTimestamp("registration_time").toLocalDateTime());
-                registration.setSubject_id(rs.getInt("subject_id"));
-                registration.setPackage_id(rs.getInt("package_id"));
-                registration.setCost(rs.getDouble("cost"));
-                registration.setStatus_id(rs.getInt("status_id"));
-                registration_list.add(registration);
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return registration_list;
-    }
 
     public Registration getRegistrationById(int id) {
         PreparedStatement stm;
