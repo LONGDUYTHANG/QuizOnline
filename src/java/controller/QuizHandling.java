@@ -73,6 +73,8 @@ public class QuizHandling extends HttpServlet {
         QuestionDAO qed = new QuestionDAO();
         List<Question_Handle> listQuestion = qed.getAllQuestionByQuizId(handleQuiz.getQuiz_id());
         //out.print(listQuestion.size());
+        float passrate = qd.getPassRate(handleQuiz.getQuiz_id());
+        session.setAttribute("passrate", passrate);
         session.setAttribute("handling_quiz", handleQuiz);
         int numberOfQuest = qd.getNumberOfQuestion(handleQuiz.getQuiz_id());
         if (session.getAttribute("duration") == null) {
@@ -82,7 +84,6 @@ public class QuizHandling extends HttpServlet {
         session.setAttribute("num_quest", numberOfQuest);
         if (session.getAttribute("questions") == null) {
             session.setAttribute("questions", listQuestion);
-
         }
         if (session.getAttribute("curr_quest") == null) {
             session.setAttribute("curr_quest", 0);
@@ -108,7 +109,11 @@ public class QuizHandling extends HttpServlet {
         int countCorrect = 0;
         // Mảng lưu trữ câu trả lời của người dùng
         String[] userAnswers = new String[numQuestions];
+        int dur = Integer.parseInt(request.getParameter("dur"));
+        int una = Integer.parseInt(request.getParameter("una"));
 
+        request.setAttribute("una", una);
+        request.setAttribute("dur", dur);
         // Duyệt qua từng câu hỏi để lấy câu trả lời
         for (int i = 1; i <= numQuestions; i++) {
             String answer = request.getParameter("question" + i);
@@ -121,10 +126,16 @@ public class QuizHandling extends HttpServlet {
             if(isCorr) {
                 countCorrect++;
             }
-            out.println(isCorrect(lq.get(i).getList_answer(), userAnswers[i]));
+            //out.println(isCorrect(lq.get(i).getList_answer(), userAnswers[i]));
         }
-        out.println(countCorrect);
+        //out.println(countCorrect);
         //processRequest(request, response);
+        request.setAttribute("correct_quest", countCorrect);
+        request.setAttribute("incorrect", numQuestions - countCorrect);
+        String formattedNumber = String.format("%.2f", ((countCorrect * 1.0) / (numQuestions * 1.0)));
+        float correct_rate = Float.parseFloat(formattedNumber) * 100;
+        request.setAttribute("correct_rate", (int)correct_rate);
+        request.getRequestDispatcher("customer/result.jsp").forward(request, response);
     }
     
     public boolean isCorrect(List<Answer> lq, String ans) {
