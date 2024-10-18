@@ -11,15 +11,18 @@ import java.sql.Timestamp;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import model.Lesson;
 import model.Lesson_Topic;
 import model.Quiz;
 import model.Quiz_Type;
+import java.sql.*;
 
 /**
  *
  * @author FPT SHOP
  */
 public class LessonDAO extends DBContext {
+
     public List<Lesson_Topic> getAllLessonTopicBySubjectId(int subject_id_raw) {
         List<Lesson_Topic> list = new ArrayList<>();
         String sql = "SELECT * FROM Lesson_Topic WHERE subject_id = ?";
@@ -38,6 +41,7 @@ public class LessonDAO extends DBContext {
         }
         return list;
     }
+
     public List<Quiz_Type> getAllQuizType() {
         List<Quiz_Type> list = new ArrayList<>();
         String sql = "SELECT * FROM Quiz_Type";
@@ -54,7 +58,7 @@ public class LessonDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<Quiz> getAllQuizBySubjectId(int subject_id_raw) {
         List<Quiz> list = new ArrayList<>();
         String sql = "SELECT * FROM Quiz WHERE subject_id = ?";
@@ -83,14 +87,41 @@ public class LessonDAO extends DBContext {
         }
         return list;
     }
-    
-    public static void main(String[] args) {
-        LessonDAO dao = new LessonDAO();
-        List<Quiz> list = dao.getAllQuizBySubjectId(9);
-        for (Quiz quiz : list) {
-            System.out.println(quiz);
+
+    public void addLesson(Lesson lesson) {
+        String sql = "INSERT INTO [dbo].[Lesson]\n"
+                + "           ([lesson_name]\n"
+                + "           ,[lesson_order]\n"
+                + "           ,[summary]\n"
+                + "           ,[status]\n"
+                + "           ,[lesson_type_id]\n"
+                + "           ,[subject_id]\n"
+                + "           ,[lesson_topic_id]\n"
+                + "           ,[video_link]\n"
+                + "           ,[lesson_content]\n"
+                + "           ,[quiz_id])"
+                + "     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, lesson.getLesson_name());
+            st.setInt(2, lesson.getLesson_order());
+            st.setString(3, lesson.getSummary());
+            st.setBoolean(4, lesson.isStatus());
+            st.setInt(5, lesson.getLesson_type_id());
+            st.setInt(6, lesson.getSubject_id());
+            st.setInt(7, lesson.getLesson_topic_id());
+            st.setString(8, lesson.getVideo_link());
+            st.setString(9, lesson.getLesson_content());
+            st.setInt(10, lesson.getQuiz_id());
+            
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex);
         }
     }
-    
-    
+
+    public static void main(String[] args) {
+        LessonDAO dao = new LessonDAO();
+    }
+
 }

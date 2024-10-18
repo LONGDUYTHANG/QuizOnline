@@ -20,6 +20,7 @@
     <link rel="canonical" href="calendar.html" />
 
     <title>Calendar | AdminKit Demo</title>
+    <script src="https://kit.fontawesome.com/f36b960bbe.js" crossorigin="anonymous"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&amp;display=swap" rel="stylesheet">
 

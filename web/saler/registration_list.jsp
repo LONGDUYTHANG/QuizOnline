@@ -8,9 +8,6 @@
     <head>
         <jsp:include page="head.jsp" />
 
-        <!-- DataTables CSS -->
-        <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-
         <style>
 
             .container {
@@ -92,37 +89,23 @@
             }
         </style>
 
-        <!-- jQuery (Required for DataTables) -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        <!-- DataTables JS -->
-        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-
-        <script>
-            $(document).ready(function () {
-                $('#questionTable').DataTable({
-                    "paging": true,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true
-                });
-            });
-        </script>
+     
     </head>
-    <body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-layout="default">
+    <body >
         <div class="wrapper">
-            <jsp:include page="expert_sidebar.jsp" />
+            <jsp:include page="sidebar.jsp" />
             
             <div class="main">
                 <jsp:include page="navbar.jsp"/>
 
                 <main class="content">
                     <div class="container">
-
-                        <table id="questionTable" class="table table-striped table-bordered">
+                        <%int id=1;%>
+                        <table  class="table table-striped">
                             <thead>
                                 <tr>
+                                    <th>Id</th>
                                     <th>Email</th>
                                     <th>Registration Time</th>
                                     <th>Subject</th>
@@ -131,28 +114,29 @@
                                     <th>Status</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <c:forEach var="registration" items="${requestScope.registration_list}">
-                                    <tr data-href="addlesson?subjectId=${subject.subjectId}" style="cursor: pointer;">
+                            <c:forEach var="registration" items="${requestScope.registration_list}">
+                                    <tr>
+                                        <td><%=id%></td>
                                         <td>${requestScope.accountDAO.getEmailById(registration.account_id)}</td>
                                         <td>${registration.registration_time}</td>
                                         <td>${requestScope.subjectDAO.getSubjectByID(registration.subject_id).getSubjectName()}</td>
                                         <td>${requestScope.packageDAO.getPricePackageById(registration.package_id).getPackage_name()}</td>
                                         <td>${registration.cost}</td>
+                                        <td>${requestScope.registrationDAO.getRegistrationStatus(registration.status_id)}</td>
                                         <td style="width: 120px">
-                                            <button type="button" class="btn btn-success"><i class="align-middle me-2 fas fa-fw fa-edit"></i></button>
-                                            <button type="button" class="btn btn-danger"><i class="align-middle me-2 fas fa-fw fa-trash-alt"></i></button>
+                                            <button type="button" class="btn btn-success" ><a href="registrationdetail?rid=${registration.registration_id}&aid=${registration.account_id}" style="color: white"><i class="align-middle me-2 fas fa-fw fa-edit"></i></a></button>
+                                            <button type="button" class="btn btn-danger" ><a href="deleteregistration?rid=${registration.registration_id}" style="color: white"><i class="align-middle me-2 fas fa-fw fa-trash-alt"></a></i></button>
                                         </td>
                                     </tr>
+                                    <%id++;%>
                                 </c:forEach>
-                                <!-- More rows can be added here -->
-                            </tbody>
+                                    <%id=0;%>
                         </table>
                     </div>
                 </main>   
             </div>
         </div>
-        <jsp:include page="script.jsp"/>
+ <jsp:include page="script.jsp"/>
     </body>
 
 </html>
