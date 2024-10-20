@@ -10,6 +10,8 @@ import dal.RegistrationDAO;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -60,13 +62,32 @@ public class SalerDashBoardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                RegistrationDAO myRegistrationDAO = new RegistrationDAO();
-                //earning in a year
-        ArrayList<Integer> earnings=myRegistrationDAO.getListPriceByMonth(); 
-         request.setAttribute("earnings", earnings);
-        //number ò registration in a year
-        ArrayList<Integer> registrations=myRegistrationDAO.getRegistrationByMonth();
-         request.setAttribute("registrations", registrations);
+        RegistrationDAO myRegistrationDAO = new RegistrationDAO();
+        //revenue in 12 months
+        ArrayList<Integer> month_revenue = myRegistrationDAO.getListPriceByMonth();
+        request.setAttribute("month_revenue", month_revenue);
+        double all_month_revenue = myRegistrationDAO.getMonthRevenue();
+        request.setAttribute("all_month_revenue", all_month_revenue);
+        //number of registration of 12 months
+        ArrayList<Integer> month_registrations = myRegistrationDAO.getRegistrationByMonth();
+        request.setAttribute("month_registration", month_registrations);
+        int all_month_registration=myRegistrationDAO.getAllMonthRegitration();
+        request.setAttribute("all_month_registration", all_month_registration);
+        ArrayList<Integer> month_registration_status=myRegistrationDAO.getMonthRegistrationStatus();
+        request.setAttribute("month_registration_status", month_registration_status);
+        //get revenue of a week
+        ArrayList<Integer> week_revenue = myRegistrationDAO.getRevenueByWeek(LocalDate.now());
+        request.setAttribute("week_revenue", week_revenue);
+        double all_week_revenue=myRegistrationDAO.getAllWeekRevenue(LocalDate.now());
+        request.setAttribute("all_week_revenue", all_week_revenue);
+        //get numbr of registration of 1 week
+        ArrayList<Integer> week_registrations = myRegistrationDAO.getNumberofRegistrationsInAWeek(LocalDate.now());
+        request.setAttribute("week_registration", week_registrations);
+        int all_week_registration=myRegistrationDAO.getAllWeekRegitration(LocalDate.now());
+        request.setAttribute("all_week_registration", all_week_registration);
+        ArrayList<Integer> week_registration_status=myRegistrationDAO.getWeekRegistrationStatus(LocalDate.now());
+        request.setAttribute("week_registration_status", week_registration_status);
+
         request.getRequestDispatcher("saler/dashboard.jsp").forward(request, response);
     }
 
