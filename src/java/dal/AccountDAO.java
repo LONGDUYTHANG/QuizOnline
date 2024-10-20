@@ -427,7 +427,7 @@ public class AccountDAO extends DBContext {
 
     // Phương thức để tạo tài khoản mới
     public boolean createAccount(String firstName, String lastName, String email, String mobile, int gender, int role) {
-        String sql = "INSERT INTO Account (first_name, last_name, email, mobile, gender, role_id,[password]) VALUES (N'?', N'?', ?, ?, ?, ?,'Abc123@')";
+        String sql = "INSERT INTO Account (first_name, last_name, email, mobile, gender, role_id,[password]) VALUES (?, ?, ?, ?, ?, ?,'Abc123@')";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, firstName);
@@ -445,26 +445,28 @@ public class AccountDAO extends DBContext {
         }
     }
 
-    public boolean updateStatus(int account_id, String status) {
-        String sql = "UPDATE [dbo].[Account] SET status = ? WHERE account_id = ?";
+public boolean updateStatus(int account_id, String status) {
+    String sql = "UPDATE [dbo].[Account] SET status = ? WHERE account_id = ?";
 
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, status);
-            pstmt.setInt(2, account_id);
+    try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        pstmt.setString(1, status);
+        pstmt.setInt(2, account_id);
 
-            int rowsAffected = pstmt.executeUpdate();
-            return rowsAffected > 0; // Trả về true nếu việc cập nhật thành công
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false; // Trả về false nếu xảy ra lỗi
-        }
+        int rowsAffected = pstmt.executeUpdate();
+        return rowsAffected > 0; // Trả về true nếu việc cập nhật thành công
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false; // Trả về false nếu xảy ra lỗi
     }
+}
+
 
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
-        Account a = dao.getAccountById(3);
-        //String h = dao.getEmailById(3);
-        System.out.println(a.getEmail());
+
+       Account account = dao.getAccountById(2);
+        System.out.println(account.getStatus());
+
     }
 
 }

@@ -84,7 +84,7 @@ public class Profile extends HttpServlet {
         List<RegisteredSubject> listSubject = sd.getEnrolledSubjectRecently(ac);
 //        PrintWriter out = response.getWriter();
 //        out.print(ac);
-        if(listSubject == null) {
+        if(listSubject.isEmpty()) {
             session.setAttribute("no_enrolled_subject", true);
         }
         session.setAttribute("recently_enrolled_subject", listSubject);

@@ -93,12 +93,8 @@
         <servlet-class>controller.RegistrationDetailServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>UpdateRegistrationServlet</servlet-name>
-        <servlet-class>controller.UpdateRegistrationServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DeleteRegistrationServlet</servlet-name>
-        <servlet-class>controller.DeleteRegistrationServlet</servlet-class>
+        <servlet-name>ImportQuestionServlet</servlet-name>
+        <servlet-class>controller.ImportQuestionServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SalerDashBoardServlet</servlet-name>
@@ -209,12 +205,8 @@
         <url-pattern>/registrationdetail</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UpdateRegistrationServlet</servlet-name>
-        <url-pattern>/updateregistration</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DeleteRegistrationServlet</servlet-name>
-        <url-pattern>/deleteregistration</url-pattern>
+        <servlet-name>ImportQuestionServlet</servlet-name>
+        <url-pattern>/import</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SalerDashBoardServlet</servlet-name>

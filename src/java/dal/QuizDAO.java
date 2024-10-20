@@ -508,6 +508,21 @@ public class QuizDAO extends DBContext {
         return 0;
     }
     
+    public float getPassRate(int quizId) {
+        String sql = "select passrate from Quiz where quiz_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, quizId);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                return rs.getFloat("passrate");
+            }
+            
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
     public int getDuration(int quiz_id) {
         String sql = "select duration from Quiz where quiz_id = ?";
         try {
