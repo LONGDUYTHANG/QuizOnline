@@ -94,10 +94,8 @@
     </head>
     <body >
         <div class="wrapper">
-            <jsp:include page="sidebar.jsp" />
 
             <div class="main">
-                <jsp:include page="navbar.jsp"/>
 
                 <main class="content" >
                     <form action="updateregistration" method="post">
@@ -187,7 +185,7 @@
                                 </div>
                                 <div class="col-2">
                                     <button class="btn btn-success" type="submit" ><i class="align-middle me-2 fas fa-fw fa-edit"></i></button>
-                                    <button type="button" class="btn btn-danger" ><a href="b.jsp" style="color: white"><i class="fa-solid fa-house"></i></a></button>
+                                    <button type="button" class="btn btn-danger" ><a href="registrationlist" style="color: white"><i class="fa-solid fa-house"></i></a></button>
                                 </div>
                             </div>
 

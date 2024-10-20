@@ -34,7 +34,7 @@
                 <a class="sidebar-link" href="#" onclick="showSortOption()">
                     <i class="fa-solid fa-sort"></i> <span class="align-middle">    Sort</span>
                 </a>
-                <div id="sortOption" >
+                <div  id="sortOption" >
                     <form action="sortregistration">
                         <p class="sidebar-header">Type</p>
                         <input  type="radio" name="type" value="desc" ${requestScope.type eq 'desc'?'checked':''} style="margin-left: 20px"> Descending <br>
@@ -48,7 +48,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="pages-invoice.html">
+                <a class="sidebar-link" href="#" onclick="showFilterOption()">
                     <i class="fa-solid fa-filter"></i><span class="align-middle">Filter</span>
                 </a>
                 <div id="filterOption" >
@@ -110,13 +110,20 @@
             sort_option.style.display = 'none';
         }
     }
+    
+    function showFilterOption() {
+        var filter_option = document.getElementById('filterOption');
+        if (filter_option.style.display === 'none') {
+            filter_option.style.display = '';
+        } else {
+            filter_option.style.display = 'none';
+        }
+    }
     function saveStatus() {
         var sort_option = document.getElementById('sortOption');
-        var field_cost = document.getElementById('field_cost');
-        var field_date = document.getElementById('field_date');
-        if (field_cost.checked === true || field_date.checked === true) {
-            sort_option.style.display = '';
-        }
+        
+            sort_option.style.display = 'none';
+        
 
     }
 </script>
