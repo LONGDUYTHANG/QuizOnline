@@ -115,7 +115,7 @@
                             }],
                         yAxes: [{
                                 ticks: {
-                                    stepSize: 100
+                                    stepSize:1000
                                 },
                                 display: true,
                                 borderDash: [3, 3],
@@ -211,7 +211,7 @@
                 data: {
                     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
                     datasets: [{
-                            label: "Sales ($)",
+                            label: "Registration",
                             fill: true,
                             backgroundColor: gradient,
                             borderColor: window.theme.primary,
@@ -275,7 +275,7 @@
                 data: {
                     labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
                     datasets: [{
-                            label: "Sales ($)",
+                            label: "Registration",
                             fill: true,
                             backgroundColor: gradient,
                             borderColor: window.theme.primary,
@@ -307,7 +307,7 @@
                             }],
                         yAxes: [{
                                 ticks: {
-                                    stepSize: 50
+                                    stepSize: 10
                                 },
                                 display: true,
                                 borderDash: [3, 3],
