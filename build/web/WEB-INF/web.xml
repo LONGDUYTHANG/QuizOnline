@@ -100,6 +100,10 @@
         <servlet-name>SalerDashBoardServlet</servlet-name>
         <servlet-class>controller.SalerDashBoardServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListLessonServlet</servlet-name>
+        <servlet-class>controller.ListLessonServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
         <url-pattern>/demo</url-pattern>
@@ -211,6 +215,10 @@
     <servlet-mapping>
         <servlet-name>SalerDashBoardServlet</servlet-name>
         <url-pattern>/salerdashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListLessonServlet</servlet-name>
+        <url-pattern>/listlesson</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>
