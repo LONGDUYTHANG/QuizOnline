@@ -32,8 +32,9 @@ public class RegistrationDAO extends DBContext {
         ResultSet rs;
         ArrayList<Registration> registration_list = new ArrayList<Registration>();
         try {
-            String strSelect = "SELECT registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id FROM Registration";
-            String strView = "ALTER VIEW [RegistrationView] AS SELECT registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id FROM Registration";
+            String strSelect = "SELECT registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id FROM Registration  ";
+            String strView = "ALTER VIEW [RegistrationView] AS SELECT registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id "
+                    + " FROM Registration  ";
             stm = connection.prepareStatement(strSelect);
             stm_view = connection.prepareStatement(strView);
             stm_view.executeUpdate();
@@ -428,7 +429,7 @@ public class RegistrationDAO extends DBContext {
             stm.setInt(2, dayOfMonth - day + 1);
             stm.setInt(3, dayOfMonth + 7 - day);
             rs = stm.executeQuery();
-            if (rs.next()) {
+            if (rs.next()) {        
                 revenue = rs.getDouble("revenue");
             }
         } catch (SQLException e) {
@@ -526,7 +527,7 @@ public class RegistrationDAO extends DBContext {
                     + //
                     "  AS e GROUP BY e.day";
             stm = connection.prepareStatement(strSelect);
-            stm.setInt(1, 9);
+            stm.setInt(1, month);
             stm.setInt(2, dayOfMonth - day + 1);
             stm.setInt(3, dayOfMonth + 7 - day);
             rs = stm.executeQuery();
@@ -674,10 +675,7 @@ public class RegistrationDAO extends DBContext {
 
     public static void main(String[] args) {
         RegistrationDAO a = new RegistrationDAO();
-        ArrayList<Integer> list = a.getWeekRegistrationStatus(LocalDate.now());
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
-        }
-        System.out.println(a.getAllMonthRegitration() + a.getAllWeekRegitration(LocalDate.now()));
+        
+     
     }
 }
