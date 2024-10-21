@@ -74,7 +74,11 @@ public class QuestionListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        QuestionDAO dao = new QuestionDAO();
+        List<Question> listQuestion = dao.getAllQuestion();
+        request.setAttribute("listQuestion", listQuestion);
+        request.setAttribute("dao", dao);
+        request.getRequestDispatcher("expert/question_list.jsp").forward(request, response);
     }
 
     /** 
