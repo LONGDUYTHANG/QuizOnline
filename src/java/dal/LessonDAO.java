@@ -16,6 +16,7 @@ import model.Lesson_Topic;
 import model.Quiz;
 import model.Quiz_Type;
 import java.sql.*;
+import model.Lesson_Type;
 
 /**
  *
@@ -119,9 +120,54 @@ public class LessonDAO extends DBContext {
             System.out.println(ex);
         }
     }
+    
+    public List<Lesson> getAllLessonBySubjectId(int subject_id_raw) {
+        List<Lesson> list = new ArrayList<>();
+        String sql = "SELECT * FROM Lesson WHERE subject_id = ? ORDER BY lesson_id ASC";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, subject_id_raw);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int lesson_id = rs.getInt("lesson_id");
+                String lesson_name = rs.getString("lesson_name");
+                int lesson_order = rs.getInt("lesson_order");
+                String summary = rs.getString("summary");
+                boolean status = rs.getBoolean("status");
+                int lesson_type_id = rs.getInt("lesson_type_id");
+                int subject_id = rs.getInt("subject_id");
+                int lesson_topic_id = rs.getInt("lesson_topic_id");
+                String video_link = rs.getString("video_link");
+
+                list.add(new Lesson(lesson_id, lesson_name, lesson_order, summary, status, lesson_type_id, subject_id, lesson_topic_id, video_link, lesson_name, subject_id));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return list;
+    }
+    
+    public Lesson_Type getLessonTypeById(int lesson_type_id_raw) {
+        String sql = "SELECT * FROM Lesson_Type WHERE lesson_type_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, lesson_type_id_raw);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int lesson_type_id = rs.getInt("lesson_type_id");
+                String lesson_type_name = rs.getString("lesson_type_name");
+                return new Lesson_Type(lesson_type_id, lesson_type_name);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
 
     public static void main(String[] args) {
         LessonDAO dao = new LessonDAO();
+        Lesson_Type lt = dao.getLessonTypeById(1);
+        System.out.println(lt);
     }
 
 }

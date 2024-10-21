@@ -138,7 +138,7 @@ public class AddLessonServlet extends HttpServlet {
                 int order = Integer.parseInt(order_raw);
                 int quiz = Integer.parseInt(quiz_raw);
                 boolean status = "1".equals(status_raw);
-                dao.addLesson(new Lesson(name, order, summary, status, 2, subject_id, topic, "", "", quiz));
+                dao.addLesson(new Lesson(name, order, summary, status, 3, subject_id, topic, "", "", quiz));
             } catch (Exception ex) {
                 System.out.println(ex);
             }

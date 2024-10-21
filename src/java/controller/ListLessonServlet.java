@@ -5,12 +5,15 @@
 
 package controller;
 
+import dal.LessonDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Lesson;
 
 /**
  *
@@ -53,7 +56,13 @@ public class ListLessonServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        LessonDAO dao = new LessonDAO();
+        int subject_id = Integer.parseInt(request.getParameter("subjectId"));
+        List<Lesson> listLesson = dao.getAllLessonBySubjectId(subject_id);
+        request.setAttribute("subject_id", subject_id);
+        request.setAttribute("listLesson", listLesson);
+        request.setAttribute("dao", dao);
+        request.getRequestDispatcher("expert/lesson_list.jsp").forward(request, response);
     } 
 
     /** 
