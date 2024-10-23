@@ -94,7 +94,7 @@ public class AddQuestionController extends HttpServlet {
             int dimension_id = Integer.parseInt(dimension_id_raw);
             int lesson_topic_id = Integer.parseInt(lesson_topic_id_raw);
             int level_id = Integer.parseInt(level_id_raw);
-            boolean status = Boolean.parseBoolean(status_raw);
+            boolean status = Integer.parseInt(status_raw) == 1 ? true : false;
             
             //Get an image
             Part mediaPart = request.getPart("media");
