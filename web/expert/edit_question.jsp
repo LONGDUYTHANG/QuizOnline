@@ -223,7 +223,7 @@
                                         <option value="" disabled selected>Select an option</option>
                                         <c:forEach var="subject" items="${requestScope.listSubject}">
                                             <option value="${subject.subjectId}" 
-                                                    ${subject.subjectId == question.subject_id ? 'selected' : ''}>
+                                                    ${subject.subjectId == requestScope.subject_id ? 'selected' : ''}>
                                                 ${subject.subjectName}
                                             </option>
                                         </c:forEach>
@@ -234,7 +234,7 @@
                                 <script>
                                     document.getElementById('subject').addEventListener('change', function () {
                                         var form = document.getElementById('questiondetail');
-                                        form.action = 'question_detail_validation'; // Set the URL of the target servlet
+                                        form.action = 'editquestionvalidation'; // Set the URL of the target servlet
                                         form.submit(); // Submit the form
                                     });
                                 </script>

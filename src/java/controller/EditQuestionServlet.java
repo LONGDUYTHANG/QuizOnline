@@ -132,7 +132,7 @@ public class EditQuestionServlet extends HttpServlet {
             dao.addMutipleAnswers(listAnswer);
             
             //redirect to question_detail_validation servlet
-            //response.sendRedirect("question_detail_validation?message=" + URLEncoder.encode("true", "UTF-8"));
+            response.sendRedirect("editquestionvalidation?&message=" + URLEncoder.encode("true", "UTF-8") + "&question_id=" + question_id);
         } catch(Exception ex) {
             out.println(ex);
         }
