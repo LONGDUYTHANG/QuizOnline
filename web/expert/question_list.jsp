@@ -147,13 +147,13 @@
                                         <td>${question.getSubject(requestScope.dao).getSubjectName()}</td>
                                         <td>${question.getLevel(requestScope.dao).getLevel_name()}</td>
                                         <c:if test="${question.status == true}">
-                                            <td style="width: 120px"><span class="status status-published">Published</span></td>
+                                            <td style="width: 120px"><span class="status status-published">Active</span></td>
                                         </c:if>
                                         <c:if test="${question.status == false}">
-                                            <td style="width: 120px"><span class="status status-unpublished">UnPublished</span></td>
+                                            <td style="width: 120px"><span class="status status-unpublished">InActive</span></td>
                                         </c:if>    
                                         <td style="width: 120px">
-                                            <button type="button" class="btn btn-success" onclick="window.location.href='editquestion?question_id=${question.question_id}'"><i class="align-middle me-2 fas fa-fw fa-edit"></i></button>
+                                            <button type="button" class="btn btn-success" onclick="window.location.href='editquestionvalidation?question_id=${question.question_id}'"><i class="align-middle me-2 fas fa-fw fa-edit"></i></button>
                                             <button type="button" class="btn btn-danger"><i class="align-middle me-2 fas fa-fw fa-trash-alt"></i></button>
                                         </td>
                                     </tr>

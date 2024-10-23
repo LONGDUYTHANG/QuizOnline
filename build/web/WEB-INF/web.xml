@@ -108,6 +108,10 @@
         <servlet-name>EditQuestionServlet</servlet-name>
         <servlet-class>controller.EditQuestionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditQuestionValidationServlet</servlet-name>
+        <servlet-class>controller.EditQuestionValidationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
         <url-pattern>/demo</url-pattern>
@@ -227,6 +231,10 @@
     <servlet-mapping>
         <servlet-name>EditQuestionServlet</servlet-name>
         <url-pattern>/editquestion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditQuestionValidationServlet</servlet-name>
+        <url-pattern>/editquestionvalidation</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>
