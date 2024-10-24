@@ -4,7 +4,9 @@
  */
 package controller;
 
+import dal.AccountDAO;
 import dal.CategoryDAO;
+import dal.LessonDAO;
 import dal.PackageDAO;
 import dal.SubjectDAO;
 import java.io.IOException;
@@ -13,7 +15,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import model.*;
 
 /**
@@ -65,6 +71,8 @@ public class SubjectDetailServlet extends HttpServlet {
         try {
             subject_id = Integer.parseInt(raw_subject_id);
         } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid subject ID.");
+            return;
         }
 
         PackageDAO packageDAO = new PackageDAO();
@@ -72,18 +80,52 @@ public class SubjectDetailServlet extends HttpServlet {
 
         SubjectDAO mySubjectDAO = new SubjectDAO();
         CategoryDAO categoryDAO = new CategoryDAO();
+        AccountDAO accountDAO = new AccountDAO();
+        LessonDAO lessonDAO = new LessonDAO();
 
         Subject mySubject = mySubjectDAO.getSubjectByID(subject_id);
-        String categoryName = categoryDAO.getCategoryNameById(mySubject.getCategoryId());
+        if (mySubject == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Subject not found.");
+            return;
+        }
 
+        String categoryName = categoryDAO.getCategoryNameById(mySubject.getCategoryId());
+        Account account = accountDAO.getAccountById(mySubject.getAccountId());
+        List<Lesson> lessonList = lessonDAO.getAllLessonBySubjectId(subject_id);
+
+        // Lấy loại và chủ đề bài học
+        List<Lesson_Type> lessonTypes = lessonDAO.getLessonTypesBySubjectId(subject_id);
+        List<Lesson_Topic> lessonTopics = lessonDAO.getLessonTopicsBySubjectId(subject_id);
+
+        // Gán tên loại và chủ đề cho các bài học
+        for (Lesson lesson : lessonList) {
+            for (Lesson_Type type : lessonTypes) {
+                if (lesson.getLesson_type_id() == type.getLesson_type_id()) {
+                    lesson.setLessonTypeName(type.getLesson_type_name());
+                }
+            }
+            for (Lesson_Topic topic : lessonTopics) {
+                if (lesson.getLesson_topic_id() == topic.getLesson_topic_id()) {
+                    lesson.setLessonTopicName(topic.getLesson_topic_name());
+                }
+            }
+        }
+
+        // Lấy thông tin gói khóa học
         String selectedDuration = request.getParameter("courseDuration");
         model.Package selectedPackageModel = packageList.get(0);
         if (selectedDuration != null) {
-            for (model.Package pkg : packageList) {
-                if (pkg.getDuration() == Integer.parseInt(selectedDuration)) {
-                    selectedPackageModel = pkg;
-                    break;
+            try {
+                int duration = Integer.parseInt(selectedDuration);
+                for (model.Package pkg : packageList) {
+                    if (pkg.getDuration() == duration) {
+                        selectedPackageModel = pkg;
+                        break;
+                    }
                 }
+            } catch (NumberFormatException e) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid course duration.");
+                return;
             }
         }
 
@@ -92,6 +134,9 @@ public class SubjectDetailServlet extends HttpServlet {
         request.setAttribute("selectedPackageModel", selectedPackageModel);
         request.setAttribute("mySubject", mySubject);
         request.setAttribute("categoryName", categoryName);
+        request.setAttribute("account", account);
+        request.setAttribute("lessonList", lessonList);
+        request.setAttribute("lessonTopics", lessonTopics);
         request.getRequestDispatcher("common/subject_details.jsp").forward(request, response);
     }
 
