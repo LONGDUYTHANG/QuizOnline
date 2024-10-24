@@ -4,8 +4,10 @@
  */
 package controller;
 
+import dal.DimensionDAO;
 import dal.QuestionDAO;
 import dal.QuizDAO;
+import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,7 +15,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import model.*;
 import model.Quiz;
@@ -66,12 +71,28 @@ public class QuizHandling extends HttpServlet {
         QuizDAO qd = new QuizDAO();
 
         //List<Quiz> quiz = qd.getAllQuiz();
+//        String quizId = request.getParameter("id");
+//        Quiz handleQuiz = qd.getQuiz(Integer.parseInt(quizId));
         Quiz handleQuiz = qd.getQuiz(5);
-
+        Account a = (Account) session.getAttribute("user");
         //PrintWriter out = response.getWriter();
         //out.print(handleQuiz);
         QuestionDAO qed = new QuestionDAO();
-        List<Question_Handle> listQuestion = qed.getAllQuestionByQuizId(handleQuiz.getQuiz_id());
+        List<Question_Handle> listQuestion = qed.getAllQuestionByQuizId(handleQuiz.getQuiz_id(), handleQuiz.getNumber_of_questions());
+        DimensionDAO dd = new DimensionDAO();
+        SubjectDAO sd = new SubjectDAO();
+        session.setAttribute("dimension_dao", dd);
+        session.setAttribute("subject_dao", sd);
+        LocalDateTime lc = LocalDateTime.now();
+        Practice_Record pr = new Practice_Record(handleQuiz.getQuiz_name(), Timestamp.valueOf(lc), 0, 0, 0, a.getAccount_id(), handleQuiz.getQuiz_id());
+        qd.addPracticeRecord(pr);
+        int newlyPractice = qd.searchNewlyPractice(a.getAccount_id());
+        for (Question_Handle question_Handle : listQuestion) {
+            question_Handle.setPractice_id(newlyPractice);
+        }
+        qed.addPracticeQuestions(listQuestion);
+        pr.setPractice_id(newlyPractice);
+        session.setAttribute("prac_record", pr);
         //out.print(listQuestion.size());
         float passrate = qd.getPassRate(handleQuiz.getQuiz_id());
         session.setAttribute("passrate", passrate);
@@ -84,6 +105,7 @@ public class QuizHandling extends HttpServlet {
         session.setAttribute("num_quest", numberOfQuest);
         if (session.getAttribute("questions") == null) {
             session.setAttribute("questions", listQuestion);
+
         }
         if (session.getAttribute("curr_quest") == null) {
             session.setAttribute("curr_quest", 0);
@@ -105,10 +127,11 @@ public class QuizHandling extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
         // Lấy số lượng câu hỏi từ session hoặc các thông tin cần thiết khác
-        int numQuestions = (Integer)session.getAttribute("num_quest");
+        int numQuestions = (Integer) session.getAttribute("num_quest");
         int countCorrect = 0;
         // Mảng lưu trữ câu trả lời của người dùng
         String[] userAnswers = new String[numQuestions];
+        String[] userMarks = new String[numQuestions];
         int dur = Integer.parseInt(request.getParameter("dur"));
         int una = Integer.parseInt(request.getParameter("una"));
 
@@ -118,30 +141,47 @@ public class QuizHandling extends HttpServlet {
         for (int i = 1; i <= numQuestions; i++) {
             String answer = request.getParameter("question" + i);
             userAnswers[i - 1] = answer;
+            userMarks[i - 1] = request.getParameter("mark" + i);
         }
         PrintWriter out = response.getWriter();
-        List<Question_Handle> lq = (ArrayList<Question_Handle>)session.getAttribute("questions");
+        List<Question_Handle> lq = (ArrayList<Question_Handle>) session.getAttribute("questions");
+        for (int i = 0; i < numQuestions; i++) {
+            lq.get(i).setAnswered(userAnswers[i]);
+            lq.get(i).setIs_mark("marked".equals(userMarks[i]));
+        }
+        QuestionDAO qed = new QuestionDAO();
+        qed.updatePracticeQuestions(lq);
         for (int i = 0; i < numQuestions; i++) {
             boolean isCorr = isCorrect(lq.get(i).getList_answer(), userAnswers[i]);
-            if(isCorr) {
+            if (isCorr) {
                 countCorrect++;
             }
             //out.println(isCorrect(lq.get(i).getList_answer(), userAnswers[i]));
         }
-        //out.println(countCorrect);
-        //processRequest(request, response);
-        request.setAttribute("correct_quest", countCorrect);
+        for (int i = 0; i < numQuestions; i++) {
+            out.println(userMarks[i]);
+        }
         request.setAttribute("incorrect", numQuestions - countCorrect);
         String formattedNumber = String.format("%.2f", ((countCorrect * 1.0) / (numQuestions * 1.0)));
         float correct_rate = Float.parseFloat(formattedNumber) * 100;
-        request.setAttribute("correct_rate", (int)correct_rate);
+        request.setAttribute("correct_rate", (int) correct_rate);
+        
+        Practice_Record pr = (Practice_Record)session.getAttribute("prac_record");
+        QuizDAO qd = new QuizDAO();
+        pr.setCorrect_questions(countCorrect);
+        pr.setCorrect_rate((int) correct_rate);
+        pr.setPractice_duration(dur);
+        qd.updatePracticeRecord(pr);
+        //out.println(countCorrect);
+        //processRequest(request, response);
+        request.setAttribute("correct_quest", countCorrect);
         request.getRequestDispatcher("customer/result.jsp").forward(request, response);
     }
-    
+
     public boolean isCorrect(List<Answer> lq, String ans) {
         for (Answer answer : lq) {
-            if(answer.getAnswer_detail().equalsIgnoreCase(ans)) {
-                if(answer.isIsCorrect()) {
+            if (answer.getAnswer_detail().equalsIgnoreCase(ans)) {
+                if (answer.isIsCorrect()) {
                     return true;
                 }
             }

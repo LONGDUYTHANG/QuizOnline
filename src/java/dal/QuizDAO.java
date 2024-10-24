@@ -17,6 +17,7 @@ import model.Subject;
 import java.sql.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import model.Practice_Record;
 import model.Question;
 import model.Quiz_Question;
 
@@ -223,7 +224,7 @@ public class QuizDAO extends DBContext {
         }
         return count;
     }
-    
+
     public void addQuiz(Quiz quiz) {
         String sql = "INSERT INTO [dbo].[Quiz]\n"
                 + "           ([quiz_name]\n"
@@ -246,20 +247,20 @@ public class QuizDAO extends DBContext {
             st.setInt(4, quiz.getNumber_of_questions());
             Duration duration = quiz.getDuration();
             long minutes = duration.toMinutes();
-            st.setFloat(5, (float)minutes);
+            st.setFloat(5, (float) minutes);
             st.setDouble(6, quiz.getPassrate());
             st.setInt(7, quiz.getQuiz_type_id());
             st.setString(8, quiz.getQuiz_description());
             st.setTimestamp(9, quiz.getCreated_date());
             st.setTimestamp(10, quiz.getUpdated_date());
             st.setInt(11, quiz.getAccount_id());
-            
+
             st.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex);
         }
     }
-    
+
     public void addQuizQuestion(Quiz_Question quiz_question) {
         String sql = "INSERT INTO [dbo].[Quiz_Question]\n"
                 + "           ([quiz_id]\n"
@@ -269,13 +270,13 @@ public class QuizDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             st.setInt(1, quiz_question.getQuiz_id());
             st.setInt(2, quiz_question.getQuestion_id());
-            
+
             st.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex);
         }
     }
-    
+
     public int getNumberOfQuestionBySubjectAndLessonTopic(int subject_id, int lesson_topic_id, int level_id) {
         String sql = "SELECT COUNT(question_id) AS result FROM Question WHERE subject_id = ? AND lesson_topic_id = ? AND level_id = ?";
         try {
@@ -294,7 +295,7 @@ public class QuizDAO extends DBContext {
         }
         return -1;
     }
-    
+
     public int getNumberOfQuestionBySubjectAndDimensionId(int subject_id, int dimension_id, int level_id) {
         String sql = "SELECT COUNT(question_id) AS result FROM Question WHERE subject_id = ? AND dimension_id = ? AND level_id = ?";
         try {
@@ -313,7 +314,7 @@ public class QuizDAO extends DBContext {
         }
         return -1;
     }
-    
+
     public Lesson_Topic getLessonTopicById(int lesson_topic_id_raw) {
         String sql = "SELECT * FROM Lesson_Topic WHERE lesson_topic_id = ?";
         try {
@@ -331,6 +332,7 @@ public class QuizDAO extends DBContext {
         }
         return null;
     }
+
     public Dimension getDimensionById(int dimension_id_raw) {
         String sql = "SELECT * FROM Dimension WHERE dimension_id = ?";
         try {
@@ -349,11 +351,11 @@ public class QuizDAO extends DBContext {
         }
         return null;
     }
-    
+
     public List<Question> getAllSelectQuestionByTopic(int subject_id_raw, int lesson_topic_id_raw, int number_of_questions_raw, int level_id_raw) {
         List<Question> list = new ArrayList<>();
         String sql = "SELECT TOP " + number_of_questions_raw + " * from Question where subject_id = ? and lesson_topic_id = ? and level_id = ?\n"
-            + "ORDER BY NEWID()";
+                + "ORDER BY NEWID()";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, subject_id_raw);
@@ -379,11 +381,11 @@ public class QuizDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<Question> getAllSelectQuestionByDimension(int subject_id_raw, int dimension_id_raw, int number_of_questions_raw, int level_id_raw) {
         List<Question> list = new ArrayList<>();
         String sql = "SELECT TOP " + number_of_questions_raw + " * from Question where subject_id = ? and dimension_id = ? AND level_id = ?\n"
-            + "ORDER BY NEWID()";
+                + "ORDER BY NEWID()";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, subject_id_raw);
@@ -409,7 +411,7 @@ public class QuizDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<Quiz> getAllQuiz() {
         List<Quiz> list = new ArrayList<>();
         String sql = "SELECT * FROM Quiz";
@@ -437,7 +439,7 @@ public class QuizDAO extends DBContext {
         }
         return list;
     }
-    
+
     public Quiz getQuiz(int quizId) {
         String sql = "SELECT * FROM Quiz where quiz_id = ?";
         try {
@@ -465,7 +467,7 @@ public class QuizDAO extends DBContext {
         }
         return null;
     }
-    
+
     public Quiz getNewlyAddedQuiz() {
         String sql = "SELECT top 1 * FROM Quiz ORDER BY quiz_id DESC";
         try {
@@ -484,7 +486,7 @@ public class QuizDAO extends DBContext {
                 Timestamp created_date = rs.getTimestamp("created_date");
                 Timestamp updated_date = rs.getTimestamp("updated_date");
                 int account_id = rs.getInt("account_id");
-                
+
                 return new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ZERO, passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id);
             }
         } catch (SQLException ex) {
@@ -492,50 +494,115 @@ public class QuizDAO extends DBContext {
         }
         return null;
     }
-    
+
     public int getNumberOfQuestion(int quizId) {
         String sql = "select number_of_questions from Quiz where quiz_id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, quizId);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("number_of_questions");
             }
-            
+
         } catch (Exception e) {
         }
         return 0;
     }
-    
+
     public float getPassRate(int quizId) {
         String sql = "select passrate from Quiz where quiz_id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, quizId);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getFloat("passrate");
             }
-            
+
         } catch (Exception e) {
         }
         return 0;
     }
-    
+
     public int getDuration(int quiz_id) {
         String sql = "select duration from Quiz where quiz_id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, quiz_id);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("duration");
             }
-            
+
         } catch (Exception e) {
         }
         return 0;
+    }
+
+    public void addPracticeRecord(Practice_Record pr) {
+        String sql = "INSERT INTO [dbo].[Practice_Record]\n"
+                + "           ([practice_name]\n"
+                + "           ,[created_date]\n"
+                + "           ,[practice_duration]\n"
+                + "           ,[correct_questions]\n"
+                + "           ,[correct_rate]\n"
+                + "           ,[account_id]\n"
+                + "           ,[quiz_id])\n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, pr.getPractice_name());
+            ps.setTimestamp(2, pr.getCreated_date());
+            ps.setInt(3, 0);
+            ps.setInt(4, 0);
+            ps.setInt(5, 0);
+            ps.setInt(6, pr.getAccount_id());
+            ps.setInt(7, pr.getQuiz_id());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+        }
+
+    }
+
+    public void updatePracticeRecord(Practice_Record pr) {
+        // Câu lệnh SQL UPDATE
+        String sql = "UPDATE [dbo].[Practice_Record] \n"
+                + "SET [practice_name] = ?, \n"
+                + "    [created_date] = ?, \n"
+                + "    [practice_duration] = ?, \n"
+                + "    [correct_questions] = ?, \n"
+                + "    [correct_rate] = ?, \n"
+                + "    [account_id] = ?, \n"
+                + "    [quiz_id] = ? \n"
+                + "WHERE [practice_id] = ?";
+
+        try {
+            // Chuẩn bị PreparedStatement
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            // Đặt giá trị cho các tham số
+            ps.setString(1, pr.getPractice_name());
+            ps.setTimestamp(2, pr.getCreated_date()); // Sử dụng setTimestamp cho cột kiểu datetime
+            ps.setInt(3, pr.getPractice_duration());
+            ps.setInt(4, pr.getCorrect_questions());
+            ps.setDouble(5, pr.getCorrect_rate()); // Nếu correct_rate là kiểu số thực (float, double)
+            ps.setInt(6, pr.getAccount_id());
+            ps.setInt(7, pr.getQuiz_id());
+            ps.setInt(8, pr.getPractice_id()); // Điều kiện WHERE với practice_id
+
+            // Thực thi câu lệnh
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // In lỗi nếu có vấn đề
+        }
     }
     
     public Duration getTotalDurationBySubjectId(int subjectId) {
@@ -553,10 +620,26 @@ public class QuizDAO extends DBContext {
         }
         return Duration.ZERO;
     }
-    
+
+
+    public int searchNewlyPractice(int account_id) {
+        String sql = "select top 1 practice_id from Practice_Record where account_id = ? order by practice_id desc";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, account_id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("practice_id");
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
     public static void main(String[] args) {
         QuizDAO dao = new QuizDAO();
-        Quiz quiz = dao.getQuiz(8);
-        System.out.println(quiz);
+        java.util.Date d = new java.util.Date();
+        LocalDateTime lc = LocalDateTime.now();
+        System.out.println(lc.toLocalDate().toString());
     }
 }
