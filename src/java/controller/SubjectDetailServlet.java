@@ -15,6 +15,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,6 +93,8 @@ public class SubjectDetailServlet extends HttpServlet {
         String categoryName = categoryDAO.getCategoryNameById(mySubject.getCategoryId());
         Account account = accountDAO.getAccountById(mySubject.getAccountId());
         List<Lesson> lessonList = lessonDAO.getAllLessonBySubjectId(subject_id);
+        int totalLessons = lessonDAO.countLessonsBySubjectId(subject_id);
+
 
         // Lấy loại và chủ đề bài học
         List<Lesson_Type> lessonTypes = lessonDAO.getLessonTypesBySubjectId(subject_id);
@@ -137,8 +140,19 @@ public class SubjectDetailServlet extends HttpServlet {
         request.setAttribute("account", account);
         request.setAttribute("lessonList", lessonList);
         request.setAttribute("lessonTopics", lessonTopics);
+        request.setAttribute("totalLessons", totalLessons);
+        HttpSession session = request.getSession(false); 
+        if (session != null) {
+            Account user = (Account) session.getAttribute("user");
+            if (user != null) {
+                request.getRequestDispatcher("customer/subject_details_customer.jsp").forward(request, response);
+                return;
+            }
+        }
+
         request.getRequestDispatcher("common/subject_details.jsp").forward(request, response);
     }
+
 
     /**
      * Handles the HTTP <code>POST</code> method.

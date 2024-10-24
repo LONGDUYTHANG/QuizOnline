@@ -63,12 +63,13 @@ public class BlogListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PostDAO myPostDAO = new PostDAO();
+ PostDAO myPostDAO = new PostDAO();
         String keyword = request.getParameter("keyword");
         String sortBy = request.getParameter("sortBy");
 
         ArrayList<Post> post_list;
 
+        // Handle sorting and searching
         if (sortBy != null) {
             switch (sortBy) {
                 case "latest":
@@ -92,18 +93,26 @@ public class BlogListServlet extends HttpServlet {
 
         request.setAttribute("post_list", post_list);
 
+        // Get hottest posts and categories
         ArrayList<Post> hottest_post_list = myPostDAO.getHottestPost();
         request.setAttribute("hottest_post_list", hottest_post_list);
-
+               
         CategoryDAO myCategoryDAO = new CategoryDAO();
         List<Category> category_list = myCategoryDAO.getCategory();
         request.setAttribute("category_list", category_list);
- HttpSession session = request.getSession(false);
-        Account user = (Account) session.getAttribute("user");
-        if (user == null) {
-            request.getRequestDispatcher("common/blog_list.jsp").forward(request, response);
+
+        // Proper session handling
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Account user = (Account) session.getAttribute("user");
+            if (user == null) {
+                request.getRequestDispatcher("common/blog_list.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("customer/blog_list.jsp").forward(request, response);
+            }
         } else {
-            request.getRequestDispatcher("customer/blog_list.jsp").forward(request, response);
+            // If session is null, handle accordingly (e.g., redirect to login)
+            response.sendRedirect("login.jsp");
         }
     }
 

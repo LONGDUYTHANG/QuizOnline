@@ -61,7 +61,7 @@
                 <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <h1 class="text-white">Courses Details</h1>
+                            <h1 class="text-white">Subjects Details</h1>
                         </div>
                     </div>
                 </div>
@@ -103,10 +103,7 @@
                                             <a href="login.jsp" class="btn radius-xl text-uppercase">Buy Now This Courses</a>
                                         </div>
                                         <div class="teacher-bx">
-                                            <div class="teacher-info">
-                                                <!--                                                <div class="teacher-thumb">
-                                                                                                    <img src="assets/images/testimonials/pic1.jpg" alt=""/>
-                                                                                                </div>-->
+                                            <div class="teacher-info">                                                
                                                 <div class="teacher-name">
                                                     <span>Teacher</span>
                                                     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -158,7 +155,7 @@
                                         <div class="row">
                                             <div class="col-md-12 col-lg-4">
                                                 <ul class="course-features">
-                                                    <li><i class="ti-book"></i> <span class="label">Lessons</span> <span class="value">8</span></li>
+                                                    <li><i class="ti-book"></i> <span class="label">Lessons</span> <span class="value">${totalLessons}</span></li>
                                                     <li><i class="ti-help-alt"></i> <span class="label">Quizzes</span> <span class="value">1</span></li>
                                                     <li><i class="ti-time"></i> <span class="label">Duration</span> <span class="value">60 hours</span></li>
                                                     <li><i class="ti-smallcap"></i> <span class="label">Language</span> <span class="value">English</span></li>
@@ -179,28 +176,25 @@
                                             <c:forEach var="topic" items="${lessonTopics}">
                                                 <li>
                                                     <h5>${topic.lesson_topic_name}</h5> 
+                                                    
                                                     <ul>
-                                                        <c:forEach var="lesson" items="${lessonList}">
-                                                            <c:if test="${lesson.lesson_topic_id == topic.lesson_topic_id}">
-                                                                <li>
-                                                                    <div class="curriculum-list-box">
-                                                                        <span>Lesson ${lesson.lesson_order}.</span>
-                                                                        ${lesson.lesson_name}
-                                                                    </div>
-                                                                    <span>${lesson.lessonTypeName}</span>
-                                                                </li>
-                                                            </c:if>
-                                                        </c:forEach>
-                                                    </ul>
+                                                    <c:forEach var="lesson" items="${lessonList}">
+                                                        <c:if test="${lesson.lesson_topic_id == topic.lesson_topic_id}">
+                                                            <li>
+                                                                <div class="curriculum-list-box">
+                                                                    <span>Lesson ${lesson.lesson_order}.</span>
+                                                            ${lesson.lesson_name}
+                                                        </div>
+                                                        <span>${lesson.lessonTypeName}</span>
+                                                    </li>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </ul>
+
                                                 </li>
                                             </c:forEach>
                                         </ul>
                                     </div>
-
-
-
-
-
 
                                     <div class="" id="instructor">
                                         <h4>Instructor</h4>
