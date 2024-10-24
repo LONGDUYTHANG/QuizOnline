@@ -11,6 +11,7 @@ import dal.LessonDAO;
  * @author ADMIN
  */
 public class Lesson {
+
     private int lesson_id;
     private String lesson_name;
     private int lesson_order;
@@ -22,6 +23,8 @@ public class Lesson {
     private String video_link;
     private String lesson_content;
     private int quiz_id;
+    private String lessonTypeName;
+    private String lessonTopicName;
 
     public Lesson() {
     }
@@ -39,7 +42,7 @@ public class Lesson {
         this.lesson_content = lesson_content;
         this.quiz_id = quiz_id;
     }
-    
+
     public Lesson(String lesson_name, int lesson_order, String summary, boolean status, int lesson_type_id, int subject_id, int lesson_topic_id, String video_link, String lesson_content, int quiz_id) {
         this.lesson_name = lesson_name;
         this.lesson_order = lesson_order;
@@ -51,6 +54,38 @@ public class Lesson {
         this.video_link = video_link;
         this.lesson_content = lesson_content;
         this.quiz_id = quiz_id;
+    }
+
+    public Lesson(int lesson_id, String lesson_name, int lesson_order, String summary, boolean status, int lesson_type_id, int subject_id, int lesson_topic_id, String video_link, String lesson_content, int quiz_id, String lessonTypeName, String lessonTopicName) {
+        this.lesson_id = lesson_id;
+        this.lesson_name = lesson_name;
+        this.lesson_order = lesson_order;
+        this.summary = summary;
+        this.status = status;
+        this.lesson_type_id = lesson_type_id;
+        this.subject_id = subject_id;
+        this.lesson_topic_id = lesson_topic_id;
+        this.video_link = video_link;
+        this.lesson_content = lesson_content;
+        this.quiz_id = quiz_id;
+        this.lessonTypeName = lessonTypeName;
+        this.lessonTopicName = lessonTopicName;
+    }
+    
+    public String getLessonTopicName() {
+        return lessonTopicName;
+    }
+
+    public void setLessonTopicName(String lessonTopicName) {
+        this.lessonTopicName = lessonTopicName;
+    }
+    
+    public String getLessonTypeName() {
+        return lessonTypeName;
+    }
+
+    public void setLessonTypeName(String lessonTypeName) {
+        this.lessonTypeName = lessonTypeName;
     }
 
     public int getLesson_id() {
@@ -140,6 +175,7 @@ public class Lesson {
     public void setQuiz_id(int quiz_id) {
         this.quiz_id = quiz_id;
     }
+
     public Lesson_Type getLesson_Type(LessonDAO dao) {
         return dao.getLessonTypeById(lesson_type_id);
     }
@@ -148,6 +184,5 @@ public class Lesson {
     public String toString() {
         return "Lesson{" + "lesson_id=" + lesson_id + ", lesson_name=" + lesson_name + ", lesson_order=" + lesson_order + ", summary=" + summary + ", status=" + status + ", lesson_type_id=" + lesson_type_id + ", subject_id=" + subject_id + ", lesson_topic_id=" + lesson_topic_id + ", video_link=" + video_link + ", lesson_content=" + lesson_content + ", quiz_id=" + quiz_id + '}';
     }
-    
-    
+
 }
