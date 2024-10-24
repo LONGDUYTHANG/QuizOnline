@@ -101,6 +101,12 @@
         <servlet-class>controller.SalerDashBoardServlet</servlet-class>
     </servlet>
     <servlet>
+
+        <servlet-name>AdminDashboardServlet</servlet-name>
+        <servlet-class>controller.AdminDashboardServlet</servlet-class>
+
+    </servlet>
+  <servlet>
         <servlet-name>ListLessonServlet</servlet-name>
         <servlet-class>controller.ListLessonServlet</servlet-class>
     </servlet>
@@ -119,6 +125,7 @@
     <servlet>
         <servlet-name>EditLessonServlet</servlet-name>
         <servlet-class>controller.EditLessonServlet</servlet-class>
+
     </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
@@ -233,6 +240,11 @@
         <url-pattern>/salerdashboard</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>AdminDashboardServlet</servlet-name>
+        <url-pattern>/admindashboard</url-pattern>
+</servlet-mapping>
+
+ <servlet-mapping>
         <servlet-name>ListLessonServlet</servlet-name>
         <url-pattern>/listlesson</url-pattern>
     </servlet-mapping>
