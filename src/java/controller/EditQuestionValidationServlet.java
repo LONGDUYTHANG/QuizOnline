@@ -9,18 +9,18 @@ import dal.QuestionDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 import model.Question;
-import model.Subject;
 
 /**
  *
  * @author FPT SHOP
  */
-public class QuestionListServlet extends HttpServlet {
+@MultipartConfig
+public class EditQuestionValidationServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +37,10 @@ public class QuestionListServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet QuestionListServlet</title>");  
+            out.println("<title>Servlet EditQuestionValidationServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet QuestionListServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet EditQuestionValidationServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,10 +58,20 @@ public class QuestionListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         QuestionDAO dao = new QuestionDAO();
-        List<Question> listQuestion = dao.getAllQuestion();
-        request.setAttribute("listQuestion", listQuestion);
-        request.setAttribute("dao", dao);
-        request.getRequestDispatcher("expert/question_list.jsp").forward(request, response);
+        int question_id = Integer.parseInt(request.getParameter("question_id"));
+        Question question = dao.getQuestionById(question_id);
+        request.setAttribute("question", question);
+        request.setAttribute("subject_id", question.getSubject_id());
+        request.setAttribute("listSubject", dao.getAllSubject());
+        request.setAttribute("listLevel", dao.getAllLevel());
+        request.setAttribute("listSubject", dao.getAllSubject());
+        request.setAttribute("listDimension", dao.getAllDimensionBySubjectId(question.getSubject_id()));
+        request.setAttribute("listLevel", dao.getAllLevel());
+        request.setAttribute("listAnswer", dao.getAnswerOfQuestion(question_id));
+        request.setAttribute("listLesson_Topic", dao.getAllLessonTopicBySubjectId(question.getSubject_id()));
+        String message = request.getParameter("message");
+        request.setAttribute("showSuccessMessage", message);
+        request.getRequestDispatcher("expert/edit_question.jsp").forward(request, response);
     } 
 
     /** 
@@ -74,11 +84,20 @@ public class QuestionListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
         QuestionDAO dao = new QuestionDAO();
-        List<Question> listQuestion = dao.getAllQuestion();
-        request.setAttribute("listQuestion", listQuestion);
-        request.setAttribute("dao", dao);
-        request.getRequestDispatcher("expert/question_list.jsp").forward(request, response);
+        
+        int question_id = Integer.parseInt(request.getParameter("question_id"));
+        int subject_id = Integer.parseInt(request.getParameter("subject_id"));
+        request.setAttribute("question", dao.getQuestionById(question_id));
+        request.setAttribute("subject_id", subject_id);
+        request.setAttribute("listSubject", dao.getAllSubject());
+        request.setAttribute("listDimension", dao.getAllDimensionBySubjectId(subject_id));
+        request.setAttribute("listLevel", dao.getAllLevel());
+        request.setAttribute("listLesson_Topic", dao.getAllLessonTopicBySubjectId(subject_id));
+        request.setAttribute("listAnswer", dao.getAnswerOfQuestion(question_id));
+        
+        request.getRequestDispatcher("expert/edit_question.jsp").forward(request, response);
     }
 
     /** 

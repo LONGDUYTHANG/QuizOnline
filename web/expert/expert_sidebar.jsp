@@ -77,15 +77,11 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="#">
+                <a class="sidebar-link" href="exsubjectlist">
                     <i class="align-middle" data-feather="briefcase"></i> <span class="align-middle">Subject List</span>
                 </a>
             </li>
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="#">
-                    <i class="align-middle" data-feather="coffee"></i> <span class="align-middle">Lesson List</span>
-                </a>
-            </li>
+            
             <li class="sidebar-item">
                 <a class="sidebar-link" href="quizlist">
                     <i class="align-middle" data-feather="check-circle"></i> <span class="align-middle">Quiz List</span>

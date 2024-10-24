@@ -334,13 +334,76 @@ public class QuestionDAO extends DBContext {
         return listAnswer;
 
     }
+    
+    public Question getQuestionById(int question_id_raw) {
+        String sql = "SELECT * FROM Question WHERE question_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, question_id_raw);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int question_id = rs.getInt("question_id");
+                int subject_id = rs.getInt("subject_id");
+                int dimension_id = rs.getInt("dimension_id");
+                int lesson_topic_id = rs.getInt("lesson_topic_id");
+                int level_id = rs.getInt("level_id");
+                boolean status = rs.getBoolean("status");
+                String question_content = rs.getString("question_content");
+                String explanation = rs.getString("explanation");
+                String media = rs.getString("media");
+
+                Question question = new Question(question_id, subject_id, dimension_id, lesson_topic_id, level_id, status, question_content, explanation, media);
+                return question;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
+    
+    public void updateQuestion(Question question) {
+        String sql = "UPDATE [dbo].[Question]\n"
+                + "   SET [subject_id] = ?\n"
+                + "      ,[dimension_id] = ?\n"
+                + "      ,[lesson_topic_id] = ?\n"
+                + "      ,[level_id] = ?\n"
+                + "      ,[status] = ?\n"
+                + "      ,[question_content] = ?\n"
+                + "      ,[explanation] = ?\n"
+                + "      ,[media] = ?\n"
+                + " WHERE question_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setInt(1, question.getSubject_id());
+            st.setInt(2, question.getDimension_id());
+            st.setInt(3, question.getLesson_topic_id());
+            st.setInt(4, question.getLevel_id());
+            st.setBoolean(5, question.isStatus());
+            st.setString(6, question.getQuestion_content());
+            st.setString(7, question.getExplanation());
+            st.setString(8, question.getMedia());
+            st.setInt(9, question.getQuestion_id());
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+    
+    public void deleteAnswer(int answer_id) {
+        String sql = "DELETE FROM [dbo].[Answer]\n"
+                + "      WHERE answer_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, answer_id);
+            st.executeUpdate();
+        }
+        catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
 
     public static void main(String[] args) {
         QuestionDAO dao = new QuestionDAO();
-        System.out.println(dao.getLevelById(1));
-        List<Question_Handle> la = dao.getAllQuestionByQuizId(5);
-        for (Question_Handle question_Handle : la) {
-            System.out.println(question_Handle.getList_answer());
-        }
+        dao.deleteAnswer(1);
     }
 }

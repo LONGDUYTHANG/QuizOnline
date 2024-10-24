@@ -35,5 +35,10 @@ public class Lesson_Type {
     public void setLesson_type_name(String lesson_type_name) {
         this.lesson_type_name = lesson_type_name;
     }
+
+    @Override
+    public String toString() {
+        return "Lesson_Type{" + "lesson_type_id=" + lesson_type_id + ", lesson_type_name=" + lesson_type_name + '}';
+    }
     
 }

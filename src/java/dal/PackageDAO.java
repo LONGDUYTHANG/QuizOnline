@@ -73,7 +73,7 @@ public class PackageDAO extends DBContext {
 
         return packageList;
     }
-
+    
     public boolean createPackage(String packageName, int duration, double listPrice, double salePrice, int status, int subjectId) {
         String sql = "INSERT INTO [dbo].[Package] (package_name, duration, listPrice, salePrice, status, subject_id) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";

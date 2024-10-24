@@ -122,7 +122,7 @@
                     <div class="header">
                         <h1>Quiz List</h1>
                         <nav>
-                            <button onclick="window.location.href='addnewquizvalidation'" class="btn btn-orange">New Quiz <i class="align-middle me-2 fas fa-fw fa-plus-circle"></i></button>
+                            <button onclick="window.location.href='addlesson?subjectId=${requestScope.subject_id}'" class="btn btn-orange">New Lesson <i class="align-middle me-2 fas fa-fw fa-plus-circle"></i></button>
                         </nav>
                     </div>
                     <div class="container">
@@ -130,28 +130,22 @@
                         <table id="questionTable" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Subject</th>
-                                    <th>Level</th>
-                                    <th>Number of Question</th>
-                                    <th>Duration</th>
-                                    <th>Pass Rate</th>
+                                    <th>Lesson ID</th>
+                                    <th>Lesson</th>
+                                    <th>Order</th>
+                                    <th>Type</th>
                                     <th>Option</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach var="quiz" items="${requestScope.listQuiz}">
+                                <c:forEach var="lesson" items="${requestScope.listLesson}">
                                     <tr>
-                                        <td>${quiz.quiz_id}</td>
-                                        <td>${quiz.quiz_name}</td>
-                                        <td>${quiz.getSubject(requestScope.dao).getSubjectName()}</td>
-                                        <td>${quiz.getLevel(requestScope.dao).getLevel_name()}</td>
-                                        <td>${quiz.number_of_questions}</td>
-                                        <td>${quiz.duration}</td>
-                                        <td>${quiz.passrate}</td>
+                                        <td>${lesson.lesson_id}</td>
+                                        <td>${lesson.lesson_name}</td>
+                                        <td>${lesson.lesson_order}</td>
+                                        <td>${lesson.getLesson_Type(requestScope.dao).getLesson_type_name()}</td>
                                         <td style="width: 120px">
-                                            <button type="button" class="btn btn-success" onclick="window.location.href='editquizvalidation?quiz_id=${quiz.quiz_id}'"><i class="align-middle me-2 fas fa-fw fa-edit"></i></button>
+                                            <button type="button" class="btn btn-success" onclick="window.location.href='editlesson?lesson_id=${lesson.lesson_id}'"><i class="align-middle me-2 fas fa-fw fa-edit"></i></button>
                                             <button type="button" class="btn btn-danger"><i class="align-middle me-2 fas fa-fw fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
