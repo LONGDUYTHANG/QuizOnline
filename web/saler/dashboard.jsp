@@ -106,6 +106,40 @@
                     <div class="container-fluid p-0">
 
                         <h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
+                                                <div class="row">
+                            <div class="card col-6" >
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title" id="week_user_label">Total Revenue</h5>
+                                        </div>
+
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="align-middle" data-feather="dollar-sign"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1 mb-3" id="all_week_user">${requestScope.total_revenue} $ </h1>
+                                </div>
+                            </div>
+                            <div class="card col-6">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title" id="week_user_label">Total User</h5>
+                                        </div>
+
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="align-middle" data-feather="user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1 mb-3" id="all_week_user">${requestScope.total_user} </h1>
+                                </div>
+                            </div>
+                        </div>
                         <!-- Revenue statistics-->
                         <div class="row">
                             <div class="col-xl-4 col-xxl-3 d-flex">
@@ -128,10 +162,6 @@
                                                     </div>
                                                     <h1 class="mt-1 mb-3" id="all_month_revenue" style="display: none">${requestScope.all_month_revenue} $</h1>
                                                     <h1 class="mt-1 mb-3" id="all_week_revenue">${requestScope.all_week_revenue} $</h1>
-                                                    <div class="mb-0">
-                                                        <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
-                                                        <span class="text-muted">Since last week</span>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="card">
@@ -150,10 +180,7 @@
                                                     </div>
                                                    <h1 class="mt-1 mb-3" id="all_month_registration" style="display: none">${requestScope.all_month_registration} </h1>
                                                     <h1 class="mt-1 mb-3" id="all_week_registration">${requestScope.all_week_registration} </h1>
-                                                    <div class="mb-0">
-                                                        <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
-                                                        <span class="text-muted">Since last week</span>
-                                                    </div>
+                
                                                 </div>
                                             </div>
                                         </div>

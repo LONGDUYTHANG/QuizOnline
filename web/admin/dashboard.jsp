@@ -122,10 +122,6 @@
                                         </div>
                                     </div>
                                     <h1 class="mt-1 mb-3" id="all_week_user">${requestScope.total_revenue} $ </h1>
-                                    <div class="mb-0">
-                                        <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
-                                        <span class="text-muted">Since last week</span>
-                                    </div>
                                 </div>
                             </div>
                             <div class="card col-6">
@@ -137,15 +133,11 @@
 
                                         <div class="col-auto">
                                             <div class="stat text-primary">
-                                                <i class="align-middle" data-feather="dollar-sign"></i>
+                                                <i class="align-middle" data-feather="user"></i>
                                             </div>
                                         </div>
                                     </div>
                                     <h1 class="mt-1 mb-3" id="all_week_user">${requestScope.total_user} </h1>
-                                    <div class="mb-0">
-                                        <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
-                                        <span class="text-muted">Since last week</span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -171,10 +163,6 @@
                                                     </div>
                                                     <h1 class="mt-1 mb-3" id="all_month_revenue" style="display: none">${requestScope.all_month_revenue} $</h1>
                                                     <h1 class="mt-1 mb-3" id="all_week_revenue">${requestScope.all_week_revenue} $</h1>
-                                                    <div class="mb-0">
-                                                        <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
-                                                        <span class="text-muted">Since last week</span>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="card">
@@ -193,10 +181,6 @@
                                                     </div>
                                                     <h1 class="mt-1 mb-3" id="all_month_registration" style="display: none">${requestScope.all_month_registration} </h1>
                                                     <h1 class="mt-1 mb-3" id="all_week_registration">${requestScope.all_week_registration} </h1>
-                                                    <div class="mb-0">
-                                                        <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
-                                                        <span class="text-muted">Since last week</span>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -303,15 +287,11 @@
 
                                                         <div class="col-auto">
                                                             <div class="stat text-primary">
-                                                                <i class="align-middle" data-feather="dollar-sign"></i>
+                                                                <i class="align-middle" data-feather="user"></i>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <h1 class="mt-1 mb-3" id="all_week_user">${requestScope.all_week_user} </h1>
-                                                    <div class="mb-0">
-                                                        <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
-                                                        <span class="text-muted">Since last week</span>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="card">
@@ -323,15 +303,12 @@
 
                                                         <div class="col-auto">
                                                             <div class="stat text-primary">
-                                                                <i class="align-middle" data-feather="dollar-sign"></i>
+                                                                <i class="align-middle" data-feather="user"></i>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <h1 class="mt-1 mb-3" id="all_month_user" >${requestScope.all_month_user} </h1>
-                                                    <div class="mb-0">
-                                                        <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
-                                                        <span class="text-muted">Since last week</span>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>

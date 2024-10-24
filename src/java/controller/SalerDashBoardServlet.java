@@ -87,6 +87,14 @@ public class SalerDashBoardServlet extends HttpServlet {
         request.setAttribute("all_week_registration", all_week_registration);
         ArrayList<Integer> week_registration_status=myRegistrationDAO.getWeekRegistrationStatus(LocalDate.now());
         request.setAttribute("week_registration_status", week_registration_status);
+        
+         //Total revenue
+        double total_revenue=myRegistrationDAO.getAllMonthRevenue();
+        request.setAttribute("total_revenue",total_revenue);
+        
+        //Total user
+        int total_user=myRegistrationDAO.getAllUser();
+        request.setAttribute("total_user",total_user);
 
         request.getRequestDispatcher("saler/dashboard.jsp").forward(request, response);
     }
