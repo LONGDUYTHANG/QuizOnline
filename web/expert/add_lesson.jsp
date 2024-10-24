@@ -351,15 +351,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="quiz-type">Quiz Type</label>
-                                <select id="quiz-type" name="quiz_type">
-                                    <c:forEach var="quiz_type" items="${requestScope.listQuiz_Type}">
-                                        <option value="${quiz_type.quiz_type_id}">${quiz_type.quiz_type_name}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
                                 <label for="summary">Summary</label>
                                 <textarea id="summary" name="summary" placeholder="Enter Summary"></textarea>
                             </div>
