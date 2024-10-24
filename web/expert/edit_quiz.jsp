@@ -135,6 +135,7 @@
                     </script>
                     <div class="container">
                         <form action="addquiz" method="post" id="quiz">
+                            <c:set var="quiz" value="${requestScope.quiz}"/>
                             <!-- Send the value of the active tab -->
                             <input type="hidden" id="activeTab" name="activeTab" value="${requestScope.activeTab != null ? requestScope.activeTab : 'overview'}">
                             <div class="tab">
@@ -149,11 +150,11 @@
                                 <div class="tab-content">
                                     <!-- Overview Tab -->
                                     <div class="tab-pane active" id="overview" role="tabpanel">
-                                        <h4>Quiz Details</h4>
+                                        <h4>Edit Quiz</h4>
                                         <c:out value="${requestScope.message}"/>
                                         <div class="form-group">
                                             <label for="name">Name</label>
-                                            <input type="text" id="name" name="name" placeholder="Enter exam name" value="${requestScope.name}" required>
+                                            <input type="text" id="name" name="name" placeholder="Enter exam name" value="${quiz.quiz_name}" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="subject">Subject</label>
@@ -161,7 +162,7 @@
                                                 <option value="" disabled selected>Select an option</option>
                                                 <c:forEach var="subject" items="${requestScope.listSubject}">
                                                     <option value="${subject.subjectId}" 
-                                                            ${subject.subjectId == requestScope.subject_id ? 'selected' : ''}>
+                                                            ${subject.subjectId == quiz.subject_id ? 'selected' : ''}>
                                                         ${subject.subjectName}
                                                     </option>
                                                 </c:forEach>
@@ -180,7 +181,7 @@
                                             <label for="level">Exam Level</label>
                                             <select id="level" name="level_id" required>
                                                 <c:forEach var="level" items="${requestScope.listLevel}">
-                                                    <option value="${level.level_id}"} ${level.level_id == requestScope.level_id ? 'selected' : ''}> 
+                                                    <option value="${level.level_id}"} ${level.level_id == quiz.level_id ? 'selected' : ''}> 
                                                         ${level.level_name}
                                                     </option>
                                                 </c:forEach>
@@ -188,17 +189,17 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="duration">Duration (minutes)</label>
-                                            <input type="number" id="duration" name="duration" value="${requestScope.duration != null ? requestScope.duration : 50}" min="1" required>
+                                            <input type="number" id="duration" name="duration" value="${requestScope.minutes}" min="1" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="pass-rate">Pass Rate (%)</label>
-                                            <input type="number" id="pass-rate" name="passrate" value="${requestScope.passrate != null ? requestScope.passrate : 50}" min="1" required>
+                                            <input type="number" id="pass-rate" name="passrate" value="${quiz.passrate}" min="1" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="quiz-type">Quiz Type</label>
                                             <select id="quiz-type" name="quiztype_id" required>
                                                 <c:forEach var="quiztype" items="${requestScope.listQuiz_Type}">
-                                                    <option value="${quiztype.quiz_type_id}" ${quiztype.quiz_type_id == requestScope.quiztype_id ? 'selected' : ''}> 
+                                                    <option value="${quiztype.quiz_type_id}" ${quiztype.quiz_type_id == quiz.quiz_type_id ? 'selected' : ''}> 
                                                         ${quiztype.quiz_type_name}
                                                     </option>
                                                 </c:forEach>
@@ -206,7 +207,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="description">Description</label>
-                                            <textarea id="description" name="description" placeholder="Enter description" required>${requestScope.description}</textarea>
+                                            <textarea id="description" name="description" placeholder="Enter description" required>${quiz.quiz_description}</textarea>
                                         </div>
                                         <button type="submit" class="btn" onclick="return confirm('Do you want to save these changes?')">Submit</button>
                                         <button type="button" class="btn btn-secondary">Back</button>
@@ -217,7 +218,7 @@
                                         <h4>Settings</h4>
                                         <div class="form-group">
                                             <label for="total-questions">Total Number of Questions</label>
-                                            <input type="number" id="total-questions" name="totalquestion" value="0" readonly>
+                                            <input type="number" id="total-questions" name="totalquestion" value="${quiz.number_of_questions}" readonly>
                                         </div>
                                         <div class="form-group">
                                             <label for="question-type">Question Type</label>

@@ -21,7 +21,7 @@ import model.Quiz_Type;
  *
  * @author FPT SHOP
  */
-public class AddLessonServlet extends HttpServlet {
+public class EditLessonServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +40,10 @@ public class AddLessonServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddLessonServlet</title>");
+            out.println("<title>Servlet EditLessonServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddLessonServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet EditLessonServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,17 +61,14 @@ public class AddLessonServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String subjectId = request.getParameter("subjectId");
+        PrintWriter out = response.getWriter();
         LessonDAO dao = new LessonDAO();
-        List<Lesson_Topic> listLesson_Topic = dao.getAllLessonTopicBySubjectId(Integer.parseInt(subjectId));
-        List<Quiz_Type> listQuiz_Type = dao.getAllQuizType();
-        List<Quiz> listQuiz = dao.getAllQuizBySubjectId(Integer.parseInt(subjectId));
-
-        request.setAttribute("subjectId", subjectId);
-        request.setAttribute("listLesson_Topic", listLesson_Topic);
-        request.setAttribute("listQuiz", listQuiz);
-        request.getRequestDispatcher("expert/add_lesson.jsp").forward(request, response);
-
+        int lesson_id = Integer.parseInt(request.getParameter("lesson_id"));
+        Lesson lesson = dao.getLessonById(lesson_id);
+        request.setAttribute("lesson", lesson);
+        request.setAttribute("listLesson_Topic", dao.getAllLessonTopicBySubjectId(lesson.getSubject_id()));
+        request.setAttribute("listQuiz", dao.getAllQuizBySubjectId(lesson.getSubject_id()));
+        request.getRequestDispatcher("expert/edit_lesson.jsp").forward(request, response);
     }
 
     /**
@@ -87,7 +84,8 @@ public class AddLessonServlet extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         LessonDAO dao = new LessonDAO();
-        String subjectId = request.getParameter("subjectId");
+        int lesson_id = Integer.parseInt(request.getParameter("lesson_id"));
+        Lesson lesson = dao.getLessonById(lesson_id);
         String type = request.getParameter("type");
         if (type.equals("lesson")) {
             String name = request.getParameter("name");
@@ -96,11 +94,10 @@ public class AddLessonServlet extends HttpServlet {
             String order_raw = request.getParameter("order");
             String status_raw = request.getParameter("status");
             try {
-                int subject_id = Integer.parseInt(subjectId);
                 int topic = Integer.parseInt(topic_raw);
                 int order = Integer.parseInt(order_raw);
                 boolean status = "1".equals(status_raw);
-                dao.addLesson(new Lesson(name, order, summary, status, 1, subject_id, topic, "", "", 8));
+                dao.updateLesson(new Lesson(lesson.getLesson_id(),name, order, summary, status, 1, lesson.getSubject_id(), topic, "", "", 8));
             } catch (Exception ex) {
                 out.println(ex);
             }
@@ -112,15 +109,15 @@ public class AddLessonServlet extends HttpServlet {
             String status_raw = request.getParameter("status");
             String url = request.getParameter("url");
             String quill = request.getParameter("quillContent");
+            
             try {
-                int subject_id = Integer.parseInt(subjectId);
                 int topic = Integer.parseInt(topic_raw);
                 int order = Integer.parseInt(order_raw);
                 boolean status = "1".equals(status_raw);
-                dao.addLesson(new Lesson(name, order, summary, status, 2, subject_id, topic, url, quill, 8));
+                dao.updateLesson(new Lesson(lesson.getLesson_id(),name, order, summary, status, 2, lesson.getSubject_id(), topic, url, quill, 8));
                 
             } catch (Exception ex) {
-                //out.println(ex);
+                out.println(ex);
             }
         } else {
             String name = request.getParameter("name");
@@ -129,30 +126,28 @@ public class AddLessonServlet extends HttpServlet {
             String order_raw = request.getParameter("order");
             String status_raw = request.getParameter("status");
             String quiz_raw = request.getParameter("quiz");
-            
+
             try {
-                int subject_id = Integer.parseInt(subjectId);
                 int topic = Integer.parseInt(topic_raw);
                 int order = Integer.parseInt(order_raw);
                 int quiz = Integer.parseInt(quiz_raw);
                 boolean status = "1".equals(status_raw);
-                dao.addLesson(new Lesson(name, order, summary, status, 3, subject_id, topic, "", "", quiz));
+                dao.updateLesson(new Lesson(lesson.getLesson_id(),name, order, summary, status, 3, lesson.getSubject_id(), topic, "", "", quiz));
             } catch (Exception ex) {
                 System.out.println(ex);
             }
         }
-        List<Lesson_Topic> listLesson_Topic = dao.getAllLessonTopicBySubjectId(Integer.parseInt(subjectId));
+        
+        List<Lesson_Topic> listLesson_Topic = dao.getAllLessonTopicBySubjectId(lesson.getSubject_id());
         List<Quiz_Type> listQuiz_Type = dao.getAllQuizType();
-        List<Quiz> listQuiz = dao.getAllQuizBySubjectId(Integer.parseInt(subjectId));
-
-        request.setAttribute("subjectId", subjectId);
+        List<Quiz> listQuiz = dao.getAllQuizBySubjectId(lesson.getSubject_id());
+        
+        request.setAttribute("lesson", dao.getLessonById(lesson_id));
         request.setAttribute("listLesson_Topic", listLesson_Topic);
         request.setAttribute("listQuiz_Type", listQuiz_Type);
         request.setAttribute("listQuiz", listQuiz);
         request.setAttribute("showSuccessMessage", true);
-        
-        request.getRequestDispatcher("expert/add_lesson.jsp").forward(request, response);
-
+        request.getRequestDispatcher("expert/edit_lesson.jsp").forward(request, response);
     }
 
     /**

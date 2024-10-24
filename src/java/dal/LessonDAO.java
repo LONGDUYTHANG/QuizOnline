@@ -16,6 +16,7 @@ import model.Lesson_Topic;
 import model.Quiz;
 import model.Quiz_Type;
 import java.sql.*;
+import model.Lesson_Type;
 
 /**
  *
@@ -113,6 +114,111 @@ public class LessonDAO extends DBContext {
             st.setString(8, lesson.getVideo_link());
             st.setString(9, lesson.getLesson_content());
             st.setInt(10, lesson.getQuiz_id());
+
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public List<Lesson> getAllLessonBySubjectId(int subject_id_raw) {
+        List<Lesson> list = new ArrayList<>();
+        String sql = "SELECT * FROM Lesson WHERE subject_id = ? ORDER BY lesson_id ASC";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, subject_id_raw);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int lesson_id = rs.getInt("lesson_id");
+                String lesson_name = rs.getString("lesson_name");
+                int lesson_order = rs.getInt("lesson_order");
+                String summary = rs.getString("summary");
+                boolean status = rs.getBoolean("status");
+                int lesson_type_id = rs.getInt("lesson_type_id");
+                int subject_id = rs.getInt("subject_id");
+                int lesson_topic_id = rs.getInt("lesson_topic_id");
+                String video_link = rs.getString("video_link");
+                String lesson_content = rs.getString("lesson_content");
+                int quiz_id = rs.getInt("quiz_id");
+                
+                list.add(new Lesson(lesson_id, lesson_name, lesson_order, summary, status, lesson_type_id, subject_id, lesson_topic_id, video_link, lesson_content, quiz_id));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return list;
+    }
+
+    public Lesson_Type getLessonTypeById(int lesson_type_id_raw) {
+        String sql = "SELECT * FROM Lesson_Type WHERE lesson_type_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, lesson_type_id_raw);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int lesson_type_id = rs.getInt("lesson_type_id");
+                String lesson_type_name = rs.getString("lesson_type_name");
+                return new Lesson_Type(lesson_type_id, lesson_type_name);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
+    
+    public Lesson getLessonById(int lesson_id_raw) {
+        String sql = "SELECT * FROM Lesson WHERE lesson_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, lesson_id_raw);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int lesson_id = rs.getInt("lesson_id");
+                String lesson_name = rs.getString("lesson_name");
+                int lesson_order = rs.getInt("lesson_order");
+                String summary = rs.getString("summary");
+                boolean status = rs.getBoolean("status");
+                int lesson_type_id = rs.getInt("lesson_type_id");
+                int subject_id = rs.getInt("subject_id");
+                int lesson_topic_id = rs.getInt("lesson_topic_id");
+                String video_link = rs.getString("video_link");
+                String lesson_content = rs.getString("lesson_content");
+                int quiz_id = rs.getInt("quiz_id");
+                
+                return new Lesson(lesson_id, lesson_name, lesson_order, summary, status, lesson_type_id, subject_id, lesson_topic_id, video_link, lesson_content, quiz_id);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
+    
+    public void updateLesson(Lesson lesson) {
+        String sql = "UPDATE [dbo].[Lesson]\n"
+                + "   SET [lesson_name] = ?\n"
+                + "      ,[lesson_order] = ?\n"
+                + "      ,[summary] = ?\n"
+                + "      ,[status] = ?\n"
+                + "      ,[lesson_type_id] = ?\n"
+                + "      ,[subject_id] = ?\n"
+                + "      ,[lesson_topic_id] = ?\n"
+                + "      ,[video_link] = ?\n"
+                + "      ,[lesson_content] = ?\n"
+                + "      ,[quiz_id] = ?\n"
+                + " WHERE lesson_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, lesson.getLesson_name());
+            st.setInt(2, lesson.getLesson_order());
+            st.setString(3, lesson.getSummary());
+            st.setBoolean(4, lesson.isStatus());
+            st.setInt(5, lesson.getLesson_type_id());
+            st.setInt(6, lesson.getSubject_id());
+            st.setInt(7, lesson.getLesson_topic_id());
+            st.setString(8, lesson.getVideo_link());
+            st.setString(9, lesson.getLesson_content());
+            st.setInt(10, lesson.getQuiz_id());
+            st.setInt(11, lesson.getLesson_id());
             
             st.executeUpdate();
         } catch (SQLException ex) {
@@ -120,8 +226,40 @@ public class LessonDAO extends DBContext {
         }
     }
 
+    public int getTotalQuizBySubjectId(int subject_id_raw) {
+        String sql = "SELECT COUNT(*) FROM Quiz WHERE subject_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, subject_id_raw);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return 0;
+    }
+
+    public int getTotalLessonBySubjectId(int subject_id_raw) {
+        String sql = "SELECT COUNT(*) FROM Lesson WHERE subject_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, subject_id_raw);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1); 
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return 0; 
+    }
+
     public static void main(String[] args) {
         LessonDAO dao = new LessonDAO();
+        Lesson lesson = dao.getLessonById(1034);
+        System.out.println(lesson);
     }
 
 }

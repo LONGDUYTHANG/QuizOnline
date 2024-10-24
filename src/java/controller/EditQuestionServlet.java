@@ -17,6 +17,7 @@ import jakarta.servlet.http.Part;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import model.Answer;
 import model.Question;
 
@@ -25,7 +26,7 @@ import model.Question;
  * @author FPT SHOP
  */
 @MultipartConfig
-public class AddQuestionController extends HttpServlet {
+public class EditQuestionServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -42,10 +43,10 @@ public class AddQuestionController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddQuestionController</title>");  
+            out.println("<title>Servlet EditQuestionServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddQuestionController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet EditQuestionServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -75,9 +76,10 @@ public class AddQuestionController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        //Get form submmited data
         QuestionDAO dao = new QuestionDAO();
         PrintWriter out = response.getWriter();
+        int question_id = Integer.parseInt(request.getParameter("question_id"));
+        
         String subject_id_raw = request.getParameter("subject_id");
         String dimension_id_raw = request.getParameter("dimension_id");
         String lesson_topic_id_raw = request.getParameter("lesson_topic_id");
@@ -88,7 +90,7 @@ public class AddQuestionController extends HttpServlet {
         String media = request.getParameter("media");
         String[] answers = request.getParameterValues("answer");
         String[] isCorrect = request.getParameterValues("is_correct");
-        
+        out.println(question_id);
         try {
             int subject_id = Integer.parseInt(subject_id_raw);
             int dimension_id = Integer.parseInt(dimension_id_raw);
@@ -107,19 +109,22 @@ public class AddQuestionController extends HttpServlet {
             if (mediaPart.getSize() != 0) {
                 mediaPart.write(realPath + "/" + filename);
             }
-            Question question = new Question(subject_id, dimension_id, lesson_topic_id, level_id, status, content, explanation, filename);
+            Question question = new Question(question_id, subject_id, dimension_id, lesson_topic_id, level_id, status, content, explanation, filename);
             
-            //Add Question
-            dao.addQuestion(question);
+            //Update Question
+            dao.updateQuestion(question);
             
-            //Get Question that have just added
-            Question newlyAddedQuestion = dao.getLastQuestion();
+            //Delete existing answer
+            List<Answer> listAnswerDelete = dao.getAnswerOfQuestion(question_id);
+            for (Answer answer : listAnswerDelete) {
+                dao.deleteAnswer(answer.getAnswer_id());
+            }
             
             //Create Answer array
             Answer[] listAnswer = new Answer[answers.length];
             for (int i = 0; i < isCorrect.length; i++) {
                 boolean iscorrect = Boolean.parseBoolean(isCorrect[i]);
-                Answer answer = new Answer(answers[i], iscorrect, newlyAddedQuestion.getQuestion_id());
+                Answer answer = new Answer(answers[i], iscorrect, question_id);
                 listAnswer[i] = answer;
             }
             
@@ -127,11 +132,10 @@ public class AddQuestionController extends HttpServlet {
             dao.addMutipleAnswers(listAnswer);
             
             //redirect to question_detail_validation servlet
-            response.sendRedirect("question_detail_validation?message=" + URLEncoder.encode("true", "UTF-8"));
+            response.sendRedirect("editquestionvalidation?&message=" + URLEncoder.encode("true", "UTF-8") + "&question_id=" + question_id);
         } catch(Exception ex) {
             out.println(ex);
         }
-        
         
     }
 
