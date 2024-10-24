@@ -151,7 +151,7 @@
                                         <td>${quiz.duration}</td>
                                         <td>${quiz.passrate}</td>
                                         <td style="width: 120px">
-                                            <button type="button" class="btn btn-success"><i class="align-middle me-2 fas fa-fw fa-edit"></i></button>
+                                            <button type="button" class="btn btn-success" onclick="window.location.href='editquizvalidation?quiz_id=${quiz.quiz_id}'"><i class="align-middle me-2 fas fa-fw fa-edit"></i></button>
                                             <button type="button" class="btn btn-danger"><i class="align-middle me-2 fas fa-fw fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
