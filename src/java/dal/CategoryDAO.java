@@ -127,6 +127,23 @@ public class CategoryDAO extends DBContext {
 
         return category;
     }
+    
+     public String getCategoryNameById(int categoryId) {
+        String sql = "SELECT category_name FROM Category WHERE category_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, categoryId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("category_name");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
+    
+    
     public static void main(String[] args) {
         CategoryDAO dao = new CategoryDAO();
         Category c = dao.getCategoryByID(1);
