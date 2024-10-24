@@ -222,14 +222,32 @@
                                         <div class="form-group">
                                             <label for="question-type">Question Type</label>
                                             <div class="form-inline">
-                                                <input type="radio" id="theo-topic" name="question_type" value="topic" onchange="submitForm()" ${requestScope.question_type == null || requestScope.question_type == "topic" ? 'checked' : ''}>
+                                                <input type="radio" id="theo-topic" name="question_type" value="topic" onchange="checkSubjectAndSubmit('topic')" ${requestScope.question_type == null || requestScope.question_type == "topic" ? 'checked' : ''}>
                                                 <label for="theo-topic">By Topic</label>
-                                                <input type="radio" id="theo-group" name="question_type" value="group" onchange="submitForm()" ${requestScope.question_type == "group" ? 'checked' : ''}>
+                                                <input type="radio" id="theo-group" name="question_type" value="group" onchange="checkSubjectAndSubmit('group')" ${requestScope.question_type == "group" ? 'checked' : ''}>
                                                 <label for="theo-group">By Group</label>
-                                                <input type="radio" id="theo-domain" name="question_type" value="domain" onchange="submitForm()" ${requestScope.question_type == "domain" ? 'checked' : ''}>
+                                                <input type="radio" id="theo-domain" name="question_type" value="domain" onchange="checkSubjectAndSubmit('domain')" ${requestScope.question_type == "domain" ? 'checked' : ''}>
                                                 <label for="theo-domain">By Domain</label>
                                             </div>
                                         </div>
+                                        <script>
+                                            function checkSubjectAndSubmit(questionType) {
+                                                var subjectSelect = document.getElementById('subject');
+                                                if (subjectSelect.value === "") {
+                                                    alert("Please select a subject before choosing the question type.");
+                                                    document.getElementById('theo-topic').checked = true;
+                                                } else {
+                                                    submitForm(); // Call the existing submit function if a subject is selected
+                                                }
+                                            }
+
+                                            function submitForm() {
+                                                var form = document.getElementById('quiz');
+                                                form.action = 'addquiz'; // Set the URL of the target servlet
+                                                form.method = 'get';
+                                                form.submit(); // Submit the form
+                                            }
+                                        </script>
                                         <!-- Add button -->
                                         <button id="add-btn" type="button" class="btn btn-secondary" onclick="addGroup()">Add</button>
                                         <script>
@@ -288,29 +306,29 @@
                                                         <div class="form-group d-flex align-items-center mb-3">
                                                             <label for="group-selection" class="me-3">Group Selection</label>
                                                             <select id="group-selection" name="group_selection" class="form-select me-2">
-                                                                                        <c:choose>
-                                                                                            <c:when test="${requestScope.questionTopic != null}">
-                                                                                                <c:forEach var="lesson_topic" items="${requestScope.questionTopic}">
+                                            <c:choose>
+                                                <c:when test="${requestScope.questionTopic != null}">
+                                                    <c:forEach var="lesson_topic" items="${requestScope.questionTopic}">
                                                                             <option value="${lesson_topic.lesson_topic_id}"> 
-                                                                                                    ${lesson_topic.lesson_topic_name}
+                                                        ${lesson_topic.lesson_topic_name}
                                                                             </option>
-                                                                                                </c:forEach>
-                                                                                            </c:when>
-                                                                                            <c:when test="${requestScope.questionGroup != null}">
-                                                                                                <c:forEach var="dimension" items="${requestScope.questionGroup}">
+                                                    </c:forEach>
+                                                </c:when>
+                                                <c:when test="${requestScope.questionGroup != null}">
+                                                    <c:forEach var="dimension" items="${requestScope.questionGroup}">
                                                                             <option value="${dimension.dimension_id}"> 
-                                                                                                    ${dimension.dimension_name}
+                                                        ${dimension.dimension_name}
                                                                             </option>
-                                                                                                </c:forEach>
-                                                                                            </c:when>
-                                                                                            <c:otherwise>
-                                                                                                <c:forEach var="dimension" items="${requestScope.questionDomain}">
+                                                    </c:forEach>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:forEach var="dimension" items="${requestScope.questionDomain}">
                                                                             <option value="${dimension.dimension_id}"> 
-                                                                                                    ${dimension.dimension_name}
+                                                        ${dimension.dimension_name}
                                                                             </option>
-                                                                                                </c:forEach>
-                                                                                            </c:otherwise>
-                                                                                        </c:choose>
+                                                    </c:forEach>
+                                                </c:otherwise>
+                                            </c:choose>
                                                             </select>
                                                             <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" placeholder="Questions" style="width: 100px; caret-color: transparent;" onkeydown="return false;" value="0" min="0">
                                                             <button type="button" class="btn btn-secondary" onclick="removeGroup(this)">Delete</button>

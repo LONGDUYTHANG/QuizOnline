@@ -69,7 +69,6 @@ public class AddLessonServlet extends HttpServlet {
 
         request.setAttribute("subjectId", subjectId);
         request.setAttribute("listLesson_Topic", listLesson_Topic);
-        request.setAttribute("listQuiz_Type", listQuiz_Type);
         request.setAttribute("listQuiz", listQuiz);
         request.getRequestDispatcher("expert/add_lesson.jsp").forward(request, response);
 
@@ -126,7 +125,6 @@ public class AddLessonServlet extends HttpServlet {
         } else {
             String name = request.getParameter("name");
             String topic_raw = request.getParameter("topic");
-            String quiz_type = request.getParameter("quiz_type");
             String summary = request.getParameter("summary");
             String order_raw = request.getParameter("order");
             String status_raw = request.getParameter("status");
@@ -138,7 +136,7 @@ public class AddLessonServlet extends HttpServlet {
                 int order = Integer.parseInt(order_raw);
                 int quiz = Integer.parseInt(quiz_raw);
                 boolean status = "1".equals(status_raw);
-                dao.addLesson(new Lesson(name, order, summary, status, 2, subject_id, topic, "", "", quiz));
+                dao.addLesson(new Lesson(name, order, summary, status, 3, subject_id, topic, "", "", quiz));
             } catch (Exception ex) {
                 System.out.println(ex);
             }

@@ -26,15 +26,23 @@
 
         <ul class="sidebar-nav">
             <li class="sidebar-item">
-                <a class="sidebar-link" href="pages-profile.html">
+                <a class="sidebar-link" href="salerdashboard">
                     <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">DashBoard</span>
                 </a>
             </li>
             <li class="sidebar-item " >
-                <a class="sidebar-link" href="#" onclick="showSortOption()">
-                    <i class="fa-solid fa-sort"></i> <span class="align-middle">    Sort</span>
+                <a class="sidebar-link" href="registrationlist"  onclick="showOption()">
+                    <i class="fa-solid fa-sort"></i> <span class="align-middle">Registration List</span>
                 </a>
-                <div id="sortOption" >
+                <a class="sidebar-header" href="#" id="sort"onclick="showSortOption()" style="margin-left: 20px; text-decoration: none">
+                    <i class="fa-solid fa-sort"></i> <span class="align-middle">Sort</span>
+                </a>
+                
+                <a class="sidebar-header" href="#" id="fiter" onclick="showFilterOption()" style="margin-left: 20px; text-decoration: none">
+                    <i class="fa-solid fa-sort"></i> <span class="align-middle">Filter</span>
+                </a>
+
+                <div  id="sortOption" style="display: none" >
                     <form action="sortregistration">
                         <p class="sidebar-header">Type</p>
                         <input  type="radio" name="type" value="desc" ${requestScope.type eq 'desc'?'checked':''} style="margin-left: 20px"> Descending <br>
@@ -45,13 +53,7 @@
                         <input type="submit" name="sort" value="Sort" style="margin-left: 20px">
                     </form>
                 </div>
-            </li>
-
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="pages-invoice.html">
-                    <i class="fa-solid fa-filter"></i><span class="align-middle">Filter</span>
-                </a>
-                <div id="filterOption" >
+                        <div id="filterOption" style="display: none">
                     <form action="filterregistration" method="post">
                         <span class="sidebar-header">Subject Name</span>
                         <input type="text" name="subject_name"  value="${requestScope.subject_name}" style="margin-left: 20px"><br>
@@ -74,6 +76,12 @@
                         <input type="submit" name="sort" value="Filter" style="margin-left: 20px">
                     </form>
                 </div>
+            </li>
+
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="#" onclick="showFilterOption()">
+                    <i class="fa-solid fa-filter"></i><span class="align-middle">Logout</span>
+                </a>
             </li>
 
         </ul>
@@ -110,13 +118,25 @@
             sort_option.style.display = 'none';
         }
     }
+
+    function showFilterOption() {
+        var filter_option = document.getElementById('filterOption');
+        if (filter_option.style.display === 'none') {
+            filter_option.style.display = '';
+        } else {
+            filter_option.style.display = 'none';
+        }
+    }
     function saveStatus() {
         var sort_option = document.getElementById('sortOption');
-        var field_cost = document.getElementById('field_cost');
-        var field_date = document.getElementById('field_date');
-        if (field_cost.checked === true || field_date.checked === true) {
-            sort_option.style.display = '';
-        }
 
+        sort_option.style.display = 'none';
+    }
+    
+    function showOption(){
+         var sort_option = document.getElementById('sort');
+         var filter_option = document.getElementById('filter');
+         filter_option.style.display='';
+         sort_option.style.display='';
     }
 </script>

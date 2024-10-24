@@ -4,9 +4,12 @@
  */
 package dal;
 
+import java.lang.reflect.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import model.Registration;
 import model.Registration_Status;
@@ -29,8 +32,9 @@ public class RegistrationDAO extends DBContext {
         ResultSet rs;
         ArrayList<Registration> registration_list = new ArrayList<Registration>();
         try {
-            String strSelect = "SELECT registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id FROM Registration";
-            String strView = "ALTER VIEW [RegistrationView] AS SELECT registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id FROM Registration";
+            String strSelect = "SELECT registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id FROM Registration  ";
+            String strView = "ALTER VIEW [RegistrationView] AS SELECT registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id "
+                    + " FROM Registration  ";
             stm = connection.prepareStatement(strSelect);
             stm_view = connection.prepareStatement(strView);
             stm_view.executeUpdate();
@@ -209,7 +213,7 @@ public class RegistrationDAO extends DBContext {
      * @return an array list of registration list
      */
     public ArrayList<Registration> filterRegistrationList(String subject_name, String lower_registration_date,
-            String upper_registration_date,  String status_name) {
+            String upper_registration_date, String status_name) {
         PreparedStatement stm;
         PreparedStatement stm_view;
         ResultSet rs;
@@ -217,18 +221,18 @@ public class RegistrationDAO extends DBContext {
         try {
             String strSelect = "Select registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id FROM Registration"
                     + " WHERE  subject_id in(SELECT subject_id FROM Subject where subject_name LIKE ?)"
-                    + " AND registration_time >= '"+lower_registration_date+" 00:00:00.000' AND registration_time <= '"+upper_registration_date+" 23:59:00.000'"
+                    + " AND registration_time >= '" + lower_registration_date + " 00:00:00.000' AND registration_time <= '" + upper_registration_date + " 23:59:00.000'"
                     + " AND status_id IN (SELECT status_id FROM Registration_Status WHERE status_name LIKE ?)";
-            
+
             String strView = "ALTER VIEW [RegistrationView] AS Select registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id FROM Registration"
-                    + " WHERE  subject_id in(SELECT subject_id FROM Subject where subject_name LIKE '"+subject_name+"' )"
-                    + " AND registration_time >= '"+lower_registration_date+" 00:00:00.000' AND registration_time <= '"+upper_registration_date+" 23:59:00.000'"
-                    + " AND status_id IN (SELECT status_id FROM Registration_Status WHERE status_name LIKE '"+status_name+"') ";
+                    + " WHERE  subject_id in(SELECT subject_id FROM Subject where subject_name LIKE '" + subject_name + "' )"
+                    + " AND registration_time >= '" + lower_registration_date + " 00:00:00.000' AND registration_time <= '" + upper_registration_date + " 23:59:00.000'"
+                    + " AND status_id IN (SELECT status_id FROM Registration_Status WHERE status_name LIKE '" + status_name + "') ";
             stm = connection.prepareStatement(strSelect);
-            stm_view=connection.prepareStatement(strView);
+            stm_view = connection.prepareStatement(strView);
             stm.setString(1, subject_name);
             stm.setString(2, status_name);
-            
+
             rs = stm.executeQuery();
             stm_view.executeUpdate();
             while (rs.next()) {
@@ -308,31 +312,6 @@ public class RegistrationDAO extends DBContext {
         }
     }
 
-    public ArrayList<Registration> getView() {
-        PreparedStatement stm;
-        ResultSet rs;
-        ArrayList<Registration> registration_list = new ArrayList<Registration>();
-        try {
-            String strSelect = "SELECT registration_id, registration_time, account_id, subject_id ,package_id, cost, status_id FROM RegistrationView";
-            stm = connection.prepareStatement(strSelect);
-            rs = stm.executeQuery();
-            while (rs.next()) {
-                Registration registration = new Registration();
-                registration.setAccount_id(rs.getInt("account_id"));
-                registration.setRegistration_id(rs.getInt("registration_id"));
-                registration.setRegistration_time(rs.getTimestamp("registration_time").toLocalDateTime());
-                registration.setSubject_id(rs.getInt("subject_id"));
-                registration.setPackage_id(rs.getInt("package_id"));
-                registration.setCost(rs.getDouble("cost"));
-                registration.setStatus_id(rs.getInt("status_id"));
-                registration_list.add(registration);
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return registration_list;
-    }
-
     public Registration getRegistrationById(int id) {
         PreparedStatement stm;
         ResultSet rs;
@@ -359,10 +338,544 @@ public class RegistrationDAO extends DBContext {
         return registration;
     }
 
+    /**
+     * Get revenue of a month
+     *
+     * @return an array list that provides revenue of 12 months
+     */
+    public ArrayList<Integer> getListPriceByMonth() {
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<Integer> list = new ArrayList<>();
+        try {
+            String strSelect = "  SELECT SUM(e.earnings) as earning, e.mon from "
+                    + " ( Select SUM(list_price) as earnings, MONTH(registration_time ) as mon FROM Registration GROUP BY registration_time) as e Group by e.mon";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getInt("earning"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    /**
+     * Get number of registration in a month
+     *
+     * @return an array list that provides number of registration of 12 months
+     */
+    public ArrayList<Integer> getRegistrationByMonth() {
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<Integer> list = new ArrayList<>();
+        try {
+            String strSelect = " SELECT COUNT(e.number) as earning, e.mon from"
+                    + " ( Select COUNT(*) as number, MONTH(registration_time ) as mon FROM Registration GROUP BY registration_time) as e Group by e.mon";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getInt("earning") );
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    /**
+     * Get all revenue of all months
+     *
+     * @return revenue of all months
+     */
+    public double getAllMonthRevenue() {
+        PreparedStatement stm;
+        ResultSet rs;
+        double revenue = 0;
+        try {
+            String strSelect = "SELECT SUM(list_price) as revenue FROM Registration";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                revenue = rs.getDouble("revenue");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return revenue;
+    }
+    
+       public double getMonthRevenue(LocalDate now) {
+        PreparedStatement stm;
+        ResultSet rs;
+        int month =now.getMonthValue();
+        double revenue = 0;
+        try {
+            String strSelect = "SELECT SUM(list_price) as revenue FROM Registration WHERE MONTH(registration_time)=?";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, month);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                revenue = rs.getDouble("revenue");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return revenue;
+    }
+
+    /**
+     * Get total revenue of a week
+     *
+     * @param now the current date
+     * @return revenue
+     */
+    public double getAllWeekRevenue(LocalDate now) {
+        PreparedStatement stm;
+        ResultSet rs;
+        double revenue = 0;
+        int month = now.getMonthValue();
+        DayOfWeek dayOfWeek = now.getDayOfWeek();
+        int day = dayOfWeek.getValue();
+        int dayOfMonth = now.getDayOfMonth();
+        try {
+            String strSelect = "SELECT SUM(e.earnings) as revenue FROM (Select SUM(list_price) as earnings, MONTH(registration_time ) as mon, DAY(registration_time) as day FROM Registration\n"
+                    + "WHERE MONTH(registration_time)=? AND DAY(registration_time)>=? AND DAY(registration_time)<=? GROUP BY registration_time)\n"
+                    + "AS e";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, month);
+            stm.setInt(2, dayOfMonth - day + 1);
+            stm.setInt(3, dayOfMonth + 7 - day);
+            rs = stm.executeQuery();
+            if (rs.next()) {        
+                revenue = rs.getDouble("revenue");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return revenue;
+    }
+
+    /**
+     * Get revenue of a week
+     *
+     * @param now
+     * @return an array list that provides revenue of 7 days in a week
+     */
+    public ArrayList<Integer> getRevenueByWeek(LocalDate now) {
+        PreparedStatement stm;
+        ResultSet rs;
+        //some days in a week might not have data
+        ArrayList<Integer> list_revenue = new ArrayList<>();
+        //some days in a week might not be contained
+        ArrayList<Integer> list_day = new ArrayList<>();
+        int month = now.getMonthValue();
+        DayOfWeek dayOfWeek = now.getDayOfWeek();
+        int day = dayOfWeek.getValue();
+        int dayOfMonth = now.getDayOfMonth();
+
+        try {
+            String strSelect = "SELECT SUM(e.earnings) as revenue, e.day as day FROM (Select SUM(list_price) as earnings, MONTH(registration_time ) as mon, DAY(registration_time) as day FROM Registration\r\n"
+                    + //
+                    "  WHERE MONTH(registration_time)=? AND DAY(registration_time)>=? AND DAY(registration_time)<=? GROUP BY registration_time)\r\n"
+                    + //
+                    "  AS e GROUP BY e.day";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, month);
+            stm.setInt(2, dayOfMonth - day + 1);
+            stm.setInt(3, dayOfMonth + 7 - day);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                list_revenue.add(rs.getInt("revenue"));
+                list_day.add(rs.getInt("day"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        //contains info of 7 days in a week
+        ArrayList<Integer> outcome_list = new ArrayList();
+        //check from the first day of the week that corespond to the date user choose
+        //Ex: user choose thursday the 15th then check_date is 12th
+        int check_date = dayOfMonth - day + 1;
+        //list day and list should be coressponding
+        int listday_index = 0;
+        for (int i = 0; i < 7; i++) {
+            //if there is a date that should have in the the outcome_list but
+            //not exist in the list_day 
+            if ((int) list_day.get(listday_index) != check_date) {
+                outcome_list.add(i, 0);
+            } else {
+                outcome_list.add(i, (int) list_revenue.get(listday_index));
+                if (listday_index <= list_day.size() - 2) {
+                    //since the value in the list_revenue has been asigned to outcome_list,
+                    //we move to the next element in the list_revenue
+                    listday_index++;
+                }
+
+            }
+
+            check_date++;
+        }
+        return outcome_list;
+    }
+
+    /**
+     * Get number of registration in a week
+     *
+     * @param now
+     * @return an array list that provides number of registration of 7 days in a
+     * week
+     */
+    public ArrayList<Integer> getNumberofRegistrationsInAWeek(LocalDate now) {
+        PreparedStatement stm;
+        ResultSet rs;
+        //some days in a week might not have data
+        ArrayList<Integer> list_registration = new ArrayList<>();
+        //some days in a week might not be contained
+        ArrayList<Integer> list_day = new ArrayList<>();
+        int month = now.getMonthValue();
+        DayOfWeek dayOfWeek = now.getDayOfWeek();
+        int day = dayOfWeek.getValue();
+        int dayOfMonth = now.getDayOfMonth();
+
+        try {
+            String strSelect = "SELECT COUNT(*) as number, e.day as day FROM (Select COUNT(*) as numer, MONTH(registration_time ) as mon, DAY(registration_time) as day FROM Registration\r\n"
+                    + //
+                    "  WHERE MONTH(registration_time)=? AND DAY(registration_time)>=? AND DAY(registration_time)<=? GROUP BY registration_time)\r\n"
+                    + //
+                    "  AS e GROUP BY e.day";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, month);
+            stm.setInt(2, dayOfMonth - day + 1);
+            stm.setInt(3, dayOfMonth + 7 - day);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                list_registration.add(rs.getInt("number"));
+                list_day.add(rs.getInt("day"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        //contains info of 7 days in a week
+        ArrayList<Integer> outcome_list = new ArrayList();
+        //check from the first day of the week that corespond to the date user choose
+        //Ex: user choose thursday the 15th then check_date is 12th
+        int check_date = dayOfMonth - day + 1;
+        //list day and list should be coressponding
+        int listday_index = 0;
+        for (int i = 0; i < 7; i++) {
+            //if there is a date that should have in the the outcome_list but
+            //not exist in the list_day 
+            if ((int) list_day.get(listday_index) != check_date) {
+                outcome_list.add(i, 0);
+            } else {
+                outcome_list.add(i, (int) list_registration.get(listday_index));
+                if (listday_index <= list_day.size() - 2) {
+                    //since the value in the list_registration has been asigned to outcome_list,
+                    //we move to the next element in the list_registration
+                    listday_index++;
+                }
+
+            }
+
+            check_date++;
+        }
+        return outcome_list;
+    }
+
+    /**
+     * Get total number of registration in a week
+     *
+     * @param now the current date
+     * @return all registration in a week
+     */
+    public int getAllWeekRegitration(LocalDate now) {
+        PreparedStatement stm;
+        ResultSet rs;
+        int month_registration = 0;
+        int month = now.getMonthValue();
+        DayOfWeek dayOfWeek = now.getDayOfWeek();
+        int day = dayOfWeek.getValue();
+        int dayOfMonth = now.getDayOfMonth();
+        try {
+            String strSelect = "SELECT COUNT(*) as number FROM (Select COUNT(*) as numer, MONTH(registration_time ) as mon, DAY(registration_time) as day FROM Registration\n"
+                    + "WHERE MONTH(registration_time)=? AND DAY(registration_time)>=? AND DAY(registration_time)<=? GROUP BY registration_time)\n"
+                    + "AS e ";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, month);
+            stm.setInt(2, dayOfMonth - day + 1);
+            stm.setInt(3, dayOfMonth + 7 - day);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                month_registration = rs.getInt("number");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return month_registration;
+    }
+
+    /**
+     * Get total number of registration in all months
+     *
+     * @return all registration in all months
+     */
+    public int getAllMonthRegitration() {
+        PreparedStatement stm;
+        ResultSet rs;
+        int week_registration = 0;
+        try {
+            String strSelect = "SELECT COUNT(*) as number FROM Registration";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                week_registration = rs.getInt("number");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return week_registration;
+    }
+    
+        /**
+     * Get total number of registration in the current month
+     *
+     * @param now the current date
+     * @return all registration in current month
+     */
+    public int getMonthRegitration(LocalDate now) {
+        PreparedStatement stm;
+        ResultSet rs;
+        int month=now.getMonthValue();
+        int week_registration = 0;
+        try {
+            String strSelect = "SELECT COUNT(*) as number FROM Registration where MONTH(registration_time)=?";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, month);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                week_registration = rs.getInt("number");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return week_registration;
+    }
+
+    /**
+     * Get registration status of 12 months
+     *
+     * @return array list contains number of 3 status
+     */
+    public ArrayList<Integer> getMonthRegistrationStatus() {
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<Integer> month_registration_status = new ArrayList<>();
+        try {
+            String strSelect = "SELECT COUNT(status_id) as number, status_id FROM Registration GROUP BY status_id";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                month_registration_status.add(rs.getInt("number"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return month_registration_status;
+    }
+
+    /**
+     * Get number of registration status in a week
+     *
+     * @param now the current date
+     * @return array list contains number of 3 status
+     */
+    public ArrayList<Integer> getWeekRegistrationStatus(LocalDate now) {
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<Integer> month_registration_status = new ArrayList<>();
+        int month = now.getMonthValue();
+        DayOfWeek dayOfWeek = now.getDayOfWeek();
+        int day = dayOfWeek.getValue();
+        int dayOfMonth = now.getDayOfMonth();
+        try {
+            String strSelect = "SELECT COUNT(e.status_id) as number, Registration_Status.status_id FROm Registration_Status LEFT JOIN (Select  status_id  FROM Registration\n"
+                    + "WHERE MONTH(registration_time)=? AND DAY(registration_time)>=? AND DAY(registration_time)<=? )as e\n"
+                    + "ON Registration_Status.status_id=e.status_id GROUP BY Registration_Status.status_id,e.status_id";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, month);
+            stm.setInt(2, dayOfMonth - day + 1);
+            stm.setInt(3, dayOfMonth + 7 - day);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                month_registration_status.add(rs.getInt("number"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return month_registration_status;
+    }
+
+    /**
+     * Get number of users in all months
+     *
+     * @return array list contains data of 12 months
+     */ 
+    public ArrayList<Integer> getMonthUser(){
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<Integer> month_user = new ArrayList<>();
+        try {
+            String strSelect = "SELECT COUNT(account_id) as number, MONTH(registration_time) as mon FROM Account GROUP BY MONTH(registration_time)";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                month_user.add(rs.getInt("number"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return month_user;
+    }
+
+        /**
+     * Get number of user in a week
+     *
+     * @param now
+     * @return an array list that provides number of user of 7 days in a
+     * week
+     */
+    public ArrayList<Integer> getNumberofUsersInAWeek(LocalDate now) {
+        PreparedStatement stm;
+        ResultSet rs;
+        //some days in a week might not have data
+        ArrayList<Integer> list_registration = new ArrayList<>();
+        //some days in a week might not be contained
+        ArrayList<Integer> list_day = new ArrayList<>();
+        int month = now.getMonthValue();
+        DayOfWeek dayOfWeek = now.getDayOfWeek();
+        int day = dayOfWeek.getValue();
+        int dayOfMonth = now.getDayOfMonth();
+
+        try {
+            String strSelect = "SELECT COUNT(*) as number, e.day as day FROM (Select COUNT(*) as numer, MONTH(registration_time ) as mon, DAY(registration_time) as day FROM Account\r\n" + //
+                                "WHERE MONTH(registration_time)=? AND DAY(registration_time)>=? AND DAY(registration_time)<=? GROUP BY registration_time)\r\n" + //
+                                "AS e GROUP BY e.day";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, month);
+            stm.setInt(2, dayOfMonth - day + 1);
+            stm.setInt(3, dayOfMonth + 7 - day);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                list_registration.add(rs.getInt("number"));
+                list_day.add(rs.getInt("day"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        //contains info of 7 days in a week
+        ArrayList<Integer> outcome_list = new ArrayList();
+        //check from the first day of the week that corespond to the date user choose
+        //Ex: user choose thursday the 15th then check_date is 12th
+        int check_date = dayOfMonth - day + 1;
+        //list day and list should be coressponding
+        int listday_index = 0;
+        for (int i = 0; i < 7; i++) {
+            //if there is a date that should have in the the outcome_list but
+            //not exist in the list_day 
+            if ((int) list_day.get(listday_index) != check_date) {
+                outcome_list.add(i, 0);
+            } else {
+                outcome_list.add(i, (int) list_registration.get(listday_index));
+                if (listday_index <= list_day.size() - 2) {
+                    //since the value in the list_registration has been asigned to outcome_list,
+                    //we move to the next element in the list_registration
+                    listday_index++;
+                }
+
+            }
+
+            check_date++;
+        }
+        return outcome_list;
+    }
+
+    /**
+     * Get total number of user 12 months
+     * @return all user in all months
+     */
+    public int getAllUser(){
+        PreparedStatement stm;
+        ResultSet rs;
+        int week_registration = 0;
+        try {
+            String strSelect = "SELECT COUNT(*) as number FROM Account";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                week_registration = rs.getInt("number");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return week_registration;
+    }
+    
+    public int getUserInAMonth(LocalDate now){
+        PreparedStatement stm;
+        ResultSet rs;
+        int month=now.getMonthValue();
+        int week_registration = 0;
+        try {
+            String strSelect = "SELECT COUNT(*) as number FROM Account WHERE MONTH(registration_time)=?";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, month);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                week_registration = rs.getInt("number");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return week_registration;
+    }
+
+    /**
+     * Get total number of user in a week
+     * @param now the current date
+     * @return all user in a week
+     */
+    public int getAllUserInAWeek(LocalDate now){
+        PreparedStatement stm;
+        ResultSet rs;
+        int month_registration = 0;
+        int month = now.getMonthValue();
+        DayOfWeek dayOfWeek = now.getDayOfWeek();
+        int day = dayOfWeek.getValue();
+        int dayOfMonth = now.getDayOfMonth();
+        try {
+            String strSelect = "SELECT COUNT(*) as number FROM (Select COUNT(*) as numer, MONTH(registration_time ) as mon, DAY(registration_time) as day FROM Account\n"
+                    + "WHERE MONTH(registration_time)=? AND DAY(registration_time)>=? AND DAY(registration_time)<=? GROUP BY registration_time)\n"
+                    + "AS e ";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, month);
+            stm.setInt(2, dayOfMonth - day + 1);
+            stm.setInt(3, dayOfMonth + 7 - day);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                month_registration = rs.getInt("number");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return month_registration;
+    }
+
     public static void main(String[] args) {
         RegistrationDAO a = new RegistrationDAO();
-        ArrayList<Registration> h = a.filterRegistrationList("%%","2024-10-08","2024-10-08", "%%");
-
-        System.out.println(h.size());
+        ArrayList<Integer> h=a.getNumberofUsersInAWeek(LocalDate.now());
+        System.out.println(a.getUserInAMonth(LocalDate.now()));
+     
     }
 }

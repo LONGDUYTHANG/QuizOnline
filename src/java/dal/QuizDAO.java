@@ -604,6 +604,23 @@ public class QuizDAO extends DBContext {
             e.printStackTrace(); // In lỗi nếu có vấn đề
         }
     }
+    
+    public Duration getTotalDurationBySubjectId(int subjectId) {
+        String sql = "SELECT SUM(duration) AS totalDuration FROM Quiz WHERE subject_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, subjectId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                float totalDurationInMinutes = rs.getFloat("totalDuration");
+                return Duration.ofMinutes((long) totalDurationInMinutes);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return Duration.ZERO;
+    }
+
 
     public int searchNewlyPractice(int account_id) {
         String sql = "select top 1 practice_id from Practice_Record where account_id = ? order by practice_id desc";
