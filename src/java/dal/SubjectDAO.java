@@ -91,7 +91,7 @@ public class SubjectDAO extends DBContext {
         }
         return null;
     }
-    
+
     //Error tum lum
     public List<Subject> getAllSubject() {
         List<Subject> subjects = new ArrayList<>();
@@ -164,15 +164,6 @@ public class SubjectDAO extends DBContext {
         return subjects;
     }
 
-    public static void main(String[] args) {
-        SubjectDAO a = new SubjectDAO();
-        List<Subject> list = a.getAllSubject();
-        for (Subject subject : list) {
-            System.out.println(subject);
-        }
-
-    }
-
     public void createNewSubject(String subjectName, String subjectCategory, int status, boolean featured, String thumbnail, String tagLine, String description, String accountId) {
         String sql = "INSERT INTO Subject (subject_name, category_id, status, isFeatured, thumbnail, tagline, description, account_id, created_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE())";
 
@@ -218,7 +209,6 @@ public class SubjectDAO extends DBContext {
         String sql = "SELECT * FROM Subject WHERE subject_name LIKE ? OR description LIKE ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            // Sử dụng % để tìm kiếm bất kỳ vị trí nào trong tên hoặc mô tả
             String searchKeyword = "%" + keyword + "%";
             pstmt.setString(1, searchKeyword);
             pstmt.setString(2, searchKeyword);
@@ -370,8 +360,6 @@ public class SubjectDAO extends DBContext {
         return subjects;
     }
 
-    
-
     public int countSubjects() {
         String sql = "SELECT COUNT(*) AS totalSubjects FROM Subject";
         int count = 0;
@@ -412,7 +400,7 @@ public class SubjectDAO extends DBContext {
         subjects.sort((s1, s2) -> s1.getCreatedDate().compareTo(s2.getCreatedDate()));
         return subjects;
     }
-    
+
     public List<Subject> getListSubject() {
         List<Subject> list = new ArrayList<>();
         String sql = "SELECT * FROM Subject";
@@ -438,7 +426,14 @@ public class SubjectDAO extends DBContext {
         }
         return list;
     }
-    
-   
+
+    public static void main(String[] args) {
+        SubjectDAO subjectDAO = new SubjectDAO();
+        String testCategoryId = "Technology"; 
+        List<Subject> subjects = subjectDAO.searchSubjectsByCategory(testCategoryId);
+        for (Subject subject : subjects) {
+            System.out.println("Subject ID: " + subject.getSubjectId());
+        }
+    }
 
 }

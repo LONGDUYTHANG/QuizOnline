@@ -64,8 +64,24 @@ public class SubjectListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String sort = request.getParameter("sort");
+        String keyword = request.getParameter("keyword");
+
         SubjectDAO mySubjectDAO = new SubjectDAO();
-        ArrayList<Subject> subject_list = mySubjectDAO.getSubject();
+        List<Subject> subject_list = new ArrayList<>();
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            subject_list = mySubjectDAO.searchSubjects(keyword); 
+        } else {
+            if (sort == null || sort.equals("featured")) {
+                subject_list = mySubjectDAO.getFeaturedSubjects();
+            } else if (sort.equals("latest")) {
+                subject_list = mySubjectDAO.getLatestSubjects();
+            } else if (sort.equals("oldest")) {
+                subject_list = mySubjectDAO.getOldestSubjects();
+            }
+        }
+
         request.setAttribute("subject_list", subject_list);
 
         CategoryDAO myCategoryDAO = new CategoryDAO();
@@ -73,12 +89,15 @@ public class SubjectListServlet extends HttpServlet {
         request.setAttribute("category_list", category_list);
 
         HttpSession session = request.getSession(false);
-        Account user = (Account) session.getAttribute("user");
-        if (user == null) {
-            request.getRequestDispatcher("common/subject_list.jsp").forward(request, response);
-        } else {
-            request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
+        if (session != null) {
+            Account user = (Account) session.getAttribute("user");
+            if (user != null) {
+                request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
+                return;
+            }
         }
+
+        request.getRequestDispatcher("common/subject_list.jsp").forward(request, response);
     }
 
     /**

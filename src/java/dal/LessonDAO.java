@@ -255,31 +255,28 @@ public class LessonDAO extends DBContext {
         return list;
     }
 
+    public int countLessonsBySubjectId(int subject_id_raw) {
+        String sql = "SELECT COUNT(*) FROM Lesson WHERE subject_id = ?";
+        int count = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, subject_id_raw);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1); // Lấy giá trị đếm từ cột đầu tiên
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        return count;
+    }
+
     public static void main(String[] args) {
         LessonDAO dao = new LessonDAO();
-        int subjectId = 3; // Thay đổi subjectId phù hợp với dữ liệu của bạn
+        int subjectId = 3;
 
-        List<Lesson_Topic> lessonTopics = dao.getLessonTopicsBySubjectId(subjectId);
-        List<Lesson_Type> lessonTypes = dao.getLessonTypesBySubjectId(subjectId);
-
-        if (lessonTopics != null && !lessonTopics.isEmpty()) {
-            for (Lesson_Topic topic : lessonTopics) {
-                System.out.println("Lesson Topic ID: " + topic.getLesson_topic_id()
-                        + ", Name: " + topic.getLesson_topic_name()
-                        + ", Subject ID: " + topic.getSubject_id());
-            }
-        } else {
-            System.out.println("No lesson topics found for subject ID: " + subjectId);
-        }
-
-        if (lessonTypes != null && !lessonTypes.isEmpty()) {
-            for (Lesson_Type type : lessonTypes) {
-                System.out.println("Lesson Type ID: " + type.getLesson_type_id()
-                        + ", Name: " + type.getLesson_type_name());
-            }
-        } else {
-            System.out.println("No lesson topics found for subject ID: " + subjectId);
-        }
+        int totalLessons = dao.countLessonsBySubjectId(subjectId);
+        System.out.println("Total lessons for subject ID " + subjectId + ": " + totalLessons);
     }
 
 }

@@ -103,9 +103,9 @@ public class SearchByCategory extends HttpServlet {
         }
 
         if ("blogs".equals(view)) {
-            request.getRequestDispatcher("customer/blog_list.jsp").forward(request, response);
+            request.getRequestDispatcher("common/blog_list.jsp").forward(request, response);
         } else {
-            request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
+            request.getRequestDispatcher("common/subject_list.jsp").forward(request, response);
         }
 
 
