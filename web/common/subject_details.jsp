@@ -74,19 +74,33 @@
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="course-detail-bx">
                                         <div class="course-price">
-                                            <label for="courseDuration">Choose duration:</label>
-                                            <select id="courseDuration" name="courseDuration" class="form-control" onchange="updatePrice()">
-                                                <option value="3months" data-price="120">3 months</option>
-                                                <option value="6months" data-price="200">6 months</option>
-                                                <option value="9months" data-price="270">9 months</option>
-                                            </select>
-                                        </div> 
-                                        <div class="course-price" style="margin-bottom: 5px;">
-                                            <del>$190</del>
-                                            <h4 class="price">$120</h4>
-                                        </div>	
+                                            <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+                                            <div class="course-price">
+                                                <label for="courseDuration">Choose duration:</label>
+                                                <select id="courseDuration" name="courseDuration" class="form-control" onchange="updatePrice()">
+                                                    <c:forEach var="pkg" items="${packageList}">
+                                                        <option value="${pkg.duration}" data-price="${pkg.salePrice}" 
+                                                                <c:if test="${pkg.duration == selectedDuration}">selected</c:if>
+                                                                    >
+                                                                ${pkg.duration} months
+                                                        </option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+
+                                            <div class="course-price" style="margin-bottom: 5px;">
+                                                <c:if test="${not empty selectedPackageModel}">
+                                                    <del>${selectedPackageModel.listPrice}</del>
+                                                    <h4 class="price">${selectedPackageModel.salePrice}</h4>
+                                                </c:if>
+                                            </div>
+
+                                        </div>
+
+
                                         <div class="course-buy-now text-center">
-                                            <a href="register_subject?subject_id=${c.subjectId}" class="btn radius-xl text-uppercase">Buy Now This Courses</a>
+                                            <a href="login.jsp" class="btn radius-xl text-uppercase">Buy Now This Courses</a>
                                         </div>
                                         <div class="teacher-bx">
                                             <div class="teacher-info">
@@ -104,9 +118,11 @@
                                                 <span>Categories</span>
                                                 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                                 <c:set var="c" value="${requestScope.mySubject}" />
-                                                <h5 class="text-primary">${c.categoryId}</h5>
+
+                                                <h5 class="text-primary">${categoryName}</h5> <!-- Hi?n th? categoryName -->
                                             </div>
                                         </div>
+
                                         <div class="course-info-list scroll-page">
                                             <ul class="navbar">
                                                 <li><a class="nav-link" href="#overview"><i class="ti-zip"></i>Overview</a></li>
@@ -145,7 +161,6 @@
                                                     <li><i class="ti-time"></i> <span class="label">Duration</span> <span class="value">60 hours</span></li>
                                                     <li><i class="ti-stats-up"></i> <span class="label">Skill level</span> <span class="value">Beginner</span></li>
                                                     <li><i class="ti-smallcap"></i> <span class="label">Language</span> <span class="value">English</span></li>
-
                                                 </ul>
                                             </div>
                                             <div class="col-md-12 col-lg-8">
@@ -166,18 +181,7 @@
                                                         </div>
                                                         <span>120 minutes</span>
                                                     </li>
-                                                    <li>
-                                                        <div class="curriculum-list-box">
-                                                            <span>Lesson 2.</span> User Research and Design
-                                                        </div>
-                                                        <span>60 minutes</span>
-                                                    </li>
-                                                    <li>
-                                                        <div class="curriculum-list-box">
-                                                            <span>Lesson 3.</span> Evaluating User Interfaces Part 1
-                                                        </div>
-                                                        <span>85 minutes</span>
-                                                    </li>
+
                                                 </ul>
                                             </li>
                                             <li>
@@ -189,18 +193,7 @@
                                                         </div>
                                                         <span>110 minutes</span>
                                                     </li>
-                                                    <li>
-                                                        <div class="curriculum-list-box">
-                                                            <span>Lesson 2.</span> UI Design Capstone
-                                                        </div>
-                                                        <span>120 minutes</span>
-                                                    </li>
-                                                    <li>
-                                                        <div class="curriculum-list-box">
-                                                            <span>Lesson 3.</span> Evaluating User Interfaces Part 2
-                                                        </div>
-                                                        <span>120 minutes</span>
-                                                    </li>
+
                                                 </ul>
                                             </li>
                                             <li>
@@ -212,12 +205,7 @@
                                                         </div>
                                                         <span>120 minutes</span>
                                                     </li>
-                                                    <li>
-                                                        <div class="curriculum-list-box">
-                                                            <span>Part 2.</span> Online Test
-                                                        </div>
-                                                        <span>120 minutes</span>
-                                                    </li>
+
                                                 </ul>
                                             </li>
                                         </ul>
@@ -234,16 +222,7 @@
                                                 <p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</p>
                                             </div>
                                         </div>
-                                        <div class="instructor-bx">
-                                            <div class="instructor-author">
-                                                <img src="assets/images/testimonials/pic2.jpg" alt="">
-                                            </div>
-                                            <div class="instructor-info">
-                                                <h6>Keny White </h6>
-                                                <span>Professor</span>
-                                                <p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</p>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
 
@@ -277,6 +256,18 @@
         <script src="assets/js/functions.js"></script>
         <script src="assets/js/contact.js"></script>
         <script src="assets/vendors/switcher/switcher.js"></script>
+
+        <script>
+                                                    function updatePrice() {
+                                                        var select = document.getElementById('courseDuration');
+                                                        var selectedOption = select.options[select.selectedIndex];
+                                                        var salePrice = selectedOption.getAttribute('data-price');
+                                                        var priceElement = document.querySelector('.course-price h4.price');
+
+                                                        // C?p nh?t giá hi?n th?
+                                                        priceElement.innerText = salePrice;
+                                                    }
+        </script>
     </body>
 
 </html>
