@@ -51,7 +51,7 @@
                 Common
             </li>
             <li class="sidebar-item">
-                <a data-bs-target="#dashboards" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <a class="sidebar-link collapsed" href="admindashboard">
                     <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboards</span>
                 </a>
                 
