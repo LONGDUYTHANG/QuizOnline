@@ -51,13 +51,196 @@
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
         <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/quiz.css"/>
+
+        <style>
+            /* Base Styling */
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            /*#container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+            }*/
+
+
+            #container {
+                width: 100%; /* Takes up 90% of the viewport width */
+                max-width: 1900px; /* Sets an upper limit */
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                max-width: 1900px;
+                background-color: #f9f9f9;
+                padding: 10px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+            }
+
+            #time {
+                font-size: 24px;
+                font-weight: bold;
+                color: #333;
+            }
+
+
+
+            header button:hover {
+                background-color: #45a049;
+            }
+
+            hr {
+                margin: 20px 0;
+                border: 1px solid #ddd;
+            }
+
+            main {
+                width: 100%;
+                max-width: 1900px;
+                padding: 20px;
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);
+                margin-bottom: 80px;
+            }
+
+            .quiz h2 {
+                font-size: 20px;
+                color: #333;
+                margin-bottom: 10px;
+            }
+
+            .quiz label {
+                font-size: 16px;
+                color: #333;
+            }
+
+            .quiz input[type="radio"] {
+                margin-right: 8px;
+            }
+
+            .quiz img {
+                width: 100%;
+                max-width: 800px;
+                height: auto;
+                border-radius: 8px;
+                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+            }
+
+            #footer {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                height: 60px;
+                background-color: #ffffff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.1);
+                padding: 0 20px;
+                z-index: 100;
+            }
+
+            /*#footer .btn {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                margin: 0 10px;
+                border-radius: 8px;
+                border: none;
+                font-size: 14px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }*/
+
+            /*#footer .btn:hover {
+                background-color: #45a049;
+            }*/
+
+            #popup, #popup_submit, #popup_submit_finished, #popup_submit_finished_nothing, #popup_submitted {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
+                padding: 20px;
+                width: 80%;
+                max-width: 400px;
+                z-index: 2000;
+                text-align: center;
+            }
+
+            #popup h3, #popup_submit h3, #popup_submit_finished h3, #popup_submit_finished_nothing h3, #popup_submitted h3 {
+                color: #333;
+                margin-bottom: 10px;
+            }
+
+            #popup p, #popup_submit p, #popup_submit_finished p, #popup_submit_finished_nothing p, #popup_submitted p {
+                color: #555;
+                margin-bottom: 20px;
+            }
+
+
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.7);
+                z-index: 1001;
+            }
+
+            .questionSelectPopup {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
+                padding: 20px;
+                width: 100%;
+                max-width: 900px;
+                z-index: 2000;
+                border-radius: 8px;
+                text-align: center;
+            }
+
+
+
+
+            #questionList {
+                display: grid;
+                grid-template-columns: repeat(10, 1fr);
+                gap: 5px;
+                max-width: 100%;
+                margin: 20px 0;
+            }
+
+        </style>
 
 
     </head>
-    <body id="bg">
-        <div id="container">
-            <div id="">
+    <body id="bg" >
+        <div id="">
+            <div id="container" style="">
                 <div class="" >
                     <!-- Thời gian đếm ngược -->
                     <header style="align-items: center; position: relative; height: 50px">
@@ -71,13 +254,13 @@
                     <hr>
 
                     <div id="popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; border:1px solid black; padding:20px; z-index:2001;">
-                        <h3>Thông báo</h3>
-                        <p>Thời gian đã hết! Bài kiểm tra sẽ được nộp.</p>
+                        <h3>Warning</h3>
+                        <p>Time is up! The exam will be submitted.</p>
                         <button onclick="submitQuiz()" class="btn">OK</button>
                     </div>
                     <div id="popup_submit" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; border:1px solid black; padding:20px; z-index:1009;">
-                        <h3>Thông báo</h3>
-                        <p>Do you want to submit</p>
+                        <h3>Warning</h3>
+                        <p>Do you want to submit?</p>
                         <button onclick="submitQuiz()" class="btn">OK</button>
                         <button onclick="closePopupSubmit()" class="btn">Close</button>
 
@@ -136,12 +319,13 @@
 
                     <main id="body">
                         <form action="quiz_handling" method="post" id="submit_form">
-                            <input type="text" value="10" name="dur" id="dur" style="display: none"/>
+                            <input type="text" value="0" name="dur" id="dur" style="display: none"/>
                             <input type="text" value="${sessionScope.num_quest}" name="una" id="una" style="display: none"/>
                             <c:forEach items="${sessionScope.questions}" var="qe" varStatus="status">
                                 <div class="quiz" id="quiz${status.index}">
                                     <div style="text-align: center; margin-bottom: 30px" class="">
                                         <h2><i class="fa fa-bookmark" id="mark_icon${status.index}" aria-hidden="true" style="color: red; display: none"></i> Q${status.count} : ${qe.question_content}</h2>
+                                        <input style="display: none" type="text" value="unmarked" name="mark${status.count}" class="mark_quest" id="mark_quest${status.index}"/>
                                         <c:if test="${qe.media != null && (qe.media.endsWith('.jpg') || qe.media.endsWith('.jpeg') || qe.media.endsWith('.png') || qe.media.endsWith('.gif'))}">
                                             <img src="${qe.media}" alt="alt" width="800" style="height: 100%"/> <br>
                                         </c:if>
@@ -155,9 +339,20 @@
                                             ${fn:substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', answerStatus.index, answerStatus.index + 1)}: ${qe_a.answer_detail} <br>
                                         </c:forEach>
                                     </div>
+                                    <br>
+                                    <div class="peek_at_question" style="display:none; width: 500px; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; border:1px solid black; padding:20px; z-index:1009;">
+                                        <h3>Peek At Answer</h3>
+                                        <p>The correct answer is ${fn:substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', qe.correct_answer, qe.correct_answer + 1)}.</p>
+                                        <p>Explanation: ${qe.explanation}.</p>
+                                        <p>${qe.dimension_type.dimension_type_name} : ${qe.dimension.dimension_name}.</p>
+                                        <p>Source : ${qe.subject.subjectName}.</p>
+                                        <div onclick="closePopupPeek()" class="btn">Close</div>
+
+                                    </div>
 
                                 </div>
                             </c:forEach>
+                            <button id="peek_at_question" class="btn-dark" style="height: 50px; width: 200px; border-radius: 8px" type="button">Peek At Question</button>
 
 
 
@@ -182,7 +377,6 @@
                 </div>
             </div>
             <div id="footer" style="display: flex; justify-content: space-around">
-
                 <button id="prev" class="btn">Previous</button>
                 <button id="next" class="btn">Next</button>
                 <button id="submit" class="btn" onclick="showPopupSubmitInShowQuest()">Submit</button>
@@ -216,10 +410,12 @@
         <script>
                     const totalQuestions = ${sessionScope.num_quest}; // Tổng số câu hỏi
                     let currentQuestion = ${sessionScope.curr_quest}; // Câu hỏi hiện tại bắt đầu từ 0
-                    let totalTime = sessionStorage.getItem("totalTime") || ${sessionScope.duration}; // Tổng thời gian (ví dụ: 120 giây)
+                    let totalTime = sessionStorage.getItem("totalTime") || ${sessionScope.duration};
                     let answered_questions = sessionStorage.getItem("answered") || 0;
                     const timeEl = document.getElementById("time"); // Phần tử hiển thị thời gian
                     const quizzes = document.querySelectorAll(".quiz");
+                    const mark_quest = document.querySelectorAll(".mark_quest");
+                    const peeks = document.querySelectorAll(".peek_at_question");
                     const popup = document.getElementById("popup");
                     const popup_submit = document.getElementById("popup_submit");
                     const overlay1 = document.getElementById("overlay1");
@@ -231,10 +427,24 @@
                     const popup_submit_finished = document.getElementById("popup_submit_finished");
                     const popup_submit_finished_nothing = document.getElementById("popup_submit_finished_nothing");
                     const una = document.getElementById('una');
+                    const time_left = sessionStorage.getItem("time_finish") || (${sessionScope.duration} + Math.floor(new Date().getTime() / 1000));
                     let dur = document.getElementById('dur');
+                    const isSub = sessionStorage.getItem("isSubmitted");
+                    const peek_at_question = document.getElementById('peek_at_question');
                     submit_button.addEventListener("click", () => {
                         showPopupSubmitInShowQuest()();
                     });
+
+                    function closePopupPeek() {
+                        //let peek = document.getElementById('peek_at_question' + currentQuestion);
+                        let peek = peeks[currentQuestion];
+                        peek.style.display = "none";
+                        overlay2.style.display = "none";
+                    }
+                    peek_at_question.addEventListener('click', () => {
+                        showPeek();
+                    });
+
                     function showPopupSubmitInShowQuest() {
                         closeQuestionSelectPopup();
                         if (answered_questions === 0) {
@@ -275,12 +485,15 @@
 // Hàm đánh dấu câu hỏi hiện tại
                     document.getElementById("markCurrentQuestion").addEventListener("click", () => {
                         let mark_icon = document.getElementById('mark_icon' + currentQuestion);
+                        let mark_quest = document.getElementById('mark_quest' + currentQuestion);
                         if (markedQuestions[currentQuestion] !== 'marked') {
                             markedQuestions[currentQuestion] = 'marked';
                             mark_icon.style.display = 'inline';
+                            mark_quest.value = 'marked';
                         } else {
                             markedQuestions[currentQuestion] = 'unmarked';
                             mark_icon.style.display = 'none';
+                            mark_quest.value = 'unmarked';
                         }
                         saveQuestionStatus();
                     });
@@ -294,6 +507,13 @@
                                 quiz.style.display = "none"; // Ẩn các câu hỏi khác
                             }
                         }
+                    }
+
+                    function showPeek() {
+                        //let peek = document.getElementById('peek_at_question' + currentQuestion);
+                        let peek = peeks[currentQuestion];
+                        peek.style.display = "block";
+                        overlay2.style.display = "block";
                     }
 
                     // Lưu câu hỏi hiện tại vào sessionStorage khi chuyển câu hỏi
@@ -313,6 +533,7 @@
                         for (let i = 0; i < totalQuestions; i++) {
                             if (markedQuestions[i] === 'marked') {
                                 let mark_icon = document.getElementById('mark_icon' + i);
+                                document.getElementById('mark_quest' + i).value = 'marked';
                                 mark_icon.style.display = 'inline';
                             }
                         }
@@ -405,6 +626,7 @@
 
                     // Cập nhật thời gian đếm ngược
                     function updateTimer() {
+
                         const hours = Math.floor(totalTime / (60 * 60));
                         const minutes = Math.floor(totalTime / 60);
                         const seconds = totalTime % 60;
@@ -416,22 +638,30 @@
                         }
 
                         sessionStorage.setItem("totalTime", totalTime);
+
+                        if (sessionStorage.getItem("time_finish") === null) {
+                            let tt = ${sessionScope.duration};
+                            let ttt = Math.floor(new Date().getTime() / 1000) + tt;
+                            sessionStorage.setItem("time_finish", ttt);
+                        }
                     }
 
                     // Bắt đầu đếm ngược
-//            const timerInterval = setInterval(() => {
-//                totalTime--;
-//                updateTimer();
-//                if (totalTime <= 0) {
-//                    clearInterval(timerInterval);
-//                    // Hết thời gian, hiển thị popup
-//                    showPopup(); // Hiển thị popup
-//                    //submitQuiz(); // Gọi hàm nộp bài
-//                    dur.value = totalTime;
-//
-//                }
-//
-//            }, 1000); // Cập nhật mỗi giây
+                    const timerInterval = setInterval(() => {
+                        totalTime = time_left - Math.floor(new Date().getTime() / 1000);
+                        if (totalTime >= 0) {
+                            dur.value = ${sessionScope.duration} - totalTime;
+                        }
+                        updateTimer();
+                        if (totalTime <= 0) {
+                            clearInterval(timerInterval);
+                            // Hết thời gian, hiển thị popup
+                            showPopup(); // Hiển thị popup
+                            //submitQuiz(); // Gọi hàm nộp bài
+
+                        }
+
+                    }, 1000); // Cập nhật mỗi giây
 
                     // Hàm hiển thị popup thông báo
                     function showPopup() {
@@ -531,7 +761,7 @@
                         if (currentQuestion > 0) {
                             currentQuestion--; // Quay lại câu hỏi trước đó
                             showQuestion(currentQuestion);
-                            saveCurrentQuestion(); 
+                            saveCurrentQuestion();
                         }
                         updateNavigationButtons();
                     });
@@ -539,7 +769,7 @@
                         if (currentQuestion < totalQuestions - 1) {
                             currentQuestion++; // Chuyển sang câu hỏi tiếp theo
                             showQuestion(currentQuestion);
-                            saveCurrentQuestion(); 
+                            saveCurrentQuestion();
                         }
                         console.log(answered_questions);
                         updateNavigationButtons();
@@ -551,15 +781,6 @@
                         submitButton.style.display = currentQuestion === totalQuestions - 1 ? "inline" : "none";
                     }
 
-                    // Khởi tạo trạng thái các nút khi tải trang
-                    updateNavigationButtons();
-                    // Chức năng cho nút "Submit"
-//            document.getElementById("submit").addEventListener("click", () => {
-//                updateCurrentQuestionStatus(); // Cập nhật trạng thái trước khi nộp bài
-//                submitQuiz(); // Gọi hàm nộp bài
-//                form.submit();
-//            });
-
                     // Hàm nộp bài
                     function submitQuiz() {
                         //clearInterval(timerInterval);
@@ -568,7 +789,6 @@
                     }
 
                     function isSubmitted() {
-                        const isSub = sessionStorage.getItem("isSubmitted");
                         if (isSub !== null && isSub === "true") {
                             //clearInterval(timerInterval);
                             const popup_submitted = document.getElementById("popup_submitted");
@@ -584,6 +804,9 @@
 // Gọi loadQuestionStatus khi tải trang để khôi phục trạng thái
                     // Tải trạng thái câu hỏi từ sessionStorage khi tải trang
                     window.onload = () => {
+                        if (isSub !== null && isSub === "true") {
+                            clearInterval(timerInterval);
+                        }
                         restoreCurrentQuestion(); // Khôi phục câu hỏi hiện tại
                         restoreQuestionStatus(); // Khôi phục trạng thái câu hỏi
                         restoreMarkedQuestions(); // Khôi phục trạng thái đánh dấu câu hỏi
