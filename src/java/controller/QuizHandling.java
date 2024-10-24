@@ -71,9 +71,11 @@ public class QuizHandling extends HttpServlet {
         QuizDAO qd = new QuizDAO();
 
         //List<Quiz> quiz = qd.getAllQuiz();
-//        String quizId = request.getParameter("id");
-//        Quiz handleQuiz = qd.getQuiz(Integer.parseInt(quizId));
-        Quiz handleQuiz = qd.getQuiz(5);
+        String quizId = request.getParameter("id");
+        Quiz handleQuiz = qd.getQuiz(Integer.parseInt(quizId));
+        if(handleQuiz == null) {
+            handleQuiz = qd.getQuiz(5);
+        }
         Account a = (Account) session.getAttribute("user");
         //PrintWriter out = response.getWriter();
         //out.print(handleQuiz);
