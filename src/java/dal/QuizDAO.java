@@ -538,6 +538,22 @@ public class QuizDAO extends DBContext {
         return 0;
     }
     
+    public Duration getTotalDurationBySubjectId(int subjectId) {
+        String sql = "SELECT SUM(duration) AS totalDuration FROM Quiz WHERE subject_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, subjectId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                float totalDurationInMinutes = rs.getFloat("totalDuration");
+                return Duration.ofMinutes((long) totalDurationInMinutes);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return Duration.ZERO;
+    }
+    
     public static void main(String[] args) {
         QuizDAO dao = new QuizDAO();
         List<Quiz> list = dao.getAllQuiz();

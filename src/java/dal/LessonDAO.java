@@ -114,13 +114,13 @@ public class LessonDAO extends DBContext {
             st.setString(8, lesson.getVideo_link());
             st.setString(9, lesson.getLesson_content());
             st.setInt(10, lesson.getQuiz_id());
-            
+
             st.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex);
         }
     }
-    
+
     public List<Lesson> getAllLessonBySubjectId(int subject_id_raw) {
         List<Lesson> list = new ArrayList<>();
         String sql = "SELECT * FROM Lesson WHERE subject_id = ? ORDER BY lesson_id ASC";
@@ -146,7 +146,7 @@ public class LessonDAO extends DBContext {
         }
         return list;
     }
-    
+
     public Lesson_Type getLessonTypeById(int lesson_type_id_raw) {
         String sql = "SELECT * FROM Lesson_Type WHERE lesson_type_id = ?";
         try {
@@ -162,6 +162,36 @@ public class LessonDAO extends DBContext {
             System.out.println(ex);
         }
         return null;
+    }
+
+    public int getTotalQuizBySubjectId(int subject_id_raw) {
+        String sql = "SELECT COUNT(*) FROM Quiz WHERE subject_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, subject_id_raw);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return 0;
+    }
+
+    public int getTotalLessonBySubjectId(int subject_id_raw) {
+        String sql = "SELECT COUNT(*) FROM Lesson WHERE subject_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, subject_id_raw);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1); 
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return 0; 
     }
 
     public static void main(String[] args) {
