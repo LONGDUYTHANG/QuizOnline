@@ -101,15 +101,15 @@ public class LoginServlet extends HttpServlet {
         }
         else if(myAccount.getRole_id()==myAccountDAO.getRole_Id("saler")){
             session.setAttribute("user", myAccount);
-            request.getRequestDispatcher("").forward(request, response);
+            request.getRequestDispatcher("salerdashboard").forward(request, response);
         }
          else if(myAccount.getRole_id()==myAccountDAO.getRole_Id("expert")){
             session.setAttribute("user", myAccount);
-            request.getRequestDispatcher("").forward(request, response);
+            request.getRequestDispatcher("exsubjectlist").forward(request, response);
         }
          else  if(myAccount.getRole_id()==myAccountDAO.getRole_Id("admin")){
             session.setAttribute("user", myAccount);
-            request.getRequestDispatcher("").forward(request, response);
+            request.getRequestDispatcher("admindashboard").forward(request, response);
         }
         
     }
