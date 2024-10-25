@@ -296,7 +296,7 @@
                                             <div class="icon-box">
                                                 <h3><i class="ti-user"></i><span class="counter">5</span>M</h3>
                                             </div>
-                                            <span class="cours-search-text">Over 5 million student</span>
+                                            <span class="cours-search-text">Over ${totalQuizzes} Quizzes</span>
                                         </div>
                                     </div>
                                     <div class="col-md-4 col-sm-6">
@@ -304,7 +304,7 @@
                                             <div class="icon-box">
                                                 <h3><i class="ti-book"></i><span class="counter">30</span>K</h3>
                                             </div>
-                                            <span class="cours-search-text">30,000 Courses.</span>
+                                            <span class="cours-search-text">${totalSubjects} Subjects.</span>
                                         </div>
                                     </div>
                                     <div class="col-md-4 col-sm-12">
@@ -312,7 +312,7 @@
                                             <div class="icon-box">
                                                 <h3><i class="ti-layout-list-post"></i><span class="counter">20</span>K</h3>
                                             </div>
-                                            <span class="cours-search-text">Learn Anything Online.</span>
+                                            <span class="cours-search-text">Learn ${totalLessons} Lessons.</span>
                                         </div>
                                     </div>
                                 </div>
@@ -592,6 +592,5 @@
             };
         </script>
     </body>
-
 </html>
 
