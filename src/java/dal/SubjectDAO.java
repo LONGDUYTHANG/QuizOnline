@@ -429,11 +429,8 @@ public class SubjectDAO extends DBContext {
 
     public static void main(String[] args) {
         SubjectDAO subjectDAO = new SubjectDAO();
-        String testCategoryId = "Technology"; 
-        List<Subject> subjects = subjectDAO.searchSubjectsByCategory(testCategoryId);
-        for (Subject subject : subjects) {
-            System.out.println("Subject ID: " + subject.getSubjectId());
-        }
+        int totalSubjects = subjectDAO.countSubjects();
+        System.out.println("Tổng số lượng subjects: " + totalSubjects);
     }
 
 }

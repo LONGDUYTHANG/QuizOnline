@@ -2,9 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+
 package controller;
 
-import dal.*;
+import dal.AccountDAO;
+import dal.PackageDAO;
+import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,9 +22,9 @@ import model.Subject;
 
 /**
  *
- * @author ADMIN
+ * @author Phuong Anh
  */
-public class HomepageServlet extends HttpServlet {
+public class HomepageCustomer extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -96,28 +99,17 @@ public class HomepageServlet extends HttpServlet {
             }
         }
 
-        LessonDAO lessonDAO = new LessonDAO();
-        int totalLessons = lessonDAO.countTotalLessons();
-        request.setAttribute("totalLessons", totalLessons);
-
-        QuizDAO quizDAO = new QuizDAO();
-        int totalQuizzes = quizDAO.getQuizCount();
-        request.setAttribute("totalQuizzes", totalQuizzes);
-        
-        int totalSubjects = testDAO.countSubjects();
-        request.setAttribute("totalSubjects", totalSubjects);
-
         AccountDAO accountDAO = new AccountDAO();
         List<Account> account_list = new ArrayList<>();
         for (Subject subject : subject_list) {
-            Account account = accountDAO.getAccountById(subject.getAccountId());
+            Account account = accountDAO.getAccountById(subject.getAccountId()); 
             account_list.add(account);
         }
 
         request.setAttribute("account_list", account_list);
         request.setAttribute("selectedDuration", selectedDuration);
         request.setAttribute("selectedPackageModel", selectedPackageModel);
-        request.getRequestDispatcher("common/homepage.jsp").forward(request, response);
+        request.getRequestDispatcher("customer/homepage_1.jsp").forward(request, response);
     }
 
     /**

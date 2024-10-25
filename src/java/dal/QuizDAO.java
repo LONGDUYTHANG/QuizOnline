@@ -604,7 +604,7 @@ public class QuizDAO extends DBContext {
             e.printStackTrace(); // In lỗi nếu có vấn đề
         }
     }
-    
+
     public Duration getTotalDurationBySubjectId(int subjectId) {
         String sql = "SELECT SUM(duration) AS totalDuration FROM Quiz WHERE subject_id = ?";
         try {
@@ -621,7 +621,6 @@ public class QuizDAO extends DBContext {
         return Duration.ZERO;
     }
 
-
     public int searchNewlyPractice(int account_id) {
         String sql = "select top 1 practice_id from Practice_Record where account_id = ? order by practice_id desc";
         try {
@@ -636,10 +635,28 @@ public class QuizDAO extends DBContext {
         return 0;
     }
 
-    public static void main(String[] args) {
-        QuizDAO dao = new QuizDAO();
-        java.util.Date d = new java.util.Date();
-        LocalDateTime lc = LocalDateTime.now();
-        System.out.println(lc.toLocalDate().toString());
+    public int getQuizCount() {
+        String sql = "SELECT COUNT(*) FROM Quiz";
+        int count = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);  // Lấy giá trị đếm từ cột đầu tiên
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return count;
+    }
+
+     public static void main(String[] args) {
+        QuizDAO quizDAO = new QuizDAO();
+        
+        // Gọi hàm getQuizCount() để lấy tổng số lượng quiz
+        int totalQuizzes = quizDAO.getQuizCount();
+        
+        // In ra kết quả
+        System.out.println("Total number of quizzes: " + totalQuizzes);
     }
 }
