@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import model.Account;
 import model.Post;
 import model.Subject;
 
@@ -74,7 +75,37 @@ public class HomepageServlet extends HttpServlet {
         //subject_list
         SubjectDAO testDAO = new SubjectDAO();
         List<Subject> subject_list = testDAO.getSubject();
-        request.setAttribute("subject_list", subject_list);      
+        request.setAttribute("subject_list", subject_list);
+
+        PackageDAO packageDAO = new PackageDAO();
+        List<model.Package> packageList = packageDAO.getAllPackage();
+        String selectedDuration = request.getParameter("courseDuration");
+        model.Package selectedPackageModel = packageList.get(0);
+        if (selectedDuration != null) {
+            try {
+                int duration = Integer.parseInt(selectedDuration);
+                for (model.Package pkg : packageList) {
+                    if (pkg.getDuration() == duration) {
+                        selectedPackageModel = pkg;
+                        break;
+                    }
+                }
+            } catch (NumberFormatException e) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid course duration.");
+                return;
+            }
+        }
+
+        AccountDAO accountDAO = new AccountDAO();
+        List<Account> account_list = new ArrayList<>();
+        for (Subject subject : subject_list) {
+            Account account = accountDAO.getAccountById(subject.getAccountId()); 
+            account_list.add(account);
+        }
+
+        request.setAttribute("account_list", account_list);
+        request.setAttribute("selectedDuration", selectedDuration);
+        request.setAttribute("selectedPackageModel", selectedPackageModel);
         request.getRequestDispatcher("common/homepage.jsp").forward(request, response);
     }
 

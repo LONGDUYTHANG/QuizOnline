@@ -125,7 +125,7 @@
                                     </div>
 
                                     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-                                    <c:forEach items="${requestScope.post_list}" var="c">
+                                    <c:forEach items="${requestScope.post_list}" var="c" varStatus="status">
                                         <c:if test="${param.keyword == null || (c.blog_content.contains(param.keyword) || c.blog_summary.contains(param.keyword))}">
                                             <div class="blog-post blog-md clearfix">
                                                 <div class="ttr-post-media">
@@ -134,7 +134,7 @@
                                                 <div class="ttr-post-info">
                                                     <ul class="media-post">
                                                         <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
-                                                        <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
+                                                        <li><a href="#"><i class="fa fa-user"></i>By ${account_list[status.index].first_name} ${account_list[status.index].last_name}</a></li>
                                                     </ul>
                                                     <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_summary}</a></h5>
                                                     <p>${c.blog_content}</p>
@@ -145,6 +145,7 @@
                                             </div>
                                         </c:if>
                                     </c:forEach>
+
 
                                     <!-- Pagination start -->
                                     <div class="col-lg-12 m-b20">

@@ -6,6 +6,7 @@ package controller;
 
 import dal.SubjectDAO;
 import dal.CategoryDAO;
+import dal.PackageDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,6 +20,7 @@ import model.Account;
 import model.Category;
 import model.Subject;
 import model.SubjectCategory;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -71,7 +73,7 @@ public class SubjectListServlet extends HttpServlet {
         List<Subject> subject_list = new ArrayList<>();
 
         if (keyword != null && !keyword.trim().isEmpty()) {
-            subject_list = mySubjectDAO.searchSubjects(keyword); 
+            subject_list = mySubjectDAO.searchSubjects(keyword);
         } else {
             if (sort == null || sort.equals("featured")) {
                 subject_list = mySubjectDAO.getFeaturedSubjects();
@@ -88,6 +90,27 @@ public class SubjectListServlet extends HttpServlet {
         List<Category> category_list = myCategoryDAO.getCategory();
         request.setAttribute("category_list", category_list);
 
+        PackageDAO packageDAO = new PackageDAO();
+        List<model.Package> packageList = packageDAO.getAllPackage();
+        String selectedDuration = request.getParameter("courseDuration");
+        model.Package selectedPackageModel = packageList.get(0);
+        if (selectedDuration != null) {
+            try {
+                int duration = Integer.parseInt(selectedDuration);
+                for (model.Package pkg : packageList) {
+                    if (pkg.getDuration() == duration) {
+                        selectedPackageModel = pkg;
+                        break;
+                    }
+                }
+            } catch (NumberFormatException e) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid course duration.");
+                return;
+            }
+        }
+        request.setAttribute("selectedDuration", selectedDuration);
+        request.setAttribute("selectedPackageModel", selectedPackageModel);
+
         HttpSession session = request.getSession(false);
         if (session != null) {
             Account user = (Account) session.getAttribute("user");
@@ -96,7 +119,6 @@ public class SubjectListServlet extends HttpServlet {
                 return;
             }
         }
-
         request.getRequestDispatcher("common/subject_list.jsp").forward(request, response);
     }
 
