@@ -5,6 +5,7 @@
 package model;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
@@ -14,15 +15,46 @@ public class Practice_Record {
     private int practice_id;
     private String practice_name;
     private java.sql.Timestamp created_date;
-    private java.sql.Timestamp practice_duration;
+    private int practice_duration;
     private int correct_questions;
     private int correct_rate;
     private int account_id;
+    private int quiz_id;
+
+    public Practice_Record(int practice_id, String practice_name, Timestamp created_date, int practice_duration, int correct_questions, int correct_rate, int account_id, int quiz_id) {
+        this.practice_id = practice_id;
+        this.practice_name = practice_name;
+        this.created_date = created_date;
+        this.practice_duration = practice_duration;
+        this.correct_questions = correct_questions;
+        this.correct_rate = correct_rate;
+        this.account_id = account_id;
+        this.quiz_id = quiz_id;
+    }
+
+    public Practice_Record(String practice_name, Timestamp created_date, int practice_duration, int correct_questions, int correct_rate, int account_id, int quiz_id) {
+        this.practice_name = practice_name;
+        this.created_date = created_date;
+        this.practice_duration = practice_duration;
+        this.correct_questions = correct_questions;
+        this.correct_rate = correct_rate;
+        this.account_id = account_id;
+        this.quiz_id = quiz_id;
+    }
+
+    public int getQuiz_id() {
+        return quiz_id;
+    }
+
+    public void setQuiz_id(int quiz_id) {
+        this.quiz_id = quiz_id;
+    }
+    
 
     public Practice_Record() {
     }
 
-    public Practice_Record(int practice_id, String practice_name, Timestamp created_date, Timestamp practice_duration, int correct_questions, int correct_rate, int account_id) {
+    public Practice_Record(int practice_id, String practice_name, Timestamp created_date, int practice_duration, int correct_questions, int correct_rate, int account_id) {
         this.practice_id = practice_id;
         this.practice_name = practice_name;
         this.created_date = created_date;
@@ -56,11 +88,11 @@ public class Practice_Record {
         this.created_date = created_date;
     }
 
-    public Timestamp getPractice_duration() {
+    public int getPractice_duration() {
         return practice_duration;
     }
 
-    public void setPractice_duration(Timestamp practice_duration) {
+    public void setPractice_duration(int practice_duration) {
         this.practice_duration = practice_duration;
     }
 

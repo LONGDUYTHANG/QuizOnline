@@ -61,7 +61,7 @@
                 <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <h1 class="text-white">Courses Details</h1>
+                            <h1 class="text-white">Subjects Details</h1>
                         </div>
                     </div>
                 </div>
@@ -103,13 +103,12 @@
                                             <a href="login.jsp" class="btn radius-xl text-uppercase">Buy Now This Courses</a>
                                         </div>
                                         <div class="teacher-bx">
-                                            <div class="teacher-info">
-                                                <div class="teacher-thumb">
-                                                    <img src="assets/images/testimonials/pic1.jpg" alt=""/>
-                                                </div>
+                                            <div class="teacher-info">                                                
                                                 <div class="teacher-name">
-                                                    <h5>Hinata Hyuga</h5>
-                                                    <span>Science Teacher</span>
+                                                    <span>Teacher</span>
+                                                    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+                                                    <c:set var="c" value="${requestScope.account}" />
+                                                    <h5 class="text-primary">${account.first_name} ${account.last_name}</h5> 
                                                 </div>
                                             </div>
                                         </div>
@@ -119,7 +118,7 @@
                                                 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                                 <c:set var="c" value="${requestScope.mySubject}" />
 
-                                                <h5 class="text-primary">${categoryName}</h5> <!-- Hi?n th? categoryName -->
+                                                <h5 class="text-primary">${categoryName}</h5> 
                                             </div>
                                         </div>
 
@@ -156,10 +155,9 @@
                                         <div class="row">
                                             <div class="col-md-12 col-lg-4">
                                                 <ul class="course-features">
-                                                    <li><i class="ti-book"></i> <span class="label">Lectures</span> <span class="value">8</span></li>
+                                                    <li><i class="ti-book"></i> <span class="label">Lessons</span> <span class="value">${totalLessons}</span></li>
                                                     <li><i class="ti-help-alt"></i> <span class="label">Quizzes</span> <span class="value">1</span></li>
                                                     <li><i class="ti-time"></i> <span class="label">Duration</span> <span class="value">60 hours</span></li>
-                                                    <li><i class="ti-stats-up"></i> <span class="label">Skill level</span> <span class="value">Beginner</span></li>
                                                     <li><i class="ti-smallcap"></i> <span class="label">Language</span> <span class="value">English</span></li>
                                                 </ul>
                                             </div>
@@ -169,57 +167,48 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!--lesson-> quiz/video-->     
+                                    <!-- Curriculum Section -->
                                     <div class="m-b30" id="curriculum">
                                         <h4>Curriculum</h4>
                                         <ul class="curriculum-list">
-                                            <li>
-                                                <h5>First Level</h5>
-                                                <ul>
-                                                    <li>
-                                                        <div class="curriculum-list-box">
-                                                            <span>Lesson 1.</span> Introduction to UI Design
+                                            <c:forEach var="topic" items="${lessonTopics}">
+                                                <li>
+                                                    <h5>${topic.lesson_topic_name}</h5> 
+                                                    
+                                                    <ul>
+                                                    <c:forEach var="lesson" items="${lessonList}">
+                                                        <c:if test="${lesson.lesson_topic_id == topic.lesson_topic_id}">
+                                                            <li>
+                                                                <div class="curriculum-list-box">
+                                                                    <span>Lesson ${lesson.lesson_order}.</span>
+                                                            ${lesson.lesson_name}
                                                         </div>
-                                                        <span>120 minutes</span>
+                                                        <span>${lesson.lessonTypeName}</span>
                                                     </li>
-
+                                                        </c:if>
+                                                    </c:forEach>
                                                 </ul>
-                                            </li>
-                                            <li>
-                                                <h5>Second Level</h5>
-                                                <ul>
-                                                    <li>
-                                                        <div class="curriculum-list-box">
-                                                            <span>Lesson 1.</span> Prototyping and Design
-                                                        </div>
-                                                        <span>110 minutes</span>
-                                                    </li>
 
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <h5>Final</h5>
-                                                <ul>
-                                                    <li>
-                                                        <div class="curriculum-list-box">
-                                                            <span>Part 1.</span> Final Test
-                                                        </div>
-                                                        <span>120 minutes</span>
-                                                    </li>
-
-                                                </ul>
-                                            </li>
+                                                </li>
+                                            </c:forEach>
                                         </ul>
                                     </div>
+
                                     <div class="" id="instructor">
                                         <h4>Instructor</h4>
                                         <div class="instructor-bx">
                                             <div class="instructor-author">
-                                                <img src="assets/images/testimonials/pic1.jpg" alt="">
+                                                <img src="https://cdn.shopify.com/s/files/1/0597/6149/2152/t/49/assets/0007019893114747_b-1650694026425_1200x.jpg?v=1650694028" alt="">
                                             </div>
                                             <div class="instructor-info">
-                                                <h6>Keny White </h6>
-                                                <span>Professor</span>
-                                                <p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</p>
+                                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+                                                <c:set var="c" value="${requestScope.account}" />
+                                                <h5 class="text-primary">${account.first_name} ${account.last_name}</h5> 
+                                                <span>Author</span>
+                                                <br>
+                                                <p class="m-b0">Teachers play a vital role in the education and development of students. They not only impart knowledge but also inspire and motivate learners to explore their potential. By employing innovative teaching methods, teachers create an engaging learning environment that encourages participation and critical thinking.</p>
                                             </div>
                                         </div>
 
