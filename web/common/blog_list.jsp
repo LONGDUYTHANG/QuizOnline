@@ -1,4 +1,4 @@
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -124,7 +124,6 @@
                                         </form>
                                     </div>
 
-                                    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                     <c:forEach items="${requestScope.post_list}" var="c" varStatus="status">
                                         <c:if test="${param.keyword == null || (c.blog_content.contains(param.keyword) || c.blog_summary.contains(param.keyword))}">
                                             <div class="blog-post blog-md clearfix">
@@ -179,7 +178,6 @@
 
                                         <div class="widget widget_tag_cloud">
                                             <h6 class="widget-title">Categories</h6>
-                                            <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                             <div class="search-bx style-1">
                                                 <form role="search" method="get" action="searchByCategory"> <!-- ??m b?o ?i?u này tr? ??n endpoint chính xác -->
                                                     <div class="input-group">
@@ -211,7 +209,6 @@
                                             <h6 class="widget-title">Hottest Posts</h6>
                                             <div class="widget-post-bx">
                                                 <!-- thêm danh sách các bài post hot nhat-->
-                                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                                 <c:forEach items="${requestScope.hottest_post_list}" var="c">
                                                     <div class="widget-post clearfix">
                                                         <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
