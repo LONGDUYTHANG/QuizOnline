@@ -4,8 +4,6 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
-    max-width: 1200px; /* Increases the container width */
-    width: 100%;       /* Ensures it uses the full width up to the max-width */
     padding: 20px;
     box-sizing: border-box;
 }
@@ -50,8 +48,6 @@ header button:hover {
 }
 
 hr {
-    width: 100%;
-    max-width: 900px;
     margin: 20px 0;
     border: 1px solid #ddd;
 }

@@ -2,29 +2,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+
 package controller;
 
 import dal.AccountDAO;
-import dal.PostDAO;
-import dal.CategoryDAO;
+import dal.PackageDAO;
+import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
-import model.Category;
 import model.Post;
+import model.Subject;
 
 /**
  *
  * @author Phuong Anh
  */
-public class BlogDetailServlet extends HttpServlet {
+public class HomepageCustomer extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +43,10 @@ public class BlogDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BlogDetailServlet</title>");
+            out.println("<title>Servlet HomepageServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BlogDetailServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet HomepageServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,41 +61,55 @@ public class BlogDetailServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    int numberOfSubject = 6;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String raw_blog_id = request.getParameter("blog_id");
-        int blog_id = 0;
-        try {
-            blog_id = Integer.parseInt(raw_blog_id);
-        } catch (NumberFormatException e) {
-        }
-        AccountDAO accountDAO = new AccountDAO();
-        PostDAO myPostDAO = new PostDAO();
-        Post myPost = myPostDAO.getPostByBlogID(blog_id);
-        request.setAttribute("myPost", myPost);
-
+        //post_list
+        dal.PostDAO myPostDAO = new dal.PostDAO();
         ArrayList<Post> post_list = myPostDAO.getPost();
         request.setAttribute("post_list", post_list);
 
-        CategoryDAO myCategoryDAO = new CategoryDAO();
-        List<Category> category_list = myCategoryDAO.getCategory();
-        request.setAttribute("category_list", category_list);
-        Account account = accountDAO.getAccountById(myPost.getAccount_id());
-        request.setAttribute("account", account);
+        //hottest_post_list
+        ArrayList<Post> hottest_post_list = myPostDAO.getHottestPost();
+        request.setAttribute("hottest_post_list", hottest_post_list);
 
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            request.getRequestDispatcher("common/blog_detail.jsp").forward(request, response);
-        } else {
-            Account user = (Account) session.getAttribute("user");
-            if (user == null) {
-                request.getRequestDispatcher("common/blog_detail.jsp").forward(request, response);
-            } else {
-                request.getRequestDispatcher("customer/blog_detail.jsp").forward(request, response);
+        //subject_list
+        SubjectDAO testDAO = new SubjectDAO();
+        List<Subject> subject_list = testDAO.getSubject();
+        request.setAttribute("subject_list", subject_list);
+
+        PackageDAO packageDAO = new PackageDAO();
+        List<model.Package> packageList = packageDAO.getAllPackage();
+        String selectedDuration = request.getParameter("courseDuration");
+        model.Package selectedPackageModel = packageList.get(0);
+        if (selectedDuration != null) {
+            try {
+                int duration = Integer.parseInt(selectedDuration);
+                for (model.Package pkg : packageList) {
+                    if (pkg.getDuration() == duration) {
+                        selectedPackageModel = pkg;
+                        break;
+                    }
+                }
+            } catch (NumberFormatException e) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid course duration.");
+                return;
             }
         }
 
+        AccountDAO accountDAO = new AccountDAO();
+        List<Account> account_list = new ArrayList<>();
+        for (Subject subject : subject_list) {
+            Account account = accountDAO.getAccountById(subject.getAccountId()); 
+            account_list.add(account);
+        }
+
+        request.setAttribute("account_list", account_list);
+        request.setAttribute("selectedDuration", selectedDuration);
+        request.setAttribute("selectedPackageModel", selectedPackageModel);
+        request.getRequestDispatcher("customer/homepage_1.jsp").forward(request, response);
     }
 
     /**
@@ -110,8 +124,6 @@ public class BlogDetailServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
-        System.out.println("");
     }
 
     /**
@@ -122,6 +134,6 @@ public class BlogDetailServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>\
+    }// </editor-fold>
 
 }

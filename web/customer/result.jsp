@@ -58,19 +58,19 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/quiz.css"/>
     </head>
-    <body id="bg">
+    <body id="bg" style="display: flex; justify-content: center">
         <div id="container">
             <div id="">
                 <div class="" >
                     <!-- Thời gian đếm ngược -->
-                    <header style="align-items: center; position: relative; height: 50px">
+                    <header style="align-items: center; height: 50px; text-align: center">
                         <div id="time"></div>
 
                     </header>
 
                     <hr>
 
-                   
+
                     <%-- 
                      const button = document.createElement("button");
                             button.textContent = (i + 1);
@@ -94,12 +94,12 @@
                             <li>Incorrect: ${incorrect}</li>
                             <li>Unanswered: ${una}</li>
                         </ul>
-                            <div style="text-align: center; font-weight: bold; color: ${correct_rate >= passrate ? 'green':'red'}; background-color: ${correct_rate >= passrate ? '#ccffcc':'#ffcccc'}; border-radius: 8px">
-                            <span>${correct_rate}% | ${correct_rate >= passrate ? 'PASS':'NOT PASS'}</span>
-                            
-                            
+                        <div style="font-weight: bold; color: ${correct_rate >= passrate ? 'green':'red'}; background-color: ${correct_rate >= passrate ? '#ccffcc':'#ffcccc'}; border-radius: 8px; height: 100px; display: flex; align-items: center; justify-content: center">
+                            <span style="font-size: 30px">${correct_rate}% | ${correct_rate >= passrate ? 'PASS':'NOT PASS'}</span>
+
+
                         </div>
-                            <br>
+                        <br>
                         <div style="font-size: 30px">
                             <button id="prev" class="btn" style="width: 100%">Review Now</button> <br>
                             <button id="prev" class="btn" style="width: 100%" id="back" onclick="backHome()"><a href="homepage">Back</a></button>
@@ -113,7 +113,7 @@
 
 
         </div>
-                    <!-- External JavaScripts -->
+        <!-- External JavaScripts -->
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/vendors/bootstrap/js/popper.min.js"></script>
         <script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
@@ -130,28 +130,28 @@
         <script src="assets/js/contact.js"></script>
         <script src='assets/vendors/switcher/switcher.js'></script>
         <script>
-            const totalTime = ${dur};
-            const back = document.getElementById('back');
-            const timeEl = document.getElementById("time"); // Phần tử hiển thị thời gian
-            function updateTimer() {
-                const hours = Math.floor(totalTime / (60 * 60));
-                const minutes = Math.floor(totalTime / 60);
-                const seconds = totalTime % 60;
-                if (totalTime >= 0) {
-                    timeEl.textContent = 'TIME FINISHED: ' +
-                            (hours < 10 ? "0" + hours : hours) + ":" +
-                            (minutes < 10 ? "0" + minutes : minutes) + ":" +
-                            (seconds < 10 ? "0" + seconds : seconds);
-                }
+                                const totalTime = ${dur};
+                                const back = document.getElementById('back');
+                                const timeEl = document.getElementById("time"); // Phần tử hiển thị thời gian
+                                function updateTimer() {
+                                    const hours = Math.floor(totalTime / (60 * 60));
+                                    const minutes = Math.floor(totalTime / 60);
+                                    const seconds = totalTime % 60;
+                                    if (totalTime >= 0) {
+                                        timeEl.textContent = 'TIME FINISHED: ' +
+                                                (hours < 10 ? "0" + hours : hours) + ":" +
+                                                (minutes < 10 ? "0" + minutes : minutes) + ":" +
+                                                (seconds < 10 ? "0" + seconds : seconds);
+                                    }
 
-            }
-            function backHome() {
-                sessionStorage.clear();
-            }
-            
-            window.onload = () => {
-              updateTimer();  
-            };
+                                }
+                                function backHome() {
+                                    sessionStorage.clear();
+                                }
+
+                                window.onload = () => {
+                                    updateTimer();
+                                };
 
         </script>
     </body>

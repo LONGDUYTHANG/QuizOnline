@@ -10,6 +10,7 @@ import model.Question;
 import java.sql.*;
 import model.Answer;
 import model.Dimension;
+import model.DimensionType;
 import model.Lesson_Topic;
 import model.Level;
 import model.Question_Handle;
@@ -261,9 +262,12 @@ public class QuestionDAO extends DBContext {
         return null;
     }
 
-    public List<Question_Handle> getAllQuestionByQuizId(int quiz_id) {
+    public List<Question_Handle> getAllQuestionByQuizId(int quiz_id, int num_quest) {
         List<Question_Handle> list = new ArrayList<>();
+        DimensionDAO dd = new DimensionDAO();
+        SubjectDAO sd = new SubjectDAO();
         String sql = "SELECT \n"
+                + "    top " + num_quest
                 + "    qe.question_id, \n"
                 + "    qe.subject_id, \n"
                 + "    qe.dimension_id, \n"
@@ -283,10 +287,7 @@ public class QuestionDAO extends DBContext {
                 + "    Question qe ON qe.lesson_topic_id = lt.lesson_topic_id\n"
                 + "WHERE \n"
                 + "    qz.quiz_id = ?\n"
-                + "ORDER BY \n"
-                + "    qe.question_id -- Chọn cột sắp xếp phù hợp\n"
-                + "OFFSET 100 ROWS \n"
-                + "FETCH NEXT 20 ROWS ONLY;";
+                + "ORDER BY NEWID()";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, quiz_id);
@@ -304,6 +305,17 @@ public class QuestionDAO extends DBContext {
                 List<Answer> listAnswer = getAnswerOfQuestion(question_id);
 
                 Question_Handle question = new Question_Handle(listAnswer, question_id, subject_id, dimension_id, lesson_topic_id, level_id, status, question_content, explanation, media);
+                Dimension dimension = dd.getDimensionById(dimension_id);
+                DimensionType dimension_type = dd.getType(dimension.getDimension_type_id());
+                Subject subject = sd.getSubjectByID(subject_id);
+                question.setDimension(dimension);
+                question.setDimension_type(dimension_type);
+                question.setSubject(subject);
+                for (int i = 0; i < listAnswer.size(); i++) {
+                    if (listAnswer.get(i).isIsCorrect()) {
+                        question.setCorrect_answer(i);
+                    }
+                }
                 list.add(question);
             }
         } catch (SQLException ex) {
@@ -402,8 +414,84 @@ public class QuestionDAO extends DBContext {
         }
     }
 
+    public void addPracticeQuestions(List<Question_Handle> lq) {
+        try {
+            for (Question_Handle question_Handle : lq) {
+                String sql = "INSERT INTO [dbo].[Question_Record] \n"
+                        + "           ([practice_id], [question_id], [answered], [is_marked]) \n"
+                        + "     VALUES (?, ?, ?, ?)";
+                PreparedStatement ps = connection.prepareStatement(sql);
+                ps.setInt(1, question_Handle.getPractice_id());
+                ps.setInt(2, question_Handle.getQuestion_id());
+                ps.setString(3, question_Handle.getAnswered());
+                ps.setInt(4, question_Handle.isIs_mark() ? 1 : 0);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+//    public void addPracticeQuestions(List<Question_Handle> lq) {
+//        try {
+//            // Lặp qua từng câu hỏi
+//            for (Question_Handle question_Handle : lq) {
+//                // Câu lệnh SQL INSERT
+//                String sql = "INSERT INTO [dbo].[Question_Record] \n"
+//                        + "           ([practice_id], [question_id], [answered], [is_marked]) \n"
+//                        + "     VALUES (?, ?, ?, ?)";
+//
+//                // Chuẩn bị PreparedStatement
+//                PreparedStatement ps = connection.prepareStatement(sql);
+//
+//                // Đặt giá trị cho các tham số
+//                ps.setInt(1, question_Handle.getPractice_id());
+//                ps.setInt(2, question_Handle.getQuestion_id());
+//                ps.setString(3, question_Handle.getAnswered());
+//                ps.setInt(4, question_Handle.isIs_mark() ? 1 : 0); // Chuyển boolean thành 1 hoặc 0
+//
+//                // Thực thi câu lệnh
+//                ps.executeUpdate(); // Sửa thành executeUpdate() để INSERT dữ liệu
+//            }
+//        } catch (SQLException e) {
+//            // In ra thông báo lỗi nếu có
+//            e.printStackTrace();
+//        }
+//    }
+
+    public void updatePracticeQuestions(List<Question_Handle> lq) {
+        try {
+            for (Question_Handle question_Handle : lq) {
+                // Câu lệnh SQL UPDATE
+                String sql = "UPDATE [dbo].[Question_Record] \n"
+                        + "SET [answered] = ?, \n"
+                        + "    [is_marked] = ? \n"
+                        + "WHERE [practice_id] = ? AND [question_id] = ?";
+
+                // Chuẩn bị PreparedStatement
+                PreparedStatement ps = connection.prepareStatement(sql);
+
+                // Đặt giá trị cho các tham số
+                ps.setString(1, question_Handle.getAnswered());
+                ps.setInt(2, question_Handle.isIs_mark() ? 1 : 0); // Chuyển boolean thành 1 hoặc 0
+                ps.setInt(3, question_Handle.getPractice_id());
+                ps.setInt(4, question_Handle.getQuestion_id());
+
+                // Thực thi câu lệnh
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            // In ra thông báo lỗi nếu có
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         QuestionDAO dao = new QuestionDAO();
-        dao.deleteAnswer(1);
+        System.out.println(dao.getLevelById(1));
+//        List<Question_Handle> la = dao.getAllQuestionByQuizId(5);
+//        for (Question_Handle question_Handle : la) {
+//            System.out.println(question_Handle.getList_answer());
+//        }
+
     }
 }
