@@ -1,8 +1,3 @@
-<%-- 
-    Document   : footer
-    Created on : Sep 18, 2024, 12:19:40 PM
-    Author     : FPT SHOP
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

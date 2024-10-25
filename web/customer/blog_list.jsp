@@ -78,14 +78,10 @@
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
             <header class="header rs-nav header-transparent">
-                <!-- login -->
-                <%@include file="login.jsp" %>
-                <!-- register     -->
-                <%@include file="register.jsp" %>
 
-                <%@include file="header.html" %>
 
-                <%@include file="requestPassword.jsp" %>
+                <%@include file="header.jsp" %>
+
 
             </header>
             <!-- header END ==== -->

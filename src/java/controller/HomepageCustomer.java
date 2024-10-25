@@ -6,7 +6,9 @@
 package controller;
 
 import dal.AccountDAO;
+import dal.LessonDAO;
 import dal.PackageDAO;
+import dal.QuizDAO;
 import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -66,7 +68,7 @@ public class HomepageCustomer extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //post_list
+//post_list
         dal.PostDAO myPostDAO = new dal.PostDAO();
         ArrayList<Post> post_list = myPostDAO.getPost();
         request.setAttribute("post_list", post_list);
@@ -99,10 +101,21 @@ public class HomepageCustomer extends HttpServlet {
             }
         }
 
+        LessonDAO lessonDAO = new LessonDAO();
+        int totalLessons = lessonDAO.countTotalLessons();
+        request.setAttribute("totalLessons", totalLessons);
+
+        QuizDAO quizDAO = new QuizDAO();
+        int totalQuizzes = quizDAO.getQuizCount();
+        request.setAttribute("totalQuizzes", totalQuizzes);
+        
+        int totalSubjects = testDAO.countSubjects();
+        request.setAttribute("totalSubjects", totalSubjects);
+
         AccountDAO accountDAO = new AccountDAO();
         List<Account> account_list = new ArrayList<>();
         for (Subject subject : subject_list) {
-            Account account = accountDAO.getAccountById(subject.getAccountId()); 
+            Account account = accountDAO.getAccountById(subject.getAccountId());
             account_list.add(account);
         }
 
@@ -123,7 +136,7 @@ public class HomepageCustomer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doGet(request, response);
     }
 
     /**

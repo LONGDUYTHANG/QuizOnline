@@ -22,7 +22,7 @@
         <!-- FAVICONS ICON ============================================= -->
         <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
-        
+
         <!-- PAGE TITLE HERE ============================================= -->
         <title>EduChamp : Education HTML Template </title>
 
@@ -57,17 +57,17 @@
 
         <!-- REVOLUTION SLIDER END -->	
     </head>
-    
-    
+
+
     <body id="bg" class="ttr-opened-sidebar ttr-pinned-sidebar" >
         <%@include file="header.jsp" %>
         <div class="page-wraper">
             <!-- Header Top ==== -->
 
-            
-            
-            
-          <!-- Content -->
+
+
+
+            <!-- Content -->
             <div class="page-content bg-white">
                 <!-- Main Slider -->
                 <div class="rev-slider" style="height: 250px">
@@ -240,53 +240,64 @@
                     <!-- Popular Courses END -->
 
                     <!-- Form -->
-                    <div class="section-area section-sp1 ovpr-dark bg-fix online-cours" style="background-image:url(assets/images/background/bg1.jpg);">
+                                    <div class="section-area section-sp2 popular-courses-bx"  style="background-image:url(assets/images/background/bg1.jpg);"
+>
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-12 text-center text-white">
-                                    <h2>Online Subjects To Learn</h2>
-                                    <h5>Own Your Feature Learning New Skills Online</h5>
-                                    <form class="cours-search" method="GET" action="search">
-                                        <div class="input-group" >
-                                            <input type="text" class="form-control" placeholder="What do you want to learn today?" name="keyword" value="${param.keyword}">
-                                            <div class="input-group-append">
-                                                <button class="btn" type="submit">Search</button> 
-                                            </div>
-                                        </div>
-                                    </form>
+                                <div class="col-md-12 heading-bx left">
+                                    <h2 class="title-head" style="color: black">Registed <span>Subject</span></h2>
                                 </div>
                             </div>
-                            <div class="mw800 m-auto">
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-6">
-                                        <div class="cours-search-bx m-b30">
-                                            <div class="icon-box">
-                                                <h3><i class="ti-user"></i><span class="counter">5</span>M</h3>
+                            <div class="row">
+                                <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
+                                    <!-- thêm subjedt list -->
+                                    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+                                    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+                                    <c:forEach var="subject" items="${subject_list}" varStatus="status">
+                                        <c:if test="${fn:contains(subject.description, param.keyword) || fn:contains(subject.subjectName, param.keyword)}">
+                                            <div class="item" style="width: 300px; height: 350px;">
+                                                <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;">
+                                                    <div class="action-box" style="width: 100%; height: 57%;">
+                                                        <img src="${subject.thumbnail}" alt="" style="width: 100%; height: 100%;">
+                                                        <a href="subject_details?subject_id=${subject.subjectId}" class="btn">Read More</a>
+                                                    </div>
+                                                    <div class="info-bx text-center" style="padding: 10px;">
+                                                        <h5>
+                                                            <a href="subject_details?subject_id=${subject.subjectId}" 
+                                                               style="color: black; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                                ${subject.description}
+                                                            </a>
+                                                        </h5>
+                                                        <span>${subject.tagline}</span>
+                                                    </div>
+                                                    <div class="cours-more-info">
+                                                        <div class="review">
+                                                            <i class="fa fa-user"></i>      <span>Author</span>
+                                                            <c:forEach var="account" items="${account_list}" varStatus="aStatus">
+                                                                <c:if test="${aStatus.index == status.index}">
+                                                                    <h5>${account.first_name} ${account.last_name}</h5>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </div>
+                                                        <div class="price">
+                                                            <c:if test="${not empty selectedPackageModel}">
+                                                                <del>${selectedPackageModel.listPrice}</del>
+                                                                <h5>${selectedPackageModel.salePrice}</h5>
+                                                            </c:if>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <span class="cours-search-text">Over 5 million student</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-6">
-                                        <div class="cours-search-bx m-b30">
-                                            <div class="icon-box">
-                                                <h3><i class="ti-book"></i><span class="counter">30</span>K</h3>
-                                            </div>
-                                            <span class="cours-search-text">30,000 Courses.</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-12">
-                                        <div class="cours-search-bx m-b30">
-                                            <div class="icon-box">
-                                                <h3><i class="ti-layout-list-post"></i><span class="counter">20</span>K</h3>
-                                            </div>
-                                            <span class="cours-search-text">Learn Anything Online.</span>
-                                        </div>
-                                    </div>
+                                        </c:if>
+                                    </c:forEach>
+                                    <c:if test="${empty requestScope.subject_list}">
+                                        <p>No subjects found matching your search.</p>
+                                    </c:if>
                                 </div>
                             </div>
-                            <a href="../../1/web/admin/bookmark.html"></a>
                         </div>
                     </div>
+                    
                     <!-- Form END -->
 
 
@@ -392,91 +403,91 @@
         <script src="assets/vendors/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
         <script src="assets/vendors/revolution/js/extensions/revolution.extension.video.min.js"></script>
         <script>
-        jQuery(document).ready(function () {
-            var ttrevapi;
-            var tpj = jQuery;
-            if (tpj("#rev_slider_486_1").revolution == undefined) {
-                revslider_showDoubleJqueryError("#rev_slider_486_1");
-            } else {
-                ttrevapi = tpj("#rev_slider_486_1").show().revolution({
-                    sliderType: "standard",
-                    jsFileLocation: "assets/vendors/revolution/js/",
-                    sliderLayout: "fullwidth",
-                    dottedOverlay: "none",
-                    delay: 9000,
-                    navigation: {
-                        keyboardNavigation: "on",
-                        keyboard_direction: "horizontal",
-                        mouseScrollNavigation: "off",
-                        mouseScrollReverse: "default",
-                        onHoverStop: "on",
-                        touch: {
-                            touchenabled: "on",
-                            swipe_threshold: 75,
-                            swipe_min_touches: 1,
-                            swipe_direction: "horizontal",
-                            drag_block_vertical: false
-                        }
-                        ,
-                        arrows: {
-                            style: "uranus",
-                            enable: true,
-                            hide_onmobile: false,
-                            hide_onleave: false,
-                            tmp: '',
-                            left: {
-                                h_align: "left",
-                                v_align: "center",
-                                h_offset: 10,
-                                v_offset: 0
-                            },
-                            right: {
-                                h_align: "right",
-                                v_align: "center",
-                                h_offset: 10,
-                                v_offset: 0
+            jQuery(document).ready(function () {
+                var ttrevapi;
+                var tpj = jQuery;
+                if (tpj("#rev_slider_486_1").revolution == undefined) {
+                    revslider_showDoubleJqueryError("#rev_slider_486_1");
+                } else {
+                    ttrevapi = tpj("#rev_slider_486_1").show().revolution({
+                        sliderType: "standard",
+                        jsFileLocation: "assets/vendors/revolution/js/",
+                        sliderLayout: "fullwidth",
+                        dottedOverlay: "none",
+                        delay: 9000,
+                        navigation: {
+                            keyboardNavigation: "on",
+                            keyboard_direction: "horizontal",
+                            mouseScrollNavigation: "off",
+                            mouseScrollReverse: "default",
+                            onHoverStop: "on",
+                            touch: {
+                                touchenabled: "on",
+                                swipe_threshold: 75,
+                                swipe_min_touches: 1,
+                                swipe_direction: "horizontal",
+                                drag_block_vertical: false
                             }
-                        },
+                            ,
+                            arrows: {
+                                style: "uranus",
+                                enable: true,
+                                hide_onmobile: false,
+                                hide_onleave: false,
+                                tmp: '',
+                                left: {
+                                    h_align: "left",
+                                    v_align: "center",
+                                    h_offset: 10,
+                                    v_offset: 0
+                                },
+                                right: {
+                                    h_align: "right",
+                                    v_align: "center",
+                                    h_offset: 10,
+                                    v_offset: 0
+                                }
+                            },
 
-                    },
-                    viewPort: {
-                        enable: true,
-                        outof: "pause",
-                        visible_area: "80%",
-                        presize: false
-                    },
-                    responsiveLevels: [1240, 1024, 778, 480],
-                    visibilityLevels: [1240, 1024, 778, 480],
-                    gridwidth: [1240, 1024, 778, 480],
-                    gridheight: [768, 600, 600, 600],
-                    lazyType: "none",
-                    parallax: {
-                        type: "scroll",
-                        origo: "enterpoint",
-                        speed: 400,
-                        levels: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 46, 47, 48, 49, 50, 55],
-                        type: "scroll",
-                    },
-                    shadow: 0,
-                    spinner: "off",
-                    stopLoop: "off",
-                    stopAfterLoops: -1,
-                    stopAtSlide: -1,
-                    shuffle: "off",
-                    autoHeight: "off",
-                    hideThumbsOnMobile: "off",
-                    hideSliderAtLimit: 0,
-                    hideCaptionAtLimit: 0,
-                    hideAllCaptionAtLilmit: 0,
-                    debugMode: false,
-                    fallbacks: {
-                        simplifyAll: "off",
-                        nextSlideOnWindowFocus: "off",
-                        disableFocusListener: false,
-                    }
-                });
-            }
-        });
+                        },
+                        viewPort: {
+                            enable: true,
+                            outof: "pause",
+                            visible_area: "80%",
+                            presize: false
+                        },
+                        responsiveLevels: [1240, 1024, 778, 480],
+                        visibilityLevels: [1240, 1024, 778, 480],
+                        gridwidth: [1240, 1024, 778, 480],
+                        gridheight: [768, 600, 600, 600],
+                        lazyType: "none",
+                        parallax: {
+                            type: "scroll",
+                            origo: "enterpoint",
+                            speed: 400,
+                            levels: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 46, 47, 48, 49, 50, 55],
+                            type: "scroll",
+                        },
+                        shadow: 0,
+                        spinner: "off",
+                        stopLoop: "off",
+                        stopAfterLoops: -1,
+                        stopAtSlide: -1,
+                        shuffle: "off",
+                        autoHeight: "off",
+                        hideThumbsOnMobile: "off",
+                        hideSliderAtLimit: 0,
+                        hideCaptionAtLimit: 0,
+                        hideAllCaptionAtLilmit: 0,
+                        debugMode: false,
+                        fallbacks: {
+                            simplifyAll: "off",
+                            nextSlideOnWindowFocus: "off",
+                            disableFocusListener: false,
+                        }
+                    });
+                }
+            });
         </script>
         <script>
             //login

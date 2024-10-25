@@ -50,7 +50,7 @@
 
     </head>
     <body id="bg">
-        <%@include file="header.html" %>
+        <%@include file="header.jsp" %>
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
             <!-- Header Top ==== -->

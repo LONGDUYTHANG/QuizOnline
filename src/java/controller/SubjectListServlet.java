@@ -71,6 +71,9 @@ public class SubjectListServlet extends HttpServlet {
 
         SubjectDAO mySubjectDAO = new SubjectDAO();
         List<Subject> subject_list = new ArrayList<>();
+        
+        List<Subject> featuredSubjects = mySubjectDAO.getFeaturedSubjects();
+        request.setAttribute("featuredSubjects", featuredSubjects);
 
         if (keyword != null && !keyword.trim().isEmpty()) {
             subject_list = mySubjectDAO.searchSubjects(keyword);
