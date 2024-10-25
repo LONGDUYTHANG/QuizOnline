@@ -1,5 +1,5 @@
-                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -193,7 +193,7 @@
                                                 </form>
                                             </div>
                                             <br>
-                                            <!-- Danh sách các categories -->
+                                            <!-- Danh sÃ¡ch cÃ¡c categories -->
                                             <form role="search" method="get" action="searchByCategory">
                                                 <div class="category-list" style="margin-bottom: 20px;">
                                                     <c:forEach items="${requestScope.category_list}" var="c">
@@ -209,8 +209,9 @@
                                         <div class="widget recent-posts-entry">
                                             <h6 class="widget-title">Featured Subjects</h6>
                                             <div class="widget-post-bx">
-                                                <!-- thêm danh sách các bài subject hot nhat-->
+                                                <!-- thÃªm danh sÃ¡ch cÃ¡c bÃ i subject hot nhat-->
                                                 <c:forEach items="${requestScope.featuredSubjects}" var="c">
+
                                                     <div class="widget-post clearfix">
                                                         <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
                                                         <div class="ttr-post-info">
@@ -330,7 +331,7 @@
             }
 
 
-            // ?óng pop-up khi nh?n ra ngoài
+            // ?Ã³ng pop-up khi nh?n ra ngoÃ i
             window.onclick = function (event) {
                 if (event.target === loginPopup) {
                     loginPopup.style.display = 'none';
