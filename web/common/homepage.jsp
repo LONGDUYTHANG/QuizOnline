@@ -505,7 +505,7 @@
                     fallbacks: {
                         simplifyAll: "off",
                         nextSlideOnWindowFocus: "off",
-                        disableFocusListener: false,
+                        disableFocusListener: false
                     }
                 });
             }
