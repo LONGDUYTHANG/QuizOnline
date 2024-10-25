@@ -1,4 +1,4 @@
-                                            <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+                                    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -78,13 +78,10 @@
             <div id="loading-icon-bx"></div> 
             <header class="header rs-nav header-transparent">
                 <!-- login -->
-                <%@include file="login.jsp" %>
-                <!-- register     -->
-                <%@include file="register.jsp" %>
 
-                <%@include file="header.html" %>
 
-                <%@include file="requestPassword.jsp" %>
+                <%@include file="header.jsp" %>
+
 
             </header>
             <!-- Content -->
@@ -177,7 +174,6 @@
                                             <h6 class="widget-title">Latest Posts</h6>
                                             <div class="widget-post-bx">
                                                 <!-- thêm danh sách các bài post hot nhat-->
-                                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                                 <c:forEach items="${requestScope.post_list}" var="c">
                                                     <div class="widget-post clearfix">
                                                         <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
@@ -197,7 +193,6 @@
                                         </div>
                                         <div class="widget-post-bx">
                                             <!--  thêm danh sach 5 bai posst gan day-->
-                                            <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                             <c:forEach items="${requestScope.blog_detail}" var="c">
                                                 <div class="widget-post clearfix">
                                                     <div class="ttr-post-media"> <img src="assets/images/blog/recent-blog/pic1.jpg" width="200" height="143" alt=""> </div>

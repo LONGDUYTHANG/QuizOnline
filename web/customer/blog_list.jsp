@@ -1,5 +1,5 @@
-
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -73,27 +73,25 @@
         </style>
 
     </head>
+
     <body id="bg">
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
             <header class="header rs-nav header-transparent">
-                <!-- login -->
-                <%@include file="login.jsp" %>
-                <!-- register     -->
-                <%@include file="register.jsp" %>
 
-                <%@include file="header.html" %>
 
-                <%@include file="requestPassword.jsp" %>
+                <%@include file="header.jsp" %>
+
 
             </header>
+            <!-- header END ==== -->
             <!-- Content -->
-            <div class="page-content">
+            <div class="page-content bg-white">
                 <!-- inner page banner -->
                 <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <h1 class="text-white">Subject List</h1>
+                            <h1 class="text-white">Blog List </h1>
                         </div>
                     </div>
                 </div>
@@ -103,52 +101,47 @@
                     <div class="section-area section-sp1">
                         <div class="container">
                             <div class="row">
+
                                 <!-- Left part start -->
                                 <div class="col-lg-8">
-                                    <div class="sort-options">
-                                        <form method="get" action="subject_list" style="display: flex; align-items: center; width: 100%;">
+                                    <div class="sort-options" >
+                                        <form method="get" action="blog_list" style="display: flex; align-items: center; width: 100%;">
                                             <label for="sortBy" style="margin-right: 10px; white-space: nowrap;">Sort by:</label>
                                             <div  >
                                                 <label style="margin-right: 10px" >
-                                                    <input type="radio" name="sort" value="featured" ${param.sort == 'featured' ? 'checked' : ''} onchange="this.form.submit()"> Featured
+                                                    <input type="radio" name="sortBy" value="hottest" ${param.sort == 'hottest' ? 'checked' : ''} onchange="this.form.submit()"> Hottest
                                                 </label>
                                                 <label style="margin-right: 10px" >
-                                                    <input type="radio" name="sort" value="latest" ${param.sort == 'latest' ? 'checked' : ''} onchange="this.form.submit()"> Latest
+                                                    <input type="radio" name="sortBy" value="latest" ${param.sort == 'latest' ? 'checked' : ''} onchange="this.form.submit()"> Latest
                                                 </label>
                                                 <label>
-                                                    <input type="radio" name="sort" value="oldest" ${param.sort == 'oldest' ? 'checked' : ''} onchange="this.form.submit()"> Oldest
+                                                    <input type="radio" name="sortBy" value="oldest" ${param.sort == 'oldest' ? 'checked' : ''} onchange="this.form.submit()"> Oldest
                                                 </label>
                                             </div>
                                         </form>
                                     </div>
 
-
-                                    <!-- Subject list -->
-                                    <c:forEach items="${requestScope.subject_list}" var="c">
-                                        <c:if test="${param.keyword == null || param.keyword == '' || c.description.toLowerCase().contains(param.keyword.toLowerCase())}">
+                                    <c:forEach items="${requestScope.post_list}" var="c" varStatus="status">
+                                        <c:if test="${param.keyword == null || (c.blog_content.contains(param.keyword) || c.blog_summary.contains(param.keyword))}">
                                             <div class="blog-post blog-md clearfix">
                                                 <div class="ttr-post-media">
-                                                    <a href="subject_details?subject_id=${c.subjectId}"><img src="${c.thumbnail}" alt=""></a>
+                                                    <a href="blog_detail?blog_id=${c.blog_id}"><img src="${c.thumbnail}" alt=""></a>
                                                 </div>
                                                 <div class="ttr-post-info">
                                                     <ul class="media-post">
-                                                        <li><i class="fa fa-calendar"></i>${c.createdDate}</li>
-                                                        <li><b>${c.tagline}</b></li>
+                                                        <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
+                                                        <li><a href="#"><i class="fa fa-user"></i>By ${account_list[status.index].first_name} ${account_list[status.index].last_name}</a></li>
                                                     </ul>
-                                                    <h5 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.subjectName}</a></h5>
-                                                    <p>${c.description}</p>
-                                                    <div class="post-extra">                                                                                                              
-                                                        <c:if test="${not empty selectedPackageModel}">
-                                                            <del>${selectedPackageModel.listPrice}</del>
-                                                            <h4 class="price">${selectedPackageModel.salePrice}</h4>
-                                                        </c:if>
-                                                        <div style="margin-left: 50px;"></div>
-                                                        <a href="login.jsp" class="btn btn-primary">Register</a>
+                                                    <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_summary}</a></h5>
+                                                    <p>${c.blog_content}</p>
+                                                    <div class="post-extra">
+                                                        <a href="blog_detail?blog_id=${c.blog_id}" class="btn-link">READ MORE</a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </c:if>
                                     </c:forEach>
+
 
                                     <!-- Pagination start -->
                                     <div class="col-lg-12 m-b20">
@@ -169,9 +162,9 @@
                                         <div class="widget">
                                             <h6 class="widget-title">Search</h6>
                                             <div class="search-bx style-1">
-                                                <form role="search" method="get" action="subject_list">
+                                                <form role="search" method="get" action="blog_list">
                                                     <div class="input-group">
-                                                        <input name="keyword" value="${param.keyword != null ? param.keyword : ''}" class="form-control" placeholder="Enter your keywords..." type="text" id="output">
+                                                        <input name="keyword" value="${param.keyword != null ? param.keyword : ''}" class="form-control" placeholder="Enter your keywords..." type="text" id="output" style="width: 80%;">
                                                         <span class="input-group-btn">
                                                             <button type="submit" class="fa fa-search text-primary"></button>
                                                         </span>
@@ -179,47 +172,50 @@
                                                 </form>
                                             </div>
                                         </div>
+
                                         <div class="widget widget_tag_cloud">
                                             <h6 class="widget-title">Categories</h6>
                                             <div class="search-bx style-1">
-                                                <form role="search" method="get" action="searchByCategory">
+                                                <form role="search" method="get" action="searchByCategory"> <!-- ??m b?o ?i?u n‡y tr? ??n endpoint chÌnh x·c -->
                                                     <div class="input-group">
                                                         <input name="text" class="form-control" placeholder="Enter your keywords..." type="text" id="output">
                                                         <input name="category" type="hidden" value="${param.category != null ? param.category : ''}">
+                                                        <input name="view" type="hidden" value="blogs"> <!-- ??t view l‡ blogs -->
                                                         <span class="input-group-btn">
                                                             <button type="submit" class="fa fa-search text-primary"></button>
                                                         </span>
                                                     </div>
                                                 </form>
                                             </div>
+
+
                                             <br>
-                                            <!-- Danh s√°ch c√°c categories -->
-                                            <form role="search" method="get" action="searchByCategory">
-                                                <div class="category-list" style="margin-bottom: 20px;">
-                                                    <c:forEach items="${requestScope.category_list}" var="c">
-                                                        <div style="margin-bottom: 10px;">
-                                                            <input type="checkbox" class="category-checkbox" id="category_${c.category_id}" name="categories" value="${c.category_id}">
-                                                            <label for="category_${c.category_id}" style="font-size: 16px; margin-left: 8px;">${c.category_name}</label>
-                                                        </div>
-                                                    </c:forEach>
-                                                </div>
-                                            </form>
+                                            <!-- Danh s·ch c·c categories -->
+                                            <div class="category-list" style="margin-bottom: 20px;">
+                                                <c:forEach items="${requestScope.category_list}" var="c">
+                                                    <div style="margin-bottom: 10px;">
+                                                        <input type="checkbox" id="category_${c.category_id}" name="categories" value="${c.category_id}">
+                                                        <label for="category_${c.category_id}" style="font-size: 16px; margin-left: 8px;">${c.category_name}</label>
+                                                    </div>
+                                                </c:forEach>
+                                            </div>
+                                            <!-- N˙t tÏm ki?m -->
                                         </div>
                                         <br>
                                         <div class="widget recent-posts-entry">
-                                            <h6 class="widget-title">Featured Subjects</h6>
+                                            <h6 class="widget-title">Hottest Posts</h6>
                                             <div class="widget-post-bx">
-                                                <!-- th√™m danh s√°ch c√°c b√†i subject hot nhat-->
-                                                <c:forEach items="${requestScope.featuredSubjects}" var="c">
-
+                                                <!-- thÍm danh s·ch c·c b‡i post hot nhat-->
+                                                <c:forEach items="${requestScope.hottest_post_list}" var="c">
                                                     <div class="widget-post clearfix">
                                                         <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
                                                         <div class="ttr-post-info">
                                                             <div class="ttr-post-header">
-                                                                <h6 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.subjectName}</a></h6>
+                                                                <h6 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_summary}</a></h6>
                                                             </div>
                                                             <ul class="media-post">
-                                                                <li>${c.tagline}</li>
+                                                                <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
+                                                                <!--                                                                <li><a href="#"><i class="fa fa-comments-o"></i>15 Comment</a></li>-->
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -331,7 +327,7 @@
             }
 
 
-            // ?√≥ng pop-up khi nh?n ra ngo√†i
+            // ?Ûng pop-up khi nh?n ra ngo‡i
             window.onclick = function (event) {
                 if (event.target === loginPopup) {
                     loginPopup.style.display = 'none';

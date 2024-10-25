@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import model.Registration;
 import model.Registration_Status;
+import model.Subject;
 
 /**
  *
@@ -376,7 +377,7 @@ public class RegistrationDAO extends DBContext {
             stm = connection.prepareStatement(strSelect);
             rs = stm.executeQuery();
             while (rs.next()) {
-                list.add(rs.getInt("earning") );
+                list.add(rs.getInt("earning"));
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -405,11 +406,11 @@ public class RegistrationDAO extends DBContext {
         }
         return revenue;
     }
-    
-       public double getMonthRevenue(LocalDate now) {
+
+    public double getMonthRevenue(LocalDate now) {
         PreparedStatement stm;
         ResultSet rs;
-        int month =now.getMonthValue();
+        int month = now.getMonthValue();
         double revenue = 0;
         try {
             String strSelect = "SELECT SUM(list_price) as revenue FROM Registration WHERE MONTH(registration_time)=?";
@@ -448,7 +449,7 @@ public class RegistrationDAO extends DBContext {
             stm.setInt(2, dayOfMonth - day + 1);
             stm.setInt(3, dayOfMonth + 7 - day);
             rs = stm.executeQuery();
-            if (rs.next()) {        
+            if (rs.next()) {
                 revenue = rs.getDouble("revenue");
             }
         } catch (SQLException e) {
@@ -637,8 +638,8 @@ public class RegistrationDAO extends DBContext {
         }
         return week_registration;
     }
-    
-        /**
+
+    /**
      * Get total number of registration in the current month
      *
      * @param now the current date
@@ -647,7 +648,7 @@ public class RegistrationDAO extends DBContext {
     public int getMonthRegitration(LocalDate now) {
         PreparedStatement stm;
         ResultSet rs;
-        int month=now.getMonthValue();
+        int month = now.getMonthValue();
         int week_registration = 0;
         try {
             String strSelect = "SELECT COUNT(*) as number FROM Registration where MONTH(registration_time)=?";
@@ -721,8 +722,8 @@ public class RegistrationDAO extends DBContext {
      * Get number of users in all months
      *
      * @return array list contains data of 12 months
-     */ 
-    public ArrayList<Integer> getMonthUser(){
+     */
+    public ArrayList<Integer> getMonthUser() {
         PreparedStatement stm;
         ResultSet rs;
         ArrayList<Integer> month_user = new ArrayList<>();
@@ -739,12 +740,11 @@ public class RegistrationDAO extends DBContext {
         return month_user;
     }
 
-        /**
+    /**
      * Get number of user in a week
      *
      * @param now
-     * @return an array list that provides number of user of 7 days in a
-     * week
+     * @return an array list that provides number of user of 7 days in a week
      */
     public ArrayList<Integer> getNumberofUsersInAWeek(LocalDate now) {
         PreparedStatement stm;
@@ -759,9 +759,11 @@ public class RegistrationDAO extends DBContext {
         int dayOfMonth = now.getDayOfMonth();
 
         try {
-            String strSelect = "SELECT COUNT(*) as number, e.day as day FROM (Select COUNT(*) as numer, MONTH(registration_time ) as mon, DAY(registration_time) as day FROM Account\r\n" + //
-                                "WHERE MONTH(registration_time)=? AND DAY(registration_time)>=? AND DAY(registration_time)<=? GROUP BY registration_time)\r\n" + //
-                                "AS e GROUP BY e.day";
+            String strSelect = "SELECT COUNT(*) as number, e.day as day FROM (Select COUNT(*) as numer, MONTH(registration_time ) as mon, DAY(registration_time) as day FROM Account\r\n"
+                    + //
+                    "WHERE MONTH(registration_time)=? AND DAY(registration_time)>=? AND DAY(registration_time)<=? GROUP BY registration_time)\r\n"
+                    + //
+                    "AS e GROUP BY e.day";
             stm = connection.prepareStatement(strSelect);
             stm.setInt(1, month);
             stm.setInt(2, dayOfMonth - day + 1);
@@ -803,9 +805,10 @@ public class RegistrationDAO extends DBContext {
 
     /**
      * Get total number of user 12 months
+     *
      * @return all user in all months
      */
-    public int getAllUser(){
+    public int getAllUser() {
         PreparedStatement stm;
         ResultSet rs;
         int week_registration = 0;
@@ -821,11 +824,11 @@ public class RegistrationDAO extends DBContext {
         }
         return week_registration;
     }
-    
-    public int getUserInAMonth(LocalDate now){
+
+    public int getUserInAMonth(LocalDate now) {
         PreparedStatement stm;
         ResultSet rs;
-        int month=now.getMonthValue();
+        int month = now.getMonthValue();
         int week_registration = 0;
         try {
             String strSelect = "SELECT COUNT(*) as number FROM Account WHERE MONTH(registration_time)=?";
@@ -843,10 +846,11 @@ public class RegistrationDAO extends DBContext {
 
     /**
      * Get total number of user in a week
+     *
      * @param now the current date
      * @return all user in a week
      */
-    public int getAllUserInAWeek(LocalDate now){
+    public int getAllUserInAWeek(LocalDate now) {
         PreparedStatement stm;
         ResultSet rs;
         int month_registration = 0;
@@ -872,10 +876,70 @@ public class RegistrationDAO extends DBContext {
         return month_registration;
     }
 
+    public ArrayList<Subject> getRegisteredSubjectsByUserId(int userId) {
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<Subject> registeredSubjects = new ArrayList<>();
+
+        try {
+            String sql = "SELECT s.subject_id, s.subject_name, s.category_id, s.status, s.isFeatured, "
+                    + "s.thumbnail, s.tagline, s.description, s.account_id "
+                    + "FROM Subject s "
+                    + "JOIN Registration r ON s.subject_id = r.subject_id "
+                    + "WHERE r.account_id = ?";
+
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, userId);
+
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Subject subject = new Subject();
+                subject.setSubjectId(rs.getInt("subject_id"));
+                subject.setSubjectName(rs.getString("subject_name"));
+                subject.setCategoryId(rs.getInt("category_id"));
+                subject.setStatus(rs.getBoolean("status"));
+                subject.setIsFeatured(rs.getBoolean("isFeatured"));
+                subject.setThumbnail(rs.getString("thumbnail"));
+                subject.setTagline(rs.getString("tagline"));
+                subject.setDescription(rs.getString("description"));
+                subject.setAccountId(rs.getInt("account_id"));
+
+                registeredSubjects.add(subject);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return registeredSubjects;
+    }
+
     public static void main(String[] args) {
-        RegistrationDAO a = new RegistrationDAO();
-        ArrayList<Integer> h=a.getNumberofUsersInAWeek(LocalDate.now());
-        System.out.println(a.getUserInAMonth(LocalDate.now()));
-     
+        // Khởi tạo đối tượng RegistrationDAO
+        RegistrationDAO registrationDAO = new RegistrationDAO();
+
+        // ID của người dùng mà bạn muốn kiểm tra
+        int userId = 1; // Thay đổi theo userId bạn muốn kiểm tra
+
+        // Gọi hàm getRegisteredSubjectsByUserId và lấy danh sách môn học đã đăng ký
+        ArrayList<Subject> registeredSubjects = registrationDAO.getRegisteredSubjectsByUserId(userId);
+
+        // Kiểm tra và in ra các môn học đã đăng ký
+        if (registeredSubjects.isEmpty()) {
+            System.out.println("User với ID " + userId + " chưa đăng ký môn học nào.");
+        } else {
+            System.out.println("Các môn học mà user với ID " + userId + " đã đăng ký:");
+            for (Subject subject : registeredSubjects) {
+                System.out.println("Mã môn học: " + subject.getSubjectId());
+                System.out.println("Tên môn học: " + subject.getSubjectName());
+                System.out.println("Danh mục: " + subject.getCategoryId());
+                System.out.println("Trạng thái: " + (subject.isStatus() ? "Kích hoạt" : "Vô hiệu"));
+                System.out.println("Nổi bật: " + (subject.isIsFeatured() ? "Có" : "Không"));
+                System.out.println("Hình ảnh: " + subject.getThumbnail());
+                System.out.println("Tiêu đề: " + subject.getTagline());
+                System.out.println("Mô tả: " + subject.getDescription());
+                System.out.println("Người tạo: " + subject.getAccountId());
+                System.out.println("--------------------------------");
+            }
+        }
     }
 }

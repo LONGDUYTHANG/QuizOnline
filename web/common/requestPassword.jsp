@@ -1,8 +1,3 @@
-<%-- 
-    Document   : login.jsp
-    Created on : 4 Jun, 2024, 4:48:55 AM
-    Author     : HP
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

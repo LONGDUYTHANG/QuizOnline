@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dal.SliderDAO;
 import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +13,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.List;
 import model.Post;
+import model.Slider;
 import model.Subject;
 
 /**
@@ -63,6 +66,8 @@ public class SearchServlet extends HttpServlet {
         SubjectDAO mySubjectDAO = new SubjectDAO();
         ArrayList<Subject> subject_list = mySubjectDAO.getSubject();
         ArrayList<Subject> filteredSubjects = mySubjectDAO.searchSubjects(keyword);
+        List<Subject> featuredSubjects = mySubjectDAO.getFeaturedSubjects();
+        request.setAttribute("featuredSubjects", featuredSubjects);
 
         dal.PostDAO myPostDAO = new dal.PostDAO();
         ArrayList<Post> post_list = myPostDAO.getPost();
@@ -86,12 +91,16 @@ public class SearchServlet extends HttpServlet {
 
         String page = request.getParameter("page");
 
+        SliderDAO sliderDAO = new SliderDAO();
+        List<Slider> sliders_list = sliderDAO.getAllSlider();
+        request.setAttribute("sliders_list", sliders_list);
+
         if ("subject".equals(page)) {
             request.getRequestDispatcher("subject_list.jsp").forward(request, response);
         } else if ("blog".equals(page)) {
             request.getRequestDispatcher("blog_list.jsp").forward(request, response);
         } else {
-            request.getRequestDispatcher("homepage.jsp").forward(request, response);
+            request.getRequestDispatcher("homepage").forward(request, response);
         }
     }
 

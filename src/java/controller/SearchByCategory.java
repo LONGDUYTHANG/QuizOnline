@@ -6,6 +6,7 @@ package controller;
 
 import dal.SubjectDAO;
 import dal.CategoryDAO;
+import dal.PackageDAO;
 import dal.PostDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -71,9 +72,30 @@ public class SearchByCategory extends HttpServlet {
         PostDAO myPostDAO = new PostDAO();
         CategoryDAO myCategoryDAO = new CategoryDAO();
 
+                PackageDAO packageDAO = new PackageDAO();
+        List<model.Package> packageList = packageDAO.getAllPackage();
+        String selectedDuration = request.getParameter("courseDuration");
+        model.Package selectedPackageModel = packageList.get(0);
+        if (selectedDuration != null) {
+            try {
+                int duration = Integer.parseInt(selectedDuration);
+                for (model.Package pkg : packageList) {
+                    if (pkg.getDuration() == duration) {
+                        selectedPackageModel = pkg;
+                        break;
+                    }
+                }
+            } catch (NumberFormatException e) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid course duration.");
+                return;
+            }
+        }
+        request.setAttribute("selectedDuration", selectedDuration);
+        request.setAttribute("selectedPackageModel", selectedPackageModel);
+        
         List<Subject> subject_list = mySubjectDAO.getSubject();
-        List<Subject> featured_subject_list = mySubjectDAO.getSubject();
-        request.setAttribute("featured_subject_list", featured_subject_list);
+        List<Subject> featuredSubjects = mySubjectDAO.getFeaturedSubjects();
+        request.setAttribute("featuredSubjects", featuredSubjects);
 
         List<Post> post_list = myPostDAO.getPost();
         List<Post> hottest_post_list = myPostDAO.getHottestPost();
