@@ -137,9 +137,11 @@
                                                     </ul>
                                                     <h5 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.subjectName}</a></h5>
                                                     <p>${c.description}</p>
-                                                    <div class="post-extra">
-                                                        <del>$190</del>
-                                                        <h4 class="price">$120</h4>
+                                                    <div class="post-extra">                                                                                                              
+                                                        <c:if test="${not empty selectedPackageModel}">
+                                                            <del>${selectedPackageModel.listPrice}</del>
+                                                            <h4 class="price">${selectedPackageModel.salePrice}</h4>
+                                                        </c:if>
                                                         <div style="margin-left: 50px;"></div>
                                                         <a href="login.jsp" class="btn btn-primary">Register</a>
                                                     </div>

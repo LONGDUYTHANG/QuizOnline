@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dal.AccountDAO;
 import dal.PostDAO;
 import dal.CategoryDAO;
 import java.io.IOException;
@@ -69,29 +70,32 @@ public class BlogDetailServlet extends HttpServlet {
             blog_id = Integer.parseInt(raw_blog_id);
         } catch (NumberFormatException e) {
         }
-
+        AccountDAO accountDAO = new AccountDAO();
         PostDAO myPostDAO = new PostDAO();
         Post myPost = myPostDAO.getPostByBlogID(blog_id);
         request.setAttribute("myPost", myPost);
-        
+
         ArrayList<Post> post_list = myPostDAO.getPost();
         request.setAttribute("post_list", post_list);
-        
+
         CategoryDAO myCategoryDAO = new CategoryDAO();
         List<Category> category_list = myCategoryDAO.getCategory();
         request.setAttribute("category_list", category_list);
+        Account account = accountDAO.getAccountById(myPost.getAccount_id());
+        request.setAttribute("account", account);
 
-        
         HttpSession session = request.getSession(false);
-        Account user = (Account) session.getAttribute("user");
-        if (user == null) {
+        if (session == null) {
             request.getRequestDispatcher("common/blog_detail.jsp").forward(request, response);
         } else {
-            request.getRequestDispatcher("customer/blog_detail.jsp").forward(request, response);
+            Account user = (Account) session.getAttribute("user");
+            if (user == null) {
+                request.getRequestDispatcher("common/blog_detail.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("customer/blog_detail.jsp").forward(request, response);
+            }
         }
 
-        
-        
     }
 
     /**
