@@ -145,7 +145,7 @@ public class SubjectDetailServlet extends HttpServlet {
         if (session != null) {
             Account user = (Account) session.getAttribute("user");
             if (user != null) {
-                request.getRequestDispatcher("customer/subject_details_customer.jsp").forward(request, response);
+                request.getRequestDispatcher("customer/subject_details.jsp").forward(request, response);
                 return;
             }
         }
