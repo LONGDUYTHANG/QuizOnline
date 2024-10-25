@@ -85,21 +85,21 @@
             <div id="loading-icon-bx"></div>
             <!-- Header Top ==== -->
             <header class="header rs-nav header-transparent">
-                                <!-- login -->
+                <!-- login -->
                 <%@include file="login.jsp" %>
                 <!-- register     -->
                 <%@include file="register.jsp" %>
-                
+
                 <%@include file="header.html" %>
-                
+
                 <%@include file="requestPassword.jsp" %>
-                
+
             </header>
             <!-- Header Top END ==== -->
-            
-            
-            
-            
+
+
+
+
             <!-- Content -->
             <div class="page-content bg-white">
                 <!-- Main Slider -->
@@ -226,38 +226,37 @@
                                     <!-- thêm subjedt list -->
                                     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                     <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-                                    <c:forEach items="${requestScope.subject_list}" var="c">
-                                        <c:if test="${fn:contains(c.description, param.keyword) || fn:contains(c.subjectName, param.keyword)}">
-                                            <div class="item" style="width: 300px; height: 350px;"> <!-- Kích th??c c? ??nh -->
-                                                <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;"> <!-- B?o ??m kích th??c -->
-                                                    <div class="action-box" style="width: 100%; height: 57%;"> <!-- T? l? hình ?nh c? ??nh -->
-                                                        <img src="${c.thumbnail}" alt="" style="width: 100%; height: 100%;"> <!-- Kích th??c hình ?nh -->
-                                                        <a href="subject_details?subject_id=${c.subjectId}" class="btn">Read More</a>
+                                    <c:forEach var="subject" items="${subject_list}" varStatus="status">
+                                        <c:if test="${fn:contains(subject.description, param.keyword) || fn:contains(subject.subjectName, param.keyword)}">
+                                            <div class="item" style="width: 300px; height: 350px;">
+                                                <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;">
+                                                    <div class="action-box" style="width: 100%; height: 57%;">
+                                                        <img src="${subject.thumbnail}" alt="" style="width: 100%; height: 100%;">
+                                                        <a href="subject_details?subject_id=${subject.subjectId}" class="btn">Read More</a>
                                                     </div>
                                                     <div class="info-bx text-center" style="padding: 10px;">
-                                                        <!-- S? d?ng CSS ?? c?t ?o?n text khi quá dài -->
                                                         <h5>
-                                                            <a href="subject_details?subject_id=${c.subjectId}" 
+                                                            <a href="subject_details?subject_id=${subject.subjectId}" 
                                                                style="color: black; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                                ${c.description}
+                                                                ${subject.description}
                                                             </a>
                                                         </h5>
-                                                        <span>${c.tagline}</span>
+                                                        <span>${subject.tagline}</span>
                                                     </div>
                                                     <div class="cours-more-info">
                                                         <div class="review">
-                                                            <span>3 Review</span>
-                                                            <ul class="cours-star">
-                                                                <li class="active"><i class="fa fa-star"></i></li>
-                                                                <li class="active"><i class="fa fa-star"></i></li>
-                                                                <li class="active"><i class="fa fa-star"></i></li>
-                                                                <li><i class="fa fa-star"></i></li>
-                                                                <li><i class="fa fa-star"></i></li>
-                                                            </ul>
+                                                            <i class="fa fa-user"></i>      <span>Author</span>
+                                                            <c:forEach var="account" items="${account_list}" varStatus="aStatus">
+                                                                <c:if test="${aStatus.index == status.index}">
+                                                                    <h5>${account.first_name} ${account.last_name}</h5>
+                                                                </c:if>
+                                                            </c:forEach>
                                                         </div>
                                                         <div class="price">
-                                                            <del>$190</del>
-                                                            <h5>$120</h5>
+                                                            <c:if test="${not empty selectedPackageModel}">
+                                                                <del>${selectedPackageModel.listPrice}</del>
+                                                                <h5>${selectedPackageModel.salePrice}</h5>
+                                                            </c:if>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -297,7 +296,7 @@
                                             <div class="icon-box">
                                                 <h3><i class="ti-user"></i><span class="counter">5</span>M</h3>
                                             </div>
-                                            <span class="cours-search-text">Over 5 million student</span>
+                                            <span class="cours-search-text">Over ${totalQuizzes} Quizzes</span>
                                         </div>
                                     </div>
                                     <div class="col-md-4 col-sm-6">
@@ -305,7 +304,7 @@
                                             <div class="icon-box">
                                                 <h3><i class="ti-book"></i><span class="counter">30</span>K</h3>
                                             </div>
-                                            <span class="cours-search-text">30,000 Courses.</span>
+                                            <span class="cours-search-text">${totalSubjects} Subjects.</span>
                                         </div>
                                     </div>
                                     <div class="col-md-4 col-sm-12">
@@ -313,7 +312,7 @@
                                             <div class="icon-box">
                                                 <h3><i class="ti-layout-list-post"></i><span class="counter">20</span>K</h3>
                                             </div>
-                                            <span class="cours-search-text">Learn Anything Online.</span>
+                                            <span class="cours-search-text">Learn ${totalLessons} Lessons.</span>
                                         </div>
                                     </div>
                                 </div>
@@ -533,7 +532,7 @@
             const RequestPopup = document.getElementById('requestPass-popup');
             const requestError = document.getElementById('requestPass-error');
             const checkRequestError = document.getElementById('check-requestPass-error');
-            
+
 
             openLoginButton.onclick = function () {
                 loginPopup.style.display = 'flex';
@@ -551,11 +550,11 @@
             };
             openRequestButton.onclick = function () {
                 loginPopup.style.display = 'none';
-                RequestPopup.style.display='flex';
+                RequestPopup.style.display = 'flex';
             };
-            closeRequestButton.onclick =function () {
+            closeRequestButton.onclick = function () {
                 loginPopup.style.display = 'flex';
-                RequestPopup.style.display='none';
+                RequestPopup.style.display = 'none';
             };
             function LoginAgain() {
                 if (checkLoginError.textContent === loginError.textContent) {
@@ -567,14 +566,14 @@
                 if (checkPassError.textContent === passError.textContent) {
                     registerPopup.style.display = 'flex';
                 }
-                if(requestError.textContent==='Send request success'){
-                    RequestPopup.style.display='flex';
+                if (requestError.textContent === 'Send request success') {
+                    RequestPopup.style.display = 'flex';
                 }
-                if(requestError.textContent==='Email not existed'){
-                    RequestPopup.style.display='flex';
+                if (requestError.textContent === 'Email not existed') {
+                    RequestPopup.style.display = 'flex';
                 }
                 console.log(requestError.textContent);
-                
+
 
             }
 
@@ -592,7 +591,6 @@
                 }
             };
         </script>
-            </body>
-
+    </body>
 </html>
 

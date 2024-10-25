@@ -445,26 +445,48 @@ public class AccountDAO extends DBContext {
         }
     }
 
-public boolean updateStatus(int account_id, String status) {
-    String sql = "UPDATE [dbo].[Account] SET status = ? WHERE account_id = ?";
+    public boolean updateStatus(int account_id, String status) {
+        String sql = "UPDATE [dbo].[Account] SET status = ? WHERE account_id = ?";
 
-    try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-        pstmt.setString(1, status);
-        pstmt.setInt(2, account_id);
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, status);
+            pstmt.setInt(2, account_id);
 
-        int rowsAffected = pstmt.executeUpdate();
-        return rowsAffected > 0; // Trả về true nếu việc cập nhật thành công
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false; // Trả về false nếu xảy ra lỗi
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu việc cập nhật thành công
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Trả về false nếu xảy ra lỗi
+        }
     }
-}
 
+    public String getAccountNameBySubjectId(int subjectId) {
+        String sql = "SELECT a.first_name, a.last_name, a.gender1 "
+                + "FROM Account a "
+                + "JOIN SubjectAccount sa ON a.account_id = sa.account_id "
+                + "WHERE sa.subject_id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, subjectId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                int gender = rs.getInt("gender1");
+                return firstName + " " + lastName;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null; 
+    }
 
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
 
-       Account account = dao.getAccountById(2);
+        Account account = dao.getAccountById(2);
         System.out.println(account.getStatus());
 
     }

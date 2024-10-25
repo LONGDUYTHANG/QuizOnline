@@ -101,12 +101,10 @@
         <servlet-class>controller.SalerDashBoardServlet</servlet-class>
     </servlet>
     <servlet>
-
         <servlet-name>AdminDashboardServlet</servlet-name>
         <servlet-class>controller.AdminDashboardServlet</servlet-class>
-
     </servlet>
-  <servlet>
+    <servlet>
         <servlet-name>ListLessonServlet</servlet-name>
         <servlet-class>controller.ListLessonServlet</servlet-class>
     </servlet>
@@ -125,7 +123,14 @@
     <servlet>
         <servlet-name>EditLessonServlet</servlet-name>
         <servlet-class>controller.EditLessonServlet</servlet-class>
-
+    </servlet>
+    <servlet>
+        <servlet-name>Quiz_Review</servlet-name>
+        <servlet-class>controller.Quiz_Review</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HomepageCustomer</servlet-name>
+        <servlet-class>controller.HomepageCustomer</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
@@ -242,9 +247,8 @@
     <servlet-mapping>
         <servlet-name>AdminDashboardServlet</servlet-name>
         <url-pattern>/admindashboard</url-pattern>
-</servlet-mapping>
-
- <servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ListLessonServlet</servlet-name>
         <url-pattern>/listlesson</url-pattern>
     </servlet-mapping>
@@ -263,6 +267,14 @@
     <servlet-mapping>
         <servlet-name>EditLessonServlet</servlet-name>
         <url-pattern>/editlesson</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Quiz_Review</servlet-name>
+        <url-pattern>/quiz_review</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomepageCustomer</servlet-name>
+        <url-pattern>/homepage_1</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>

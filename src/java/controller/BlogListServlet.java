@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dal.AccountDAO;
 import dal.PostDAO;
 import dal.CategoryDAO;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
+import model.Blog;
 import model.Category;
 import model.Post;
 
@@ -69,19 +71,20 @@ public class BlogListServlet extends HttpServlet {
 
         ArrayList<Post> post_list;
 
+        // Handle sorting and searching
         if (sortBy != null) {
             switch (sortBy) {
                 case "latest":
-                    post_list = myPostDAO.getLatestPosts(); 
+                    post_list = myPostDAO.getLatestPosts();
                     break;
                 case "oldest":
-                    post_list = myPostDAO.getOldestPosts(); 
+                    post_list = myPostDAO.getOldestPosts();
                     break;
                 case "hottest":
                     post_list = myPostDAO.getHottestPost1();
                     break;
                 default:
-                    post_list = myPostDAO.getPost(); 
+                    post_list = myPostDAO.getPost();
                     break;
             }
         } else if (keyword != null && !keyword.trim().isEmpty()) {
@@ -92,18 +95,34 @@ public class BlogListServlet extends HttpServlet {
 
         request.setAttribute("post_list", post_list);
 
+        // Get hottest posts and categories
         ArrayList<Post> hottest_post_list = myPostDAO.getHottestPost();
         request.setAttribute("hottest_post_list", hottest_post_list);
 
         CategoryDAO myCategoryDAO = new CategoryDAO();
         List<Category> category_list = myCategoryDAO.getCategory();
         request.setAttribute("category_list", category_list);
- HttpSession session = request.getSession(false);
-        Account user = (Account) session.getAttribute("user");
-        if (user == null) {
-            request.getRequestDispatcher("common/blog_list.jsp").forward(request, response);
+
+        AccountDAO accountDAO = new AccountDAO();
+        List<Account> account_list = new ArrayList<>();
+        for (Post blog : post_list) {
+            Account account = accountDAO.getAccountById(blog.getAccount_id());
+            account_list.add(account);
+        }
+        request.setAttribute("account_list", account_list);
+
+        // Proper session handling
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Account user = (Account) session.getAttribute("user");
+            if (user == null) {
+                request.getRequestDispatcher("common/blog_list.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("customer/blog_list.jsp").forward(request, response);
+            }
         } else {
-            request.getRequestDispatcher("customer/blog_list.jsp").forward(request, response);
+            // If session is null, handle accordingly (e.g., redirect to login)
+            response.sendRedirect("login.jsp");
         }
     }
 
