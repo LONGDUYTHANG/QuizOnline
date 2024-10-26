@@ -157,7 +157,6 @@
                                                 <ul class="course-features">
                                                     <li><i class="ti-book"></i> <span class="label">Lessons</span> <span class="value">${totalLessons}</span></li>
                                                     <li><i class="ti-help-alt"></i> <span class="label">Quizzes</span> <span class="value">1</span></li>
-                                                    <li><i class="ti-time"></i> <span class="label">Duration</span> <span class="value">60 hours</span></li>
                                                     <li><i class="ti-smallcap"></i> <span class="label">Language</span> <span class="value">English</span></li>
                                                 </ul>
                                             </div>

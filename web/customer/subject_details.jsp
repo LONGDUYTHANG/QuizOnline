@@ -162,7 +162,6 @@
                                                 <ul class="course-features">
                                                     <li><i class="ti-book"></i> <span class="label">Lessons</span> <span class="value">${totalLessons}</span></li>
                                                     <li><i class="ti-help-alt"></i> <span class="label">Quizzes</span> <span class="value">1</span></li>
-                                                    <li><i class="ti-time"></i> <span class="label">Duration</span> <span class="value">60 hours</span></li>
                                                     <li><i class="ti-smallcap"></i> <span class="label">Language</span> <span class="value">English</span></li>
                                                 </ul>
                                             </div>
@@ -186,10 +185,33 @@
                                                         <c:forEach var="lesson" items="${lessonList}">
                                                             <c:if test="${lesson.lesson_topic_id == topic.lesson_topic_id}">
                                                                 <li>
-                                                                    <div class="curriculum-list-box">
-                                                                        <a href="#"><span>Lesson ${lesson.lesson_order}.</span>
-                                                                        ${lesson.lesson_name}</a>
-                                                                    </div>
+                                                                    <c:if test="${isRegistered}">
+                                                                        <div class="curriculum-list-box">
+                                                                            <c:choose>
+                                                                                <c:when test="${lesson.lesson_type_id == 1}">
+                                                                                    <a href="lesson_detail?lesson_id=${lesson.lesson_id}">
+                                                                                        <span>Lesson ${lesson.lesson_order}.</span>
+                                                                                        ${lesson.lesson_name}
+                                                                                    </a>
+                                                                                </c:when>
+                                                                                <c:when test="${lesson.lesson_type_id == 2}">
+                                                                                    <a href="quiz?quiz_id=${lesson.lesson_id}">
+                                                                                        <span>Quiz ${lesson.lesson_order}.</span>
+                                                                                        ${lesson.lesson_name}
+                                                                                    </a>
+                                                                                </c:when>
+                                                                                <c:otherwise>
+                                                                                    <span>Unknown Lesson Type</span>
+                                                                                </c:otherwise>
+                                                                            </c:choose>
+                                                                        </div>
+                                                                    </c:if>
+                                                                    <c:if test="${!isRegistered}">
+                                                                        <div class="curriculum-list-box">
+                                                                            <span>Lesson ${lesson.lesson_order}.</span>
+                                                                            ${lesson.lesson_name}
+                                                                        </div>
+                                                                    </c:if>
                                                                     <span>${lesson.lessonTypeName}</span>
                                                                 </li>
                                                             </c:if>
