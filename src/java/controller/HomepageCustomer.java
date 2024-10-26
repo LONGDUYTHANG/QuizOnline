@@ -8,6 +8,7 @@ import dal.AccountDAO;
 import dal.LessonDAO;
 import dal.PackageDAO;
 import dal.QuizDAO;
+import dal.RegistrationDAO;
 import dal.SliderDAO;
 import dal.SubjectDAO;
 import java.io.IOException;
@@ -16,10 +17,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
 import model.Post;
+import model.RegisteredSubject;
 import model.Slider;
 import model.Subject;
 
@@ -123,6 +126,25 @@ public class HomepageCustomer extends HttpServlet {
         SliderDAO sliderDAO = new SliderDAO();
         List<Slider> sliders_list = sliderDAO.getAllSlider();
         request.setAttribute("sliders_list", sliders_list);
+
+// Kiểm tra phiên đăng nhập
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            // Nếu không có người dùng đăng nhập, chuyển hướng đến trang đăng nhập
+            response.sendRedirect("login");
+            return;
+        }
+
+        // Lấy đối tượng người dùng từ session
+        Account user = (Account) session.getAttribute("user");
+        int account_id = user.getAccount_id();
+
+        // Gọi DAO để lấy danh sách môn học đã đăng ký
+        RegistrationDAO registerDAO = new RegistrationDAO();
+        ArrayList<Subject> registeredSubject_list = registerDAO.getRegisteredSubjectsByUserId(account_id);
+
+        // Đặt danh sách vào request attribute và chuyển hướng đến JSP để hiển thị
+        request.setAttribute("registeredSubject_list", registeredSubject_list);
 
         request.setAttribute("account_list", account_list);
         request.setAttribute("selectedDuration", selectedDuration);
