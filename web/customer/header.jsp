@@ -130,9 +130,6 @@
                         <li>
                             <a href="blog_list"  class="ttr-material-button ttr-submenu-toggle">BLOG</a>
                         </li>
-                        <li>
-                            <a href="homepage"  class="ttr-material-button ttr-submenu-toggle">LOG OUT</a>
-                        </li>
 <!--                        <li>
                             <a href="#" class="ttr-material-button ttr-submenu-toggle">QUICK MENU <i class="fa fa-angle-down"></i></a>
                             <div class="ttr-header-submenu">
