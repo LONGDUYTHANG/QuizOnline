@@ -104,12 +104,16 @@
             }
             .text-overlay {
                 position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                text-align: center;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
                 color: #fff;
-                background-color: rgba(0, 0, 0, 0.5);
+                background-color: rgba(0, 0, 0, 0.5); /* L?p ph? che toàn slide */
                 padding: 20px;
             }
             .text-overlay h1 {
@@ -162,7 +166,12 @@
                                 <div class="overlay"></div>
                                 <div class="text-overlay">
                                     <h1 style="color: #FF9900;">Welcome To Quiz Online</h1>
-                                    <p>${slider.slider_title}</p>
+                                    <p style="color: white; font-size: 1.2em; font-weight: 600; text-align: center; margin-bottom: 5px;">
+                                        ${slider.slider_title}
+                                    </p>
+                                    <p style="color: white; font-size: 1em; text-align: center; line-height: 1.5; max-width: 600px; margin: 0 auto;">
+                                        ${slider.slider_detail}
+                                    </p>
                                 </div>
                             </div>
                         </c:forEach>
@@ -173,7 +182,7 @@
 
                 <div class="content-block">
                     <!-- Featured Subject -->
-                    <div class="section-area section-sp2 popular-courses-bx" style="height: 510px; background-color: #211551;">
+                    <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(assets/images/background/bg1.jpg);">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 heading-bx left">
@@ -232,7 +241,7 @@
                     <!-- Popular Courses END -->
 
                     <!-- Form -->
-                    <div class="section-area section-sp1 ovpr-dark bg-fix online-cours" style="background-image:url(assets/images/background/bg1.jpg);">
+                    <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(assets/images/background/bg1.jpg);">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 text-center text-white">

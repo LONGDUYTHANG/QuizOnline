@@ -100,7 +100,7 @@
 
 
                                         <div class="course-buy-now text-center">
-                                            <a href="register_subject?subject_id=${c.subjectId}" class="btn radius-xl text-uppercase">Buy Now This Courses</a>
+                                            <a href="#" class="btn radius-xl text-uppercase">Buy Now This Courses</a>
                                         </div>
                                         <div class="teacher-bx">
                                             <div class="teacher-info">                                                

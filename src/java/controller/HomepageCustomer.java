@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
 import dal.AccountDAO;
 import dal.LessonDAO;
 import dal.PackageDAO;
 import dal.QuizDAO;
+import dal.SliderDAO;
 import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Account;
 import model.Post;
+import model.Slider;
 import model.Subject;
 
 /**
@@ -108,7 +109,7 @@ public class HomepageCustomer extends HttpServlet {
         QuizDAO quizDAO = new QuizDAO();
         int totalQuizzes = quizDAO.getQuizCount();
         request.setAttribute("totalQuizzes", totalQuizzes);
-        
+
         int totalSubjects = testDAO.countSubjects();
         request.setAttribute("totalSubjects", totalSubjects);
 
@@ -118,6 +119,10 @@ public class HomepageCustomer extends HttpServlet {
             Account account = accountDAO.getAccountById(subject.getAccountId());
             account_list.add(account);
         }
+
+        SliderDAO sliderDAO = new SliderDAO();
+        List<Slider> sliders_list = sliderDAO.getAllSlider();
+        request.setAttribute("sliders_list", sliders_list);
 
         request.setAttribute("account_list", account_list);
         request.setAttribute("selectedDuration", selectedDuration);
