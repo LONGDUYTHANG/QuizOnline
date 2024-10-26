@@ -427,6 +427,19 @@ public class SubjectDAO extends DBContext {
         return list;
     }
 
+    public boolean isSubjectRegistered(int accountId, int subjectId) {
+        String sql = "SELECT 1 FROM Registration WHERE account_id = ? AND subject_id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, accountId);
+            pstmt.setInt(2, subjectId);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next();  // Trả về true nếu có kết quả, tức là đã đăng ký
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;  // Trả về false nếu có lỗi hoặc không tìm thấy bản ghi
+    }
+
     public static void main(String[] args) {
         SubjectDAO subjectDAO = new SubjectDAO();
         int totalSubjects = subjectDAO.countSubjects();
