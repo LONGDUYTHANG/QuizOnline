@@ -166,7 +166,7 @@
                                 <div class="overlay"></div>
                                 <div class="text-overlay">
                                     <h1 style="color: #FF9900;">Welcome To Quiz Online</h1>
-                                    <p style="color: white; font-size: 1.2em; font-weight: 600; text-align: center; margin-bottom: 5px;">
+                                    <p style="color: #F7B205; font-size: 1.2em; font-weight: 600; text-align: center; margin-bottom: 5px;">
                                         ${slider.slider_title}
                                     </p>
                                     <p style="color: white; font-size: 1em; text-align: center; line-height: 1.5; max-width: 600px; margin: 0 auto;">

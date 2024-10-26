@@ -238,8 +238,8 @@
             <!-- Footer ==== -->
             <%@include file="footer.html" %>
             <!-- Footer END ==== -->
-            <!-- scroll top button -->
             <button class="back-to-top fa fa-chevron-up" ></button>
+            <!-- scroll top button -->
         </div>
         <!-- External JavaScripts -->
         <script src="assets/js/jquery.min.js"></script>
