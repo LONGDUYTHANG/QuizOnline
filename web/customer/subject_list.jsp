@@ -204,7 +204,7 @@
                                             <div class="widget-post-bx">
                                                 <!-- thêm danh sách các bài subject hot nhat-->
                                                 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-                                                <c:forEach items="${requestScope.subject_list}" var="c">
+                                                <c:forEach items="${requestScope.featuredSubjects}" var="c">
                                                     <div class="widget-post clearfix">
                                                         <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
                                                         <div class="ttr-post-info">

@@ -14,8 +14,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import model.Account;
 import model.Category;
 import model.Post;
 import model.Subject;
@@ -72,7 +74,7 @@ public class SearchByCategory extends HttpServlet {
         PostDAO myPostDAO = new PostDAO();
         CategoryDAO myCategoryDAO = new CategoryDAO();
 
-                PackageDAO packageDAO = new PackageDAO();
+        PackageDAO packageDAO = new PackageDAO();
         List<model.Package> packageList = packageDAO.getAllPackage();
         String selectedDuration = request.getParameter("courseDuration");
         model.Package selectedPackageModel = packageList.get(0);
@@ -92,7 +94,7 @@ public class SearchByCategory extends HttpServlet {
         }
         request.setAttribute("selectedDuration", selectedDuration);
         request.setAttribute("selectedPackageModel", selectedPackageModel);
-        
+
         List<Subject> subject_list = mySubjectDAO.getSubject();
         List<Subject> featuredSubjects = mySubjectDAO.getFeaturedSubjects();
         request.setAttribute("featuredSubjects", featuredSubjects);
@@ -124,13 +126,33 @@ public class SearchByCategory extends HttpServlet {
             request.setAttribute("post_list", post_list);
         }
 
-        if ("blogs".equals(view)) {
-            request.getRequestDispatcher("common/blog_list.jsp").forward(request, response);
+        HttpSession session = request.getSession(false); // Kiểm tra session
+
+        if (session != null) {
+            Account user = (Account) session.getAttribute("user"); // Lấy tài khoản người dùng từ session
+            if (user != null) {
+                // Nếu người dùng đã đăng nhập
+                if ("blogs".equals(view)) {
+                    request.getRequestDispatcher("customer/blog_list.jsp").forward(request, response);
+                } else {
+                    request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
+                }
+            } else {
+                // Nếu không có tài khoản người dùng, nhưng có session
+                if ("blogs".equals(view)) {
+                    request.getRequestDispatcher("common/blog_list.jsp").forward(request, response);
+                } else {
+                    request.getRequestDispatcher("common/subject_list.jsp").forward(request, response);
+                }
+            }
         } else {
-            request.getRequestDispatcher("common/subject_list.jsp").forward(request, response);
+            // Nếu không có session
+            if ("blogs".equals(view)) {
+                request.getRequestDispatcher("common/blog_list.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("common/subject_list.jsp").forward(request, response);
+            }
         }
-
-
     }
 
     /**
