@@ -136,7 +136,6 @@
                                                         <del>$190</del>
                                                         <h4 class="price">$120</h4>
                                                         <div style="margin-left: 50px;"></div>
-                                                        <a href="register_subject?subject_id=${c.subjectId}" class="btn btn-primary">Register</a>
                                                     </div>
                                                 </div>
                                             </div>

@@ -100,8 +100,13 @@
 
 
                                         <div class="course-buy-now text-center">
-                                            <a href="#" class="btn radius-xl text-uppercase">Buy Now This Courses</a>
+                                            <c:if test="${!isRegistered}">
+                                                <a href="#" class="btn radius-xl text-uppercase">Buy Now This Courses</a> 
+                                            </c:if>
                                         </div>
+
+
+
                                         <div class="teacher-bx">
                                             <div class="teacher-info">                                                
                                                 <div class="teacher-name">
@@ -182,8 +187,8 @@
                                                             <c:if test="${lesson.lesson_topic_id == topic.lesson_topic_id}">
                                                                 <li>
                                                                     <div class="curriculum-list-box">
-                                                                        <span>Lesson ${lesson.lesson_order}.</span>
-                                                                        ${lesson.lesson_name}
+                                                                        <a href="#"><span>Lesson ${lesson.lesson_order}.</span>
+                                                                        ${lesson.lesson_name}</a>
                                                                     </div>
                                                                     <span>${lesson.lessonTypeName}</span>
                                                                 </li>

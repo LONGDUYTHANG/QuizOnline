@@ -95,7 +95,6 @@ public class SubjectDetailServlet extends HttpServlet {
         List<Lesson> lessonList = lessonDAO.getAllLessonBySubjectId(subject_id);
         int totalLessons = lessonDAO.countLessonsBySubjectId(subject_id);
 
-
         // Lấy loại và chủ đề bài học
         List<Lesson_Type> lessonTypes = lessonDAO.getLessonTypesBySubjectId(subject_id);
         List<Lesson_Topic> lessonTopics = lessonDAO.getLessonTopicsBySubjectId(subject_id);
@@ -141,10 +140,17 @@ public class SubjectDetailServlet extends HttpServlet {
         request.setAttribute("lessonList", lessonList);
         request.setAttribute("lessonTopics", lessonTopics);
         request.setAttribute("totalLessons", totalLessons);
-        HttpSession session = request.getSession(false); 
+
+        HttpSession session = request.getSession(false);
+        boolean isRegistered = false;
+
         if (session != null) {
             Account user = (Account) session.getAttribute("user");
             if (user != null) {
+                SubjectDAO registrationDAO = new SubjectDAO();
+                isRegistered = registrationDAO.isSubjectRegistered(user.getAccount_id(), subject_id);
+                request.setAttribute("isRegistered", isRegistered);
+
                 request.getRequestDispatcher("customer/subject_details.jsp").forward(request, response);
                 return;
             }
@@ -152,7 +158,6 @@ public class SubjectDetailServlet extends HttpServlet {
 
         request.getRequestDispatcher("common/subject_details.jsp").forward(request, response);
     }
-
 
     /**
      * Handles the HTTP <code>POST</code> method.
