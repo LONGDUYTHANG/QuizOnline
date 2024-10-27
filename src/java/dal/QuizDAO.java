@@ -650,12 +650,28 @@ public class QuizDAO extends DBContext {
         return count;
     }
 
-     public static void main(String[] args) {
+    public int getTotalQuizzesBySubjectId(int subject_id) {
+        String sql = "SELECT COUNT(*) FROM Quiz WHERE subject_id = ?";
+        int count = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, subject_id); // Thiết lập tham số subject_id
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);  // Lấy giá trị đếm từ cột đầu tiên
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
         QuizDAO quizDAO = new QuizDAO();
-        
+
         // Gọi hàm getQuizCount() để lấy tổng số lượng quiz
-        int totalQuizzes = quizDAO.getQuizCount();
-        
+        int totalQuizzes = quizDAO.getTotalQuizzesBySubjectId(4);
+
         // In ra kết quả
         System.out.println("Total number of quizzes: " + totalQuizzes);
     }
