@@ -101,7 +101,7 @@
 
                                         <div class="course-buy-now text-center">
                                             <c:if test="${!isRegistered}">
-                                                <a href="#" class="btn radius-xl text-uppercase">Buy Now This Courses</a> 
+                                                <a href="#" class="btn radius-xl text-uppercase">Buy Now This Subject</a> 
                                             </c:if>
                                         </div>
 

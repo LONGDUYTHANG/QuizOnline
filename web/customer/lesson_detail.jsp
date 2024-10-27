@@ -4,7 +4,6 @@
 <html lang="en">
 
     <head>
-
         <!-- META ============================================= -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -48,7 +47,14 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+
         <style>
+            /* CSS ?ã ???c c?p nh?t */
+            body {
+                font-family: 'Roboto', sans-serif;
+            }
             .popup {
                 display: none;
                 position: fixed;
@@ -60,6 +66,7 @@
                 justify-content: center;
                 align-items: center;
             }
+
             .popup-content {
                 background: white;
                 padding: 20px;
@@ -69,20 +76,99 @@
                 margin: auto;
             }
 
+            #chat-box {
+                width: 300px;
+                height: 400px;
+                border: 1px solid #ccc;
+                position: fixed;
+                bottom: 10px;
+                right: -320px; /* ??y h?p chat ra ngoài màn hình ban ??u */
+                transition: right 0.3s ease; /* Thêm hi?u ?ng chuy?n ti?p */
+                display: flex;
+                flex-direction: column;
+                background-color: #f9f9f9;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            #chat-box.show {
+                right: 10px; /* Khi có class "show", h?p chat s? hi?n ra */
+            }
+
+            #chat-messages {
+                flex: 1;
+                overflow-y: auto;
+                padding: 10px;
+                background-color: #ffffff;
+                border-radius: 10px;
+                margin: 10px;
+            }
+
+            .message {
+                margin-bottom: 10px;
+                padding: 8px;
+                border-radius: 8px;
+            }
+
+            .user-message {
+                font-family: 'Roboto', sans-serif;
+                background-color: #d1e7dd;
+                align-self: flex-end;
+            }
+
+            .chatbot-message {
+                font-family: 'Roboto', sans-serif;
+                font-size: 14px;
+                color: #333; /* Thêm màu ch? cho d? nhìn */
+            }
+
+            #chat-input {
+                width: calc(100% - 50px);
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                margin: 10px;
+                font-family: 'Roboto', sans-serif;
+
+            }
+
+            #send-btn:hover {
+                background-color: #0056b3;
+            }
+
+            #toggle-chat {
+                position: fixed; /* V? trí c? ??nh */
+                bottom: 30px; /* Kho?ng cách t? ?áy màn hình */
+                right: 30px; /* Kho?ng cách t? bên ph?i */
+                padding: 10px 15px; /* Padding cho nút */
+                background-color: #4806ac; /* Màu n?n */
+                color: white; /* Màu ch? */
+                border: none; /* Xóa ???ng vi?n */
+                border-radius: 5px; /* Bo góc */
+                font-size: 16px; /* Kích th??c ch? */
+                cursor: pointer; /* Hi?n th? con tr? chu?t khi di chu?t vào */
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* ?? bóng */
+                transition: background-color 0.3s, transform 0.2s; /* Hi?u ?ng chuy?n ??i */
+            }
+
+            #toggle-chat:hover {
+                background-color: #0056b3; /* Màu n?n khi hover */
+                transform: translateY(-2px); /* Hi?u ?ng nh?c lên */
+            }
+
+            #toggle-chat:active {
+                transform: translateY(0); /* Tr? v? v? trí ban ??u khi nh?n */
+            }
 
         </style>
 
     </head>
+
     <body id="bg">
         <div class="page-wraper">
-            <div id="loading-icon-bx"></div> 
+            <div id="loading-icon-bx"></div>
             <header class="header rs-nav header-transparent">
-                <!-- login -->
-
-
                 <%@include file="header.jsp" %>
-
-
             </header>
             <!-- Content -->
             <div class="page-content bg-white">
@@ -107,8 +193,8 @@
                                                 <div class="action-box blog-lg" style="text-align: center;">
                                                     <iframe width="100%" height="450" src="${lesson.video_link}" frameborder="0" allowfullscreen></iframe>
                                                 </div>
-                                                <div class="info-bx" >
-                                                    <h2 class="post-title" style="font-size: 24px; margin-bottom: 10px;">${lesson.lesson_name}</h2> 
+                                                <div class="info-bx">
+                                                    <h2 class="post-title" style="font-size: 24px; margin-bottom: 10px;">${lesson.lesson_name}</h2>
                                                     <h5 class="post-title" style="font-size: 18px; color: #666; margin-bottom: 15px;">${lesson.summary}</h5>
                                                     <p style="line-height: 1.6;">${lesson.lesson_content}</p>
                                                 </div>
@@ -122,122 +208,111 @@
                                 </div>
 
                                 <!-- Left part END -->
-
+                                <div class="col-lg-4 col-xl-4">
+                                    <aside class="side-bar sticky-top">
+                                        <!-- Thêm nút ?? m? h?p chat -->
+                                        <button id="toggle-chat" style="position: fixed; bottom: 450px; padding-left: 20px;">You don't understand? Ask Me Anything</button>
+                                        <div id="chat-box">
+                                            <div id="chat-messages"></div>
+                                            <input type="text" id="chat-input" placeholder="Enter message...">
+                                        </div>
+                                    </aside>
+                                </div>
                                 <!-- Side bar END -->
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- Content END-->
             </div>
-            <!-- Content END-->
-            <!-- Footer ==== -->
-            <%@include file="footer.html" %>
-            <!-- Footer END ==== -->
-            <!-- scroll top button -->
-            <button class="back-to-top fa fa-chevron-up" ></button>
         </div>
-        <!-- External JavaScripts -->
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/vendors/bootstrap/js/popper.min.js"></script>
-        <script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
-        <script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
-        <script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
-        <script src="assets/vendors/counter/waypoints-min.js"></script>
-        <script src="assets/vendors/counter/counterup.min.js"></script>
-        <script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
-        <script src="assets/vendors/masonry/masonry.js"></script>
-        <script src="assets/vendors/masonry/filter.js"></script>
-        <script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
-        <script src="assets/js/functions.js"></script>
-        <script src="assets/js/contact.js"></script>
-        <script src='assets/vendors/switcher/switcher.js'></script>
-        <script >
-            function getLinkContent() {
-                var c = document.getElementById("categorie").value();
-                document.getElementById("output").value = c;
-            }
-        </script>
+
         <script>
-            //login
-            const openLoginButton = document.getElementById('open-login-popup');
-            const closeLoginButton = document.getElementById('close-login-popup');
-            const loginPopup = document.getElementById('login-popup');
-            const loginError = document.getElementById('login-error');
-            const checkLoginError = document.getElementById('check-login-error');
-            //register
-            const openRegisterButton = document.getElementById('open-register-popup');
-            const closeRegisterButton = document.getElementById('close-register-popup');
-            const registerPopup = document.getElementById('register-popup');
-            const emailError = document.getElementById('email-error');
-            const checkEmailError = document.getElementById('check-email-error');
-            const passError = document.getElementById('pass-error');
-            const checkPassError = document.getElementById('check-pass-error');
-            //requestPass
-            const openRequestButton = document.getElementById('open-requestPass-popup');
-            const closeRequestButton = document.getElementById('close-requestPass-popup');
-            const RequestPopup = document.getElementById('requestPass-popup');
-            const requestError = document.getElementById('requestPass-error');
-            const checkRequestError = document.getElementById('check-requestPass-error');
+            const qaQueue = [];
+            // Thêm s? ki?n click cho nút m? chat
+            document.getElementById("toggle-chat").addEventListener("click", function () {
+                const chatBox = document.getElementById("chat-box");
+                chatBox.classList.toggle("show");
+                this.textContent = chatBox.classList.contains("show") ? "Close Chat" : "You don't understand? Ask Me Anything";
+            });
 
-
-            openLoginButton.onclick = function () {
-                loginPopup.style.display = 'flex';
-            };
-
-            openRegisterButton.onclick = function () {
-                registerPopup.style.display = 'flex';
-            };
-
-            closeLoginButton.onclick = function () {
-                loginPopup.style.display = 'none';
-            };
-            closeRegisterButton.onclick = function () {
-                registerPopup.style.display = 'none';
-            };
-            openRequestButton.onclick = function () {
-                loginPopup.style.display = 'none';
-                RequestPopup.style.display = 'flex';
-            };
-            closeRequestButton.onclick = function () {
-                loginPopup.style.display = 'flex';
-                RequestPopup.style.display = 'none';
-            };
-            function LoginAgain() {
-                if (checkLoginError.textContent === loginError.textContent) {
-                    loginPopup.style.display = 'flex';
+            // Thêm s? ki?n nh?n phím Enter ?? g?i tin nh?n
+            document.getElementById("chat-input").addEventListener("keypress", function (e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
                 }
-                if (checkEmailError.textContent === emailError.textContent) {
-                    registerPopup.style.display = 'flex';
-                }
-                if (checkPassError.textContent === passError.textContent) {
-                    registerPopup.style.display = 'flex';
-                }
-                if (requestError.textContent === 'Send request success') {
-                    RequestPopup.style.display = 'flex';
-                }
-                if (requestError.textContent === 'Email not existed') {
-                    RequestPopup.style.display = 'flex';
-                }
-                console.log(requestError.textContent);
+            });
 
+            // Hàm g?i tin nh?n ??n server
+            function sendMessage() {
+                const input = document.getElementById("chat-input");
+                const userMessage = input.value.trim();
 
+                if (userMessage) {
+                    addMessage(userMessage, "user");
+                    input.value = ''; // Xóa n?i dung input
+
+                    console.log("DEBUG: ", userMessage);
+                    saveQA(userMessage, ""); // ??t câu tr? l?i t?m th?i là r?ng
+
+                    fetch("chatbot", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        body: JSON.stringify({message: qaQueue})
+                    })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log("Data", data.chatbot_response);
+                                addMessage(data.chatbot_response, "chatbot");
+                                updateLastQAAnswer(data.chatbot_response);
+                            })
+
+                            .catch(error => {
+                                console.error("Error:", error);
+                                addMessage("Error", "chatbot");
+                                // restart function
+//                                    removeLastQA();
+//                                    sendMessage();
+                            });
+                }
             }
 
+            // Hàm thêm tin nh?n vào chat box
+            function addMessage(message, sender) {
+                const chatMessages = document.getElementById("chat-messages");
+                const messageElement = document.createElement("div");
+                messageElement.className = "message " + (sender === "user" ? "user-message" : "chatbot-message");
+                messageElement.textContent = message;
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight; // Cu?n xu?ng d??i cùng
+            }
+            function saveQA(question, answer) {
+                // Thêm c?p QA vào queue
+                qaQueue.push({question: question, answer: answer});
 
-            // ?óng pop-up khi nh?n ra ngoài
-            window.onclick = function (event) {
-                if (event.target === loginPopup) {
-                    loginPopup.style.display = 'none';
+                // N?u queue ?ã ??y (10 c?p), xóa c?p c? nh?t
+                if (qaQueue.length > 10) {
+                    qaQueue.shift(); // Xóa ph?n t? ??u tiên trong m?ng
                 }
-            };
 
-            window.onclick = function (event) {
-                if (event.target === registerPopup) {
-                    registerPopup.style.display = 'none';
+                // In ra queue ?? ki?m tra
+                console.log("Current QA Queue:", qaQueue);
+            }
+            function updateLastQAAnswer(answer) {
+                if (qaQueue.length > 0) {
+                    qaQueue[qaQueue.length - 1].answer = answer; // C?p nh?t câu tr? l?i cho c?p QA cu?i cùng
                 }
-            };
+            }
+            function removeLastQA() {
+                if (qaQueue.length > 0) {
+                    qaQueue.pop(); // Xóa ph?n t? cu?i cùng trong m?ng
+                    console.log("Last QA pair removed. Current QA Queue:", qaQueue);
+                } else {
+                    console.log("No QA pairs to remove.");
+                }
+            }
         </script>
     </body>
-
 </html>

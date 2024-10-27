@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -18,34 +19,42 @@ import org.json.JSONObject;
  */
 public class Chatbot {
 
-    private static final String API_KEY = ""; 
+    private static final String API_KEY = "";
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
 
     public static void main(String[] args) {
         String userMessage = "giải thích đạo hàm";
         String response = sendMessageToChatGPT(userMessage);
-        System.out.println("ChatGPT: "+ response);
-              
+        System.out.println("ChatGPT: " + response);
+
     }
 
-    private static String sendMessageToChatGPT(String message) {
+    public static String sendMessageToChatGPT(String message) {
         try {
             URL url = new URL(API_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
             conn.setRequestProperty("Authorization", "Bearer " + API_KEY);
             conn.setDoOutput(true);
 
             JSONObject jsonInput = new JSONObject();
             jsonInput.put("model", "gpt-3.5-turbo");
-            jsonInput.put("messages", new JSONObject[]{
-                new JSONObject().put("role", "user").put("content", message)
-            });
+
+            // Khởi tạo mảng messages với một tin nhắn từ người dùng
+            JSONArray messages = new JSONArray();
+            messages.put(new JSONObject().put("role", "user").put("content", message));
+            jsonInput.put("messages", messages);
 
             try (OutputStream os = conn.getOutputStream()) {
                 byte[] input = jsonInput.toString().getBytes("utf-8");
                 os.write(input, 0, input.length);
+            }
+
+            int statusCode = conn.getResponseCode();
+            if (statusCode != 200) {
+                System.out.println("Lỗi từ API: Mã phản hồi HTTP " + statusCode);
+                return "Không thể kết nối tới ChatGPT.";
             }
 
             StringBuilder response = new StringBuilder();
@@ -56,11 +65,23 @@ public class Chatbot {
                 }
             }
 
-            return new JSONObject(response.toString()).getJSONArray("choices").getJSONObject(0).getJSONObject("message").getString("content");
+            JSONObject jsonResponse = new JSONObject(response.toString());
+            return jsonResponse.getJSONArray("choices").getJSONObject(0).getJSONObject("message").getString("content");
 
         } catch (Exception e) {
             e.printStackTrace();
-            return "Error occurred while calling ChatGPT API.";
+            return "Đã xảy ra lỗi khi gọi API ChatGPT.";
         }
+    }
+
+    public String getReply(String userMessage) {
+        // Logic trả lời dựa vào userMessage
+        if (userMessage.contains("hello")) {
+            return "Xin chào! Tôi có thể giúp gì cho bạn?";
+        } else if (userMessage.contains("bye")) {
+            return "Tạm biệt! Hẹn gặp lại bạn.";
+        }
+        // Có thể thêm nhiều điều kiện khác ở đây
+        return "Xin lỗi, tôi chưa hiểu câu hỏi của bạn. Bạn có thể thử lại!";
     }
 }
