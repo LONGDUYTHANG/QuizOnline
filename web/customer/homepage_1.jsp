@@ -56,6 +56,62 @@
         <link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/navigation.css">
         <link rel="stylesheet" type="text/css" href="admin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
+
+        <style>
+            
+
+           
+            .slider-container {
+                width: 100%;
+                overflow: hidden;
+                position: relative;
+            }
+            .slider {
+                display: flex;
+                width: 200%;
+                transition: 1s;
+                animation: slide 8s infinite;
+            }
+            .slide {
+                width: 100%;
+                position: relative;
+            }
+            .slide img {
+                width: 100%;
+                height: 500px;
+                object-fit: cover;
+            }
+            .text-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                color: #fff;
+                background-color: rgba(0, 0, 0, 0.5); /* L?p ph? che toàn slide */
+                padding: 20px;
+            }
+            .text-overlay h1 {
+                font-size: 3em;
+                margin-bottom: 10px;
+            }
+            .text-overlay p {
+                font-size: 1.2em;
+            }
+            @keyframes slide {
+                0%, 50% {
+                    transform: translateX(0);
+                }
+                50.01%, 100% {
+                    transform: translateX(-50%);
+                }
+            }
+
+        </style>
     </head>
 
 
