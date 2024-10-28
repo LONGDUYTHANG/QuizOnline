@@ -13,7 +13,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
     </head>
     <body>
-        <div class="navbar-expand-lg" style="background-color: black">
+        <div class="navbar-expand-lg" >
             <div class="menu-bar  ">
                 <div class="container ">
                     <!-- Header Logo ==== -->
@@ -26,7 +26,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <a href="homepage"><img src="assets/images/logo.png" alt=""></a>
                         </div>
                         <ul class="nav navbar-nav">	
-                            <li class="active"><a href="homepage">Home </a>
+                            <li class="active"><a href="homepage_1">Home </a>
                             </li>
                             <li><a href="subject_list">Subjects </a>
 

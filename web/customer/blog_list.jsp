@@ -48,41 +48,13 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
-        <style>
-            .popup {
-                display: none;
-                position: fixed;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.7);
-                justify-content: center;
-                align-items: center;
-            }
-            .popup-content {
-                background: white;
-                padding: 20px;
-                border-radius: 5px;
-                text-align: center;
-                max-width: 400px;
-                margin: auto;
-            }
-
-
-        </style>
-
     </head>
 
     <body id="bg">
+        <%@include file="header.jsp" %>
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
             <header class="header rs-nav header-transparent">
-
-
-                <%@include file="header.jsp" %>
-
-
             </header>
             <!-- header END ==== -->
             <!-- Content -->
