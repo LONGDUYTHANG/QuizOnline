@@ -886,7 +886,7 @@ public class RegistrationDAO extends DBContext {
                     + "s.thumbnail, s.tagline, s.description, s.account_id "
                     + "FROM Subject s "
                     + "JOIN Registration r ON s.subject_id = r.subject_id "
-                    + "WHERE r.account_id = ?";
+                    + "WHERE r.account_id = ? and r.status_id =3";
 
             stm = connection.prepareStatement(sql);
             stm.setInt(1, userId);
