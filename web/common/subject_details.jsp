@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+                                            <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="en">
 
     <head>
@@ -46,17 +47,50 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
+<style>
+            .popup {
+                display: none;
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.7);
+                justify-content: center;
+                align-items: center;
+            }
+            .popup-content {
+                background: white;
+                padding: 20px;
+                border-radius: 5px;
+                text-align: center;
+                max-width: 400px;
+                margin: auto;
+            }
 
+
+        </style>
 
     </head>
     <body id="bg">
-        <%@include file="header.html" %>
+        
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
+            <header class="header rs-nav header-transparent">
+                <!-- login -->
+                <%@include file="login.jsp" %>
+                <!-- register     -->
+                <%@include file="register.jsp" %>
+
+                <%@include file="header.html" %>
+
+                <%@include file="requestPassword.jsp" %>
+
+            </header>
             <!-- Header Top ==== -->
             <!-- header END ==== -->
             <!-- Content -->
-            <div class="page-content bg-white">
+            <div class="page-content">
                 <!-- inner page banner -->
                 <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
                     <div class="container">
@@ -74,8 +108,6 @@
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="course-detail-bx">
                                         <div class="course-price">
-                                            <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
                                             <div class="course-price">
                                                 <label for="courseDuration">Choose duration:</label>
                                                 <select id="courseDuration" name="courseDuration" class="form-control" onchange="updatePrice()">
@@ -106,7 +138,6 @@
                                             <div class="teacher-info">                                                
                                                 <div class="teacher-name">
                                                     <span>Teacher</span>
-                                                    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                                     <c:set var="c" value="${requestScope.account}" />
                                                     <h5 class="text-primary">${account.first_name} ${account.last_name}</h5> 
                                                 </div>
@@ -115,7 +146,6 @@
                                         <div class="cours-more-info">
                                             <div class="price categories">
                                                 <span>Categories</span>
-                                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                                 <c:set var="c" value="${requestScope.mySubject}" />
 
                                                 <h5 class="text-primary">${categoryName}</h5> 
@@ -134,7 +164,6 @@
 
                                 <div class="col-lg-9 col-md-8 col-sm-12">
                                     <!<!-- thÍm subject detail -->
-                                    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                     <c:set var="c" value="${requestScope.mySubject}" />
                                     <div class="courses-post">
                                         <div class="ttr-post-media media-effect">
@@ -202,7 +231,6 @@
                                                 <img src="https://cdn.shopify.com/s/files/1/0597/6149/2152/t/49/assets/0007019893114747_b-1650694026425_1200x.jpg?v=1650694028" alt="">
                                             </div>
                                             <div class="instructor-info">
-                                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                                 <c:set var="c" value="${requestScope.account}" />
                                                 <h5 class="text-primary">${account.first_name} ${account.last_name}</h5> 
                                                 <span>Author</span>
@@ -255,6 +283,86 @@
                                                         // C?p nh?t gi· hi?n th?
                                                         priceElement.innerText = salePrice;
                                                     }
+        </script>
+        <script>
+            //login
+            const openLoginButton = document.getElementById('open-login-popup');
+            const closeLoginButton = document.getElementById('close-login-popup');
+            const loginPopup = document.getElementById('login-popup');
+            const loginError = document.getElementById('login-error');
+            const checkLoginError = document.getElementById('check-login-error');
+            //register
+            const openRegisterButton = document.getElementById('open-register-popup');
+            const closeRegisterButton = document.getElementById('close-register-popup');
+            const registerPopup = document.getElementById('register-popup');
+            const emailError = document.getElementById('email-error');
+            const checkEmailError = document.getElementById('check-email-error');
+            const passError = document.getElementById('pass-error');
+            const checkPassError = document.getElementById('check-pass-error');
+            //requestPass
+            const openRequestButton = document.getElementById('open-requestPass-popup');
+            const closeRequestButton = document.getElementById('close-requestPass-popup');
+            const RequestPopup = document.getElementById('requestPass-popup');
+            const requestError = document.getElementById('requestPass-error');
+            const checkRequestError = document.getElementById('check-requestPass-error');
+
+
+            openLoginButton.onclick = function () {
+                loginPopup.style.display = 'flex';
+            };
+
+            openRegisterButton.onclick = function () {
+                registerPopup.style.display = 'flex';
+            };
+
+            closeLoginButton.onclick = function () {
+                loginPopup.style.display = 'none';
+            };
+            closeRegisterButton.onclick = function () {
+                registerPopup.style.display = 'none';
+            };
+            openRequestButton.onclick = function () {
+                loginPopup.style.display = 'none';
+                RequestPopup.style.display = 'flex';
+            };
+            closeRequestButton.onclick = function () {
+                loginPopup.style.display = 'flex';
+                RequestPopup.style.display = 'none';
+            };
+            function LoginAgain() {
+                if (checkLoginError.textContent === loginError.textContent) {
+                    loginPopup.style.display = 'flex';
+                }
+                if (checkEmailError.textContent === emailError.textContent) {
+                    registerPopup.style.display = 'flex';
+                }
+                if (checkPassError.textContent === passError.textContent) {
+                    registerPopup.style.display = 'flex';
+                }
+                if (requestError.textContent === 'Send request success') {
+                    RequestPopup.style.display = 'flex';
+                }
+                if (requestError.textContent === 'Email not existed') {
+                    RequestPopup.style.display = 'flex';
+                }
+                console.log(requestError.textContent);
+
+
+            }
+
+
+            // ?√≥ng pop-up khi nh?n ra ngo√†i
+            window.onclick = function (event) {
+                if (event.target === loginPopup) {
+                    loginPopup.style.display = 'none';
+                }
+            };
+
+            window.onclick = function (event) {
+                if (event.target === registerPopup) {
+                    registerPopup.style.display = 'none';
+                }
+            };
         </script>
     </body>
 

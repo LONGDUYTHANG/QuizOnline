@@ -428,7 +428,7 @@ public class SubjectDAO extends DBContext {
     }
 
     public boolean isSubjectRegistered(int accountId, int subjectId) {
-        String sql = "SELECT 1 FROM Registration WHERE account_id = ? AND subject_id = ?";
+        String sql = "SELECT 1 FROM Registration WHERE account_id = ? AND subject_id = ? and status_id=3";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, accountId);
             pstmt.setInt(2, subjectId);
@@ -441,9 +441,8 @@ public class SubjectDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-        SubjectDAO subjectDAO = new SubjectDAO();
-        int totalSubjects = subjectDAO.countSubjects();
-        System.out.println("Tổng số lượng subjects: " + totalSubjects);
+      
+        
     }
 
 }
