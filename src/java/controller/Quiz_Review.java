@@ -5,12 +5,16 @@
 
 package controller;
 
+import dal.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.*;
 
 /**
  *
@@ -53,7 +57,23 @@ public class Quiz_Review extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession(true);
+        QuizDAO qd = new QuizDAO();
+        Practice_Record pr;
+        try {
+        int practice_id = Integer.parseInt(request.getParameter("practice_id"));
+            pr = qd.getPracticeRecord(practice_id);
+        } catch (Exception e) {
+            pr = qd.getPracticeRecord(37);
+        }
+        request.setAttribute("passrate", qd.getPassRate(pr.getQuiz_id()));
+        session.setAttribute("practice_record", pr);
+        request.setAttribute("num_quest", qd.getNumberOfQuestion(pr.getQuiz_id()));
+        QuestionDAO qed = new QuestionDAO();
+        List<Question_Handle> listQuests = qed.getAllQuestionByPracticeId(pr.getPractice_id());
+        session.setAttribute("list_quest_record", listQuests);
+        
+        request.getRequestDispatcher("customer/quiz_reviewing.jsp").forward(request, response);
     } 
 
     /** 
