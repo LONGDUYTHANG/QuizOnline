@@ -672,12 +672,10 @@ public class QuizDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-        QuizDAO quizDAO = new QuizDAO();
-
-        // Gọi hàm getQuizCount() để lấy tổng số lượng quiz
-        int totalQuizzes = quizDAO.getTotalQuizzesBySubjectId(4);
-
-        // In ra kết quả
-        System.out.println("Total number of quizzes: " + totalQuizzes);
+       SubjectDAO subjectDAO = new SubjectDAO();
+        ArrayList<Subject> s=subjectDAO.searchSubjectsByCategory("Development");
+        for(Subject h:s){
+            System.out.println(h.getSubjectName());
+        }
     }
 }
