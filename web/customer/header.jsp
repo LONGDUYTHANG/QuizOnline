@@ -9,6 +9,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
 
     </head>
     <body>
@@ -30,18 +31,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <li><a href="subject_list">Subjects </a>
 
                             </li>
-                            <li class="add-mega-menu"><a href="blog_list">Blog<i class="fa fa-chevron-down"></i></a>
+                            <li class="add-mega-menu"><a href="blog_list">Blog</a>
 
                             </li>
-                            <li style="margin-left: 500px" class="active"><a href="javascript:;" style="width: 500px"><i class="fa fa-user" ></i></a>
+                            <li style="margin-left: 690px" ><a href="javascript:;" ><i style="font-size: 20px" class="fa fa-user"></i></a>
                                 <ul class="sub-menu">
-                                    <li><a href="index.html">Home 1</a></li>
-                                    <li><a href="index-2.html">Home 2</a></li>
+                                    <li><a href="profile">My Profile</a></li>
+                                    <li><a href="index-2.html">My Registration Subject</a></li>
+                                    <li><a href="logout">Logout</a></li>
                                 </ul>
                             </li>
 
                         </ul>            
                     </div>
+                    
                     <!-- Navigation Menu END ==== -->
 
                 </div>
