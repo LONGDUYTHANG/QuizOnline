@@ -56,92 +56,10 @@
         <link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/navigation.css">
         <link rel="stylesheet" type="text/css" href="admin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
-
-        <!-- REVOLUTION SLIDER END -->	
-
-        <style>
-            .popup {
-                display: none;
-                position: fixed;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.7);
-                justify-content: center;
-                align-items: center;
-            }
-            .popup-content {
-                background: white;
-                padding: 20px;
-                border-radius: 5px;
-                text-align: center;
-                max-width: 400px;
-                margin: auto;
-            }
-
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: Arial, sans-serif;
-            }
-            .slider-container {
-                width: 100%;
-                overflow: hidden;
-                position: relative;
-            }
-            .slider {
-                display: flex;
-                width: 200%;
-                transition: 1s;
-                animation: slide 8s infinite;
-            }
-            .slide {
-                width: 100%;
-                position: relative;
-            }
-            .slide img {
-                width: 100%;
-                height: 500px;
-                object-fit: cover;
-            }
-            .text-overlay {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                color: #fff;
-                background-color: rgba(0, 0, 0, 0.5); /* L?p ph? che toàn slide */
-                padding: 20px;
-            }
-            .text-overlay h1 {
-                font-size: 3em;
-                margin-bottom: 10px;
-            }
-            .text-overlay p {
-                font-size: 1.2em;
-            }
-            @keyframes slide {
-                0%, 50% {
-                    transform: translateX(0);
-                }
-                50.01%, 100% {
-                    transform: translateX(-50%);
-                }
-            }
-
-        </style>
-
     </head>
 
 
-    <body id="bg" class="ttr-opened-sidebar ttr-pinned-sidebar" >
+    <body id="bg" >
         <%@include file="header.jsp" %>
         <div class="page-wraper">
             <!-- Header Top ==== -->
