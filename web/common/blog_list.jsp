@@ -179,11 +179,11 @@
                                         <div class="widget widget_tag_cloud">
                                             <h6 class="widget-title">Categories</h6>
                                             <div class="search-bx style-1">
-                                                <form role="search" method="get" action="searchByCategory"> <!-- ??m b?o ?i?u n‡y tr? ??n endpoint chÌnh x·c -->
+                                                <form role="search" method="get" action="searchByCategory"> <!-- ??m b?o ?i?u n√†y tr? ??n endpoint ch√≠nh x√°c -->
                                                     <div class="input-group">
                                                         <input name="text" class="form-control" placeholder="Enter your keywords..." type="text" id="output">
                                                         <input name="category" type="hidden" value="${param.category != null ? param.category : ''}">
-                                                        <input name="view" type="hidden" value="blogs"> <!-- ??t view l‡ blogs -->
+                                                        <input name="view" type="hidden" value="blogs"> <!-- ??t view l√† blogs -->
                                                         <span class="input-group-btn">
                                                             <button type="submit" class="fa fa-search text-primary"></button>
                                                         </span>
@@ -193,7 +193,7 @@
 
 
                                             <br>
-                                            <!-- Danh s·ch c·c categories -->
+                                            <!-- Danh s√°ch c√°c categories -->
                                             <div class="category-list" style="margin-bottom: 20px;">
                                                 <c:forEach items="${requestScope.category_list}" var="c">
                                                     <div style="margin-bottom: 10px;">
@@ -202,13 +202,13 @@
                                                     </div>
                                                 </c:forEach>
                                             </div>
-                                            <!-- N˙t tÏm ki?m -->
+                                            <!-- N√∫t t√¨m ki?m -->
                                         </div>
                                         <br>
                                         <div class="widget recent-posts-entry">
                                             <h6 class="widget-title">Hottest Posts</h6>
                                             <div class="widget-post-bx">
-                                                <!-- thÍm danh s·ch c·c b‡i post hot nhat-->
+                                                <!-- th√™m danh s√°ch c√°c b√†i post hot nhat-->
                                                 <c:forEach items="${requestScope.hottest_post_list}" var="c">
                                                     <div class="widget-post clearfix">
                                                         <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
@@ -330,7 +330,7 @@
             }
 
 
-            // ?Ûng pop-up khi nh?n ra ngo‡i
+            // ?√≥ng pop-up khi nh?n ra ngo√†i
             window.onclick = function (event) {
                 if (event.target === loginPopup) {
                     loginPopup.style.display = 'none';

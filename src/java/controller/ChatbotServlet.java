@@ -4,25 +4,22 @@
  */
 package controller;
 
-import dal.SliderDAO;
-import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import model.Post;
-import model.Slider;
-import model.Subject;
+import java.io.BufferedReader;
+import model.Chatbot;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
  * @author Phuong Anh
  */
-public class SearchServlet extends HttpServlet {
+public class ChatbotServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +38,10 @@ public class SearchServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SearchServlet</title>");
+            out.println("<title>Servlet ChatbotServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SearchServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ChatbotServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,49 +57,12 @@ public class SearchServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String keyword = request.getParameter("keyword");
-
-        SubjectDAO mySubjectDAO = new SubjectDAO();
-        ArrayList<Subject> subject_list = mySubjectDAO.getSubject();
-        ArrayList<Subject> filteredSubjects = mySubjectDAO.searchSubjects(keyword);
-        List<Subject> featuredSubjects = mySubjectDAO.getFeaturedSubjects();
-        request.setAttribute("featuredSubjects", featuredSubjects);
-
-        dal.PostDAO myPostDAO = new dal.PostDAO();
-        ArrayList<Post> post_list = myPostDAO.getPost();
-        request.setAttribute("post_list", post_list);
-
-        ArrayList<Post> hottest_post_list = myPostDAO.getHottestPost();
-        request.setAttribute("hottest_post_list", hottest_post_list);
-
-        if (keyword != null && !keyword.trim().isEmpty()) {
-            for (Subject subject : subject_list) {
-                if (subject.getDescription().toLowerCase().contains(keyword.trim().toLowerCase())) {
-                    filteredSubjects.add(subject);
-                }
-            }
-        } else {
-            filteredSubjects = subject_list;
-        }
-
-        request.setAttribute("subject_list", filteredSubjects);
-        request.setAttribute("keyword", keyword);
-
-        String page = request.getParameter("page");
-
-        SliderDAO sliderDAO = new SliderDAO();
-        List<Slider> sliders_list = sliderDAO.getAllSlider();
-        request.setAttribute("sliders_list", sliders_list);
-
-        if ("subject".equals(page)) {
-            request.getRequestDispatcher("subject_list.jsp").forward(request, response);
-        } else if ("blog".equals(page)) {
-            request.getRequestDispatcher("blog_list.jsp").forward(request, response);
-        } else {
-            request.getRequestDispatcher("homepage").forward(request, response);
-        }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
+
+    private Chatbot chatbot = new Chatbot();
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -115,7 +75,46 @@ public class SearchServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        
+        
+        // {message: userMessage} Format cua javascript -> Json.stringfly chuyen tu javascript sang json 
+        StringBuilder sb = new StringBuilder();
+        String line;
+        BufferedReader reader = request.getReader();
+        while ((line = reader.readLine()) != null) {
+            sb.append(line);
+        }
+        
+        // Chuyển đổi dữ liệu thành JSONObject
+        JSONObject json = new JSONObject(sb.toString());
+//        String userMessage=  json.getString("message"); 
+        JSONArray qaQueue = json.getJSONArray("message");
+        
+        String finalUserMessage = "Bạn là một chatbot trả lời những câu hỏi trong khóa học của tôi \n";
+        finalUserMessage += "Sau đây là cuộc hội thoại của bạn và người dùng đã lưu: \n";
+        for (int i = 0; i < qaQueue.length(); i++) {
+            JSONObject qaPair = qaQueue.getJSONObject(i);
+            String question = qaPair.getString("question");
+            String answer = qaPair.getString("answer");
+            finalUserMessage += "----------------------------";
+            if (question != null){
+                finalUserMessage += "Question " + i+1 + ": " + question;
+            }
+            if (answer != null) {
+                finalUserMessage += "ChatbotAnswer: " + i+1 + ": " + answer;
+            }
+        }
+//        finalUserMessage += "Dựa vào cuộc hội thoại mà bạn đã trao đổi với người dùng. Bạn hãy trả lời bằng kiến thức của mình";
+        
+        String finalAnswer = chatbot.sendMessageToChatGPT(finalUserMessage);
+        
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        // Trả về phản hồi
+        response.getWriter().write("{\"chatbot_response\": \"" + finalAnswer + "\"}");
+
+//        request.getRequestDispatcher("customer/lesson_detail.jsp").forward(request, response);
     }
 
     /**

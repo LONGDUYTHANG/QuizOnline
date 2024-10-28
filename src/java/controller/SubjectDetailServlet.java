@@ -8,6 +8,7 @@ import dal.AccountDAO;
 import dal.CategoryDAO;
 import dal.LessonDAO;
 import dal.PackageDAO;
+import dal.QuizDAO;
 import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -95,7 +96,6 @@ public class SubjectDetailServlet extends HttpServlet {
         List<Lesson> lessonList = lessonDAO.getAllLessonBySubjectId(subject_id);
         int totalLessons = lessonDAO.countLessonsBySubjectId(subject_id);
 
-
         // Lấy loại và chủ đề bài học
         List<Lesson_Type> lessonTypes = lessonDAO.getLessonTypesBySubjectId(subject_id);
         List<Lesson_Topic> lessonTopics = lessonDAO.getLessonTopicsBySubjectId(subject_id);
@@ -132,6 +132,10 @@ public class SubjectDetailServlet extends HttpServlet {
             }
         }
 
+        QuizDAO quizDAO = new QuizDAO();
+        int totelQuiz = quizDAO.getTotalQuizzesBySubjectId(subject_id);
+        request.setAttribute("totelQuiz", totelQuiz);
+
         request.setAttribute("selectedDuration", selectedDuration);
         request.setAttribute("packageList", packageList);
         request.setAttribute("selectedPackageModel", selectedPackageModel);
@@ -141,18 +145,24 @@ public class SubjectDetailServlet extends HttpServlet {
         request.setAttribute("lessonList", lessonList);
         request.setAttribute("lessonTopics", lessonTopics);
         request.setAttribute("totalLessons", totalLessons);
-        HttpSession session = request.getSession(false); 
+
+        HttpSession session = request.getSession(false);
+        boolean isRegistered = false;
+
         if (session != null) {
             Account user = (Account) session.getAttribute("user");
             if (user != null) {
-                request.getRequestDispatcher("customer/subject_details_customer.jsp").forward(request, response);
+                SubjectDAO registrationDAO = new SubjectDAO();
+                isRegistered = registrationDAO.isSubjectRegistered(user.getAccount_id(), subject_id);
+                request.setAttribute("isRegistered", isRegistered);
+
+                request.getRequestDispatcher("customer/subject_details.jsp").forward(request, response);
                 return;
             }
         }
 
         request.getRequestDispatcher("common/subject_details.jsp").forward(request, response);
     }
-
 
     /**
      * Handles the HTTP <code>POST</code> method.
