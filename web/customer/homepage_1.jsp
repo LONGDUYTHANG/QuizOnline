@@ -57,35 +57,10 @@
         <link rel="stylesheet" type="text/css" href="admin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
 
-        <!-- REVOLUTION SLIDER END -->	
-
         <style>
-            .popup {
-                display: none;
-                position: fixed;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.7);
-                justify-content: center;
-                align-items: center;
-            }
-            .popup-content {
-                background: white;
-                padding: 20px;
-                border-radius: 5px;
-                text-align: center;
-                max-width: 400px;
-                margin: auto;
-            }
+            
 
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: Arial, sans-serif;
-            }
+           
             .slider-container {
                 width: 100%;
                 overflow: hidden;
@@ -137,11 +112,10 @@
             }
 
         </style>
-
     </head>
 
 
-    <body id="bg" class="ttr-opened-sidebar ttr-pinned-sidebar" >
+    <body id="bg" >
         <%@include file="header.jsp" %>
         <div class="page-wraper">
             <!-- Header Top ==== -->
@@ -156,7 +130,7 @@
                     <div class="slider">
                         <c:forEach var="slider" items="${sliders_list}">
                             <div class="slide">
-                                <img src="${slider.slider_image}" alt="Slider Image">
+                                <a href="${slider.slider_link}"><img src="${slider.slider_image}" alt="Slider Image"></a>
                                 <div class="overlay"></div>
                                 <div class="text-overlay">
                                     <h1 style="color: #FF9900;">Welcome To Quiz Online</h1>

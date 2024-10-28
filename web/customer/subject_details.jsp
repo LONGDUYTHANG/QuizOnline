@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,7 +75,6 @@
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="course-detail-bx">
                                         <div class="course-price">
-                                            <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
                                             <div class="course-price">
                                                 <label for="courseDuration">Choose duration:</label>
@@ -104,6 +104,7 @@
                                                 <a href="#" class="btn radius-xl text-uppercase">Buy Now This Subject</a> 
                                             </c:if>
                                         </div>
+
 
 
 
@@ -161,7 +162,7 @@
                                             <div class="col-md-12 col-lg-4">
                                                 <ul class="course-features">
                                                     <li><i class="ti-book"></i> <span class="label">Lessons</span> <span class="value">${totalLessons}</span></li>
-                                                    <li><i class="ti-help-alt"></i> <span class="label">Quizzes</span> <span class="value">1</span></li>
+                                                    <li><i class="ti-help-alt"></i> <span class="label">Quizzes</span> <span class="value">${totelQuiz}</span></li>
                                                     <li><i class="ti-smallcap"></i> <span class="label">Language</span> <span class="value">English</span></li>
                                                 </ul>
                                             </div>

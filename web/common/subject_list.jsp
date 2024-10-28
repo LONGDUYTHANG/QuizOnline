@@ -194,12 +194,13 @@
                                             </div>
                                             <br>
                                             <!-- Danh sÃ¡ch cÃ¡c categories -->
-                                            <form role="search" method="get" action="searchByCategory">
+                                            <form role="search" method="get" action="searchByCategory" id="category_form"> <!-- ??m b?o ?i?u này tr? ??n endpoint chính xác -->
                                                 <div class="category-list" style="margin-bottom: 20px;">
                                                     <c:forEach items="${requestScope.category_list}" var="c">
                                                         <div style="margin-bottom: 10px;">
-                                                            <input type="checkbox" class="category-checkbox" id="category_${c.category_id}" name="categories" value="${c.category_id}">
+                                                            <input type="checkbox" id="category_${c.category_id}" name="categories" value="${c.category_name}" onclick="SearchByCategory()">
                                                             <label for="category_${c.category_id}" style="font-size: 16px; margin-left: 8px;">${c.category_name}</label>
+                                                            <input type="text" value="s" name="view" hidden>
                                                         </div>
                                                     </c:forEach>
                                                 </div>
@@ -263,6 +264,10 @@
                                                             document.getElementById("output").value = b;
 
                                                         }
+                                                        function SearchByCategory() {
+                                                                    var form = document.getElementById('category_form');
+                                                                    form.submit();
+                                                                }
         </script>
         <script>
             //login

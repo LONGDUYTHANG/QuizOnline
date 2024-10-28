@@ -71,9 +71,12 @@ public class QuizHandling extends HttpServlet {
         QuizDAO qd = new QuizDAO();
 
         //List<Quiz> quiz = qd.getAllQuiz();
-        String quizId = request.getParameter("id");
-        Quiz handleQuiz = qd.getQuiz(Integer.parseInt(quizId));
-        if(handleQuiz == null) {
+        Quiz handleQuiz;
+        try {
+            String quizId = request.getParameter("id");
+            handleQuiz = qd.getQuiz(Integer.parseInt(quizId));
+
+        } catch (Exception e) {
             handleQuiz = qd.getQuiz(5);
         }
         Account a = (Account) session.getAttribute("user");
@@ -95,6 +98,7 @@ public class QuizHandling extends HttpServlet {
         qed.addPracticeQuestions(listQuestion);
         pr.setPractice_id(newlyPractice);
         session.setAttribute("prac_record", pr);
+        session.setAttribute("new_practice_id", newlyPractice);
         //out.print(listQuestion.size());
         float passrate = qd.getPassRate(handleQuiz.getQuiz_id());
         session.setAttribute("passrate", passrate);
@@ -167,8 +171,8 @@ public class QuizHandling extends HttpServlet {
         String formattedNumber = String.format("%.2f", ((countCorrect * 1.0) / (numQuestions * 1.0)));
         float correct_rate = Float.parseFloat(formattedNumber) * 100;
         request.setAttribute("correct_rate", (int) correct_rate);
-        
-        Practice_Record pr = (Practice_Record)session.getAttribute("prac_record");
+
+        Practice_Record pr = (Practice_Record) session.getAttribute("prac_record");
         QuizDAO qd = new QuizDAO();
         pr.setCorrect_questions(countCorrect);
         pr.setCorrect_rate((int) correct_rate);

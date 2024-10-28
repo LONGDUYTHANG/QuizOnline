@@ -611,6 +611,40 @@ public class QuizDAO extends DBContext {
         }
     }
 
+    public Practice_Record getPracticeRecord(int practice_id) {
+        String sql = "select practice_id\n"
+                + "  , practice_name\n"
+                + "  , created_date\n"
+                + "  , practice_duration \n"
+                + "  , correct_questions\n"
+                + "  , correct_rate\n"
+                + "  , account_id\n"
+                + "  , quiz_id\n"
+                + "  from Practice_Record\n"
+                + "  where practice_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, practice_id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                Practice_Record pr = new Practice_Record();
+                pr.setAccount_id(rs.getInt("account_id"));
+                pr.setCorrect_questions(rs.getInt("correct_questions"));
+                pr.setCorrect_rate(rs.getInt("correct_rate"));
+                pr.setCreated_date(rs.getTimestamp("created_date"));
+                pr.setPractice_id(rs.getInt("practice_id"));
+                pr.setPractice_duration(rs.getInt("practice_duration"));
+                pr.setPractice_name(rs.getString("practice_name"));
+                pr.setQuiz_id(rs.getInt("quiz_id"));
+                return pr;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+
     public Duration getTotalDurationBySubjectId(int subjectId) {
         String sql = "SELECT SUM(duration) AS totalDuration FROM Quiz WHERE subject_id = ?";
         try {
@@ -689,18 +723,28 @@ public class QuizDAO extends DBContext {
                 int type_id = rs.getInt("dimension_id");
                 String lesson_topic_name = rs.getString("dimension_name");
                 list.add(new GroupSelection(NumberOfQuestions, type_id, lesson_topic_name));
-            }
+                          }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return list;
+    }
+  
+    public int getTotalQuizzesBySubjectId(int subject_id) {
+        String sql = "SELECT COUNT(*) FROM Quiz WHERE subject_id = ?";
+        int count = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, subject_id); // Thiết lập tham số subject_id
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);  // Lấy giá trị đếm từ cột đầu tiên
+                          }
         } catch (SQLException ex) {
             System.out.println(ex);
         }
         return list;
     }
 
-    public static void main(String[] args) {
-        QuizDAO quizDAO = new QuizDAO();
-        List<GroupSelection> list = quizDAO.getSelectedGroupTopic(5);
-        for (GroupSelection groupSelection : list) {
-            System.out.println(groupSelection);
-        }
-    }
+
 }

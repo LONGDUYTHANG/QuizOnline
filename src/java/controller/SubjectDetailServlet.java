@@ -8,6 +8,7 @@ import dal.AccountDAO;
 import dal.CategoryDAO;
 import dal.LessonDAO;
 import dal.PackageDAO;
+import dal.QuizDAO;
 import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -130,6 +131,10 @@ public class SubjectDetailServlet extends HttpServlet {
                 return;
             }
         }
+
+        QuizDAO quizDAO = new QuizDAO();
+        int totelQuiz = quizDAO.getTotalQuizzesBySubjectId(subject_id);
+        request.setAttribute("totelQuiz", totelQuiz);
 
         request.setAttribute("selectedDuration", selectedDuration);
         request.setAttribute("packageList", packageList);

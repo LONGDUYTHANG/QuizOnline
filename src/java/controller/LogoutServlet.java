@@ -5,7 +5,6 @@
 
 package controller;
 
-import dal.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +12,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
-import model.*;
 
 /**
  *
- * @author DELL-PC
+ * @author ADMIN
  */
-public class Quiz_Review extends HttpServlet {
+public class LogoutServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +34,10 @@ public class Quiz_Review extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Quiz_Review</title>");  
+            out.println("<title>Servlet LogoutServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Quiz_Review at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet LogoutServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,23 +54,9 @@ public class Quiz_Review extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        HttpSession session = request.getSession(true);
-        QuizDAO qd = new QuizDAO();
-        Practice_Record pr;
-        try {
-        int practice_id = Integer.parseInt(request.getParameter("practice_id"));
-            pr = qd.getPracticeRecord(practice_id);
-        } catch (Exception e) {
-            pr = qd.getPracticeRecord(37);
-        }
-        request.setAttribute("passrate", qd.getPassRate(pr.getQuiz_id()));
-        session.setAttribute("practice_record", pr);
-        request.setAttribute("num_quest", qd.getNumberOfQuestion(pr.getQuiz_id()));
-        QuestionDAO qed = new QuestionDAO();
-        List<Question_Handle> listQuests = qed.getAllQuestionByPracticeId(pr.getPractice_id());
-        session.setAttribute("list_quest_record", listQuests);
-        
-        request.getRequestDispatcher("customer/quiz_reviewing.jsp").forward(request, response);
+         HttpSession session = request.getSession(false);
+         session.invalidate();
+         request.getRequestDispatcher("homepage").forward(request, response);
     } 
 
     /** 
