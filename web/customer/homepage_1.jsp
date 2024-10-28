@@ -1,3 +1,5 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +24,7 @@
         <!-- FAVICONS ICON ============================================= -->
         <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
-        
+
         <!-- PAGE TITLE HERE ============================================= -->
         <title>EduChamp : Education HTML Template </title>
 
@@ -56,143 +58,134 @@
         <link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
 
         <!-- REVOLUTION SLIDER END -->	
+
+        <style>
+            .popup {
+                display: none;
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.7);
+                justify-content: center;
+                align-items: center;
+            }
+            .popup-content {
+                background: white;
+                padding: 20px;
+                border-radius: 5px;
+                text-align: center;
+                max-width: 400px;
+                margin: auto;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: Arial, sans-serif;
+            }
+            .slider-container {
+                width: 100%;
+                overflow: hidden;
+                position: relative;
+            }
+            .slider {
+                display: flex;
+                width: 200%;
+                transition: 1s;
+                animation: slide 8s infinite;
+            }
+            .slide {
+                width: 100%;
+                position: relative;
+            }
+            .slide img {
+                width: 100%;
+                height: 500px;
+                object-fit: cover;
+            }
+            .text-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                color: #fff;
+                background-color: rgba(0, 0, 0, 0.5); /* L?p ph? che toàn slide */
+                padding: 20px;
+            }
+            .text-overlay h1 {
+                font-size: 3em;
+                margin-bottom: 10px;
+            }
+            .text-overlay p {
+                font-size: 1.2em;
+            }
+            @keyframes slide {
+                0%, 50% {
+                    transform: translateX(0);
+                }
+                50.01%, 100% {
+                    transform: translateX(-50%);
+                }
+            }
+
+        </style>
+
     </head>
-    
-    
+
+
     <body id="bg" class="ttr-opened-sidebar ttr-pinned-sidebar" >
         <%@include file="header.jsp" %>
         <div class="page-wraper">
             <!-- Header Top ==== -->
 
-            
-            
-            
-          <!-- Content -->
+
+
+
+            <!-- Content -->
             <div class="page-content bg-white">
                 <!-- Main Slider -->
-                <div class="rev-slider" style="height: 250px">
-                    <div id="rev_slider_486_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="news-gallery36" data-source="gallery" style="margin:0px auto;background-color:#ffffff;padding:0px;margin-top:0px;margin-bottom:0px;">
-                        <!-- START REVOLUTION SLIDER 5.3.0.2 fullwidth mode -->
-                        <div id="rev_slider_486_1" class="rev_slider fullwidthabanner" style="height: 300px" data-version="5.3.0.2">
-                            <ul>	<!-- SLIDE  -->
-                                <li data-index="rs-200" 
-                                    data-transition="parallaxvertical" 
-                                    data-slotamount="default" 
-                                    data-hideafterloop="0" 
-                                    data-hideslideonmobile="off" 
-                                    data-easein="default" 
-                                    data-easeout="default" 
-                                    data-masterspeed="default" 
-                                    data-thumb="" 
-                                    data-rotate="0" 
-                                    data-fstransition="fade" 
-                                    data-fsmasterspeed="1500" 
-                                    data-fsslotamount="7" 
-                                    data-saveperformance="off" 
-                                    data-title="A STUDY ON HAPPINESS" 
-                                    data-param1="" data-param2="" 
-                                    data-param3="" data-param4="" 
-                                    data-param5="" data-param6="" 
-                                    data-param7="" data-param8="" 
-                                    data-param9="" data-param10="" 
-                                    data-description="Science says that Women are generally happier">
-                                    <!-- MAIN IMAGE -->
-                                    <img src="" alt="" 
-                                         data-bgposition="center center" 
-                                         data-bgfit="cover" 
-                                         data-bgrepeat="no-repeat" 
-                                         data-bgparallax="10" 
-                                         class="rev-slidebg" 
-                                         data-no-retina />
-
-                                    <!-- LAYER NR. 1 -->
-                                    <div class="tp-caption tp-shape tp-shapewrapper " 
-                                         id="slide-200-layer-1" 
-                                         data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" 
-                                         data-y="['middle','middle','middle','middle']" data-voffset="['0','0','0','0']" 
-                                         data-width="full"
-                                         data-height="full"
-                                         data-whitespace="nowrap"
-                                         data-type="shape" 
-                                         data-basealign="slide" 
-                                         data-responsive_offset="off" 
-                                         data-responsive="off"
-                                         data-frames='[{"from":"opacity:0;","speed":1,"to":"o:1;","delay":0,"ease":"Power4.easeOut"},{"delay":"wait","speed":1000,"to":"opacity:1;","ease":"Power4.easeOut"}]'
-                                         data-textAlign="['left','left','left','left']"
-                                         data-paddingtop="[0,0,0,0]"
-                                         data-paddingright="[0,0,0,0]"
-                                         data-paddingbottom="[0,0,0,0]"
-                                         data-paddingleft="[0,0,0,0]"
-                                         style="z-index: 5;background-color:rgba(2, 0, 11, 0.80);border-color:rgba(0, 0, 0, 0);border-width:0px;"> 
-                                    </div>
-
-                                    <!-- LAYER NR. 2 -->
-                                    <div class="tp-caption Newspaper-Title   tp-resizeme" 
-                                         id="slide-200-layer-2" 
-                                         data-x="['center','center','center','center']" 
-                                         data-hoffset="['0','0','0','0']" 
-                                         data-y="['top','top','top','top']" 
-                                         data-voffset="['250','250','250','240']" 
-                                         data-fontsize="['50','50','50','30']"
-                                         data-lineheight="['55','55','55','35']"
-                                         data-width="full"
-                                         data-height="none"
-                                         data-whitespace="normal"
-                                         data-type="text" 
-                                         data-responsive_offset="on" 
-                                         data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
-                                         data-textAlign="['center','center','center','center']"
-                                         data-paddingtop="[0,0,0,0]"
-                                         data-paddingright="[0,0,0,0]"
-                                         data-paddingbottom="[10,10,10,10]"
-                                         data-paddingleft="[0,0,0,0]"
-                                         style="z-index: 6; font-family:rubik; font-weight:700; text-align:center; white-space: normal;text-transform:uppercase;">
-                                        Welcome To QuizOnline
-                                    </div>
-
-                                    <!-- LAYER NR. 3 -->
-                                    <div class="tp-caption Newspaper-Subtitle   tp-resizeme" 
-                                         id="slide-200-layer-3" 
-                                         data-x="['center','center','center','center']" 
-                                         data-hoffset="['0','0','0','0']" 
-                                         data-y="['top','top','top','top']" 
-                                         data-voffset="['210','210','210','210']" 
-                                         data-width="none"
-                                         data-height="none"
-                                         data-whitespace="nowrap"
-                                         data-type="text" 
-                                         data-responsive_offset="on"
-                                         data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
-                                         data-textAlign="['left','left','left','left']"
-                                         data-paddingtop="[0,0,0,0]"
-                                         data-paddingright="[0,0,0,0]"
-                                         data-paddingbottom="[0,0,0,0]"
-                                         data-paddingleft="[0,0,0,0]"
-                                         style="z-index: 7; white-space: nowrap;text-transform:uppercase; color:#fff; font-family:rubik; font-size:18px; font-weight:400;">
-                                        Batter Education For A Better 
-                                    </div>
-                                </li>
-
-                                <!-- SLIDE  -->
-                            </ul>
-                        </div><!-- END REVOLUTION SLIDER -->  
-                    </div>  
-                </div>  
+                <div class="slider-container">
+                    <div class="slider">
+                        <c:forEach var="slider" items="${sliders_list}">
+                            <div class="slide">
+                                <img src="${slider.slider_image}" alt="Slider Image">
+                                <div class="overlay"></div>
+                                <div class="text-overlay">
+                                    <h1 style="color: #FF9900;">Welcome To Quiz Online</h1>
+                                    <p style="color: #F7B205; font-size: 1.2em; font-weight: 600; text-align: center; margin-bottom: 5px;">
+                                        ${slider.slider_title}
+                                    </p>
+                                    <p style="color: white; font-size: 1em; text-align: center; line-height: 1.5; max-width: 600px; margin: 0 auto;">
+                                        ${slider.slider_detail}
+                                    </p>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
                 <!-- Main Slider -->
+
                 <div class="content-block">
                     <!-- Featured Subject -->
-                    <div class="section-area section-sp2 popular-courses-bx" style="height: 510px">
+                    <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(assets/images/background/bg1.jpg);">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 heading-bx left">
-                                    <h2 class="title-head" style="color: white">Featured <span>Subject</span></h2>
+                                    <h2 class="title-head" style="color: white">All <span>Subject</span></h2>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
                                     <!-- thêm subjedt list -->
-                                    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-                                    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
                                     <c:forEach var="subject" items="${subject_list}" varStatus="status">
                                         <c:if test="${fn:contains(subject.description, param.keyword) || fn:contains(subject.subjectName, param.keyword)}">
                                             <div class="item" style="width: 300px; height: 350px;">
@@ -239,54 +232,62 @@
                     </div>
                     <!-- Popular Courses END -->
 
-                    <!-- Form -->
-                    <div class="section-area section-sp1 ovpr-dark bg-fix online-cours" style="background-image:url(assets/images/background/bg1.jpg);">
+                    <!--Registed Subject Form -->
+                    <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(assets/images/background/bg1.jpg);">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-12 text-center text-white">
-                                    <h2>Online Subjects To Learn</h2>
-                                    <h5>Own Your Feature Learning New Skills Online</h5>
-                                    <form class="cours-search" method="GET" action="search">
-                                        <div class="input-group" >
-                                            <input type="text" class="form-control" placeholder="What do you want to learn today?" name="keyword" value="${param.keyword}">
-                                            <div class="input-group-append">
-                                                <button class="btn" type="submit">Search</button> 
-                                            </div>
-                                        </div>
-                                    </form>
+                                <div class="col-md-12 heading-bx left">
+                                    <h2 class="title-head" style="color: white">Registed <span>Subject</span></h2>
                                 </div>
                             </div>
-                            <div class="mw800 m-auto">
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-6">
-                                        <div class="cours-search-bx m-b30">
-                                            <div class="icon-box">
-                                                <h3><i class="ti-user"></i><span class="counter">5</span>M</h3>
+                            <div class="row">
+                                <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
+                                    <!-- thêm subjedt list -->
+                                    <c:forEach var="subject" items="${registeredSubject_list}" varStatus="status">
+                                        <c:if test="${fn:contains(subject.description, param.keyword) || fn:contains(subject.subjectName, param.keyword)}">
+                                            <div class="item" style="width: 300px; height: 350px;">
+                                                <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;">
+                                                    <div class="action-box" style="width: 100%; height: 57%;">
+                                                        <img src="${subject.thumbnail}" alt="" style="width: 100%; height: 100%;">
+                                                        <a href="subject_details?subject_id=${subject.subjectId}" class="btn">Read More</a>
+                                                    </div>
+                                                    <div class="info-bx text-center" style="padding: 10px;">
+                                                        <h5>
+                                                            <a href="subject_details?subject_id=${subject.subjectId}" 
+                                                               style="color: black; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                                ${subject.description}
+                                                            </a>
+                                                        </h5>
+                                                        <span>${subject.tagline}</span>
+                                                    </div>
+                                                    <div class="cours-more-info">
+                                                        <div class="review">
+                                                            <i class="fa fa-user"></i>      <span>Author</span>
+                                                            <c:forEach var="account" items="${account_list}" varStatus="aStatus">
+                                                                <c:if test="${aStatus.index == status.index}">
+                                                                    <h5>${account.first_name} ${account.last_name}</h5>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </div>
+                                                        <div class="price">
+                                                            <c:if test="${not empty selectedPackageModel}">
+                                                                <del>${selectedPackageModel.listPrice}</del>
+                                                                <h5>${selectedPackageModel.salePrice}</h5>
+                                                            </c:if>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <span class="cours-search-text">Over 5 million student</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-6">
-                                        <div class="cours-search-bx m-b30">
-                                            <div class="icon-box">
-                                                <h3><i class="ti-book"></i><span class="counter">30</span>K</h3>
-                                            </div>
-                                            <span class="cours-search-text">30,000 Courses.</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-sm-12">
-                                        <div class="cours-search-bx m-b30">
-                                            <div class="icon-box">
-                                                <h3><i class="ti-layout-list-post"></i><span class="counter">20</span>K</h3>
-                                            </div>
-                                            <span class="cours-search-text">Learn Anything Online.</span>
-                                        </div>
-                                    </div>
+                                        </c:if>
+                                    </c:forEach>
+                                    <c:if test="${empty requestScope.subject_list}">
+                                        <p>No subjects found matching your search.</p>
+                                    </c:if>
                                 </div>
                             </div>
-                            <a href="../../1/web/admin/bookmark.html"></a>
                         </div>
                     </div>
+
                     <!-- Form END -->
 
 
@@ -331,7 +332,6 @@
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
                                 <!--  thêm danh sách bài post hot nh?t-->
-                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                 <c:forEach items="${requestScope.hottest_post_list}" var="c">
                                     <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> <!-- Kích th??c c? ??nh -->
                                         <a href="blog_detail?blog_id=${c.blog_id}">
@@ -392,91 +392,91 @@
         <script src="assets/vendors/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
         <script src="assets/vendors/revolution/js/extensions/revolution.extension.video.min.js"></script>
         <script>
-        jQuery(document).ready(function () {
-            var ttrevapi;
-            var tpj = jQuery;
-            if (tpj("#rev_slider_486_1").revolution == undefined) {
-                revslider_showDoubleJqueryError("#rev_slider_486_1");
-            } else {
-                ttrevapi = tpj("#rev_slider_486_1").show().revolution({
-                    sliderType: "standard",
-                    jsFileLocation: "assets/vendors/revolution/js/",
-                    sliderLayout: "fullwidth",
-                    dottedOverlay: "none",
-                    delay: 9000,
-                    navigation: {
-                        keyboardNavigation: "on",
-                        keyboard_direction: "horizontal",
-                        mouseScrollNavigation: "off",
-                        mouseScrollReverse: "default",
-                        onHoverStop: "on",
-                        touch: {
-                            touchenabled: "on",
-                            swipe_threshold: 75,
-                            swipe_min_touches: 1,
-                            swipe_direction: "horizontal",
-                            drag_block_vertical: false
-                        }
-                        ,
-                        arrows: {
-                            style: "uranus",
-                            enable: true,
-                            hide_onmobile: false,
-                            hide_onleave: false,
-                            tmp: '',
-                            left: {
-                                h_align: "left",
-                                v_align: "center",
-                                h_offset: 10,
-                                v_offset: 0
-                            },
-                            right: {
-                                h_align: "right",
-                                v_align: "center",
-                                h_offset: 10,
-                                v_offset: 0
+            jQuery(document).ready(function () {
+                var ttrevapi;
+                var tpj = jQuery;
+                if (tpj("#rev_slider_486_1").revolution == undefined) {
+                    revslider_showDoubleJqueryError("#rev_slider_486_1");
+                } else {
+                    ttrevapi = tpj("#rev_slider_486_1").show().revolution({
+                        sliderType: "standard",
+                        jsFileLocation: "assets/vendors/revolution/js/",
+                        sliderLayout: "fullwidth",
+                        dottedOverlay: "none",
+                        delay: 9000,
+                        navigation: {
+                            keyboardNavigation: "on",
+                            keyboard_direction: "horizontal",
+                            mouseScrollNavigation: "off",
+                            mouseScrollReverse: "default",
+                            onHoverStop: "on",
+                            touch: {
+                                touchenabled: "on",
+                                swipe_threshold: 75,
+                                swipe_min_touches: 1,
+                                swipe_direction: "horizontal",
+                                drag_block_vertical: false
                             }
-                        },
+                            ,
+                            arrows: {
+                                style: "uranus",
+                                enable: true,
+                                hide_onmobile: false,
+                                hide_onleave: false,
+                                tmp: '',
+                                left: {
+                                    h_align: "left",
+                                    v_align: "center",
+                                    h_offset: 10,
+                                    v_offset: 0
+                                },
+                                right: {
+                                    h_align: "right",
+                                    v_align: "center",
+                                    h_offset: 10,
+                                    v_offset: 0
+                                }
+                            },
 
-                    },
-                    viewPort: {
-                        enable: true,
-                        outof: "pause",
-                        visible_area: "80%",
-                        presize: false
-                    },
-                    responsiveLevels: [1240, 1024, 778, 480],
-                    visibilityLevels: [1240, 1024, 778, 480],
-                    gridwidth: [1240, 1024, 778, 480],
-                    gridheight: [768, 600, 600, 600],
-                    lazyType: "none",
-                    parallax: {
-                        type: "scroll",
-                        origo: "enterpoint",
-                        speed: 400,
-                        levels: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 46, 47, 48, 49, 50, 55],
-                        type: "scroll",
-                    },
-                    shadow: 0,
-                    spinner: "off",
-                    stopLoop: "off",
-                    stopAfterLoops: -1,
-                    stopAtSlide: -1,
-                    shuffle: "off",
-                    autoHeight: "off",
-                    hideThumbsOnMobile: "off",
-                    hideSliderAtLimit: 0,
-                    hideCaptionAtLimit: 0,
-                    hideAllCaptionAtLilmit: 0,
-                    debugMode: false,
-                    fallbacks: {
-                        simplifyAll: "off",
-                        nextSlideOnWindowFocus: "off",
-                        disableFocusListener: false,
-                    }
-                });
-            }
-        });
+                        },
+                        viewPort: {
+                            enable: true,
+                            outof: "pause",
+                            visible_area: "80%",
+                            presize: false
+                        },
+                        responsiveLevels: [1240, 1024, 778, 480],
+                        visibilityLevels: [1240, 1024, 778, 480],
+                        gridwidth: [1240, 1024, 778, 480],
+                        gridheight: [768, 600, 600, 600],
+                        lazyType: "none",
+                        parallax: {
+                            type: "scroll",
+                            origo: "enterpoint",
+                            speed: 400,
+                            levels: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 46, 47, 48, 49, 50, 55],
+                            type: "scroll",
+                        },
+                        shadow: 0,
+                        spinner: "off",
+                        stopLoop: "off",
+                        stopAfterLoops: -1,
+                        stopAtSlide: -1,
+                        shuffle: "off",
+                        autoHeight: "off",
+                        hideThumbsOnMobile: "off",
+                        hideSliderAtLimit: 0,
+                        hideCaptionAtLimit: 0,
+                        hideAllCaptionAtLilmit: 0,
+                        debugMode: false,
+                        fallbacks: {
+                            simplifyAll: "off",
+                            nextSlideOnWindowFocus: "off",
+                            disableFocusListener: false,
+                        }
+                    });
+                }
+            });
         </script>
         <script>
             //login

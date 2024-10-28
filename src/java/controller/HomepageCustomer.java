@@ -2,11 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
 import dal.AccountDAO;
+import dal.LessonDAO;
 import dal.PackageDAO;
+import dal.QuizDAO;
+import dal.RegistrationDAO;
+import dal.SliderDAO;
 import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,10 +17,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
 import model.Post;
+import model.RegisteredSubject;
+import model.Slider;
 import model.Subject;
 
 /**
@@ -66,7 +72,7 @@ public class HomepageCustomer extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //post_list
+//post_list
         dal.PostDAO myPostDAO = new dal.PostDAO();
         ArrayList<Post> post_list = myPostDAO.getPost();
         request.setAttribute("post_list", post_list);
@@ -99,12 +105,46 @@ public class HomepageCustomer extends HttpServlet {
             }
         }
 
+        LessonDAO lessonDAO = new LessonDAO();
+        int totalLessons = lessonDAO.countTotalLessons();
+        request.setAttribute("totalLessons", totalLessons);
+
+        QuizDAO quizDAO = new QuizDAO();
+        int totalQuizzes = quizDAO.getQuizCount();
+        request.setAttribute("totalQuizzes", totalQuizzes);
+
+        int totalSubjects = testDAO.countSubjects();
+        request.setAttribute("totalSubjects", totalSubjects);
+
         AccountDAO accountDAO = new AccountDAO();
         List<Account> account_list = new ArrayList<>();
         for (Subject subject : subject_list) {
-            Account account = accountDAO.getAccountById(subject.getAccountId()); 
+            Account account = accountDAO.getAccountById(subject.getAccountId());
             account_list.add(account);
         }
+
+        SliderDAO sliderDAO = new SliderDAO();
+        List<Slider> sliders_list = sliderDAO.getAllSlider();
+        request.setAttribute("sliders_list", sliders_list);
+
+// Kiểm tra phiên đăng nhập
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            // Nếu không có người dùng đăng nhập, chuyển hướng đến trang đăng nhập
+            response.sendRedirect("login");
+            return;
+        }
+
+        // Lấy đối tượng người dùng từ session
+        Account user = (Account) session.getAttribute("user");
+        int account_id = user.getAccount_id();
+
+        // Gọi DAO để lấy danh sách môn học đã đăng ký
+        RegistrationDAO registerDAO = new RegistrationDAO();
+        ArrayList<Subject> registeredSubject_list = registerDAO.getRegisteredSubjectsByUserId(account_id);
+
+        // Đặt danh sách vào request attribute và chuyển hướng đến JSP để hiển thị
+        request.setAttribute("registeredSubject_list", registeredSubject_list);
 
         request.setAttribute("account_list", account_list);
         request.setAttribute("selectedDuration", selectedDuration);
@@ -123,7 +163,7 @@ public class HomepageCustomer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doGet(request, response);
     }
 
     /**

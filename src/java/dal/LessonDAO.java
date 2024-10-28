@@ -80,8 +80,9 @@ public class LessonDAO extends DBContext {
                 Timestamp created_date = rs.getTimestamp("created_date");
                 Timestamp updated_date = rs.getTimestamp("updated_date");
                 int account_id = rs.getInt("account_id");
-
-                list.add(new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ofMillis((long) (duration * 60 * 1000)), passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id));
+                int selectedGroup = rs.getInt("selectedGroup");
+                
+                list.add(new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ofMillis((long) (duration * 60 * 1000)), passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id, selectedGroup));
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -346,6 +347,42 @@ public class LessonDAO extends DBContext {
             System.out.println("Error: " + ex.getMessage());
         }
         return totalCount;
+    }
+
+    public Lesson getLessonByLessonId(int lessonId) {
+        String sql = "SELECT l.*, lt.lesson_type_name, lt2.lesson_topic_name "
+                + "FROM Lesson l "
+                + "INNER JOIN Lesson_Type lt ON l.lesson_type_id = lt.lesson_type_id "
+                + "INNER JOIN Lesson_Topic lt2 ON l.lesson_topic_id = lt2.lesson_topic_id "
+                + "WHERE l.lesson_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, lessonId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int lesson_id = rs.getInt("lesson_id");
+                String lesson_name = rs.getString("lesson_name");
+                int lesson_order = rs.getInt("lesson_order");
+                String summary = rs.getString("summary");
+                boolean status = rs.getBoolean("status");
+                int lesson_type_id = rs.getInt("lesson_type_id");
+                String lesson_type_name = rs.getString("lesson_type_name");
+                int subject_id = rs.getInt("subject_id");
+                int lesson_topic_id = rs.getInt("lesson_topic_id");
+                String video_link = rs.getString("video_link");
+                String lesson_content = rs.getString("lesson_content");
+                String lesson_topic_name = rs.getString("lesson_topic_name");
+
+                Lesson lesson = new Lesson(lesson_id, lesson_name, lesson_order, summary, status,
+                        lesson_type_id, subject_id, lesson_topic_id, video_link, lesson_content, 0);
+                lesson.setLessonTypeName(lesson_type_name);
+                lesson.setLessonTopicName(lesson_topic_name);
+                return lesson;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        return null;
     }
 
     public static void main(String[] args) {

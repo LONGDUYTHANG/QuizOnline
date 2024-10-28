@@ -191,5 +191,12 @@ public class PackageDAO extends DBContext {
             return false;
         }
     }
+    public static void main(String[] args) {
+        PackageDAO dao = new PackageDAO();
+        List<Package> list = dao.getAllPackage1();
+        for (Package package1 : list) {
+            System.out.println(package1);
+        }
+    }
 
 }

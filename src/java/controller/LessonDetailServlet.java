@@ -4,25 +4,25 @@
  */
 package controller;
 
-import dal.SliderDAO;
-import dal.SubjectDAO;
+import dal.AccountDAO;
+import dal.LessonDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
-import model.Post;
-import model.Slider;
-import model.Subject;
+import model.Account;
+import model.Lesson;
+import model.Lesson_Topic;
+import model.Lesson_Type;
 
 /**
  *
  * @author Phuong Anh
  */
-public class SearchServlet extends HttpServlet {
+public class LessonDetailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +41,10 @@ public class SearchServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SearchServlet</title>");
+            out.println("<title>Servlet LessonDetailServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SearchServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LessonDetailServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,48 +60,24 @@ public class SearchServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String keyword = request.getParameter("keyword");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String raw_lesson_id = request.getParameter("lesson_id");
 
-        SubjectDAO mySubjectDAO = new SubjectDAO();
-        ArrayList<Subject> subject_list = mySubjectDAO.getSubject();
-        ArrayList<Subject> filteredSubjects = mySubjectDAO.searchSubjects(keyword);
-        List<Subject> featuredSubjects = mySubjectDAO.getFeaturedSubjects();
-        request.setAttribute("featuredSubjects", featuredSubjects);
-
-        dal.PostDAO myPostDAO = new dal.PostDAO();
-        ArrayList<Post> post_list = myPostDAO.getPost();
-        request.setAttribute("post_list", post_list);
-
-        ArrayList<Post> hottest_post_list = myPostDAO.getHottestPost();
-        request.setAttribute("hottest_post_list", hottest_post_list);
-
-        if (keyword != null && !keyword.trim().isEmpty()) {
-            for (Subject subject : subject_list) {
-                if (subject.getDescription().toLowerCase().contains(keyword.trim().toLowerCase())) {
-                    filteredSubjects.add(subject);
-                }
-            }
-        } else {
-            filteredSubjects = subject_list;
+        int lesson_id = 0;
+        try {
+            lesson_id = Integer.parseInt(raw_lesson_id);
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid subject ID.");
+            return;
         }
+        
+        LessonDAO lessonDAO = new LessonDAO();
+        Lesson lesson = lessonDAO.getLessonByLessonId(lesson_id);
 
-        request.setAttribute("subject_list", filteredSubjects);
-        request.setAttribute("keyword", keyword);
+        request.setAttribute("lesson", lesson);
 
-        String page = request.getParameter("page");
-
-        SliderDAO sliderDAO = new SliderDAO();
-        List<Slider> sliders_list = sliderDAO.getAllSlider();
-        request.setAttribute("sliders_list", sliders_list);
-
-        if ("subject".equals(page)) {
-            request.getRequestDispatcher("subject_list.jsp").forward(request, response);
-        } else if ("blog".equals(page)) {
-            request.getRequestDispatcher("blog_list.jsp").forward(request, response);
-        } else {
-            request.getRequestDispatcher("homepage").forward(request, response);
-        }
+        request.getRequestDispatcher("customer/lesson_detail.jsp").forward(request, response);
     }
 
     /**
@@ -115,7 +91,7 @@ public class SearchServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        processRequest(request, response);
     }
 
     /**

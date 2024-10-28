@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Account;
 import model.Post;
+import model.Slider;
 import model.Subject;
 
 /**
@@ -114,6 +115,10 @@ public class HomepageServlet extends HttpServlet {
             account_list.add(account);
         }
 
+        SliderDAO sliderDAO = new SliderDAO();
+        List<Slider> sliders_list = sliderDAO.getAllSlider();
+        request.setAttribute("sliders_list", sliders_list);
+        
         request.setAttribute("account_list", account_list);
         request.setAttribute("selectedDuration", selectedDuration);
         request.setAttribute("selectedPackageModel", selectedPackageModel);
