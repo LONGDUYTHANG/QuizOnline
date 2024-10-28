@@ -71,7 +71,18 @@ public class EditQuizValidationServlet extends HttpServlet {
         request.setAttribute("listSubject", dao.getAllSubject());
         request.setAttribute("listLevel", dao.getAllLevel());
         request.setAttribute("listQuiz_Type", dao.getAllQuizType());
-        
+        if (quiz.getSelectedGroup() == 1) {
+            request.setAttribute("questionTopic", dao.getAllLessonTopicBySubjectId(quiz.getSubject_id()));
+            request.setAttribute("listGroupSelection", dao.getSelectedGroupTopic(quiz_id));
+        }
+        else if (quiz.getSelectedGroup() == 2) {
+            request.setAttribute("questionGroup", dao.getAllDimensionByType(1, quiz.getSubject_id()));
+            request.setAttribute("listGroupSelection", dao.getSelectedGroupDimension(quiz_id));
+        }
+        else {
+            request.setAttribute("questionDomain", dao.getAllDimensionByType(2, quiz.getSubject_id()));
+            request.setAttribute("listGroupSelection", dao.getSelectedGroupDimension(quiz_id));
+        }
         //Send a message to question_detail.jsp, alert that user added quiz successfully
         String message = request.getParameter("message");
         request.setAttribute("showSuccessMessage", message);
@@ -88,7 +99,7 @@ public class EditQuizValidationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
     /** 
