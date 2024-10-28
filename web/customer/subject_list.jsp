@@ -167,6 +167,7 @@
                                                         <div style="margin-bottom: 10px;">
                                                             <input type="checkbox" id="category_${c.category_id}" name="categories" value="${c.category_id}" onclick="SearchByCategory()">
                                                             <label for="category_${c.category_id}" style="font-size: 16px; margin-left: 8px;">${c.category_name}</label>
+                                                            <input type="text" value="s" name="view" hidden>
                                                         </div>
                                                     </c:forEach>
                                                 </div>
