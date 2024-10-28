@@ -156,7 +156,7 @@
                     <div class="slider">
                         <c:forEach var="slider" items="${sliders_list}">
                             <div class="slide">
-                                <img src="${slider.slider_image}" alt="Slider Image">
+                                <a href="${slider.slider_link}"><img src="${slider.slider_image}" alt="Slider Image"></a>
                                 <div class="overlay"></div>
                                 <div class="text-overlay">
                                     <h1 style="color: #FF9900;">Welcome To Quiz Online</h1>
