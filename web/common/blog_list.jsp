@@ -1,4 +1,4 @@
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,7 +47,7 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
-            <style>
+        <style>
             .popup {
                 display: none;
                 position: fixed;
@@ -72,11 +72,11 @@
         </style>
 
     </head>
-    
-<body id="bg">
-    <div class="page-wraper">
-        <div id="loading-icon-bx"></div>
-<header class="header rs-nav header-transparent">
+
+    <body id="bg">
+        <div class="page-wraper">
+            <div id="loading-icon-bx"></div>
+            <header class="header rs-nav header-transparent">
                 <!-- login -->
                 <%@include file="login.jsp" %>
                 <!-- register     -->
@@ -87,121 +87,131 @@
                 <%@include file="requestPassword.jsp" %>
 
             </header>
-        <!-- header END ==== -->
-        <!-- Content -->
-        <div class="page-content bg-white">
-            <!-- inner page banner -->
-            <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
-                <div class="container">
-                    <div class="page-banner-entry">
-                        <h1 class="text-white">Blog List </h1>
+            <!-- header END ==== -->
+            <!-- Content -->
+            <div class="page-content bg-white">
+                <!-- inner page banner -->
+                <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
+                    <div class="container">
+                        <div class="page-banner-entry">
+                            <h1 class="text-white">Blog List </h1>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- contact area -->
-            <div class="content-block">
-                <div class="section-area section-sp1">
-                    <div class="container">
-                        <div class="row">
+                <!-- contact area -->
+                <div class="content-block">
+                    <div class="section-area section-sp1">
+                        <div class="container">
+                            <div class="row">
 
-                            <!-- Left part start -->
-                            <div class="col-lg-8">
-                                <div class="sort-options" style="margin-bottom: 20px; width: 30%; display: flex; align-items: center;">
-                                    <form method="get" action="blog_list" style="display: flex; align-items: center; width: 100%;">
-                                        <label for="sortBy" style="margin-right: 10px; white-space: nowrap;">Sort by:</label>
-                                        <select id="sortBy" name="sortBy" onchange="this.form.submit()" style="flex-grow: 1; max-width: 200px;">
-                                            <option value="created_date" ${param.sortBy == 'created_date' ? 'selected' : ''}>Hottest Blogs</option>
-                                            <option value="title" ${param.sortBy == 'title' ? 'selected' : ''}>Latest Blogs</option>
-                                            <option value="views" ${param.sortBy == 'views' ? 'selected' : ''}>Oldest Blogs</option>
-                                        </select>
-                                    </form>
-                                </div>
-
-                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-                                <c:forEach items="${requestScope.post_list}" var="c">
-                                    <c:if test="${param.keyword == null || (c.blog_content.contains(param.keyword) || c.blog_summary.contains(param.keyword))}">
-                                        <div class="blog-post blog-md clearfix">
-                                            <div class="ttr-post-media">
-                                                <a href="blog_detail?blog_id=${c.blog_id}"><img src="${c.thumbnail}" alt=""></a>
+                                <!-- Left part start -->
+                                <div class="col-lg-8">
+                                    <div class="sort-options" >
+                                        <form method="get" action="blog_list" style="display: flex; align-items: center; width: 100%;">
+                                            <label for="sortBy" style="margin-right: 10px; white-space: nowrap;">Sort by:</label>
+                                            <div  >
+                                                <label style="margin-right: 10px" >
+                                                    <input type="radio" name="sortBy" value="hottest" ${param.sort == 'hottest' ? 'checked' : ''} onchange="this.form.submit()"> Hottest
+                                                </label>
+                                                <label style="margin-right: 10px" >
+                                                    <input type="radio" name="sortBy" value="latest" ${param.sort == 'latest' ? 'checked' : ''} onchange="this.form.submit()"> Latest
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="sortBy" value="oldest" ${param.sort == 'oldest' ? 'checked' : ''} onchange="this.form.submit()"> Oldest
+                                                </label>
                                             </div>
-                                            <div class="ttr-post-info">
-                                                <ul class="media-post">
-                                                    <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
-                                                    <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
-                                                </ul>
-                                                <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_summary}</a></h5>
-                                                <p>${c.blog_content}</p>
-                                                <div class="post-extra">
-                                                    <a href="blog_detail?blog_id=${c.blog_id}" class="btn-link">READ MORE</a>
+                                        </form>
+                                    </div>
+
+                                    <c:forEach items="${requestScope.post_list}" var="c" varStatus="status">
+                                        <c:if test="${param.keyword == null || (c.blog_content.contains(param.keyword) || c.blog_summary.contains(param.keyword))}">
+                                            <div class="blog-post blog-md clearfix">
+                                                <div class="ttr-post-media">
+                                                    <a href="blog_detail?blog_id=${c.blog_id}"><img src="${c.thumbnail}" alt=""></a>
+                                                </div>
+                                                <div class="ttr-post-info">
+                                                    <ul class="media-post">
+                                                        <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
+                                                        <li><a href="#"><i class="fa fa-user"></i>By ${account_list[status.index].first_name} ${account_list[status.index].last_name}</a></li>
+                                                    </ul>
+                                                    <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_summary}</a></h5>
+                                                    <p>${c.blog_content}</p>
+                                                    <div class="post-extra">
+                                                        <a href="blog_detail?blog_id=${c.blog_id}" class="btn-link">READ MORE</a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </c:if>
-                                </c:forEach>
+                                        </c:if>
+                                    </c:forEach>
 
-                                <!-- Pagination start -->
-                                <div class="col-lg-12 m-b20">
-                                    <div class="pagination-bx rounded-sm gray clearfix" style="text-align: center;">
-                                        <ul class="pagination" style="display: flex; justify-content: center; align-items: center;">
-                                            <li class="previous"><a href="#"><i class="ti-arrow-left"></i> Prev</a></li>
-                                            <li class="active"><a href="#">1</a></li>
-                                            <li class="next"><a href="#">Next <i class="ti-arrow-right"></i></a></li>
-                                        </ul>
+
+                                    <!-- Pagination start -->
+                                    <div class="col-lg-12 m-b20">
+                                        <div class="pagination-bx rounded-sm gray clearfix" style="text-align: center;">
+                                            <ul class="pagination" style="display: flex; justify-content: center; align-items: center;">
+                                                <li class="previous"><a href="#"><i class="ti-arrow-left"></i> Prev</a></li>
+                                                <li class="active"><a href="#">1</a></li>
+                                                <li class="next"><a href="#">Next <i class="ti-arrow-right"></i></a></li>
+                                            </ul>
+                                        </div>
                                     </div>
+                                    <!-- Pagination END -->
                                 </div>
-                                <!-- Pagination END -->
-                            </div>
-                            <!-- Left part END -->
-                            <!-- Side bar start -->
-                            <div class="col-lg-4 sticky-top">
-                                <aside class="side-bar sticky-top">
-                                    <div class="widget">
-                                        <h6 class="widget-title">Search</h6>
-                                        <div class="search-bx style-1">
-                                            <form role="search" method="get" action="blog_list">
-                                                <div class="input-group">
-                                                    <input name="keyword" value="${param.keyword != null ? param.keyword : ''}" class="form-control" placeholder="Enter your keywords..." type="text" id="output">
-                                                    <span class="input-group-btn">
-                                                        <button type="submit" class="fa fa-search text-primary"></button>
-                                                    </span>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                        <div class="widget widget_tag_cloud">
-                                            <h6 class="widget-title">Categories</h6>
-                                            <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+                                <!-- Left part END -->
+                                <!-- Side bar start -->
+                                <div class="col-lg-4 sticky-top">
+                                    <aside class="side-bar sticky-top">
+                                        <div class="widget">
+                                            <h6 class="widget-title">Search</h6>
                                             <div class="search-bx style-1">
-                                                <form role="search" method="post">
+                                                <form role="search" method="get" action="blog_list">
                                                     <div class="input-group">
-                                                        <input name="text" class="form-control" placeholder="Enter your keywords..." type="text" id="output">
+                                                        <input name="keyword" value="${param.keyword != null ? param.keyword : ''}" class="form-control" placeholder="Enter your keywords..." type="text" id="output" style="width: 80%;">
                                                         <span class="input-group-btn">
                                                             <button type="submit" class="fa fa-search text-primary"></button>
-                                                        </span> 
+                                                        </span>
                                                     </div>
                                                 </form>
+                                            </div>
+                                        </div>
 
-                                            </div>                                        
+                                        <div class="widget widget_tag_cloud">
+                                            <h6 class="widget-title">Categories</h6>
+                                            <div class="search-bx style-1">
+                                                <form role="search" method="get" action="searchByCategory"> <!-- ??m b?o ?i?u n√†y tr? ??n endpoint ch√≠nh x√°c -->
+                                                    <div class="input-group">
+                                                        <input name="text" class="form-control" placeholder="Enter your keywords..." type="text" id="output">
+                                                        <input name="category" type="hidden" value="${param.category != null ? param.category : ''}">
+                                                        <input name="view" type="hidden" value="blogs"> <!-- ??t view l√† blogs -->
+                                                        <span class="input-group-btn">
+                                                            <button type="submit" class="fa fa-search text-primary"></button>
+                                                        </span>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+
                                             <br>
-                                            <!-- Danh s·ch c·c categories -->
+                                            <!-- Danh s√°ch c√°c categories -->
+                                           <form role="search" method="get" action="searchByCategory" id="category_form"> <!-- ??m b?o ?i?u n‡y tr? ??n endpoint chÌnh x·c -->
                                             <div class="category-list" style="margin-bottom: 20px;">
                                                 <c:forEach items="${requestScope.category_list}" var="c">
                                                     <div style="margin-bottom: 10px;">
-                                                        <input type="checkbox" id="category_${c.category_id}" name="categories" value="${c.category_id}">
+                                                        <input type="checkbox" id="category_${c.category_id}" name="categories" value="${c.category_name}" onclick="SearchByCategory()">
                                                         <label for="category_${c.category_id}" style="font-size: 16px; margin-left: 8px;">${c.category_name}</label>
+                                                        <input type="text" value="blogs" name="view" hidden>
                                                     </div>
                                                 </c:forEach>
                                             </div>
-                                   <!-- N˙t tÏm ki?m -->
+                                            </form>
+                                            <!-- N√∫t t√¨m ki?m -->
                                         </div>
                                         <br>
                                         <div class="widget recent-posts-entry">
                                             <h6 class="widget-title">Hottest Posts</h6>
                                             <div class="widget-post-bx">
-                                                <!-- thÍm danh s·ch c·c b‡i post hot nhat-->
-                                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+                                                <!-- th√™m danh s√°ch c√°c b√†i post hot nhat-->
                                                 <c:forEach items="${requestScope.hottest_post_list}" var="c">
                                                     <div class="widget-post clearfix">
                                                         <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
@@ -211,7 +221,7 @@
                                                             </div>
                                                             <ul class="media-post">
                                                                 <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
-<!--                                                                <li><a href="#"><i class="fa fa-comments-o"></i>15 Comment</a></li>-->
+                                                                <!--                                                                <li><a href="#"><i class="fa fa-comments-o"></i>15 Comment</a></li>-->
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -250,11 +260,15 @@
         <script src="assets/js/contact.js"></script>
         <script src='assets/vendors/switcher/switcher.js'></script>
         <script>
-                                                function search() {
-                                                    var b = document.getElementById("myButton").value;
-                                                    document.getElementById("output").value = b;
+                                                        function search() {
+                                                            var b = document.getElementById("myButton").value;
+                                                            document.getElementById("output").value = b;
 
-                                                }
+                                                        }
+                                                        function SearchByCategory() {
+                                                            var form=document.getElementById('category_form');
+                                                            form.submit();
+                                                        }
         </script>
         <script>
             //login
@@ -277,7 +291,7 @@
             const RequestPopup = document.getElementById('requestPass-popup');
             const requestError = document.getElementById('requestPass-error');
             const checkRequestError = document.getElementById('check-requestPass-error');
-            
+
 
             openLoginButton.onclick = function () {
                 loginPopup.style.display = 'flex';
@@ -295,11 +309,11 @@
             };
             openRequestButton.onclick = function () {
                 loginPopup.style.display = 'none';
-                RequestPopup.style.display='flex';
+                RequestPopup.style.display = 'flex';
             };
-            closeRequestButton.onclick =function () {
+            closeRequestButton.onclick = function () {
                 loginPopup.style.display = 'flex';
-                RequestPopup.style.display='none';
+                RequestPopup.style.display = 'none';
             };
             function LoginAgain() {
                 if (checkLoginError.textContent === loginError.textContent) {
@@ -311,19 +325,19 @@
                 if (checkPassError.textContent === passError.textContent) {
                     registerPopup.style.display = 'flex';
                 }
-                if(requestError.textContent==='Send request success'){
-                    RequestPopup.style.display='flex';
+                if (requestError.textContent === 'Send request success') {
+                    RequestPopup.style.display = 'flex';
                 }
-                if(requestError.textContent==='Email not existed'){
-                    RequestPopup.style.display='flex';
+                if (requestError.textContent === 'Email not existed') {
+                    RequestPopup.style.display = 'flex';
                 }
                 console.log(requestError.textContent);
-                
+
 
             }
 
 
-            // ?Ûng pop-up khi nh?n ra ngo‡i
+            // ?√≥ng pop-up khi nh?n ra ngo√†i
             window.onclick = function (event) {
                 if (event.target === loginPopup) {
                     loginPopup.style.display = 'none';

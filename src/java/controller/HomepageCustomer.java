@@ -5,10 +5,11 @@
 package controller;
 
 import dal.AccountDAO;
-import dal.CategoryDAO;
 import dal.LessonDAO;
 import dal.PackageDAO;
 import dal.QuizDAO;
+import dal.RegistrationDAO;
+import dal.SliderDAO;
 import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,17 +19,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import model.*;
+import model.Account;
+import model.Post;
+import model.RegisteredSubject;
+import model.Slider;
+import model.Subject;
 
 /**
  *
  * @author Phuong Anh
  */
-public class SubjectDetailServlet extends HttpServlet {
+public class HomepageCustomer extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,10 +49,10 @@ public class SubjectDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SubjectDetailServlet</title>");
+            out.println("<title>Servlet HomepageServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SubjectDetailServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet HomepageServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,56 +67,27 @@ public class SubjectDetailServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    int numberOfSubject = 6;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String raw_subject_id = request.getParameter("subject_id");
-        int subject_id = 0;
-        try {
-            subject_id = Integer.parseInt(raw_subject_id);
-        } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid subject ID.");
-            return;
-        }
+//post_list
+        dal.PostDAO myPostDAO = new dal.PostDAO();
+        ArrayList<Post> post_list = myPostDAO.getPost();
+        request.setAttribute("post_list", post_list);
+
+        //hottest_post_list
+        ArrayList<Post> hottest_post_list = myPostDAO.getHottestPost();
+        request.setAttribute("hottest_post_list", hottest_post_list);
+
+        //subject_list
+        SubjectDAO testDAO = new SubjectDAO();
+        List<Subject> subject_list = testDAO.getSubject();
+        request.setAttribute("subject_list", subject_list);
 
         PackageDAO packageDAO = new PackageDAO();
         List<model.Package> packageList = packageDAO.getAllPackage();
-
-        SubjectDAO mySubjectDAO = new SubjectDAO();
-        CategoryDAO categoryDAO = new CategoryDAO();
-        AccountDAO accountDAO = new AccountDAO();
-        LessonDAO lessonDAO = new LessonDAO();
-
-        Subject mySubject = mySubjectDAO.getSubjectByID(subject_id);
-        if (mySubject == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Subject not found.");
-            return;
-        }
-
-        String categoryName = categoryDAO.getCategoryNameById(mySubject.getCategoryId());
-        Account account = accountDAO.getAccountById(mySubject.getAccountId());
-        List<Lesson> lessonList = lessonDAO.getAllLessonBySubjectId(subject_id);
-        int totalLessons = lessonDAO.countLessonsBySubjectId(subject_id);
-
-        // Lấy loại và chủ đề bài học
-        List<Lesson_Type> lessonTypes = lessonDAO.getLessonTypesBySubjectId(subject_id);
-        List<Lesson_Topic> lessonTopics = lessonDAO.getLessonTopicsBySubjectId(subject_id);
-
-        // Gán tên loại và chủ đề cho các bài học
-        for (Lesson lesson : lessonList) {
-            for (Lesson_Type type : lessonTypes) {
-                if (lesson.getLesson_type_id() == type.getLesson_type_id()) {
-                    lesson.setLessonTypeName(type.getLesson_type_name());
-                }
-            }
-            for (Lesson_Topic topic : lessonTopics) {
-                if (lesson.getLesson_topic_id() == topic.getLesson_topic_id()) {
-                    lesson.setLessonTopicName(topic.getLesson_topic_name());
-                }
-            }
-        }
-
-        // Lấy thông tin gói khóa học
         String selectedDuration = request.getParameter("courseDuration");
         model.Package selectedPackageModel = packageList.get(0);
         if (selectedDuration != null) {
@@ -132,36 +105,51 @@ public class SubjectDetailServlet extends HttpServlet {
             }
         }
 
-        QuizDAO quizDAO = new QuizDAO();
-        int totelQuiz = quizDAO.getTotalQuizzesBySubjectId(subject_id);
-        request.setAttribute("totelQuiz", totelQuiz);
-
-        request.setAttribute("selectedDuration", selectedDuration);
-        request.setAttribute("packageList", packageList);
-        request.setAttribute("selectedPackageModel", selectedPackageModel);
-        request.setAttribute("mySubject", mySubject);
-        request.setAttribute("categoryName", categoryName);
-        request.setAttribute("account", account);
-        request.setAttribute("lessonList", lessonList);
-        request.setAttribute("lessonTopics", lessonTopics);
+        LessonDAO lessonDAO = new LessonDAO();
+        int totalLessons = lessonDAO.countTotalLessons();
         request.setAttribute("totalLessons", totalLessons);
 
-        HttpSession session = request.getSession(false);
-        boolean isRegistered = false;
+        QuizDAO quizDAO = new QuizDAO();
+        int totalQuizzes = quizDAO.getQuizCount();
+        request.setAttribute("totalQuizzes", totalQuizzes);
 
-        if (session != null) {
-            Account user = (Account) session.getAttribute("user");
-            if (user != null) {
-                SubjectDAO registrationDAO = new SubjectDAO();
-                isRegistered = registrationDAO.isSubjectRegistered(user.getAccount_id(), subject_id);
-                request.setAttribute("isRegistered", isRegistered);
+        int totalSubjects = testDAO.countSubjects();
+        request.setAttribute("totalSubjects", totalSubjects);
 
-                request.getRequestDispatcher("customer/subject_details.jsp").forward(request, response);
-                return;
-            }
+        AccountDAO accountDAO = new AccountDAO();
+        List<Account> account_list = new ArrayList<>();
+        for (Subject subject : subject_list) {
+            Account account = accountDAO.getAccountById(subject.getAccountId());
+            account_list.add(account);
         }
 
-        request.getRequestDispatcher("common/subject_details.jsp").forward(request, response);
+        SliderDAO sliderDAO = new SliderDAO();
+        List<Slider> sliders_list = sliderDAO.getAllSlider();
+        request.setAttribute("sliders_list", sliders_list);
+
+// Kiểm tra phiên đăng nhập
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            // Nếu không có người dùng đăng nhập, chuyển hướng đến trang đăng nhập
+            response.sendRedirect("login");
+            return;
+        }
+
+        // Lấy đối tượng người dùng từ session
+        Account user = (Account) session.getAttribute("user");
+        int account_id = user.getAccount_id();
+
+        // Gọi DAO để lấy danh sách môn học đã đăng ký
+        RegistrationDAO registerDAO = new RegistrationDAO();
+        ArrayList<Subject> registeredSubject_list = registerDAO.getRegisteredSubjectsByUserId(account_id);
+
+        // Đặt danh sách vào request attribute và chuyển hướng đến JSP để hiển thị
+        request.setAttribute("registeredSubject_list", registeredSubject_list);
+
+        request.setAttribute("account_list", account_list);
+        request.setAttribute("selectedDuration", selectedDuration);
+        request.setAttribute("selectedPackageModel", selectedPackageModel);
+        request.getRequestDispatcher("customer/homepage_1.jsp").forward(request, response);
     }
 
     /**
@@ -175,8 +163,7 @@ public class SubjectDetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-
+        doGet(request, response);
     }
 
     /**

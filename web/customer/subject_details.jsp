@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,7 +51,7 @@
 
     </head>
     <body id="bg">
-        <%@include file="header.html" %>
+        <%@include file="header.jsp" %>
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
             <!-- Header Top ==== -->
@@ -61,7 +62,7 @@
                 <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <h1 class="text-white">Courses Details</h1>
+                            <h1 class="text-white">Subjects Details</h1>
                         </div>
                     </div>
                 </div>
@@ -74,28 +75,46 @@
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="course-detail-bx">
                                         <div class="course-price">
-                                            <label for="courseDuration">Choose duration:</label>
-                                            <select id="courseDuration" name="courseDuration" class="form-control" onchange="updatePrice()">
-                                                <option value="3months" data-price="120">3 months</option>
-                                                <option value="6months" data-price="200">6 months</option>
-                                                <option value="9months" data-price="270">9 months</option>
-                                            </select>
-                                        </div> 
-                                        <div class="course-price" style="margin-bottom: 5px;">
-                                            <del>$190</del>
-                                            <h4 class="price">$120</h4>
-                                        </div>	
-                                        <div class="course-buy-now text-center">
-                                            <a href="register_subject?subject_id=${c.subjectId}" class="btn radius-xl text-uppercase">Buy Now This Courses</a>
+
+                                            <div class="course-price">
+                                                <label for="courseDuration">Choose duration:</label>
+                                                <select id="courseDuration" name="courseDuration" class="form-control" onchange="updatePrice()">
+                                                    <c:forEach var="pkg" items="${packageList}">
+                                                        <option value="${pkg.duration}" data-price="${pkg.salePrice}" 
+                                                                <c:if test="${pkg.duration == selectedDuration}">selected</c:if>
+                                                                    >
+                                                                ${pkg.duration} months
+                                                        </option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+
+                                            <div class="course-price" style="margin-bottom: 5px;">
+                                                <c:if test="${not empty selectedPackageModel}">
+                                                    <del>${selectedPackageModel.listPrice}</del>
+                                                    <h4 class="price">${selectedPackageModel.salePrice}</h4>
+                                                </c:if>
+                                            </div>
+
                                         </div>
+
+
+                                        <div class="course-buy-now text-center">
+                                            <c:if test="${!isRegistered}">
+                                                <a href="#" class="btn radius-xl text-uppercase">Buy Now This Subject</a> 
+                                            </c:if>
+                                        </div>
+
+
+
+
                                         <div class="teacher-bx">
-                                            <div class="teacher-info">
-                                                <div class="teacher-thumb">
-                                                    <img src="assets/images/testimonials/pic1.jpg" alt=""/>
-                                                </div>
+                                            <div class="teacher-info">                                                
                                                 <div class="teacher-name">
-                                                    <h5>Hinata Hyuga</h5>
-                                                    <span>Science Teacher</span>
+                                                    <span>Teacher</span>
+                                                    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+                                                    <c:set var="c" value="${requestScope.account}" />
+                                                    <h5 class="text-primary">${account.first_name} ${account.last_name}</h5> 
                                                 </div>
                                             </div>
                                         </div>
@@ -104,9 +123,11 @@
                                                 <span>Categories</span>
                                                 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                                 <c:set var="c" value="${requestScope.mySubject}" />
-                                                <h5 class="text-primary">${c.categoryId}</h5>
+
+                                                <h5 class="text-primary">${categoryName}</h5> 
                                             </div>
                                         </div>
+
                                         <div class="course-info-list scroll-page">
                                             <ul class="navbar">
                                                 <li><a class="nav-link" href="#overview"><i class="ti-zip"></i>Overview</a></li>
@@ -140,12 +161,9 @@
                                         <div class="row">
                                             <div class="col-md-12 col-lg-4">
                                                 <ul class="course-features">
-                                                    <li><i class="ti-book"></i> <span class="label">Lectures</span> <span class="value">8</span></li>
-                                                    <li><i class="ti-help-alt"></i> <span class="label">Quizzes</span> <span class="value">1</span></li>
-                                                    <li><i class="ti-time"></i> <span class="label">Duration</span> <span class="value">60 hours</span></li>
-                                                    <li><i class="ti-stats-up"></i> <span class="label">Skill level</span> <span class="value">Beginner</span></li>
+                                                    <li><i class="ti-book"></i> <span class="label">Lessons</span> <span class="value">${totalLessons}</span></li>
+                                                    <li><i class="ti-help-alt"></i> <span class="label">Quizzes</span> <span class="value">${totelQuiz}</span></li>
                                                     <li><i class="ti-smallcap"></i> <span class="label">Language</span> <span class="value">English</span></li>
-                                                   
                                                 </ul>
                                             </div>
                                             <div class="col-md-12 col-lg-8">
@@ -154,96 +172,74 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!--lesson-> quiz/video-->     
+                                    <!-- Curriculum Section -->
                                     <div class="m-b30" id="curriculum">
                                         <h4>Curriculum</h4>
                                         <ul class="curriculum-list">
-                                            <li>
-                                                <h5>First Level</h5>
-                                                <ul>
-                                                    <li>
-                                                        <div class="curriculum-list-box">
-                                                            <span>Lesson 1.</span> Introduction to UI Design
-                                                        </div>
-                                                        <span>120 minutes</span>
-                                                    </li>
-                                                    <li>
-                                                        <div class="curriculum-list-box">
-                                                            <span>Lesson 2.</span> User Research and Design
-                                                        </div>
-                                                        <span>60 minutes</span>
-                                                    </li>
-                                                    <li>
-                                                        <div class="curriculum-list-box">
-                                                            <span>Lesson 3.</span> Evaluating User Interfaces Part 1
-                                                        </div>
-                                                        <span>85 minutes</span>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <h5>Second Level</h5>
-                                                <ul>
-                                                    <li>
-                                                        <div class="curriculum-list-box">
-                                                            <span>Lesson 1.</span> Prototyping and Design
-                                                        </div>
-                                                        <span>110 minutes</span>
-                                                    </li>
-                                                    <li>
-                                                        <div class="curriculum-list-box">
-                                                            <span>Lesson 2.</span> UI Design Capstone
-                                                        </div>
-                                                        <span>120 minutes</span>
-                                                    </li>
-                                                    <li>
-                                                        <div class="curriculum-list-box">
-                                                            <span>Lesson 3.</span> Evaluating User Interfaces Part 2
-                                                        </div>
-                                                        <span>120 minutes</span>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <h5>Final</h5>
-                                                <ul>
-                                                    <li>
-                                                        <div class="curriculum-list-box">
-                                                            <span>Part 1.</span> Final Test
-                                                        </div>
-                                                        <span>120 minutes</span>
-                                                    </li>
-                                                    <li>
-                                                        <div class="curriculum-list-box">
-                                                            <span>Part 2.</span> Online Test
-                                                        </div>
-                                                        <span>120 minutes</span>
-                                                    </li>
-                                                </ul>
-                                            </li>
+                                            <c:forEach var="topic" items="${lessonTopics}">
+                                                <li>
+                                                    <h5>${topic.lesson_topic_name}</h5> 
+
+                                                    <ul>
+                                                        <c:forEach var="lesson" items="${lessonList}">
+                                                            <c:if test="${lesson.lesson_topic_id == topic.lesson_topic_id}">
+                                                                <li>
+                                                                    <c:if test="${isRegistered}">
+                                                                        <div class="curriculum-list-box">
+                                                                            <c:choose>
+                                                                                <c:when test="${lesson.lesson_type_id == 1}">
+                                                                                    <a href="lesson_detail?lesson_id=${lesson.lesson_id}">
+                                                                                        <span>Lesson ${lesson.lesson_order}.</span>
+                                                                                        ${lesson.lesson_name}
+                                                                                    </a>
+                                                                                </c:when>
+                                                                                <c:when test="${lesson.lesson_type_id == 2}">
+                                                                                    <a href="quiz?quiz_id=${lesson.lesson_id}">
+                                                                                        <span>Quiz ${lesson.lesson_order}.</span>
+                                                                                        ${lesson.lesson_name}
+                                                                                    </a>
+                                                                                </c:when>
+                                                                                <c:otherwise>
+                                                                                    <span>Unknown Lesson Type</span>
+                                                                                </c:otherwise>
+                                                                            </c:choose>
+                                                                        </div>
+                                                                    </c:if>
+                                                                    <c:if test="${!isRegistered}">
+                                                                        <div class="curriculum-list-box">
+                                                                            <span>Lesson ${lesson.lesson_order}.</span>
+                                                                            ${lesson.lesson_name}
+                                                                        </div>
+                                                                    </c:if>
+                                                                    <span>${lesson.lessonTypeName}</span>
+                                                                </li>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </ul>
+
+                                                </li>
+                                            </c:forEach>
                                         </ul>
                                     </div>
+
                                     <div class="" id="instructor">
                                         <h4>Instructor</h4>
                                         <div class="instructor-bx">
                                             <div class="instructor-author">
-                                                <img src="assets/images/testimonials/pic1.jpg" alt="">
+                                                <img src="https://cdn.shopify.com/s/files/1/0597/6149/2152/t/49/assets/0007019893114747_b-1650694026425_1200x.jpg?v=1650694028" alt="">
                                             </div>
                                             <div class="instructor-info">
-                                                <h6>Keny White </h6>
-                                                <span>Professor</span>
-                                                <p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</p>
+                                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+                                                <c:set var="c" value="${requestScope.account}" />
+                                                <h5 class="text-primary">${account.first_name} ${account.last_name}</h5> 
+                                                <span>Author</span>
+                                                <br>
+                                                <p class="m-b0">Teachers play a vital role in the education and development of students. They not only impart knowledge but also inspire and motivate learners to explore their potential. By employing innovative teaching methods, teachers create an engaging learning environment that encourages participation and critical thinking.</p>
                                             </div>
                                         </div>
-                                        <div class="instructor-bx">
-                                            <div class="instructor-author">
-                                                <img src="assets/images/testimonials/pic2.jpg" alt="">
-                                            </div>
-                                            <div class="instructor-info">
-                                                <h6>Keny White </h6>
-                                                <span>Professor</span>
-                                                <p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</p>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
 
@@ -277,6 +273,18 @@
         <script src="assets/js/functions.js"></script>
         <script src="assets/js/contact.js"></script>
         <script src="assets/vendors/switcher/switcher.js"></script>
+
+        <script>
+                                                    function updatePrice() {
+                                                        var select = document.getElementById('courseDuration');
+                                                        var selectedOption = select.options[select.selectedIndex];
+                                                        var salePrice = selectedOption.getAttribute('data-price');
+                                                        var priceElement = document.querySelector('.course-price h4.price');
+
+                                                        // C?p nh?t giá hi?n th?
+                                                        priceElement.innerText = salePrice;
+                                                    }
+        </script>
     </body>
 
 </html>

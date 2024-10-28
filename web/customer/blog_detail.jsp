@@ -1,3 +1,4 @@
+                                    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,13 +48,42 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
+        <style>
+            .popup {
+                display: none;
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.7);
+                justify-content: center;
+                align-items: center;
+            }
+            .popup-content {
+                background: white;
+                padding: 20px;
+                border-radius: 5px;
+                text-align: center;
+                max-width: 400px;
+                margin: auto;
+            }
+
+
+        </style>
 
     </head>
     <body id="bg">
         <div class="page-wraper">
             <div id="loading-icon-bx"></div> 
-            <%@include file="header.html" %>
-            <!-- header END ==== -->
+            <header class="header rs-nav header-transparent">
+                <!-- login -->
+
+
+                <%@include file="header.jsp" %>
+
+
+            </header>
             <!-- Content -->
             <div class="page-content bg-white">
                 <!-- inner page banner -->
@@ -72,24 +102,25 @@
                                 <div class="col-lg-8 col-xl-8">
                                     <!-- blog start -->
                                     <!<!-- thêm blog detail -->
-                                    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-                                    <c:set var="c" value="${requestScope.myPost}" />
+                                    <c:set var="post" value="${requestScope.myPost}" />
                                     <div class="recent-news blog-lg">
                                         <div class="action-box blog-lg">
-                                            <img src="${c.thumbnail}" alt="">
+                                            <img src="${post.thumbnail}" alt="">
                                         </div>
                                         <div class="info-bx">
                                             <ul class="media-post">
-                                                <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
-                                                <li><a href="#"><i class="fa fa-comments-o"></i>By: Phunanh</a></li>
+                                                <li><a href="#"><i class="fa fa-calendar"></i>${post.created_date}</a></li>
+                                                        <c:set var="account" value="${requestScope.account}" />
+                                                <li><i class="fa fa-comments-o"></i> By: ${account.first_name} ${account.last_name}</li>
                                             </ul>
-                                            <h5 class="post-title"><a href="#">${c.blog_summary}</a></h5>
-                                            <p>${c.blog_content}</p>
+                                            <h5 class="post-title"><a href="#">${post.blog_summary}</a></h5>
+                                            <p>${post.blog_content}</p>
                                             <div class="ttr-divider bg-gray"><i class="icon-dot c-square"></i></div>
                                             <div class="ttr-divider bg-gray"><i class="icon-dot c-square"></i></div>
                                             <div class="ttr-divider bg-gray"><i class="icon-dot c-square"></i></div>
                                         </div>
                                     </div>
+
                                     <!-- blog END -->
                                 </div>
                                 <!-- Left part END -->
@@ -99,32 +130,33 @@
                                         <div class="widget">
                                             <h6 class="widget-title">Search</h6>
                                             <div class="search-bx style-1">
-                                                <form role="search" method="post">
+                                                <form role="search" method="get" action="blog_list">
                                                     <div class="input-group">
-                                                        <input name="text" class="form-control" id="output" placeholder="Enter your keywords..." type="text">
+                                                        <input name="keyword" value="${param.keyword != null ? param.keyword : ''}" class="form-control" placeholder="Enter your keywords..." type="text" id="output" style="width: 80%;">
                                                         <span class="input-group-btn">
                                                             <button type="submit" class="fa fa-search text-primary"></button>
-                                                        </span> 
+                                                        </span>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
-                                        <div class="widget widget_tag_cloud">
-                                            <div class="widget widget_tag_cloud">
-                                            <h6 class="widget-title">Categories</h6>
-                                            <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+                                        <div class="widget widget_tag_cloud">
+                                            <h6 class="widget-title">Categories</h6>
                                             <div class="search-bx style-1">
-                                                <form role="search" method="post">
+                                                <form role="search" method="get" action="searchByCategory"> <!-- ??m b?o ?i?u này tr? ??n endpoint chính xác -->
                                                     <div class="input-group">
                                                         <input name="text" class="form-control" placeholder="Enter your keywords..." type="text" id="output">
+                                                        <input name="category" type="hidden" value="${param.category != null ? param.category : ''}">
+                                                        <input name="view" type="hidden" value="blogs"> <!-- ??t view là blogs -->
                                                         <span class="input-group-btn">
                                                             <button type="submit" class="fa fa-search text-primary"></button>
-                                                        </span> 
+                                                        </span>
                                                     </div>
                                                 </form>
+                                            </div>
 
-                                            </div>                                        
+
                                             <br>
                                             <!-- Danh sách các categories -->
                                             <div class="category-list" style="margin-bottom: 20px;">
@@ -135,14 +167,13 @@
                                                     </div>
                                                 </c:forEach>
                                             </div>
-                                   <!-- Nút tìm ki?m -->
+                                            <!-- Nút tìm ki?m -->
                                         </div>
-                                            
+                                        <br>                                            
                                         <div class="widget recent-posts-entry">
                                             <h6 class="widget-title">Latest Posts</h6>
                                             <div class="widget-post-bx">
                                                 <!-- thêm danh sách các bài post hot nhat-->
-                                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                                 <c:forEach items="${requestScope.post_list}" var="c">
                                                     <div class="widget-post clearfix">
                                                         <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
@@ -152,7 +183,8 @@
                                                             </div>
                                                             <ul class="media-post">
                                                                 <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
-                                                                <li><a href="#"><i class="fa fa-comments-o"></i>By: Phunanh</a></li>
+                                                                        <c:set var="c" value="${requestScope.account}" />
+                                                                <li><i class="fa fa-comments-o"></i> By: ${account.first_name} ${account.last_name}</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -161,7 +193,6 @@
                                         </div>
                                         <div class="widget-post-bx">
                                             <!--  thêm danh sach 5 bai posst gan day-->
-                                            <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                             <c:forEach items="${requestScope.blog_detail}" var="c">
                                                 <div class="widget-post clearfix">
                                                     <div class="ttr-post-media"> <img src="assets/images/blog/recent-blog/pic1.jpg" width="200" height="143" alt=""> </div>
@@ -171,7 +202,8 @@
                                                         </div>
                                                         <ul class="media-post">
                                                             <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
-                                                            <li><a href="#"><i class="fa fa-comments-o"></i>>By: Phunanh</a></li>
+                                                                    <c:set var="c" value="${requestScope.account}" />
+                                                            <li><i class="fa fa-comments-o"></i> By: ${account.first_name} ${account.last_name}</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -210,10 +242,90 @@
     <script src="assets/js/contact.js"></script>
     <script src='assets/vendors/switcher/switcher.js'></script>
     <script >
-                                                function getLinkContent() {
-                                                    var c = document.getElementById("categorie").value();
-                                                    document.getElementById("output").value = c;
-                                                }
+        function getLinkContent() {
+            var c = document.getElementById("categorie").value();
+            document.getElementById("output").value = c;
+        }
+    </script>
+    <script>
+        //login
+        const openLoginButton = document.getElementById('open-login-popup');
+        const closeLoginButton = document.getElementById('close-login-popup');
+        const loginPopup = document.getElementById('login-popup');
+        const loginError = document.getElementById('login-error');
+        const checkLoginError = document.getElementById('check-login-error');
+        //register
+        const openRegisterButton = document.getElementById('open-register-popup');
+        const closeRegisterButton = document.getElementById('close-register-popup');
+        const registerPopup = document.getElementById('register-popup');
+        const emailError = document.getElementById('email-error');
+        const checkEmailError = document.getElementById('check-email-error');
+        const passError = document.getElementById('pass-error');
+        const checkPassError = document.getElementById('check-pass-error');
+        //requestPass
+        const openRequestButton = document.getElementById('open-requestPass-popup');
+        const closeRequestButton = document.getElementById('close-requestPass-popup');
+        const RequestPopup = document.getElementById('requestPass-popup');
+        const requestError = document.getElementById('requestPass-error');
+        const checkRequestError = document.getElementById('check-requestPass-error');
+
+
+        openLoginButton.onclick = function () {
+            loginPopup.style.display = 'flex';
+        };
+
+        openRegisterButton.onclick = function () {
+            registerPopup.style.display = 'flex';
+        };
+
+        closeLoginButton.onclick = function () {
+            loginPopup.style.display = 'none';
+        };
+        closeRegisterButton.onclick = function () {
+            registerPopup.style.display = 'none';
+        };
+        openRequestButton.onclick = function () {
+            loginPopup.style.display = 'none';
+            RequestPopup.style.display = 'flex';
+        };
+        closeRequestButton.onclick = function () {
+            loginPopup.style.display = 'flex';
+            RequestPopup.style.display = 'none';
+        };
+        function LoginAgain() {
+            if (checkLoginError.textContent === loginError.textContent) {
+                loginPopup.style.display = 'flex';
+            }
+            if (checkEmailError.textContent === emailError.textContent) {
+                registerPopup.style.display = 'flex';
+            }
+            if (checkPassError.textContent === passError.textContent) {
+                registerPopup.style.display = 'flex';
+            }
+            if (requestError.textContent === 'Send request success') {
+                RequestPopup.style.display = 'flex';
+            }
+            if (requestError.textContent === 'Email not existed') {
+                RequestPopup.style.display = 'flex';
+            }
+            console.log(requestError.textContent);
+
+
+        }
+
+
+        // ?óng pop-up khi nh?n ra ngoài
+        window.onclick = function (event) {
+            if (event.target === loginPopup) {
+                loginPopup.style.display = 'none';
+            }
+        };
+
+        window.onclick = function (event) {
+            if (event.target === registerPopup) {
+                registerPopup.style.display = 'none';
+            }
+        };
     </script>
 </body>
 

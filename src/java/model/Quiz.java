@@ -24,11 +24,12 @@ public class Quiz {
     private java.sql.Timestamp created_date;
     private java.sql.Timestamp updated_date;
     private int account_id;
-
+    private int selectedGroup; 
+            
     public Quiz() {
     }
 
-    public Quiz(String quiz_name, int subject_id, int level_id, int number_of_questions, Duration duration, double passrate, int quiz_type_id, String quiz_description, Timestamp created_date, Timestamp updated_date, int account_id) {
+    public Quiz(String quiz_name, int subject_id, int level_id, int number_of_questions, Duration duration, double passrate, int quiz_type_id, String quiz_description, Timestamp created_date, Timestamp updated_date, int account_id, int selectedGroup) {
         this.quiz_name = quiz_name;
         this.subject_id = subject_id;
         this.level_id = level_id;
@@ -40,11 +41,12 @@ public class Quiz {
         this.created_date = created_date;
         this.updated_date = updated_date;
         this.account_id = account_id;
+        this.selectedGroup = selectedGroup;
     }
     
     
 
-    public Quiz(int quiz_id, String quiz_name, int subject_id, int level_id, int number_of_questions, Duration duration, double passrate, int quiz_type_id, String quiz_description, Timestamp created_date, Timestamp updated_date, int account_id) {
+    public Quiz(int quiz_id, String quiz_name, int subject_id, int level_id, int number_of_questions, Duration duration, double passrate, int quiz_type_id, String quiz_description, Timestamp created_date, Timestamp updated_date, int account_id, int selectedGroup) {
         this.quiz_id = quiz_id;
         this.quiz_name = quiz_name;
         this.subject_id = subject_id;
@@ -57,6 +59,7 @@ public class Quiz {
         this.created_date = created_date;
         this.updated_date = updated_date;
         this.account_id = account_id;
+        this.selectedGroup = selectedGroup;
     }
 
     public int getQuiz_id() {
@@ -161,6 +164,14 @@ public class Quiz {
     
     public Level getLevel(QuizDAO dao) {
         return dao.getLevelById(level_id);
+    }
+
+    public int getSelectedGroup() {
+        return selectedGroup;
+    }
+
+    public void setSelectedGroup(int selectedGroup) {
+        this.selectedGroup = selectedGroup;
     }
 
     @Override

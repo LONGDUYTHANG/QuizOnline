@@ -50,8 +50,8 @@
 
     </head>
     <body id="bg">
-        <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <div class="page-wraper popup" id="login-popup">
+        
+<div class="page-wraper popup" id="login-popup" style="margin-top: 50px" >
             <div class="account-form popup-content" >
                 <div class="account-form-inner" style="background-color: white">
                     <div style="text-align: right">
@@ -105,7 +105,10 @@
                 </div>
             </div>
         </div>
-        <!-- External JavaScripts -->
+
+
+
+<!-- External JavaScripts -->
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/vendors/bootstrap/js/popper.min.js"></script>
         <script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
@@ -124,5 +127,3 @@
     </body>
 
 </html>
-
-

@@ -199,7 +199,15 @@ public class AddQuizServlet extends HttpServlet {
             int total_question_new = Integer.parseInt(totalquestion);
 
             //Add Quiz
-            dao.addQuiz(new Quiz(name, subject_id_new, level_id_new, total_question_new, Duration.ofMillis((long) (duration_new * 60 * 1000)), passrate_new, quiz_type_id_new, description, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), account_id));
+            if (question_type.equals("topic")) {
+                dao.addQuiz(new Quiz(name, subject_id_new, level_id_new, total_question_new, Duration.ofMillis((long) (duration_new * 60 * 1000)), passrate_new, quiz_type_id_new, description, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), account_id, 1));
+            }
+            else if (question_type.equals("group")) {
+                dao.addQuiz(new Quiz(name, subject_id_new, level_id_new, total_question_new, Duration.ofMillis((long) (duration_new * 60 * 1000)), passrate_new, quiz_type_id_new, description, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), account_id, 2));
+            }
+            else {
+                dao.addQuiz(new Quiz(name, subject_id_new, level_id_new, total_question_new, Duration.ofMillis((long) (duration_new * 60 * 1000)), passrate_new, quiz_type_id_new, description, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), account_id, 3));
+            }
             //Add Quiz Question
             for (Integer key : map.keySet()) {
                 List<Question> listQuestion;

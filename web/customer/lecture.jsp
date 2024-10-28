@@ -1,6 +1,6 @@
 <%-- 
-    Document   : register_subject
-    Created on : Sep 30, 2024, 9:13:59 PM
+    Document   : lecture
+    Created on : Oct 24, 2024, 8:34:54 PM
     Author     : Phuong Anh
 --%>
 

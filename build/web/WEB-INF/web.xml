@@ -128,6 +128,22 @@
         <servlet-name>Quiz_Review</servlet-name>
         <servlet-class>controller.Quiz_Review</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HomepageCustomer</servlet-name>
+        <servlet-class>controller.HomepageCustomer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LessonDetailServlet</servlet-name>
+        <servlet-class>controller.LessonDetailServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChatbotServlet</servlet-name>
+        <servlet-class>controller.ChatbotServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>controller.LogoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
         <url-pattern>/demo</url-pattern>
@@ -267,6 +283,22 @@
     <servlet-mapping>
         <servlet-name>Quiz_Review</servlet-name>
         <url-pattern>/quiz_review</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomepageCustomer</servlet-name>
+        <url-pattern>/homepage_1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LessonDetailServlet</servlet-name>
+        <url-pattern>/lesson_detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChatbotServlet</servlet-name>
+        <url-pattern>/chatbot</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>

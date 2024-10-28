@@ -80,8 +80,9 @@ public class LessonDAO extends DBContext {
                 Timestamp created_date = rs.getTimestamp("created_date");
                 Timestamp updated_date = rs.getTimestamp("updated_date");
                 int account_id = rs.getInt("account_id");
-
-                list.add(new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ofMillis((long) (duration * 60 * 1000)), passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id));
+                int selectedGroup = rs.getInt("selectedGroup");
+                
+                list.add(new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ofMillis((long) (duration * 60 * 1000)), passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id, selectedGroup));
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -140,7 +141,7 @@ public class LessonDAO extends DBContext {
                 String video_link = rs.getString("video_link");
                 String lesson_content = rs.getString("lesson_content");
                 int quiz_id = rs.getInt("quiz_id");
-                
+
                 list.add(new Lesson(lesson_id, lesson_name, lesson_order, summary, status, lesson_type_id, subject_id, lesson_topic_id, video_link, lesson_content, quiz_id));
             }
         } catch (SQLException ex) {
@@ -165,7 +166,7 @@ public class LessonDAO extends DBContext {
         }
         return null;
     }
-    
+
     public Lesson getLessonById(int lesson_id_raw) {
         String sql = "SELECT * FROM Lesson WHERE lesson_id = ?";
         try {
@@ -184,7 +185,7 @@ public class LessonDAO extends DBContext {
                 String video_link = rs.getString("video_link");
                 String lesson_content = rs.getString("lesson_content");
                 int quiz_id = rs.getInt("quiz_id");
-                
+
                 return new Lesson(lesson_id, lesson_name, lesson_order, summary, status, lesson_type_id, subject_id, lesson_topic_id, video_link, lesson_content, quiz_id);
             }
         } catch (SQLException ex) {
@@ -192,7 +193,7 @@ public class LessonDAO extends DBContext {
         }
         return null;
     }
-    
+
     public void updateLesson(Lesson lesson) {
         String sql = "UPDATE [dbo].[Lesson]\n"
                 + "   SET [lesson_name] = ?\n"
@@ -219,7 +220,7 @@ public class LessonDAO extends DBContext {
             st.setString(9, lesson.getLesson_content());
             st.setInt(10, lesson.getQuiz_id());
             st.setInt(11, lesson.getLesson_id());
-            
+
             st.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -317,32 +318,79 @@ public class LessonDAO extends DBContext {
         return list;
     }
 
+    public int countLessonsBySubjectId(int subject_id_raw) {
+        String sql = "SELECT COUNT(*) FROM Lesson WHERE subject_id = ?";
+        int count = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, subject_id_raw);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1); // Lấy giá trị đếm từ cột đầu tiên
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        return count;
+    }
+
+    public int countTotalLessons() {
+        String sql = "SELECT COUNT(*) FROM Lesson";
+        int totalCount = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                totalCount = rs.getInt(1); // Lấy giá trị đếm từ cột đầu tiên
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        return totalCount;
+    }
+
+    public Lesson getLessonByLessonId(int lessonId) {
+        String sql = "SELECT l.*, lt.lesson_type_name, lt2.lesson_topic_name "
+                + "FROM Lesson l "
+                + "INNER JOIN Lesson_Type lt ON l.lesson_type_id = lt.lesson_type_id "
+                + "INNER JOIN Lesson_Topic lt2 ON l.lesson_topic_id = lt2.lesson_topic_id "
+                + "WHERE l.lesson_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, lessonId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int lesson_id = rs.getInt("lesson_id");
+                String lesson_name = rs.getString("lesson_name");
+                int lesson_order = rs.getInt("lesson_order");
+                String summary = rs.getString("summary");
+                boolean status = rs.getBoolean("status");
+                int lesson_type_id = rs.getInt("lesson_type_id");
+                String lesson_type_name = rs.getString("lesson_type_name");
+                int subject_id = rs.getInt("subject_id");
+                int lesson_topic_id = rs.getInt("lesson_topic_id");
+                String video_link = rs.getString("video_link");
+                String lesson_content = rs.getString("lesson_content");
+                String lesson_topic_name = rs.getString("lesson_topic_name");
+
+                Lesson lesson = new Lesson(lesson_id, lesson_name, lesson_order, summary, status,
+                        lesson_type_id, subject_id, lesson_topic_id, video_link, lesson_content, 0);
+                lesson.setLessonTypeName(lesson_type_name);
+                lesson.setLessonTopicName(lesson_topic_name);
+                return lesson;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         LessonDAO dao = new LessonDAO();
-        int subjectId = 3; // Thay đổi subjectId phù hợp với dữ liệu của bạn
 
-        List<Lesson_Topic> lessonTopics = dao.getLessonTopicsBySubjectId(subjectId);
-        List<Lesson_Type> lessonTypes = dao.getLessonTypesBySubjectId(subjectId);
-
-        if (lessonTopics != null && !lessonTopics.isEmpty()) {
-            for (Lesson_Topic topic : lessonTopics) {
-                System.out.println("Lesson Topic ID: " + topic.getLesson_topic_id()
-                        + ", Name: " + topic.getLesson_topic_name()
-                        + ", Subject ID: " + topic.getSubject_id());
-            }
-        } else {
-            System.out.println("No lesson topics found for subject ID: " + subjectId);
-        }
-
-        if (lessonTypes != null && !lessonTypes.isEmpty()) {
-            for (Lesson_Type type : lessonTypes) {
-                System.out.println("Lesson Type ID: " + type.getLesson_type_id()
-                        + ", Name: " + type.getLesson_type_name());
-            }
-        } else {
-            System.out.println("No lesson topics found for subject ID: " + subjectId);
-        }
-
+        // Tính tổng số lượng lesson
+        int totalLessons = dao.countTotalLessons();
+        System.out.println("Tổng số lượng lesson: " + totalLessons);
     }
 
 }

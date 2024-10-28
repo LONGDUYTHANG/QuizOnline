@@ -237,8 +237,9 @@ public class QuizDAO extends DBContext {
                 + "           ,[quiz_description]\n"
                 + "           ,[created_date]\n"
                 + "           ,[updated_date]\n"
-                + "           ,[account_id])\n"
-                + "     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "           ,[account_id]\n"
+                + "           ,[selectedGroup])\n"
+                + "     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             st.setString(1, quiz.getQuiz_name());
@@ -254,7 +255,8 @@ public class QuizDAO extends DBContext {
             st.setTimestamp(9, quiz.getCreated_date());
             st.setTimestamp(10, quiz.getUpdated_date());
             st.setInt(11, quiz.getAccount_id());
-
+            st.setInt(12, quiz.getSelectedGroup());
+            
             st.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -431,8 +433,9 @@ public class QuizDAO extends DBContext {
                 Timestamp created_date = rs.getTimestamp("created_date");
                 Timestamp updated_date = rs.getTimestamp("updated_date");
                 int account_id = rs.getInt("account_id");
-
-                list.add(new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ofMillis((long) (duration * 60 * 1000)), passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id));
+                int selectedGroup = rs.getInt("selectedGroup");
+                
+                list.add(new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ofMillis((long) (duration * 60 * 1000)), passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id, selectedGroup));
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -459,8 +462,9 @@ public class QuizDAO extends DBContext {
                 Timestamp created_date = rs.getTimestamp("created_date");
                 Timestamp updated_date = rs.getTimestamp("updated_date");
                 int account_id = rs.getInt("account_id");
-
-                return new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ofMillis((long) (duration * 60 * 1000)), passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id);
+                int selectedGroup = rs.getInt("selectedGroup");
+                
+                return new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ofMillis((long) (duration * 60 * 1000)), passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id, selectedGroup);
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -486,8 +490,9 @@ public class QuizDAO extends DBContext {
                 Timestamp created_date = rs.getTimestamp("created_date");
                 Timestamp updated_date = rs.getTimestamp("updated_date");
                 int account_id = rs.getInt("account_id");
-
-                return new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ZERO, passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id);
+                int selectedGroup = rs.getInt("selectedGroup");
+                
+                return new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ZERO, passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id, selectedGroup);
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -669,10 +674,42 @@ public class QuizDAO extends DBContext {
         return 0;
     }
 
+    public int getQuizCount() {
+        String sql = "SELECT COUNT(*) FROM Quiz";
+        int count = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);  // Lấy giá trị đếm từ cột đầu tiên
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return count;
+    }
+
+    public int getTotalQuizzesBySubjectId(int subject_id) {
+        String sql = "SELECT COUNT(*) FROM Quiz WHERE subject_id = ?";
+        int count = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, subject_id); // Thiết lập tham số subject_id
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);  // Lấy giá trị đếm từ cột đầu tiên
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return count;
+    }
+
     public static void main(String[] args) {
-        QuizDAO dao = new QuizDAO();
-        java.util.Date d = new java.util.Date();
-        LocalDateTime lc = LocalDateTime.now();
-        System.out.println(lc.toLocalDate().toString());
+       SubjectDAO subjectDAO = new SubjectDAO();
+        ArrayList<Subject> s=subjectDAO.searchSubjectsByCategory("Development");
+        for(Subject h:s){
+            System.out.println(h.getSubjectName());
+        }
     }
 }

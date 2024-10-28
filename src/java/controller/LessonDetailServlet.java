@@ -5,26 +5,24 @@
 package controller;
 
 import dal.AccountDAO;
-import dal.PostDAO;
-import dal.CategoryDAO;
+import dal.LessonDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import model.Account;
-import model.Category;
-import model.Post;
+import model.Lesson;
+import model.Lesson_Topic;
+import model.Lesson_Type;
 
 /**
  *
  * @author Phuong Anh
  */
-public class BlogDetailServlet extends HttpServlet {
+public class LessonDetailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +41,10 @@ public class BlogDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BlogDetailServlet</title>");
+            out.println("<title>Servlet LessonDetailServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BlogDetailServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LessonDetailServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,38 +62,22 @@ public class BlogDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String raw_blog_id = request.getParameter("blog_id");
-        int blog_id = 0;
+        String raw_lesson_id = request.getParameter("lesson_id");
+
+        int lesson_id = 0;
         try {
-            blog_id = Integer.parseInt(raw_blog_id);
+            lesson_id = Integer.parseInt(raw_lesson_id);
         } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid subject ID.");
+            return;
         }
-        AccountDAO accountDAO = new AccountDAO();
-        PostDAO myPostDAO = new PostDAO();
-        Post myPost = myPostDAO.getPostByBlogID(blog_id);
-        request.setAttribute("myPost", myPost);
+        
+        LessonDAO lessonDAO = new LessonDAO();
+        Lesson lesson = lessonDAO.getLessonByLessonId(lesson_id);
 
-        ArrayList<Post> post_list = myPostDAO.getPost();
-        request.setAttribute("post_list", post_list);
+        request.setAttribute("lesson", lesson);
 
-        CategoryDAO myCategoryDAO = new CategoryDAO();
-        List<Category> category_list = myCategoryDAO.getCategory();
-        request.setAttribute("category_list", category_list);
-        Account account = accountDAO.getAccountById(myPost.getAccount_id());
-        request.setAttribute("account", account);
-
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            request.getRequestDispatcher("common/blog_detail.jsp").forward(request, response);
-        } else {
-            Account user = (Account) session.getAttribute("user");
-            if (user == null) {
-                request.getRequestDispatcher("common/blog_detail.jsp").forward(request, response);
-            } else {
-                request.getRequestDispatcher("customer/blog_detail.jsp").forward(request, response);
-            }
-        }
-
+        request.getRequestDispatcher("customer/lesson_detail.jsp").forward(request, response);
     }
 
     /**
@@ -110,8 +92,6 @@ public class BlogDetailServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
-        System.out.println("");
     }
 
     /**
@@ -122,6 +102,6 @@ public class BlogDetailServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>\
+    }// </editor-fold>
 
 }
