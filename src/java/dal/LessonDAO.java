@@ -80,8 +80,9 @@ public class LessonDAO extends DBContext {
                 Timestamp created_date = rs.getTimestamp("created_date");
                 Timestamp updated_date = rs.getTimestamp("updated_date");
                 int account_id = rs.getInt("account_id");
-
-                list.add(new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ofMillis((long) (duration * 60 * 1000)), passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id));
+                int selectedGroup = rs.getInt("selectedGroup");
+                
+                list.add(new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ofMillis((long) (duration * 60 * 1000)), passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id, selectedGroup));
             }
         } catch (SQLException ex) {
             System.out.println(ex);
