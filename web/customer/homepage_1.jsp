@@ -58,9 +58,9 @@
         <link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
 
         <style>
-            
 
-           
+
+
             .slider-container {
                 width: 100%;
                 overflow: hidden;
@@ -211,7 +211,7 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 heading-bx left">
-                                    <h2 class="title-head" style="color: white">Registed <span>Subject</span></h2>
+                                    <h2 class="title-head" style="color: white">Registered <span>Subject</span></h2>
                                 </div>
                             </div>
                             <div class="row">
@@ -275,7 +275,7 @@
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
                                 <!--  thêm danh sách bài post m?i nh?t-->
-                                <c:forEach items="${requestScope.post_list}" var="c">
+                                <c:forEach items="${requestScope.post_list}" var="c" varStatus="status">
                                     <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> 
                                         <a href="blog_detail?blog_id=${c.blog_id}">
                                             <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> 
@@ -283,8 +283,11 @@
                                         <div class="ttr-post-info" style="padding: 10px; height: 40%;"> 
                                             <ul class="media-post">
                                                 <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>                                      
-                                                <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
-                                            </ul>
+                                                        <c:forEach var="account" items="${account_list}" varStatus="aStatus">
+                                                            <c:if test="${aStatus.index == status.index}">
+                                                        <li><a href="#"><i class="fa fa-user"></i>${account.first_name} ${account.last_name}</a></li>
+                                                        </c:if>
+                                                    </c:forEach>                                            </ul>
                                             <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
                                             <p style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.blog_summary}</p> 
                                         </div>
@@ -306,18 +309,22 @@
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
                                 <!--  thêm danh sách bài post hot nh?t-->
-                                <c:forEach items="${requestScope.hottest_post_list}" var="c">
-                                    <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> <!-- Kích th??c c? ??nh -->
+                                <c:forEach items="${requestScope.hottest_post_list}" var="c"  varStatus="status">
+                                    <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> <!-- KÃ­ch th??c c? ??nh -->
                                         <a href="blog_detail?blog_id=${c.blog_id}">
-                                            <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> <!-- Kích th??c hình ?nh -->
+                                            <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> <!-- KÃ­ch th??c hÃ¬nh ?nh -->
                                         </a>
                                         <div class="ttr-post-info" style="padding: 10px; height: 40%;">
                                             <ul class="media-post">
                                                 <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
-                                                <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
+                                                        <c:forEach var="account" items="${account_list}" varStatus="aStatus">
+                                                            <c:if test="${aStatus.index == status.index}">
+                                                        <li><a href="#"><i class="fa fa-user"></i>${account.first_name} ${account.last_name}</a></li>
+                                                        </c:if>
+                                                    </c:forEach>
                                             </ul>
                                             <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
-                                            <p style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.blog_summary}</p> <!-- Gi?i h?n chi?u dài bài tóm t?t -->
+                                            <p style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.blog_summary}</p> <!-- Gi?i h?n chi?u dÃ i bÃ i tÃ³m t?t -->
                                         </div>
                                     </div>
                                 </c:forEach>
