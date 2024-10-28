@@ -73,10 +73,26 @@ public class LoginFacebookServlet extends HttpServlet {
         if(myAccount==null){
             myAccountDAO.addAccount(user.getEmail(), "pass");
         }
-       HttpSession session = request.getSession(true);
-        session.setAttribute("user", myAccount);
-      RequestDispatcher dis = request.getRequestDispatcher("customer/homepage_1.jsp");
-      dis.forward(request, response);
+       HttpSession session = request.getSession();
+         myAccount = myAccountDAO.getAccount(user.getEmail(), "pass");
+        if (myAccount.getRole_id() == myAccountDAO.getRole_Id("none")) {
+            String ms = "Incorrect username or passwword";
+            request.setAttribute("login_error", ms);
+            request.getRequestDispatcher("common/homepage.jsp").forward(request, response);
+        } else if (myAccount.getRole_id() == myAccountDAO.getRole_Id("customer")) {
+            session.setAttribute("user", myAccount);
+            request.getRequestDispatcher("homepage_1").forward(request, response);
+        } else if (myAccount.getRole_id() == myAccountDAO.getRole_Id("saler")) {
+            session.setAttribute("user", myAccount);
+            request.getRequestDispatcher("salerdashboard").forward(request, response);
+        } else if (myAccount.getRole_id() == myAccountDAO.getRole_Id("expert")) {
+            session.setAttribute("user", myAccount);
+            request.getRequestDispatcher("exsubjectlist").forward(request, response);
+        } else if (myAccount.getRole_id() == myAccountDAO.getRole_Id("admin")) {
+            session.setAttribute("user", myAccount);
+            request.getRequestDispatcher("admindashboard").forward(request, response);
+        }
+
     }
     } 
 
