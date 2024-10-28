@@ -324,6 +324,59 @@ public class QuestionDAO extends DBContext {
         return list;
     }
 
+    public List<Question_Handle> getAllQuestionByPracticeId(int practice_id) {
+        List<Question_Handle> list = new ArrayList<>();
+        DimensionDAO dd = new DimensionDAO();
+        SubjectDAO sd = new SubjectDAO();
+        String sql = "  select qr.practice_id, qr.question_id, qr.is_marked, qr.answered, qe.subject_id, \n"
+                + "    qe.dimension_id, \n"
+                + "    qe.lesson_topic_id, \n"
+                + "    qe.level_id, \n"
+                + "    qe.status, \n"
+                + "    qe.question_content, \n"
+                + "    qe.explanation, \n"
+                + "    qe.media \n"
+                + "  from Question_Record qr join Question qe on qe.question_id = qr.question_id\n"
+                + "  where qr.practice_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, practice_id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int question_id = rs.getInt("question_id");
+                int subject_id = rs.getInt("subject_id");
+                int dimension_id = rs.getInt("dimension_id");
+                int lesson_topic_id = rs.getInt("lesson_topic_id");
+                int level_id = rs.getInt("level_id");
+                boolean status = rs.getBoolean("status");
+                String question_content = rs.getString("question_content");
+                String explanation = rs.getString("explanation");
+                String media = rs.getString("media");
+                List<Answer> listAnswer = getAnswerOfQuestion(question_id);
+
+                Question_Handle question = new Question_Handle(listAnswer, question_id, subject_id, dimension_id, lesson_topic_id, level_id, status, question_content, explanation, media);
+                Dimension dimension = dd.getDimensionById(dimension_id);
+                DimensionType dimension_type = dd.getType(dimension.getDimension_type_id());
+                Subject subject = sd.getSubjectByID(subject_id);
+                question.setDimension(dimension);
+                question.setDimension_type(dimension_type);
+                question.setSubject(subject);
+                question.setAnswered(rs.getString("answered"));
+                question.setIs_mark(rs.getInt("is_marked") == 1);
+                question.setPractice_id(rs.getInt("practice_id"));
+                for (int i = 0; i < listAnswer.size(); i++) {
+                    if (listAnswer.get(i).isIsCorrect()) {
+                        question.setCorrect_answer(i);
+                    }
+                }
+                list.add(question);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return list;
+    }
+
     public List<Answer> getAnswerOfQuestion(int quest_id) {
         String sql = "select answer_id, answer_detail, isCorrect, a.question_id from Question qe\n"
                 + "join Answer a on qe.question_id = a.question_id\n"
@@ -346,7 +399,7 @@ public class QuestionDAO extends DBContext {
         return listAnswer;
 
     }
-    
+
     public Question getQuestionById(int question_id_raw) {
         String sql = "SELECT * FROM Question WHERE question_id = ?";
         try {
@@ -372,7 +425,7 @@ public class QuestionDAO extends DBContext {
         }
         return null;
     }
-    
+
     public void updateQuestion(Question question) {
         String sql = "UPDATE [dbo].[Question]\n"
                 + "   SET [subject_id] = ?\n"
@@ -400,7 +453,7 @@ public class QuestionDAO extends DBContext {
             System.out.println(ex);
         }
     }
-    
+
     public void deleteAnswer(int answer_id) {
         String sql = "DELETE FROM [dbo].[Answer]\n"
                 + "      WHERE answer_id = ?";
@@ -408,8 +461,7 @@ public class QuestionDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, answer_id);
             st.executeUpdate();
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             System.out.println(ex);
         }
     }

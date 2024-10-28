@@ -604,7 +604,41 @@ public class QuizDAO extends DBContext {
             e.printStackTrace(); // In lỗi nếu có vấn đề
         }
     }
-    
+
+    public Practice_Record getPracticeRecord(int practice_id) {
+        String sql = "select practice_id\n"
+                + "  , practice_name\n"
+                + "  , created_date\n"
+                + "  , practice_duration \n"
+                + "  , correct_questions\n"
+                + "  , correct_rate\n"
+                + "  , account_id\n"
+                + "  , quiz_id\n"
+                + "  from Practice_Record\n"
+                + "  where practice_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, practice_id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                Practice_Record pr = new Practice_Record();
+                pr.setAccount_id(rs.getInt("account_id"));
+                pr.setCorrect_questions(rs.getInt("correct_questions"));
+                pr.setCorrect_rate(rs.getInt("correct_rate"));
+                pr.setCreated_date(rs.getTimestamp("created_date"));
+                pr.setPractice_id(rs.getInt("practice_id"));
+                pr.setPractice_duration(rs.getInt("practice_duration"));
+                pr.setPractice_name(rs.getString("practice_name"));
+                pr.setQuiz_id(rs.getInt("quiz_id"));
+                return pr;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+
     public Duration getTotalDurationBySubjectId(int subjectId) {
         String sql = "SELECT SUM(duration) AS totalDuration FROM Quiz WHERE subject_id = ?";
         try {
@@ -620,7 +654,6 @@ public class QuizDAO extends DBContext {
         }
         return Duration.ZERO;
     }
-
 
     public int searchNewlyPractice(int account_id) {
         String sql = "select top 1 practice_id from Practice_Record where account_id = ? order by practice_id desc";
