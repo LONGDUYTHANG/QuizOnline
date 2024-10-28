@@ -175,13 +175,6 @@ public class PostDAO extends DBContext {
         return myPost;
     }
 
-    public static void main(String[] args) {
-        PostDAO a = new PostDAO();
-        ArrayList<Post> h = a.getHottestPost();
-        for (Post s : h) {
-            System.out.println(s.getBlog_content());
-        }
-    }
 
     public int countCreatedBlogs(Account a) {
         String sql = "select COUNT(*) as count_blog from Blog\n"
@@ -296,5 +289,12 @@ public class PostDAO extends DBContext {
 
         return search_post;
     }
-
+    
+        public static void main(String[] args) {
+        PostDAO a = new PostDAO();
+        ArrayList<Post> h = a.searchBlogsByCategory("Development");
+        for (Post s : h) {
+            System.out.println(s.getBlog_content());
+        }
+    }
 }
