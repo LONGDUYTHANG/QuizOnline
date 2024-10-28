@@ -17,6 +17,7 @@ import model.Subject;
 import java.sql.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import model.GroupSelection;
 import model.Practice_Record;
 import model.Question;
 import model.Quiz_Question;
@@ -610,6 +611,40 @@ public class QuizDAO extends DBContext {
         }
     }
 
+    public Practice_Record getPracticeRecord(int practice_id) {
+        String sql = "select practice_id\n"
+                + "  , practice_name\n"
+                + "  , created_date\n"
+                + "  , practice_duration \n"
+                + "  , correct_questions\n"
+                + "  , correct_rate\n"
+                + "  , account_id\n"
+                + "  , quiz_id\n"
+                + "  from Practice_Record\n"
+                + "  where practice_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, practice_id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                Practice_Record pr = new Practice_Record();
+                pr.setAccount_id(rs.getInt("account_id"));
+                pr.setCorrect_questions(rs.getInt("correct_questions"));
+                pr.setCorrect_rate(rs.getInt("correct_rate"));
+                pr.setCreated_date(rs.getTimestamp("created_date"));
+                pr.setPractice_id(rs.getInt("practice_id"));
+                pr.setPractice_duration(rs.getInt("practice_duration"));
+                pr.setPractice_name(rs.getString("practice_name"));
+                pr.setQuiz_id(rs.getInt("quiz_id"));
+                return pr;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+
     public Duration getTotalDurationBySubjectId(int subjectId) {
         String sql = "SELECT SUM(duration) AS totalDuration FROM Quiz WHERE subject_id = ?";
         try {
@@ -654,7 +689,47 @@ public class QuizDAO extends DBContext {
         }
         return count;
     }
+    
+    public List<GroupSelection> getSelectedGroupTopic(int quiz_id) {
+        List<GroupSelection> list = new ArrayList<>();
+        String sql = "SELECT COUNT(Lesson_Topic.lesson_topic_id) as NumberOfQuestions, Lesson_Topic.lesson_topic_id, Lesson_Topic.lesson_topic_name from Quiz_Question JOIN Question ON Quiz_Question.question_id = Question.question_id JOIN Lesson_Topic ON Question.lesson_topic_id = Lesson_Topic.lesson_topic_id WHERE quiz_id = ?\n"
+                + "GROUP BY Lesson_Topic.lesson_topic_id, Lesson_Topic.lesson_topic_name";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, quiz_id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int NumberOfQuestions = rs.getInt("NumberOfQuestions");
+                int type_id = rs.getInt("lesson_topic_id");
+                String lesson_topic_name = rs.getString("lesson_topic_name");
+                list.add(new GroupSelection(NumberOfQuestions, type_id, lesson_topic_name));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return list;
+    }
 
+    public List<GroupSelection> getSelectedGroupDimension(int quiz_id) {
+        List<GroupSelection> list = new ArrayList<>();
+        String sql = "SELECT COUNT(Dimension.dimension_id) AS NumberOfQuestions, Dimension.dimension_id, Dimension.dimension_name FROM Quiz_Question JOIN Question ON Quiz_Question.question_id = Question.question_id JOIN Dimension ON Dimension.dimension_id = Question.dimension_id WHERE quiz_id = ?\n"
+                + "group by Dimension.dimension_id, Dimension.dimension_name";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, quiz_id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int NumberOfQuestions = rs.getInt("NumberOfQuestions");
+                int type_id = rs.getInt("dimension_id");
+                String lesson_topic_name = rs.getString("dimension_name");
+                list.add(new GroupSelection(NumberOfQuestions, type_id, lesson_topic_name));
+                          }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return list;
+    }
+  
     public int getTotalQuizzesBySubjectId(int subject_id) {
         String sql = "SELECT COUNT(*) FROM Quiz WHERE subject_id = ?";
         int count = 0;
@@ -664,20 +739,12 @@ public class QuizDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 count = rs.getInt(1);  // Lấy giá trị đếm từ cột đầu tiên
-            }
+                          }
         } catch (SQLException ex) {
             System.out.println(ex);
         }
         return count;
     }
 
-    public static void main(String[] args) {
-        QuizDAO quizDAO = new QuizDAO();
 
-        // Gọi hàm getQuizCount() để lấy tổng số lượng quiz
-        int totalQuizzes = quizDAO.getTotalQuizzesBySubjectId(4);
-
-        // In ra kết quả
-        System.out.println("Total number of quizzes: " + totalQuizzes);
-    }
 }

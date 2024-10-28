@@ -223,11 +223,11 @@
                                         <div class="form-group">
                                             <label for="question-type">Question Type</label>
                                             <div class="form-inline">
-                                                <input type="radio" id="theo-topic" name="question_type" value="topic" onchange="checkSubjectAndSubmit('topic')" ${requestScope.question_type == null || requestScope.question_type == "topic" ? 'checked' : ''}>
+                                                <input type="radio" id="theo-topic" name="question_type" value="topic" onchange="checkSubjectAndSubmit('topic')" ${quiz.selectedGroup == 1 ? 'checked' : ''}>
                                                 <label for="theo-topic">By Topic</label>
-                                                <input type="radio" id="theo-group" name="question_type" value="group" onchange="checkSubjectAndSubmit('group')" ${requestScope.question_type == "group" ? 'checked' : ''}>
+                                                <input type="radio" id="theo-group" name="question_type" value="group" onchange="checkSubjectAndSubmit('group')" ${quiz.selectedGroup == 2 ? 'checked' : ''}>
                                                 <label for="theo-group">By Group</label>
-                                                <input type="radio" id="theo-domain" name="question_type" value="domain" onchange="checkSubjectAndSubmit('domain')" ${requestScope.question_type == "domain" ? 'checked' : ''}>
+                                                <input type="radio" id="theo-domain" name="question_type" value="domain" onchange="checkSubjectAndSubmit('domain')" ${quiz.selectedGroup == 3 ? 'checked' : ''}>
                                                 <label for="theo-domain">By Domain</label>
                                             </div>
                                         </div>
@@ -262,79 +262,88 @@
                                         <br>
                                         <br>
                                         <!-- Group Selection 1 -->
-                                        <div class="form-group d-flex align-items-center mb-3">
-                                            <label for="group-selection" class="me-3">Group Selection</label>
-                                            <c:choose>
-                                                <c:when test="${requestScope.questionTopic != null}">
-                                                    <select id="group-selection" name="group_selection" class="form-select me-2" required>
-                                                        <c:forEach var="lesson_topic" items="${requestScope.questionTopic}">
-                                                            <option value="${lesson_topic.lesson_topic_id}"> 
-                                                                ${lesson_topic.lesson_topic_name}
-                                                            </option>
-                                                        </c:forEach>
-                                                        <!-- Add group options dynamically -->
-                                                    </select>
-                                                </c:when>
-                                                <c:when test="${requestScope.questionGroup != null}">
-                                                    <select id="group-selection" name="group_selection" class="form-select me-2" required>
-                                                        <c:forEach var="dimension" items="${requestScope.questionGroup}">
-                                                            <option value="${dimension.dimension_id}"> 
-                                                                ${dimension.dimension_name}
-                                                            </option>
-                                                        </c:forEach>
-                                                        <!-- Add group options dynamically -->
-                                                    </select>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <select id="group-selection" name="group_selection" class="form-select me-2" required>
-                                                        <c:forEach var="dimension" items="${requestScope.questionDomain}">
-                                                            <option value="${dimension.dimension_id}"> 
-                                                                ${dimension.dimension_name}
-                                                            </option>
-                                                        </c:forEach>
-                                                        <!-- Add group options dynamically -->
-                                                    </select>
-                                                </c:otherwise>
-                                            </c:choose>
-                                            <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" placeholder="Questions" style="width: 100px; caret-color: transparent;" onkeydown="return false;" value="0" min="0">
-                                            <button type="button" class="btn btn-secondary">Delete</button>
-                                        </div>
+                                        <c:forEach var="group" items="${requestScope.listGroupSelection}">
+                                            <div class="form-group d-flex align-items-center mb-3">
+                                                <label for="group-selection" class="me-3">Group Selection</label>
+                                                <c:choose>
+                                                    <c:when test="${requestScope.questionTopic != null}">
+                                                        <select id="group-selection" name="group_selection" class="form-select me-2" required>
+                                                            <c:forEach var="lesson_topic" items="${requestScope.questionTopic}">
+                                                                <option value="${lesson_topic.lesson_topic_id}" ${lesson_topic.lesson_topic_id == group.type_id ? 'selected' : ''}> 
+                                                                    ${lesson_topic.lesson_topic_name}
+                                                                </option>
+                                                            </c:forEach>
+                                                            <!-- Add group options dynamically -->
+                                                        </select>
+                                                    </c:when>
+                                                    <c:when test="${requestScope.questionGroup != null}">
+                                                        <select id="group-selection" name="group_selection" class="form-select me-2" required>
+                                                            <c:forEach var="dimension" items="${requestScope.questionGroup}">
+                                                                <option value="${dimension.dimension_id}" ${dimension.dimension_id == group.type_id ? 'selected' : ''}> 
+                                                                    ${dimension.dimension_name}
+                                                                </option>
+                                                            </c:forEach>
+                                                            <!-- Add group options dynamically -->
+                                                        </select>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <select id="group-selection" name="group_selection" class="form-select me-2" required>
+                                                            <c:forEach var="dimension" items="${requestScope.questionDomain}">
+                                                                <option value="${dimension.dimension_id}" ${dimension.dimension_id == group.type_id ? 'selected' : ''}> 
+                                                                    ${dimension.dimension_name}
+                                                                </option>
+                                                            </c:forEach>
+                                                            <!-- Add group options dynamically -->
+                                                        </select>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" placeholder="Questions" style="width: 100px; caret-color: transparent;" value="${group.getNumberOfQuestions()}" min="0">
+                                                <button type="button" class="btn btn-secondary" onclick="removeGroup(this)">Delete</button>
+                                            </div>
+                                        </c:forEach>
+
                                         <script>
                                             // Function to add a new group selection div dynamically
                                             function addGroup() {
                                                 // The div structure to be cloned and added
                                                 var groupDiv = `
                                                         <div class="form-group d-flex align-items-center mb-3">
-                                                            <label for="group-selection" class="me-3">Group Selection</label>
-                                                            <select id="group-selection" name="group_selection" class="form-select me-2">
-                                            <c:choose>
-                                                <c:when test="${requestScope.questionTopic != null}">
-                                                    <c:forEach var="lesson_topic" items="${requestScope.questionTopic}">
-                                                                            <option value="${lesson_topic.lesson_topic_id}"> 
-                                                        ${lesson_topic.lesson_topic_name}
-                                                                            </option>
-                                                    </c:forEach>
-                                                </c:when>
-                                                <c:when test="${requestScope.questionGroup != null}">
-                                                    <c:forEach var="dimension" items="${requestScope.questionGroup}">
-                                                                            <option value="${dimension.dimension_id}"> 
-                                                        ${dimension.dimension_name}
-                                                                            </option>
-                                                    </c:forEach>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <c:forEach var="dimension" items="${requestScope.questionDomain}">
-                                                                            <option value="${dimension.dimension_id}"> 
-                                                        ${dimension.dimension_name}
-                                                                            </option>
-                                                    </c:forEach>
-                                                </c:otherwise>
-                                            </c:choose>
-                                                            </select>
-                                                            <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" placeholder="Questions" style="width: 100px; caret-color: transparent;" onkeydown="return false;" value="0" min="0">
-                                                            <button type="button" class="btn btn-secondary" onclick="removeGroup(this)">Delete</button>
-                                                        </div>
-                                                    `;
+                                                <label for="group-selection" class="me-3">Group Selection</label>
+                                                <c:choose>
+                                                    <c:when test="${requestScope.questionTopic != null}">
+                                                        <select id="group-selection" name="group_selection" class="form-select me-2" required>
+                                                            <c:forEach var="lesson_topic" items="${requestScope.questionTopic}">
+                                                                <option value="${lesson_topic.lesson_topic_id}" ${lesson_topic.lesson_topic_id == group.type_id ? 'selected' : ''}> 
+                                                                    ${lesson_topic.lesson_topic_name}
+                                                                </option>
+                                                            </c:forEach>
+                                                            <!-- Add group options dynamically -->
+                                                        </select>
+                                                    </c:when>
+                                                    <c:when test="${requestScope.questionGroup != null}">
+                                                        <select id="group-selection" name="group_selection" class="form-select me-2" required>
+                                                            <c:forEach var="dimension" items="${requestScope.questionGroup}">
+                                                                <option value="${dimension.dimension_id}" ${dimension.dimension_id == group.type_id ? 'selected' : ''}> 
+                                                                    ${dimension.dimension_name}
+                                                                </option>
+                                                            </c:forEach>
+                                                            <!-- Add group options dynamically -->
+                                                        </select>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <select id="group-selection" name="group_selection" class="form-select me-2" required>
+                                                            <c:forEach var="dimension" items="${requestScope.questionDomain}">
+                                                                <option value="${dimension.dimension_id}" ${dimension.dimension_id == group.type_id ? 'selected' : ''}> 
+                                                                    ${dimension.dimension_name}
+                                                                </option>
+                                                            </c:forEach>
+                                                            <!-- Add group options dynamically -->
+                                                        </select>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" placeholder="Questions" style="width: 100px; caret-color: transparent;" value="${group.getNumberOfQuestions()}" min="0">
+                                                <button type="button" class="btn btn-secondary" onclick="removeGroup(this)">Delete</button>
+                                            </div>`;
 
                                                 // Create a new div element to contain the groupDiv
                                                 var newDiv = document.createElement('div');

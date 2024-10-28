@@ -48,41 +48,13 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
-        <style>
-            .popup {
-                display: none;
-                position: fixed;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.7);
-                justify-content: center;
-                align-items: center;
-            }
-            .popup-content {
-                background: white;
-                padding: 20px;
-                border-radius: 5px;
-                text-align: center;
-                max-width: 400px;
-                margin: auto;
-            }
-
-
-        </style>
-
     </head>
 
     <body id="bg">
+        <%@include file="header.jsp" %>
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
             <header class="header rs-nav header-transparent">
-
-
-                <%@include file="header.jsp" %>
-
-
             </header>
             <!-- header END ==== -->
             <!-- Content -->
@@ -101,7 +73,7 @@
                     <div class="section-area section-sp1">
                         <div class="container">
                             <div class="row">
-
+                                <input type="text" value="blogs" name="view" hidden>
                                 <!-- Left part start -->
                                 <div class="col-lg-8">
                                     <div class="sort-options" >
@@ -191,14 +163,17 @@
 
                                             <br>
                                             <!-- Danh sách các categories -->
+                                            <form role="search" method="get" action="searchByCategory" id="category_form"> <!-- ??m b?o ?i?u này tr? ??n endpoint chính xác -->
                                             <div class="category-list" style="margin-bottom: 20px;">
                                                 <c:forEach items="${requestScope.category_list}" var="c">
                                                     <div style="margin-bottom: 10px;">
-                                                        <input type="checkbox" id="category_${c.category_id}" name="categories" value="${c.category_id}">
+                                                        <input type="checkbox" id="category_${c.category_id}" name="categories" value="${c.category_name}" onclick="SearchByCategory()">
                                                         <label for="category_${c.category_id}" style="font-size: 16px; margin-left: 8px;">${c.category_name}</label>
+                                                        <input type="text" value="blogs" name="view" hidden>
                                                     </div>
                                                 </c:forEach>
                                             </div>
+                                            </form>
                                             <!-- Nút tìm ki?m -->
                                         </div>
                                         <br>
@@ -259,6 +234,12 @@
                                                             document.getElementById("output").value = b;
 
                                                         }
+                                                        function SearchByCategory() {
+                                                            var form=document.getElementById('category_form');
+                                                            form.submit();
+                                                        }
+    
+
         </script>
         <script>
             //login
