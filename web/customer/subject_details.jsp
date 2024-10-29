@@ -51,9 +51,11 @@
 
     </head>
     <body id="bg">
-        <%@include file="header.jsp" %>
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
+            <header class="header rs-nav header-transparent">
+                <%@include file="header.jsp" %>
+            </header>
             <!-- Header Top ==== -->
             <!-- header END ==== -->
             <!-- Content -->

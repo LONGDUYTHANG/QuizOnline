@@ -58,9 +58,9 @@
         <link class="skin" rel="stylesheet" type="text/css" href="admin/assets/css/color/color-1.css">
 
         <style>
-            
 
-           
+
+
             .slider-container {
                 width: 100%;
                 overflow: hidden;
@@ -116,10 +116,11 @@
 
 
     <body id="bg" >
-        <%@include file="header.jsp" %>
         <div class="page-wraper">
             <!-- Header Top ==== -->
-
+            <header class="header rs-nav header-transparent">
+                <%@include file="header.jsp" %>
+            </header>
 
 
 

@@ -31,7 +31,7 @@
                 </a>
             </li>
             <li class="sidebar-item " >
-                <a class="sidebar-link" href="registrationlist"  onclick="showOption()">
+                <a class="sidebar-link" href="salerregistrationlist"  onclick="showOption()">
                     <i class="fa-solid fa-sort"></i> <span class="align-middle">Registration List</span>
                 </a>
                 <a class="sidebar-header" href="#" id="sort"onclick="showSortOption()" style="margin-left: 20px; text-decoration: none">
