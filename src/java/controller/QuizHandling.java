@@ -74,10 +74,13 @@ public class QuizHandling extends HttpServlet {
         Quiz handleQuiz;
         try {
             String quizId = request.getParameter("id");
-            handleQuiz = qd.getQuiz(Integer.parseInt(quizId));
+            handleQuiz = qd.getQuiz_OldVersion(Integer.parseInt(quizId));
 
         } catch (Exception e) {
-            handleQuiz = qd.getQuiz(5);
+            handleQuiz = qd.getQuiz_OldVersion(5);
+        }
+        if(handleQuiz == null) {
+            handleQuiz = qd.getQuiz_OldVersion(5);
         }
         Account a = (Account) session.getAttribute("user");
         //PrintWriter out = response.getWriter();

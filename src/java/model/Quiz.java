@@ -44,6 +44,20 @@ public class Quiz {
         this.selectedGroup = selectedGroup;
     }
     
+    public Quiz(String quiz_name, int subject_id, int level_id, int number_of_questions, Duration duration, double passrate, int quiz_type_id, String quiz_description, Timestamp created_date, Timestamp updated_date, int account_id) {
+        this.quiz_name = quiz_name;
+        this.subject_id = subject_id;
+        this.level_id = level_id;
+        this.number_of_questions = number_of_questions;
+        this.duration = duration;
+        this.passrate = passrate;
+        this.quiz_type_id = quiz_type_id;
+        this.quiz_description = quiz_description;
+        this.created_date = created_date;
+        this.updated_date = updated_date;
+        this.account_id = account_id;
+    }
+    
     
 
     public Quiz(int quiz_id, String quiz_name, int subject_id, int level_id, int number_of_questions, Duration duration, double passrate, int quiz_type_id, String quiz_description, Timestamp created_date, Timestamp updated_date, int account_id, int selectedGroup) {
@@ -60,6 +74,21 @@ public class Quiz {
         this.updated_date = updated_date;
         this.account_id = account_id;
         this.selectedGroup = selectedGroup;
+    }
+    
+    public Quiz(int quiz_id, String quiz_name, int subject_id, int level_id, int number_of_questions, Duration duration, double passrate, int quiz_type_id, String quiz_description, Timestamp created_date, Timestamp updated_date, int account_id) {
+        this.quiz_id = quiz_id;
+        this.quiz_name = quiz_name;
+        this.subject_id = subject_id;
+        this.level_id = level_id;
+        this.number_of_questions = number_of_questions;
+        this.duration = duration;
+        this.passrate = passrate;
+        this.quiz_type_id = quiz_type_id;
+        this.quiz_description = quiz_description;
+        this.created_date = created_date;
+        this.updated_date = updated_date;
+        this.account_id = account_id;
     }
 
     public int getQuiz_id() {

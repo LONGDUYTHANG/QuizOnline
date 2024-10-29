@@ -197,7 +197,7 @@
             }
 
             #popup p, #popup_submit p, #popup_submit_finished p, #popup_submit_finished_nothing p, #popup_submitted p {
-                color: #555;
+                color: #333333;
                 margin-bottom: 20px;
             }
 
@@ -275,7 +275,7 @@
 
 
                         </div>
-                            <br>
+                        <br>
                         <button onclick="closeQuestionSelectPopup()" class="btn">Close</button>
                     </div>
                     <%-- 
@@ -323,9 +323,15 @@
                                             </div>
 
                                         </c:forEach>
+                                        <c:if test="${qe.answered == null}">
+                                            <span style="color: red; font-weight: bold; ">
+                                                &#10006; 
+                                            </span>
+                                            Not answered
+                                        </c:if>
                                     </div>
                                     <br>
-                                    <div class="peek_at_question" style="display:none; width: 500px; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; border:1px solid black; padding:20px; z-index:1009;">
+                                    <div class="peek_at_question" style="display:none; width: 500px; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; border:1px solid black; color: #121010; padding:20px; z-index:1009; border-radius: 8px;">
                                         <h3>Explanation</h3>
                                         <p>The correct answer is ${fn:substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', qe.correct_answer, qe.correct_answer + 1)}.</p>
                                         <p>Explanation: ${qe.explanation}.</p>
@@ -434,7 +440,7 @@
                             questionStatus.push('correct');
                         } else if (${qe_a.isCorrect && qe.answered != qe_a.answer_detail}) {
                             questionStatus.push('incorrect');
-                        } 
+                        }
                     </c:forEach>
                     }
 
