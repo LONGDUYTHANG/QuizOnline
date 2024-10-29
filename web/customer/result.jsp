@@ -101,7 +101,7 @@
                         </div>
                         <br>
                         <div style="font-size: 30px">
-                            <button id="prev" class="btn" style="width: 100%">Review Now</button> <br>
+                            <a href="quiz_review?practice_id=${sessionScope.new_practice_id}"><button id="prev" class="btn" style="width: 100%">Review Now</button></a> <br>
                             <button id="prev" class="btn" style="width: 100%" id="back" onclick="backHome()"><a href="homepage">Back</a></button>
                         </div>
                     </main>
