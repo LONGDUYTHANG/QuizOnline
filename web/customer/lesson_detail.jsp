@@ -166,7 +166,6 @@
 
     <body id="bg">
         <div class="page-wraper">
-            <div id="loading-icon-bx"></div>
             <header class="header rs-nav header-transparent">
                 <%@include file="header.jsp" %>
             </header>
