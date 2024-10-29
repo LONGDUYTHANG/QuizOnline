@@ -745,6 +745,60 @@ public class QuizDAO extends DBContext {
         }
         return count;
     }
-
-
+    
+    public void updateQuiz(Quiz quiz) {
+        String sql = "UPDATE [dbo].[Quiz]\n"
+                + "   SET [quiz_name] = ?\n"
+                + "      ,[subject_id] = ?\n"
+                + "      ,[level_id] = ?\n"
+                + "      ,[number_of_questions] = ?\n"
+                + "      ,[duration] = ?\n"
+                + "      ,[passrate] = ?\n"
+                + "      ,[quiz_type_id] = ?\n"
+                + "      ,[quiz_description] = ?\n"
+                + "      ,[created_date] = ?\n"
+                + "      ,[updated_date] = ?\n"
+                + "      ,[account_id] = ?\n"
+                + "      ,[selectedGroup] = ?\n"
+                + " WHERE quiz_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, quiz.getQuiz_name());
+            st.setInt(2, quiz.getSubject_id());
+            st.setInt(3, quiz.getLevel_id());
+            st.setInt(4, quiz.getNumber_of_questions());
+            Duration duration = quiz.getDuration();
+            long minutes = duration.toMinutes();
+            st.setFloat(5, (float) minutes);
+            st.setDouble(6, quiz.getPassrate());
+            st.setInt(7, quiz.getQuiz_type_id());
+            st.setString(8, quiz.getQuiz_description());
+            st.setTimestamp(9, quiz.getCreated_date());
+            st.setTimestamp(10, quiz.getUpdated_date());
+            st.setInt(11, quiz.getAccount_id());
+            st.setInt(12, quiz.getSelectedGroup());
+            st.setInt(13, quiz.getQuiz_id());
+            
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+    
+    public void deleteQuiz_Question(int quiz_id) {
+        String sql = "DELETE FROM [dbo].[Quiz_Question]\n"
+                + "      WHERE quiz_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, quiz_id);
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+    public static void main(String[] args) {
+        QuizDAO dao = new QuizDAO();
+        Quiz quiz = dao.getQuiz(10);
+        dao.updateQuiz(new Quiz(quiz.getQuiz_id(), "Quiztt", quiz.getSubject_id(), quiz.getLevel_id(), quiz.getNumber_of_questions(), quiz.getDuration(), quiz.getPassrate(), quiz.getQuiz_type_id(), quiz.getQuiz_description(), quiz.getCreated_date(), quiz.getUpdated_date(), quiz.getAccount_id(), quiz.getSelectedGroup()));
+    }
 }

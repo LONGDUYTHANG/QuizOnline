@@ -198,7 +198,7 @@
                                                                                     </a>
                                                                                 </c:when>
                                                                                 <c:when test="${lesson.lesson_type_id == 2}">
-                                                                                    <a href="quiz?quiz_id=${lesson.lesson_id}">
+                                                                                    <a href="quiz_handling?id=${lesson.lesson_id}">
                                                                                         <span>Quiz ${lesson.lesson_order}.</span>
                                                                                         ${lesson.lesson_name}
                                                                                     </a>

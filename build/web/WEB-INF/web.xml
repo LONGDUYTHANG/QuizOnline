@@ -152,6 +152,10 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>controller.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditQuizServlet</servlet-name>
+        <servlet-class>controller.EditQuizServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
         <url-pattern>/demo</url-pattern>
@@ -307,6 +311,10 @@
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditQuizServlet</servlet-name>
+        <url-pattern>/editquiz</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>

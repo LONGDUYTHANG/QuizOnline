@@ -66,6 +66,20 @@ public class EditQuizValidationServlet extends HttpServlet {
         Quiz quiz = dao.getQuiz(quiz_id);
         Duration duration = quiz.getDuration();
         long minutes = duration.toMinutes();
+        if (quiz.getSelectedGroup() == 1) {
+            request.setAttribute("question_type", "topic");
+        }
+        else if (quiz.getSelectedGroup() == 2) {
+            request.setAttribute("question_type", "group");
+        }
+        else {
+            request.setAttribute("question_type", "domain");
+        }
+        request.setAttribute("name", quiz);
+        request.setAttribute("description", quiz.getQuiz_description());
+        request.setAttribute("quiztype_id", quiz.getQuiz_type_id());
+        request.setAttribute("subject_id", quiz.getSubject_id());
+        request.setAttribute("level_id", quiz.getLevel_id());
         request.setAttribute("quiz", quiz);
         request.setAttribute("minutes", minutes);
         request.setAttribute("listSubject", dao.getAllSubject());
