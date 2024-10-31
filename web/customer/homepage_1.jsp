@@ -116,10 +116,11 @@
 
 
     <body id="bg" >
-        <%@include file="header.jsp" %>
         <div class="page-wraper">
             <!-- Header Top ==== -->
-
+            <header class="header rs-nav header-transparent">
+                <%@include file="header.jsp" %>
+            </header>
 
 
 
