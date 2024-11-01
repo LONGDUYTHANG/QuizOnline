@@ -2,11 +2,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
+
 <html lang="en">
 
-    <head>
+       <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
         <meta name="author" content="AdminKit">
@@ -44,17 +44,25 @@
 
             gtag('config', 'UA-120946860-10', {'anonymize_ip': true});
         </script>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- DataTables CSS -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- DataTables JS -->
+        <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+
 
     </head>
 
     <body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-layout="default">
+
         <div class="wrapper">
             <jsp:include page="admin_sidebar.jsp"></jsp:include>
 
                 <div class="main">
-            <jsp:include page="navbar.jsp"></jsp:include>
+                <jsp:include page="navbar.jsp"></jsp:include>
 
                     <main class="content">
                         <div class="container-fluid p-0">
@@ -238,7 +246,29 @@
 
             </div>
         </div>
+ <script src="js/app.js"></script>
 
+        <script>
+            document.addEventListener("DOMContentLoaded", function (event) {
+                setTimeout(function () {
+                    if (localStorage.getItem('popState') !== 'shown') {
+                        window.notyf.open({
+                            type: "success",
+                            message: "Get access to all 500+ components and 45+ pages with AdminKit PRO. <u><a class=\"text-white\" href=\"https://adminkit.io/pricing\" target=\"_blank\">More info</a></u> 🚀",
+                            duration: 10000,
+                            ripple: true,
+                            dismissible: false,
+                            position: {
+                                x: "left",
+                                y: "bottom"
+                            }
+                        });
+
+                        localStorage.setItem('popState', 'shown');
+                    }
+                }, 15000);
+            });
+        </script>
     </body>
 
 </html>
