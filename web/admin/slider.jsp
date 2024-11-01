@@ -133,6 +133,13 @@
 
 
                                     <div class="container">
+                                        <br>
+                                        <br>
+                                        <a href="addSlider">
+                                             <button class="btn btn-primary">
+                                            AddNewSlider
+                                        </button>
+                                        </a>
                                         <h1 class="my-4">List of Sliders</h1>
                                         <table id="sliderTable" class="table table-bordered">
                                             <thead>
