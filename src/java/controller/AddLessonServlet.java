@@ -120,7 +120,7 @@ public class AddLessonServlet extends HttpServlet {
                 dao.addLesson(new Lesson(name, order, summary, status, 2, subject_id, topic, url, quill, 8));
                 
             } catch (Exception ex) {
-                //out.println(ex);
+                out.println(ex);
             }
         } else {
             String name = request.getParameter("name");

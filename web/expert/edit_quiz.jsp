@@ -211,7 +211,7 @@
                                             <textarea id="description" name="description" placeholder="Enter description" required>${requestScope.validation == 1 ? requestScope.description : quiz.quiz_description}</textarea>
                                         </div>
                                         <button type="submit" class="btn" onclick="return confirm('Do you want to save these changes?')">Submit</button>
-                                        <button type="button" class="btn btn-secondary">Back</button>
+                                        <button type="button" class="btn btn-secondary" onclick="window.location.href='quizlist'">Back</button>
                                     </div>
 
                                     <!-- Settings Tab -->

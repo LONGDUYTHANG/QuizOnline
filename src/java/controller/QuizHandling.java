@@ -18,10 +18,8 @@ import jakarta.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import model.*;
-import model.Quiz;
 
 /**
  *
@@ -93,7 +91,6 @@ public class QuizHandling extends HttpServlet {
         session.setAttribute("subject_dao", sd);
         LocalDateTime lc = LocalDateTime.now();
         Practice_Record pr = new Practice_Record(handleQuiz.getQuiz_name(), Timestamp.valueOf(lc), 0, 0, 0, a.getAccount_id(), handleQuiz.getQuiz_id());
-
         //out.print(listQuestion.size());
         float passrate = qd.getPassRate(handleQuiz.getQuiz_id());
         session.setAttribute("passrate", passrate);

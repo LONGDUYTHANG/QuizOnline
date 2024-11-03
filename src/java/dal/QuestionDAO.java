@@ -554,14 +554,34 @@ public class QuestionDAO extends DBContext {
             e.printStackTrace();
         }
     }
+    
+    public void deleteQuestion(int question_id) {
+        String sql = "DELETE FROM [dbo].[Question]\n"
+                + "      WHERE question_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, question_id);
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+    public void deleteAnswers(int question_id) {
+        String sql = "DELETE FROM [dbo].[Answer]\n"
+                + "      WHERE question_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, question_id);
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
 
     public static void main(String[] args) {
         QuestionDAO dao = new QuestionDAO();
-        System.out.println(dao.getLevelById(1));
-//        List<Question_Handle> la = dao.getAllQuestionByQuizId(5);
-//        for (Question_Handle question_Handle : la) {
-//            System.out.println(question_Handle.getList_answer());
-//        }
+        dao.deleteQuestion(9608);
+        dao.deleteAnswers(9608);
 
     }
 }

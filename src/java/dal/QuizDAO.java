@@ -881,6 +881,19 @@ public class QuizDAO extends DBContext {
         }
     }
 
+    
+    public void deleteQuiz(int quiz_id) {
+        String sql = "DELETE FROM [dbo].[Quiz]\n"
+                + "      WHERE quiz_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, quiz_id);
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+    
     public static void main(String[] args) {
         QuizDAO dao = new QuizDAO();
         Quiz quiz = dao.getQuiz(10);
