@@ -156,6 +156,15 @@
         <servlet-name>EditQuizServlet</servlet-name>
         <servlet-class>controller.EditQuizServlet</servlet-class>
     </servlet>
+    
+    <servlet>
+        <servlet-name>CustomerRegisterSubjectServlet</servlet-name>
+        <servlet-class>controller.CustomerRegisterSubjectServlet</servlet-class>
+    </servlet>
+     <servlet>
+        <servlet-name>ajaxServlet</servlet-name>
+        <servlet-class>controller.ajaxServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
         <url-pattern>/demo</url-pattern>
@@ -316,6 +325,10 @@
         <servlet-name>EditQuizServlet</servlet-name>
         <url-pattern>/editquiz</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CustomerRegisterSubjectServlet</servlet-name>
+        <url-pattern>/customerregistersubject</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>
     </welcome-file-list>
@@ -378,5 +391,9 @@
     <servlet-mapping>
         <servlet-name>UpdateEmail</servlet-name>
         <url-pattern>/update_email</url-pattern>
+    </servlet-mapping>
+     <servlet-mapping>
+        <servlet-name>ajaxServlet</servlet-name>
+        <url-pattern>/vnpayajax/*</url-pattern>
     </servlet-mapping>
 </web-app>
