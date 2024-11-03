@@ -129,25 +129,25 @@ public class SearchByCategory extends HttpServlet {
         HttpSession session = request.getSession(false); // Kiểm tra session
 
         if (session != null) {
-            Account user = (Account) session.getAttribute("user"); // Lấy tài khoản người dùng từ session
+            Account user = (Account) session.getAttribute("user");
             if (user != null) {
-                // Nếu người dùng đã đăng nhập
-                if (view.equalsIgnoreCase("blogs")) {
+                // User is logged in
+                if (view != null && view.equalsIgnoreCase("blogs")) {
                     request.getRequestDispatcher("customer/blog_list.jsp").forward(request, response);
                 } else {
-                    request.getRequestDispatcher("homepage").forward(request, response);
+                    request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
                 }
             } else {
-                // Nếu không có tài khoản người dùng, nhưng có session
-                if (view.equalsIgnoreCase("blogs")) {
+                // Session exists but no user account
+                if (view != null && view.equalsIgnoreCase("blogs")) {
                     request.getRequestDispatcher("common/blog_list.jsp").forward(request, response);
                 } else {
                     request.getRequestDispatcher("common/subject_list.jsp").forward(request, response);
                 }
             }
         } else {
-            // Nếu không có session
-            if (view.equalsIgnoreCase("blogs")) {
+            // No session
+            if (view != null && view.equalsIgnoreCase("blogs")) {
                 request.getRequestDispatcher("common/blog_list.jsp").forward(request, response);
             } else {
                 request.getRequestDispatcher("common/subject_list.jsp").forward(request, response);

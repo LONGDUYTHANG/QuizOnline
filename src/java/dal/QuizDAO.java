@@ -17,6 +17,7 @@ import model.Subject;
 import java.sql.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import model.GroupSelection;
 import model.Practice_Record;
 import model.Question;
 import model.Quiz_Question;
@@ -164,6 +165,23 @@ public class QuizDAO extends DBContext {
         }
         return list;
     }
+    
+    public Quiz_Type getQuizType(int quiz_typeid) {
+        String sql = "SELECT * FROM Quiz_Type where quiz_type_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, quiz_typeid);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int quiz_type_id = rs.getInt("quiz_type_id");
+                String quiz_type_name = rs.getString("quiz_type_name");
+                return new Quiz_Type(quiz_type_id, quiz_type_name);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
 
     public List<Lesson_Topic> getAllLessonTopicBySubjectId(int subject_id_raw) {
         List<Lesson_Topic> list = new ArrayList<>();
@@ -256,7 +274,7 @@ public class QuizDAO extends DBContext {
             st.setTimestamp(10, quiz.getUpdated_date());
             st.setInt(11, quiz.getAccount_id());
             st.setInt(12, quiz.getSelectedGroup());
-            
+
             st.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -434,7 +452,7 @@ public class QuizDAO extends DBContext {
                 Timestamp updated_date = rs.getTimestamp("updated_date");
                 int account_id = rs.getInt("account_id");
                 int selectedGroup = rs.getInt("selectedGroup");
-                
+
                 list.add(new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ofMillis((long) (duration * 60 * 1000)), passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id, selectedGroup));
             }
         } catch (SQLException ex) {
@@ -463,7 +481,7 @@ public class QuizDAO extends DBContext {
                 Timestamp updated_date = rs.getTimestamp("updated_date");
                 int account_id = rs.getInt("account_id");
                 int selectedGroup = rs.getInt("selectedGroup");
-                
+
                 return new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ofMillis((long) (duration * 60 * 1000)), passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id, selectedGroup);
             }
         } catch (SQLException ex) {
@@ -471,7 +489,7 @@ public class QuizDAO extends DBContext {
         }
         return null;
     }
-    
+
     public Quiz getQuiz_OldVersion(int quizId) {
         String sql = "SELECT * FROM Quiz where quiz_id = ?";
         try {
@@ -491,8 +509,9 @@ public class QuizDAO extends DBContext {
                 Timestamp created_date = rs.getTimestamp("created_date");
                 Timestamp updated_date = rs.getTimestamp("updated_date");
                 int account_id = rs.getInt("account_id");
-                
-                return new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ofMillis((long) (duration * 60 * 1000)), passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id);
+                Quiz nq = new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ofMillis((long) (duration * 60 * 1000)), passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id);
+                nq.setQuiz_type(getQuizType(quiz_type_id));
+                return nq;
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -519,7 +538,7 @@ public class QuizDAO extends DBContext {
                 Timestamp updated_date = rs.getTimestamp("updated_date");
                 int account_id = rs.getInt("account_id");
                 int selectedGroup = rs.getInt("selectedGroup");
-                
+
                 return new Quiz(quiz_id, quiz_name, subject_id, level_id, number_of_questions, Duration.ZERO, passrate, quiz_type_id, quiz_description, created_date, updated_date, account_id, selectedGroup);
             }
         } catch (SQLException ex) {
@@ -653,7 +672,7 @@ public class QuizDAO extends DBContext {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, practice_id);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 Practice_Record pr = new Practice_Record();
                 pr.setAccount_id(rs.getInt("account_id"));
                 pr.setCorrect_questions(rs.getInt("correct_questions"));
@@ -663,13 +682,51 @@ public class QuizDAO extends DBContext {
                 pr.setPractice_duration(rs.getInt("practice_duration"));
                 pr.setPractice_name(rs.getString("practice_name"));
                 pr.setQuiz_id(rs.getInt("quiz_id"));
+
                 return pr;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return null;
+    }
+
+    public List<Practice_Record> getPracticeRecordListByAccountId(int account_id) {
+        String sql = "select practice_id\n"
+                + "  , practice_name\n"
+                + "  , created_date\n"
+                + "  , practice_duration \n"
+                + "  , correct_questions\n"
+                + "  , correct_rate\n"
+                + "  , account_id\n"
+                + "  , quiz_id\n"
+                + "  from Practice_Record\n"
+                + "  where account_id = ?\n"
+                + "  order by created_date desc";
+        List<Practice_Record> listPrac = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, account_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Practice_Record pr = new Practice_Record();
+                pr.setAccount_id(rs.getInt("account_id"));
+                pr.setCorrect_questions(rs.getInt("correct_questions"));
+                pr.setCorrect_rate(rs.getInt("correct_rate"));
+                pr.setCreated_date(rs.getTimestamp("created_date"));
+                pr.setPractice_id(rs.getInt("practice_id"));
+                pr.setPractice_duration(rs.getInt("practice_duration"));
+                pr.setPractice_name(rs.getString("practice_name"));
+                pr.setQuiz_id(rs.getInt("quiz_id"));
+                pr.setQuiz(getQuiz_OldVersion(rs.getInt("quiz_id")));
+                listPrac.add(pr);
+            }
+        } catch (SQLException e) {
+
+        }
+
+        return listPrac;
     }
 
     public Duration getTotalDurationBySubjectId(int subjectId) {
@@ -717,6 +774,46 @@ public class QuizDAO extends DBContext {
         return count;
     }
 
+    public List<GroupSelection> getSelectedGroupTopic(int quiz_id) {
+        List<GroupSelection> list = new ArrayList<>();
+        String sql = "SELECT COUNT(Lesson_Topic.lesson_topic_id) as NumberOfQuestions, Lesson_Topic.lesson_topic_id, Lesson_Topic.lesson_topic_name from Quiz_Question JOIN Question ON Quiz_Question.question_id = Question.question_id JOIN Lesson_Topic ON Question.lesson_topic_id = Lesson_Topic.lesson_topic_id WHERE quiz_id = ?\n"
+                + "GROUP BY Lesson_Topic.lesson_topic_id, Lesson_Topic.lesson_topic_name";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, quiz_id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int NumberOfQuestions = rs.getInt("NumberOfQuestions");
+                int type_id = rs.getInt("lesson_topic_id");
+                String lesson_topic_name = rs.getString("lesson_topic_name");
+                list.add(new GroupSelection(NumberOfQuestions, type_id, lesson_topic_name));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return list;
+    }
+
+    public List<GroupSelection> getSelectedGroupDimension(int quiz_id) {
+        List<GroupSelection> list = new ArrayList<>();
+        String sql = "SELECT COUNT(Dimension.dimension_id) AS NumberOfQuestions, Dimension.dimension_id, Dimension.dimension_name FROM Quiz_Question JOIN Question ON Quiz_Question.question_id = Question.question_id JOIN Dimension ON Dimension.dimension_id = Question.dimension_id WHERE quiz_id = ?\n"
+                + "group by Dimension.dimension_id, Dimension.dimension_name";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, quiz_id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int NumberOfQuestions = rs.getInt("NumberOfQuestions");
+                int type_id = rs.getInt("dimension_id");
+                String lesson_topic_name = rs.getString("dimension_name");
+                list.add(new GroupSelection(NumberOfQuestions, type_id, lesson_topic_name));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return list;
+    }
+
     public int getTotalQuizzesBySubjectId(int subject_id) {
         String sql = "SELECT COUNT(*) FROM Quiz WHERE subject_id = ?";
         int count = 0;
@@ -733,11 +830,60 @@ public class QuizDAO extends DBContext {
         return count;
     }
 
-    public static void main(String[] args) {
-       SubjectDAO subjectDAO = new SubjectDAO();
-        ArrayList<Subject> s=subjectDAO.searchSubjectsByCategory("Development");
-        for(Subject h:s){
-            System.out.println(h.getSubjectName());
+    public void updateQuiz(Quiz quiz) {
+        String sql = "UPDATE [dbo].[Quiz]\n"
+                + "   SET [quiz_name] = ?\n"
+                + "      ,[subject_id] = ?\n"
+                + "      ,[level_id] = ?\n"
+                + "      ,[number_of_questions] = ?\n"
+                + "      ,[duration] = ?\n"
+                + "      ,[passrate] = ?\n"
+                + "      ,[quiz_type_id] = ?\n"
+                + "      ,[quiz_description] = ?\n"
+                + "      ,[created_date] = ?\n"
+                + "      ,[updated_date] = ?\n"
+                + "      ,[account_id] = ?\n"
+                + "      ,[selectedGroup] = ?\n"
+                + " WHERE quiz_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, quiz.getQuiz_name());
+            st.setInt(2, quiz.getSubject_id());
+            st.setInt(3, quiz.getLevel_id());
+            st.setInt(4, quiz.getNumber_of_questions());
+            Duration duration = quiz.getDuration();
+            long minutes = duration.toMinutes();
+            st.setFloat(5, (float) minutes);
+            st.setDouble(6, quiz.getPassrate());
+            st.setInt(7, quiz.getQuiz_type_id());
+            st.setString(8, quiz.getQuiz_description());
+            st.setTimestamp(9, quiz.getCreated_date());
+            st.setTimestamp(10, quiz.getUpdated_date());
+            st.setInt(11, quiz.getAccount_id());
+            st.setInt(12, quiz.getSelectedGroup());
+            st.setInt(13, quiz.getQuiz_id());
+
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex);
         }
+    }
+
+    public void deleteQuiz_Question(int quiz_id) {
+        String sql = "DELETE FROM [dbo].[Quiz_Question]\n"
+                + "      WHERE quiz_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, quiz_id);
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    public static void main(String[] args) {
+        QuizDAO dao = new QuizDAO();
+        Quiz quiz = dao.getQuiz(10);
+        dao.updateQuiz(new Quiz(quiz.getQuiz_id(), "Quiztt", quiz.getSubject_id(), quiz.getLevel_id(), quiz.getNumber_of_questions(), quiz.getDuration(), quiz.getPassrate(), quiz.getQuiz_type_id(), quiz.getQuiz_description(), quiz.getCreated_date(), quiz.getUpdated_date(), quiz.getAccount_id(), quiz.getSelectedGroup()));
     }
 }

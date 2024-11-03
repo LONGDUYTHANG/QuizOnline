@@ -25,6 +25,15 @@ public class Quiz {
     private java.sql.Timestamp updated_date;
     private int account_id;
     private int selectedGroup; 
+    private Quiz_Type quiz_type;
+
+    public Quiz_Type getQuiz_type() {
+        return quiz_type;
+    }
+
+    public void setQuiz_type(Quiz_Type quiz_type) {
+        this.quiz_type = quiz_type;
+    }
             
     public Quiz() {
     }

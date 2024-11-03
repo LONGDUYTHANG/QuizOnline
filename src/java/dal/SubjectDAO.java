@@ -272,7 +272,7 @@ public class SubjectDAO extends DBContext {
 
         String sql = "select top 3 *, cast(r.registration_time as date) enrolled_date from Registration r\n"
                 + "join Subject s on r.subject_id = s.subject_id\n"
-                + "where r.account_id = ?\n"
+                + "where r.account_id = ? and r.status_id = 3\n"
                 + "order by registration_time desc";
 
         try {
@@ -428,7 +428,8 @@ public class SubjectDAO extends DBContext {
     }
 
     public boolean isSubjectRegistered(int accountId, int subjectId) {
-        String sql = "SELECT 1 FROM Registration WHERE account_id = ? AND subject_id = ?";
+        String sql = "SELECT 1 FROM Registration WHERE account_id = ? AND subject_id = ? and status_id = 3";
+
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, accountId);
             pstmt.setInt(2, subjectId);
@@ -441,9 +442,8 @@ public class SubjectDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-        SubjectDAO subjectDAO = new SubjectDAO();
-        int totalSubjects = subjectDAO.countSubjects();
-        System.out.println("Tổng số lượng subjects: " + totalSubjects);
+      
+        
     }
 
 }

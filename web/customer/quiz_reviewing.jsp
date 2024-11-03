@@ -252,16 +252,12 @@
                         <button id="selectQuestionButton" class="btn" style="">Review Progress</button>
                         <div id="time"></div>
                     </header>
-
                     <hr>
-
-
                     <div id="overlay1" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1001;"></div>
                     <div id="overlay2" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000;"></div>
                     <!-- Popup chọn câu hỏi -->
                     <div id="questionSelectPopup" class="questionSelectPopup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; border:1px solid black; padding:20px; z-index:1002;">
                         <h3>Review Progress</h3>
-                        <p>Review before scoring exam</p>
                         <div id="filterButtons" style="display: flex; gap: 10px; margin-bottom: 10px;">
                             <button class="filter-button btn" data-filter="all">All Question</button>
                             <button class="filter-button btn" data-filter="correct"><span style='align-items: center; background-color: #d4edda; border: 1px solid #cccccc; padding: 0 9px; border-radius: 2px'></span>&nbsp;Correct</button>
@@ -278,23 +274,6 @@
                         <br>
                         <button onclick="closeQuestionSelectPopup()" class="btn">Close</button>
                     </div>
-                    <%-- 
-                     const button = document.createElement("button");
-                            button.textContent = (i + 1);
-                            button.style.position = "relative";
-                            button.style.width = "100%";
-                            button.style.padding = "10px";
-                            button.style.border = "1px solid #ccc";
-                            button.style.cursor = "pointer";
-                            // Set background color based on question status
-                            if (questionStatus[i] === 'answered') {
-                                button.style.backgroundColor = "#d4edda";
-                            } else {
-                                button.style.backgroundColor = "#f0f0f0";
-                            }
-                    --%>
-
-
                     <main id="body">
                         <form action="quiz_handling" method="post" id="submit_form">
                             <input type="text" value="0" name="dur" id="dur" style="display: none"/>
@@ -343,20 +322,8 @@
                                 </div>
                             </c:forEach>
                             <button id="peek_at_question" class="btn-dark" style="height: 50px; width: 200px; border-radius: 8px" type="button">Explanation</button>
-
-
-
-
                         </form>
                     </main>
-
-
-
-                    <div >
-
-
-
-                    </div>
                     <div id="overlay3" style="display: none;position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000;"></div>
                     <div id="popup_submitted" style="display: none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; border:1px solid black; padding:20px; z-index:2001;">
                         <h3 style="color: #f6b3b3">Warning</h3>

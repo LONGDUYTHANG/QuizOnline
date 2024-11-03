@@ -886,7 +886,8 @@ public class RegistrationDAO extends DBContext {
                     + "s.thumbnail, s.tagline, s.description, s.account_id "
                     + "FROM Subject s "
                     + "JOIN Registration r ON s.subject_id = r.subject_id "
-                    + "WHERE r.account_id = ?";
+
+                    + "WHERE r.account_id = ? AND r.status_id=3";
 
             stm = connection.prepareStatement(sql);
             stm.setInt(1, userId);
@@ -918,7 +919,7 @@ public class RegistrationDAO extends DBContext {
         RegistrationDAO registrationDAO = new RegistrationDAO();
 
         // ID của người dùng mà bạn muốn kiểm tra
-        int userId = 1; // Thay đổi theo userId bạn muốn kiểm tra
+        int userId = 3; // Thay đổi theo userId bạn muốn kiểm tra
 
         // Gọi hàm getRegisteredSubjectsByUserId và lấy danh sách môn học đã đăng ký
         ArrayList<Subject> registeredSubjects = registrationDAO.getRegisteredSubjectsByUserId(userId);

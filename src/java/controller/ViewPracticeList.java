@@ -5,6 +5,7 @@
 
 package controller;
 
+import dal.AccountDAO;
 import dal.QuizDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,18 +13,16 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.time.Duration;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import model.Level;
-import model.Quiz;
-import model.Quiz_Type;
-import model.Subject;
+import model.Account;
+import model.Practice_Record;
 
 /**
  *
- * @author FPT SHOP
+ * @author DELL-PC
  */
-public class EditQuizValidationServlet extends HttpServlet {
+public class ViewPracticeList extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -40,10 +39,10 @@ public class EditQuizValidationServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditQuizValidationServlet</title>");  
+            out.println("<title>Servlet ViewPracticeList</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet EditQuizValidationServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ViewPracticeList at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,47 +59,13 @@ public class EditQuizValidationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        QuizDAO dao = new QuizDAO();
-        int quiz_id = Integer.parseInt(request.getParameter("quiz_id"));
+        HttpSession session = request.getSession(true);
+        Account a = (Account)session.getAttribute("user");
+        QuizDAO qd = new QuizDAO();
+        List<Practice_Record> listPrac = qd.getPracticeRecordListByAccountId(a.getAccount_id());
+        session.setAttribute("list_prac", listPrac);
         
-        Quiz quiz = dao.getQuiz(quiz_id);
-        Duration duration = quiz.getDuration();
-        long minutes = duration.toMinutes();
-        if (quiz.getSelectedGroup() == 1) {
-            request.setAttribute("question_type", "topic");
-        }
-        else if (quiz.getSelectedGroup() == 2) {
-            request.setAttribute("question_type", "group");
-        }
-        else {
-            request.setAttribute("question_type", "domain");
-        }
-        request.setAttribute("name", quiz);
-        request.setAttribute("description", quiz.getQuiz_description());
-        request.setAttribute("quiztype_id", quiz.getQuiz_type_id());
-        request.setAttribute("subject_id", quiz.getSubject_id());
-        request.setAttribute("level_id", quiz.getLevel_id());
-        request.setAttribute("quiz", quiz);
-        request.setAttribute("minutes", minutes);
-        request.setAttribute("listSubject", dao.getAllSubject());
-        request.setAttribute("listLevel", dao.getAllLevel());
-        request.setAttribute("listQuiz_Type", dao.getAllQuizType());
-        if (quiz.getSelectedGroup() == 1) {
-            request.setAttribute("questionTopic", dao.getAllLessonTopicBySubjectId(quiz.getSubject_id()));
-            request.setAttribute("listGroupSelection", dao.getSelectedGroupTopic(quiz_id));
-        }
-        else if (quiz.getSelectedGroup() == 2) {
-            request.setAttribute("questionGroup", dao.getAllDimensionByType(1, quiz.getSubject_id()));
-            request.setAttribute("listGroupSelection", dao.getSelectedGroupDimension(quiz_id));
-        }
-        else {
-            request.setAttribute("questionDomain", dao.getAllDimensionByType(2, quiz.getSubject_id()));
-            request.setAttribute("listGroupSelection", dao.getSelectedGroupDimension(quiz_id));
-        }
-        //Send a message to question_detail.jsp, alert that user added quiz successfully
-        String message = request.getParameter("message");
-        request.setAttribute("showSuccessMessage", message);
-        request.getRequestDispatcher("expert/edit_quiz.jsp").forward(request, response);
+        request.getRequestDispatcher("customer/practice_list.jsp").forward(request, response);
     } 
 
     /** 
@@ -113,7 +78,7 @@ public class EditQuizValidationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
+        processRequest(request, response);
     }
 
     /** 

@@ -79,7 +79,7 @@ public class QuizHandling extends HttpServlet {
         } catch (Exception e) {
             handleQuiz = qd.getQuiz_OldVersion(5);
         }
-        if(handleQuiz == null) {
+        if (handleQuiz == null) {
             handleQuiz = qd.getQuiz_OldVersion(5);
         }
         Account a = (Account) session.getAttribute("user");
@@ -93,15 +93,7 @@ public class QuizHandling extends HttpServlet {
         session.setAttribute("subject_dao", sd);
         LocalDateTime lc = LocalDateTime.now();
         Practice_Record pr = new Practice_Record(handleQuiz.getQuiz_name(), Timestamp.valueOf(lc), 0, 0, 0, a.getAccount_id(), handleQuiz.getQuiz_id());
-        qd.addPracticeRecord(pr);
-        int newlyPractice = qd.searchNewlyPractice(a.getAccount_id());
-        for (Question_Handle question_Handle : listQuestion) {
-            question_Handle.setPractice_id(newlyPractice);
-        }
-        qed.addPracticeQuestions(listQuestion);
-        pr.setPractice_id(newlyPractice);
-        session.setAttribute("prac_record", pr);
-        session.setAttribute("new_practice_id", newlyPractice);
+
         //out.print(listQuestion.size());
         float passrate = qd.getPassRate(handleQuiz.getQuiz_id());
         session.setAttribute("passrate", passrate);
@@ -114,7 +106,19 @@ public class QuizHandling extends HttpServlet {
         session.setAttribute("num_quest", numberOfQuest);
         if (session.getAttribute("questions") == null) {
             session.setAttribute("questions", listQuestion);
+            
 
+        }
+        if(session.getAttribute("prac_record") == null) {
+            qd.addPracticeRecord(pr);
+            int newlyPractice = qd.searchNewlyPractice(a.getAccount_id());
+            for (Question_Handle question_Handle : listQuestion) {
+                question_Handle.setPractice_id(newlyPractice);
+            }
+            qed.addPracticeQuestions(listQuestion);
+            pr.setPractice_id(newlyPractice);
+            session.setAttribute("prac_record", pr);
+            session.setAttribute("new_practice_id", newlyPractice);
         }
         if (session.getAttribute("curr_quest") == null) {
             session.setAttribute("curr_quest", 0);
@@ -166,9 +170,6 @@ public class QuizHandling extends HttpServlet {
                 countCorrect++;
             }
             //out.println(isCorrect(lq.get(i).getList_answer(), userAnswers[i]));
-        }
-        for (int i = 0; i < numQuestions; i++) {
-            out.println(userMarks[i]);
         }
         request.setAttribute("incorrect", numQuestions - countCorrect);
         String formattedNumber = String.format("%.2f", ((countCorrect * 1.0) / (numQuestions * 1.0)));
