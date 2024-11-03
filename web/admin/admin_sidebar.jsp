@@ -1,8 +1,3 @@
-<%-- 
-    Document   : sidebar
-    Created on : Sep 18, 2024, 11:58:01 AM
-    Author     : FPT SHOP
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -50,14 +45,7 @@
             <li class="sidebar-header">
                 Common
             </li>
-            <li class="sidebar-item">
-                <a class="sidebar-link collapsed" href="admindashboard">
-                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboards</span>
-                </a>
-                
-            </li>
-
-           
+            
 
             <li class="sidebar-item">
                 <a class="sidebar-link" href="managerAccount">
@@ -65,42 +53,32 @@
                 </a>
             </li>
 
-           
+
 
 
             <li class="sidebar-header">
                 Feature
             </li>
             <li class="sidebar-item">
-                <a data-bs-target="#ui" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="align-middle" data-feather="briefcase"></i> <span class="align-middle">Subject List</span>
+                <a class="sidebar-link"  href="subject-details  ">
+                    <i class="align-middle" data-feather="briefcase"></i> <span class="align-middle">Add Subject</span>
                 </a>
-                
+
             </li>
-            <li class="sidebar-item">
-                <a data-bs-target="#icons" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="align-middle" data-feather="coffee"></i> <span class="align-middle">Lesson List</span>
-                </a>
-                
-            </li>
-            <li class="sidebar-item">
-                <a data-bs-target="#forms" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="align-middle" data-feather="check-circle"></i> <span class="align-middle">Quiz List</span>
-                </a>
-               
-            </li>
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="tables-bootstrap.html">
-                    <i class="align-middle" data-feather="list"></i> <span class="align-middle">Question List</span>
-                </a>
-            </li>
+            
+            
+            
             <li class="sidebar-item">
                 <a class="sidebar-link" href="slider">
                     <i class="align-middle" data-feather="list"></i> <span class="align-middle">Slider</span>
                 </a>
             </li>
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="listBlogAdmin">
+                    <i class="align-middle" data-feather="list"></i> <span class="align-middle">Manager Blog</span>
+                </a>
+            </li>
 
-            
         </ul>
 
     </div>

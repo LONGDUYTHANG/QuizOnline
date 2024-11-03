@@ -87,6 +87,25 @@ public class SliderDAO extends DBContext {
             return false;
         }
     }
+    
+    public boolean insertSlider(String sliderImage, String sliderLink, String sliderDetail, String sliderTitle) {
+    String query = "INSERT INTO Slider (slider_image, slider_link, slider_detail, slider_title) VALUES (?, ?, ?, ?)";
+
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setString(1, sliderImage);
+        ps.setString(2, sliderLink);
+        ps.setString(3, sliderDetail);
+        ps.setString(4, sliderTitle);
+
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected > 0; 
+    } catch (SQLException e) {
+        e.printStackTrace(); 
+    }
+    return false; 
+}
+
+    
 
     public static void main(String[] args) {
         // Tạo đối tượng SliderDAO

@@ -156,7 +156,6 @@
         <servlet-name>EditQuizServlet</servlet-name>
         <servlet-class>controller.EditQuizServlet</servlet-class>
     </servlet>
-    
     <servlet>
         <servlet-name>CustomerRegisterSubjectServlet</servlet-name>
         <servlet-class>controller.CustomerRegisterSubjectServlet</servlet-class>
@@ -164,6 +163,14 @@
      <servlet>
         <servlet-name>ajaxServlet</servlet-name>
         <servlet-class>controller.ajaxServlet</servlet-class>
+       </servlet>
+    <servlet>
+        <servlet-name>DeleteQuestionServlet</servlet-name>
+        <servlet-class>controller.DeleteQuestionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteQuizServlet</servlet-name>
+        <servlet-class>controller.DeleteQuizServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
@@ -326,8 +333,18 @@
         <url-pattern>/editquiz</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+
         <servlet-name>CustomerRegisterSubjectServlet</servlet-name>
         <url-pattern>/customerregistersubject</url-pattern>
+</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteQuestionServlet</servlet-name>
+        <url-pattern>/deletequestion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteQuizServlet</servlet-name>
+        <url-pattern>/deletequiz</url-pattern>
+
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>

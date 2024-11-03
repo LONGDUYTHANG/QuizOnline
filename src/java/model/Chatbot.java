@@ -19,7 +19,7 @@ import org.json.JSONObject;
  */
 public class Chatbot {
 
-    private static final String API_KEY = "";
+    private static final String API_KEY = ""; 
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
 
     public static void main(String[] args) {
