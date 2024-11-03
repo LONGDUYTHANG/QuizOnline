@@ -913,34 +913,36 @@ public class RegistrationDAO extends DBContext {
 
         return registeredSubjects;
     }
+    public boolean AddRegistration(Registration registration) {
+        PreparedStatement stm;
+        try {
+            String strSelect = "INSERT INTO Registration (registration_time, account_id, subject_id, package_id, cost,valid_from, valid_to,list_price, sale_price, status_id,note) VALUES (?,?,?,?,?,?)";
+            stm = connection.prepareStatement(strSelect);
+            stm.setTimestamp(1, java.sql.Timestamp.valueOf(registration.getRegistration_time()));
+            stm.setInt(2, registration.getAccount_id());
+            stm.setInt(3, registration.getSubject_id());
+            stm.setInt(4, registration.getPackage_id());
+            stm.setDouble(5, registration.getCost());
+            stm.setTimestamp(6, java.sql.Timestamp.valueOf(registration.getValid_from()));
+            stm.setTimestamp(7, java.sql.Timestamp.valueOf(registration.getValid_to()));
+            stm.setDouble(8, registration.getList_price());
+            stm.setDouble(9, registration.getSale_price());
+            stm.setInt(10, registration.getStatus_id());
+            stm.setString(11, registration.getNote());
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
 
     public static void main(String[] args) {
         // Khởi tạo đối tượng RegistrationDAO
         RegistrationDAO registrationDAO = new RegistrationDAO();
-
-        // ID của người dùng mà bạn muốn kiểm tra
-        int userId = 3; // Thay đổi theo userId bạn muốn kiểm tra
-
-        // Gọi hàm getRegisteredSubjectsByUserId và lấy danh sách môn học đã đăng ký
-        ArrayList<Subject> registeredSubjects = registrationDAO.getRegisteredSubjectsByUserId(userId);
-
-        // Kiểm tra và in ra các môn học đã đăng ký
-        if (registeredSubjects.isEmpty()) {
-            System.out.println("User với ID " + userId + " chưa đăng ký môn học nào.");
-        } else {
-            System.out.println("Các môn học mà user với ID " + userId + " đã đăng ký:");
-            for (Subject subject : registeredSubjects) {
-                System.out.println("Mã môn học: " + subject.getSubjectId());
-                System.out.println("Tên môn học: " + subject.getSubjectName());
-                System.out.println("Danh mục: " + subject.getCategoryId());
-                System.out.println("Trạng thái: " + (subject.isStatus() ? "Kích hoạt" : "Vô hiệu"));
-                System.out.println("Nổi bật: " + (subject.isIsFeatured() ? "Có" : "Không"));
-                System.out.println("Hình ảnh: " + subject.getThumbnail());
-                System.out.println("Tiêu đề: " + subject.getTagline());
-                System.out.println("Mô tả: " + subject.getDescription());
-                System.out.println("Người tạo: " + subject.getAccountId());
-                System.out.println("--------------------------------");
-            }
+        ArrayList<Integer> a=registrationDAO.getRevenueByWeek(LocalDate.now());
+        for(int h:a){
+            System.out.println(h);
         }
     }
 }

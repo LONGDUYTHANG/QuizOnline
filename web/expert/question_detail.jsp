@@ -173,7 +173,8 @@
                     <!-- Header -->
                     <div class="header">
                         <h1>FPT University</h1>
-                        <button class="btn btn-warning" type="submit" onclick="submitForm()">Save</button>
+                        <button class="btn btn-warning" type="submit" onclick="submitForm()" style="margin-left: 840px">Save</button>
+                        <button class="btn btn-outline-warning" type="submit" onclick="window.location.href='questionlist'">Back</button>
                     </div>
                     
                     <!-- Submit the form when clicking on Save button -->

@@ -154,7 +154,7 @@
                                         </c:if>    
                                         <td style="width: 120px">
                                             <button type="button" class="btn btn-success" onclick="window.location.href='editquestionvalidation?question_id=${question.question_id}'"><i class="align-middle me-2 fas fa-fw fa-edit"></i></button>
-                                            <button type="button" class="btn btn-danger"><i class="align-middle me-2 fas fa-fw fa-trash-alt"></i></button>
+                                            <button type="button" class="btn btn-danger" onclick="if(confirm('Are you sure you want to delete this question?')) { window.location.href='deletequestion?question_id=${question.question_id}'; }"><i class="align-middle me-2 fas fa-fw fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
                                 </c:forEach>

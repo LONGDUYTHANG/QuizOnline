@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    <filter>
+        <filter-name>rolefilter</filter-name>
+        <filter-class>filter.RoleFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>rolefilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>Demo</servlet-name>
         <servlet-class>controller.Demo</servlet-class>
@@ -148,6 +156,22 @@
         <servlet-name>EditQuizServlet</servlet-name>
         <servlet-class>controller.EditQuizServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CustomerRegisterSubjectServlet</servlet-name>
+        <servlet-class>controller.CustomerRegisterSubjectServlet</servlet-class>
+    </servlet>
+     <servlet>
+        <servlet-name>ajaxServlet</servlet-name>
+        <servlet-class>controller.ajaxServlet</servlet-class>
+       </servlet>
+    <servlet>
+        <servlet-name>DeleteQuestionServlet</servlet-name>
+        <servlet-class>controller.DeleteQuestionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteQuizServlet</servlet-name>
+        <servlet-class>controller.DeleteQuizServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
         <url-pattern>/demo</url-pattern>
@@ -234,7 +258,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RegistrationListServlet</servlet-name>
-        <url-pattern>/registrationlist</url-pattern>
+        <url-pattern>/salerregistrationlist</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SearchRegistrationServlet</servlet-name>
@@ -308,6 +332,20 @@
         <servlet-name>EditQuizServlet</servlet-name>
         <url-pattern>/editquiz</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+
+        <servlet-name>CustomerRegisterSubjectServlet</servlet-name>
+        <url-pattern>/customerregistersubject</url-pattern>
+</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteQuestionServlet</servlet-name>
+        <url-pattern>/deletequestion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteQuizServlet</servlet-name>
+        <url-pattern>/deletequiz</url-pattern>
+
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>
     </welcome-file-list>
@@ -370,5 +408,9 @@
     <servlet-mapping>
         <servlet-name>UpdateEmail</servlet-name>
         <url-pattern>/update_email</url-pattern>
+    </servlet-mapping>
+     <servlet-mapping>
+        <servlet-name>ajaxServlet</servlet-name>
+        <url-pattern>/vnpayajax/*</url-pattern>
     </servlet-mapping>
 </web-app>
