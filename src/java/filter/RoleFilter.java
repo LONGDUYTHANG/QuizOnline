@@ -109,22 +109,22 @@ public class RoleFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         String url = req.getServletPath();
         Account account = (Account) req.getSession().getAttribute("user");
-        if( account == null){
-            if(url.contains("/saler") || url.contains("/admin")|| url.contains("/customer")){
-                res.sendRedirect("common/404error.html");
-            }
-
-        }else{
-            if (url.contains("/saler")&& account.getRole_id()!=3) {
-                res.sendRedirect("common/404error.html");
-            } 
-            if (url.contains("/admin")&& account.getRole_id()!=1) {
-                res.sendRedirect("common/404error.html");
-            }
-            if (url.contains("/customer")&& account.getRole_id()!=2) {
-                res.sendRedirect("common/404error.html");
-            }
-        }
+//        if( account == null){
+//            if(url.contains("/saler") || url.contains("/admin")|| url.contains("/customer")){
+//                res.sendRedirect("common/404error.html");
+//            }
+//
+//        }else{
+//            if (url.contains("/saler")&& account.getRole_id()!=3) {
+//                res.sendRedirect("common/404error.html");
+//            } 
+//            if ( account.getRole_id()!=4) {
+//                res.sendRedirect("common/404error.html");
+//            }
+//            if (url.contains("/customer")&& account.getRole_id()!=2) {
+//                res.sendRedirect("common/404error.html");
+//            }
+//        }
         Throwable problem = null;
         try {
             chain.doFilter(request, response);

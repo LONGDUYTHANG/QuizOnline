@@ -63,6 +63,10 @@ public class DimensionController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String subjectName=request.getParameter("subjectName");
+        SubjectDAO sDao = new SubjectDAO();
+        int maxid=sDao.getMaxSubjectId();
+        
 
         // 
         DimensionDAO dDao = new DimensionDAO();
@@ -74,8 +78,9 @@ public class DimensionController extends HttpServlet {
         List<DimensionType> listDimensionType = dDao.getAllType();
 
         request.setAttribute("listDimensionType", listDimensionType);
-
-        SubjectDAO sDao = new SubjectDAO();
+        request.setAttribute("subjectName", subjectName);
+        request.setAttribute("maxid", maxid);
+        
         List<Subject> listSubject = sDao.getListSubject();
         request.setAttribute("listSubject", listSubject);
         if (action != null) {
@@ -94,7 +99,7 @@ public class DimensionController extends HttpServlet {
 
         }
 
-        request.getRequestDispatcher("admin/dimension.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/adddimensionandlessontopic.jsp").forward(request, response);
     }
 
     /**

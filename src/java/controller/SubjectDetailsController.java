@@ -4,7 +4,7 @@
  */
 package controller;
 
-
+import dal.AccountDAO;
 import dal.SubjectDAO;
 import dal.CategoryDAO;
 import java.io.File;
@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import model.Account;
 
 /**
  *
@@ -75,11 +76,13 @@ public class SubjectDetailsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        // lấy ra danh sách category
         CategoryDAO cDao = new CategoryDAO();
         List<SubjectCategory> listCategory = cDao.getAllCategory();
         request.setAttribute("listCategory", listCategory);
+
+        AccountDAO aDao = new AccountDAO();
+        List<Account> listExpert = aDao.getExpertsByRoleId();
+        request.setAttribute("listExpert", listExpert);
 
         request.getRequestDispatcher("admin/subjectDetail.jsp").forward(request, response);
     }
@@ -100,7 +103,7 @@ public class SubjectDetailsController extends HttpServlet {
         String subjectCategory = request.getParameter("subjectCategory");
         String description = request.getParameter("description");
         String tagLine = request.getParameter("tagLine");
-        String accountId = request.getParameter("accountId");
+        String accountId = request.getParameter("listExpert");
         boolean featured = request.getParameter("featured") != null;
 
         String statusString = request.getParameter("status");
@@ -114,8 +117,8 @@ public class SubjectDetailsController extends HttpServlet {
         }
 
         // Handle file upload
-        String linkImage = ""; 
-        Part filePart = request.getPart("image"); 
+        String linkImage = "";
+        Part filePart = request.getPart("image");
 
         if (filePart != null && filePart.getSize() > 0) {
             // Sanitize and create a new file name
@@ -134,7 +137,7 @@ public class SubjectDetailsController extends HttpServlet {
             }
 
             // Save the file to the specified directory
-            linkImage = "subject/img/imageSubject/" + newFileName; 
+            linkImage = "subject/img/imageSubject/" + newFileName;
             try (InputStream fileContent = filePart.getInputStream()) {
                 Files.copy(fileContent, Paths.get(uploadDir, newFileName), StandardCopyOption.REPLACE_EXISTING);
                 Logger.getLogger(SubjectDetailsController.class.getName()).log(Level.INFO, "File uploaded successfully: " + linkImage);
@@ -144,14 +147,13 @@ public class SubjectDetailsController extends HttpServlet {
                 return;
             }
         }
-        
 
         // Save subject to database
         SubjectDAO sDao = new SubjectDAO();
         sDao.createNewSubject(subjectName, subjectCategory, status, featured, linkImage, tagLine, description, accountId);
 
         // Redirect to success page
-        response.sendRedirect("subject-details?success=true");
+        response.sendRedirect("dimension?subjectName="+subjectName+"");
     }
 //    public void createNewSubject(String subjectName, String subjectCategory, int status, boolean featured, String thumbnail, String tagLine, String description, String accountId) {
 //        String sql = "INSERT INTO Subject (subject_name, category_id, status, isFeatured, thumbnail, tagline, description, account_id, created_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE())";

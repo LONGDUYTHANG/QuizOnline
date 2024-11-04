@@ -188,6 +188,21 @@ public class SubjectDAO extends DBContext {
         }
     }
 
+    public int getMaxSubjectId() {
+        String sql = "SELECT MAX(subject_id) AS maxId FROM subject";
+        int maxId = 0;
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                maxId = rs.getInt("maxId");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return maxId;
+    }
+
     public int countEnrolledSubject(Account a) {
         String sql = "select COUNT(*) as countSubject from Registration\n"
                 + "where account_id = ?";
@@ -442,8 +457,7 @@ public class SubjectDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-      
-        
+
     }
 
 }
