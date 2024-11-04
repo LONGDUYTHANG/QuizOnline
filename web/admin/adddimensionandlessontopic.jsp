@@ -146,7 +146,7 @@
 
 
 
-                            <div id="create" style="display: none;"> <!-- Initially hidden -->
+                            <div    > <!-- Initially hidden -->
 
                                 <form action="dimension" method="post" class="row g-3">
                                     <input value="create" hidden="" name="action">
@@ -171,11 +171,9 @@
 
                                     <div class="col-md-3">
                                         <label for="validationDefault05" class="form-label">Subject</label>
-                                        <select name="listExpert" class="form-select" id="validationDefault05" required="">
-                                            <c:forEach items="${listExpert}" var="expert">
-                                                <option value="${expert.account_id}">${expert.first_name} ${expert.last_name}</option>
-                                            </c:forEach>
-                                        </select>
+                                        <input name="subjectName" value="${subjectName}" type="text" class="form-control" id="validationDefault01"  disabled>
+                                        <input name="subject_id" value="${maxid}" type="text" class="form-control"  hidden>
+
                                     </div>
 
 
@@ -184,6 +182,31 @@
                                     </div>
                                 </form>
                             </div>
+
+                            <div> <!-- Initially hidden -->
+                                <form action="adminaddlessontopic" method="post" class="row g-3">
+                                    <input value="create" type="hidden" name="action">
+
+                                    <!-- Lesson Topic Name Input -->
+                                    <div class="col-md-4">
+                                        <label for="lessonTopicName" class="form-label">Lesson Topic Name</label>
+                                        <input name="lesson_topic_name" type="text" class="form-control" id="lessonTopicName" required>
+                                    </div>
+
+                                    <!-- Subject Name and ID (Hidden) -->
+                                    <div class="col-md-3">
+                                        <label for="subjectName" class="form-label">Subject</label>
+                                        <input name="subjectName" value="${subjectName}" type="text" class="form-control" id="subjectName" disabled>
+                                        <input name="subject_id" value="${maxid}" type="hidden">
+                                    </div>
+
+                                    <!-- Submit Button -->
+                                    <div class="col-12">
+                                        <button class="btn btn-primary" type="submit">Submit form</button>
+                                    </div>
+                                </form>
+                            </div>
+
 
                             <script>
             function toggleForm() {
@@ -197,95 +220,8 @@
                             </script>
 
 
-                            <div>
-                                <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h5 class="card-title">Contextual Classes</h5>
-                                            <h6 class="card-subtitle text-muted">Use contextual classes to color table rows or individual cells.</h6>
-                                        </div>
-                                        <button class="btn btn-outline-success active" onclick="toggleForm()">Create new Dimension</button>
-                                    </div>
-
-
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th style="width:20%;">#</th>
-                                                <th style="width:30%">Type</th>
-                                                <th class="d-none d-md-table-cell" style="width:25%">Dimension</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            <c:forEach items="${listD}" var="list">
-                                                <tr>
-                                                    <td>${list.dimension_id}</td>
-                                                    <td>${list.dimension_type_id1.dimension_type_name}</td>
-                                                    <td class="d-none d-md-table-cell">${list.dimension_name}</td>
-                                                    <td class="table-action">
-
-                                                        <!-- Edit Button -->
-                                                        <a href="dimension?id=${list.dimension_id}&&action=edit" class="btn btn-outline-primary btn-sm">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle">
-                                                            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-                                                            </svg>
-                                                        </a>
-
-                                                        <!-- Delete Button (with form) -->
-                                                        <form method="post" action="dimension" class="d-inline" onsubmit="return confirmDelete()">
-                                                            <input type="hidden" name="id" value="${list.dimension_id}">
-                                                            <input type="hidden" name="action" value="delete">
-                                                            <button type="submit" class="btn btn-outline-danger btn-sm">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle">
-                                                                <polyline points="3 6 5 6 21 6"></polyline>
-                                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                                                </svg>
-                                                            </button>
-                                                            <script type="text/javascript">
-                                                                function confirmDelete() {
-                                                                    return confirm("Are you sure you want to delete this dimension?");
-                                                                }
-                                                            </script>
-
-                                                        </form>
-
-
-                                                    </td>
-
-                                                </tr>
-
-
-                                            </c:forEach>
-
-
-
-
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div>
-                                <form action="dimension" method="post" class="row g-3">
-                                    <input value="create" hidden="" name="action">
-                                    <div class="col-md-4">
-                                        <label for="validationDefault01" class="form-label">Lesson Topic Name</label>
-                                        <input name="dimension_name" type="text" class="form-control" id="validationDefault01"  required="">
-                                    </div>
-
-
-
-                                    <div class="col-12">
-                                        <button class="btn btn-primary" type="submit">Submit form</button>
-                                    </div>
-                                </form>
-                            </div>
-
 
                         </div>
-                    </div>
                 </main>
 
 
@@ -295,25 +231,25 @@
         <script src="js/app.js"></script>
 
         <script>
-                                                                document.addEventListener("DOMContentLoaded", function (event) {
-                                                                    setTimeout(function () {
-                                                                        if (localStorage.getItem('popState') !== 'shown') {
-                                                                            window.notyf.open({
-                                                                                type: "success",
-                                                                                message: "Get access to all 500+ components and 45+ pages with AdminKit PRO. <u><a class=\"text-white\" href=\"https://adminkit.io/pricing\" target=\"_blank\">More info</a></u> 🚀",
-                                                                                duration: 10000,
-                                                                                ripple: true,
-                                                                                dismissible: false,
-                                                                                position: {
-                                                                                    x: "left",
-                                                                                    y: "bottom"
-                                                                                }
-                                                                            });
+            document.addEventListener("DOMContentLoaded", function (event) {
+                setTimeout(function () {
+                    if (localStorage.getItem('popState') !== 'shown') {
+                        window.notyf.open({
+                            type: "success",
+                            message: "Get access to all 500+ components and 45+ pages with AdminKit PRO. <u><a class=\"text-white\" href=\"https://adminkit.io/pricing\" target=\"_blank\">More info</a></u> 🚀",
+                            duration: 10000,
+                            ripple: true,
+                            dismissible: false,
+                            position: {
+                                x: "left",
+                                y: "bottom"
+                            }
+                        });
 
-                                                                            localStorage.setItem('popState', 'shown');
-                                                                        }
-                                                                    }, 15000);
-                                                                });
+                        localStorage.setItem('popState', 'shown');
+                    }
+                }, 15000);
+            });
         </script>
     </body>
 

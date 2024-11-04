@@ -45,7 +45,11 @@
             <li class="sidebar-header">
                 Common
             </li>
-            
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="managerAccount">
+                    <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Admin Dashboard</span>
+                </a>
+            </li>
 
             <li class="sidebar-item">
                 <a class="sidebar-link" href="managerAccount">
@@ -70,12 +74,17 @@
             
             <li class="sidebar-item">
                 <a class="sidebar-link" href="slider">
-                    <i class="align-middle" data-feather="list"></i> <span class="align-middle">Slider</span>
+                    <i class="align-middle" data-feather="list"></i> <span class="align-middle">Manage Slider</span>
                 </a>
             </li>
             <li class="sidebar-item">
                 <a class="sidebar-link" href="listBlogAdmin">
                     <i class="align-middle" data-feather="list"></i> <span class="align-middle">Manager Blog</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="exsubjectlist">
+                    <i class="align-middle" data-feather="list"></i> <span class="align-middle">Subject List</span>
                 </a>
             </li>
 
