@@ -440,28 +440,58 @@ public class SubjectDAO extends DBContext {
         }
         return false;  // Trả về false nếu có lỗi hoặc không tìm thấy bản ghi
     }
-    
-     /**
+
+    /**
      * Get all subjects registration of an user
      *
-     * @param user_id 
+     * @param user_id
      * @return an array list of subjec id
      */
     public ArrayList<Subject> getRegistrationListOfAnUser(int user_id) {
         PreparedStatement stm;
         PreparedStatement stm_view;
         ResultSet rs;
-        ArrayList<Subject> subject_id_list=new ArrayList<>();
+        ArrayList<Subject> subject_id_list = new ArrayList<>();
         try {
-            String strSelect = " SELECT DIstinct A.subject_id,A.subject_name,A.category_id,A.status, A.isFeatured, A.thumbnail,A.tagline, A.description,A.account_id,A.created_date \n" +
-"  FROM Subject A JOIN Registration B \n" +
-"  ON A.subject_id=B.subject_id AND B.account_id=? AND B.status_id=2\n" +
-"  ";
+            String strSelect = " SELECT DIstinct A.subject_id,A.subject_name,A.category_id,A.status, A.isFeatured, A.thumbnail,A.tagline, A.description,A.account_id,A.created_date, B.registration_time  FROM Subject A JOIN Registration B \n"
+                    + "ON A.subject_id=B.subject_id AND B.account_id=? AND B.status_id=2 ORDER BY B.registration_time DESC";
             stm = connection.prepareStatement(strSelect);
             stm.setInt(1, user_id);
             rs = stm.executeQuery();
             while (rs.next()) {
-               Subject subject = new Subject();
+                Subject subject = new Subject();
+                subject.setAccountId(rs.getInt("account_id"));
+                subject.setCategoryId(rs.getInt("category_id"));
+                subject.setCreatedDate(rs.getTimestamp("created_date"));
+                subject.setDescription(rs.getString("description"));
+                subject.setIsFeatured(rs.getBoolean("isFeatured"));
+                subject.setStatus(rs.getBoolean("status"));
+                subject.setSubjectId(rs.getInt("subject_id"));
+                subject.setSubjectName(rs.getString("subject_name"));
+                subject.setTagline(rs.getString("tagline"));
+                subject.setThumbnail(rs.getString("thumbnail"));
+
+                subject_id_list.add(subject);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return subject_id_list;
+    }
+    
+    public ArrayList<Subject> FilterRegistrationListOfAnUser(int user_id, String keyword) {
+        PreparedStatement stm;
+        PreparedStatement stm_view;
+        ResultSet rs;
+        ArrayList<Subject> subject_id_list = new ArrayList<>();
+        try {
+            String strSelect = " SELECT DIstinct A.subject_id,A.subject_name,A.category_id,A.status, A.isFeatured, A.thumbnail,A.tagline, A.description,A.account_id,A.created_date, B.registration_time  FROM Subject A JOIN Registration B \n"
+                    + "ON A.subject_id=B.subject_id AND A.subject_name LIKE '"+keyword+"' AND B.account_id=? AND B.status_id=2 ORDER BY B.registration_time DESC";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, user_id);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Subject subject = new Subject();
                 subject.setAccountId(rs.getInt("account_id"));
                 subject.setCategoryId(rs.getInt("category_id"));
                 subject.setCreatedDate(rs.getTimestamp("created_date"));
@@ -482,8 +512,7 @@ public class SubjectDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-      
-        
+
     }
 
 }

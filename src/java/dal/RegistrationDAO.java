@@ -936,6 +936,21 @@ public class RegistrationDAO extends DBContext {
             return false;
         }
     }
+    
+    public boolean RemoveRegistration(int account_id,int subject_id){
+        PreparedStatement stm;
+        try {
+            String strSelect = "DELETE FROM Registration WHERE account_id=? AND subject_id=?";
+            stm = connection.prepareStatement(strSelect);     
+            stm.setInt(1, account_id);
+            stm.setInt(2, subject_id);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
 
     public static void main(String[] args) {
         // Khởi tạo đối tượng RegistrationDAO
