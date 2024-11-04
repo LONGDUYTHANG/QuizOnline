@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import model.Registration;
 import model.Registration_Status;
@@ -56,6 +57,9 @@ public class RegistrationDAO extends DBContext {
         }
         return registration_list;
     }
+    
+    
+
 
     /**
      * Get an user's registration list using his/her email
@@ -916,19 +920,15 @@ public class RegistrationDAO extends DBContext {
     public boolean AddRegistration(Registration registration) {
         PreparedStatement stm;
         try {
-            String strSelect = "INSERT INTO Registration (registration_time, account_id, subject_id, package_id, cost,valid_from, valid_to,list_price, sale_price, status_id,note) VALUES (?,?,?,?,?,?)";
+            String strSelect = "INSERT INTO Registration (registration_time, account_id, subject_id, cost, list_price, sale_price, status_id) VALUES (?,?,?,?,?,?,?)";
             stm = connection.prepareStatement(strSelect);
             stm.setTimestamp(1, java.sql.Timestamp.valueOf(registration.getRegistration_time()));
             stm.setInt(2, registration.getAccount_id());
             stm.setInt(3, registration.getSubject_id());
-            stm.setInt(4, registration.getPackage_id());
-            stm.setDouble(5, registration.getCost());
-            stm.setTimestamp(6, java.sql.Timestamp.valueOf(registration.getValid_from()));
-            stm.setTimestamp(7, java.sql.Timestamp.valueOf(registration.getValid_to()));
-            stm.setDouble(8, registration.getList_price());
-            stm.setDouble(9, registration.getSale_price());
-            stm.setInt(10, registration.getStatus_id());
-            stm.setString(11, registration.getNote());
+            stm.setDouble(4, registration.getCost());
+            stm.setDouble(5, registration.getList_price());
+            stm.setDouble(6, registration.getSale_price());
+            stm.setInt(7, registration.getStatus_id());
             stm.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -940,9 +940,7 @@ public class RegistrationDAO extends DBContext {
     public static void main(String[] args) {
         // Khởi tạo đối tượng RegistrationDAO
         RegistrationDAO registrationDAO = new RegistrationDAO();
-        ArrayList<Integer> a=registrationDAO.getRevenueByWeek(LocalDate.now());
-        for(int h:a){
-            System.out.println(h);
-        }
+         Registration registration=new Registration(LocalDateTime.now(), 8, 0, 3, 2, 200, 300);
+        registrationDAO.AddRegistration(registration);
     }
 }

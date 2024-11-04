@@ -94,39 +94,35 @@
                                     <!-- Subject list -->
                                     <c:forEach items="${requestScope.subject_list}" var="c">
                                         <c:if test="${param.keyword == null || param.keyword == '' || c.description.toLowerCase().contains(param.keyword.toLowerCase())}">
-                                            <div class="blog-post blog-md clearfix">
-                                                <div class="ttr-post-media">
-                                                    <a href="subject_details?subject_id=${c.subjectId}"><img src="${c.thumbnail}" alt=""></a>
-                                                </div>
-                                                <div class="ttr-post-info">
-                                                    <ul class="media-post">
-                                                        <li><i class="fa fa-calendar"></i>${c.createdDate}</li>
-                                                        <li><b>${c.tagline}</b></li>
-                                                    </ul>
-                                                    <h5 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.subjectName}</a></h5>
-                                                    <p>${c.description}</p>
-                                                    <div class="post-extra">
-                                                        <c:if test="${not empty selectedPackageModel}">
-                                                            <del>${selectedPackageModel.listPrice}</del>
-                                                            <h4 class="price">${selectedPackageModel.salePrice}</h4>
-                                                        </c:if>
-                                                        <div style="margin-left: 50px;"></div>
+                                            <form action="customerregistersubject" >-->
+                                                <div class="blog-post blog-md clearfix">
+                                                    <div class="ttr-post-media">
+                                                        <a href="subject_details?subject_id=${c.subjectId}"><img src="${c.thumbnail}" alt=""></a>
+                                                    </div>
+                                                    <div class="ttr-post-info">
+                                                        <ul class="media-post">
+                                                            <li><i class="fa fa-calendar"></i>${c.createdDate}</li>
+                                                            <li><b>${c.tagline}</b></li>
+                                                        </ul>
+                                                        <h5 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.subjectName}</a></h5>
+                                                        <p>${c.description}</p>
+                                                        <div class="post-extra">
+                                                            <c:if test="${not empty selectedPackageModel}">
+                                                                <del>${selectedPackageModel.listPrice}</del>
+                                                                <h4 class="price">${selectedPackageModel.salePrice}</h4>
+                                                            </c:if>
+                                                            <div style="margin-left: 50px;"></div>
+                                                            <button type="submit" class="btn btn-primary">Register</button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                                <input type="text" hidden value="${sessionScope.user.account_id}" name="account_id">
+                                                <input type="text" hidden value="${c.subjectId}" name="subject_id">
+                                                <input type="text" hidden value="${selectedPackageModel.listPrice}" name="list_price">
+                                                <input type="text" hidden value="${selectedPackageModel.salePrice}" name="sale_price">
+                                            </form>
                                         </c:if>
                                     </c:forEach>
-
-                                    <!-- Pagination start -->
-                                    <div class="col-lg-12 m-b20">
-                                        <div class="pagination-bx rounded-sm gray clearfix" style="text-align: center;">
-                                            <ul class="pagination" style="display: flex; justify-content: center; align-items: center;">
-                                                <li class="previous"><a href="#"><i class="ti-arrow-left"></i> Prev</a></li>
-                                                <li class="active"><a href="#">1</a></li>
-                                                <li class="next"><a href="#">Next <i class="ti-arrow-right"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
                                     <!-- Pagination END -->
                                 </div>
                                 <!-- Left part END -->
