@@ -157,10 +157,10 @@
         <servlet-class>controller.EditQuizServlet</servlet-class>
     </servlet>
     <servlet>
-<<<<<<< HEAD
+
         <servlet-name>AdminAddLessonTopicServlet</servlet-name>
         <servlet-class>controller.AdminAddLessonTopicServlet</servlet-class>
-=======
+
         <servlet-name>ViewPracticeList</servlet-name>
         <servlet-class>controller.ViewPracticeList</servlet-class>
     </servlet>
@@ -187,7 +187,6 @@
     <servlet>
         <servlet-name>CustomerSearchRegistration</servlet-name>
         <servlet-class>controller.CustomerSearchRegistration</servlet-class>
->>>>>>> d5abc26066aa8eeffefc5466a67a5ea4c6fe955f
     </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
@@ -350,10 +349,10 @@
         <url-pattern>/editquiz</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-<<<<<<< HEAD
+
         <servlet-name>AdminAddLessonTopicServlet</servlet-name>
         <url-pattern>/adminaddlessontopic</url-pattern>
-=======
+
 
         <servlet-name>ViewPracticeList</servlet-name>
         <url-pattern>/view_practice</url-pattern>
@@ -380,7 +379,7 @@
         <servlet-name>CustomerSearchRegistration</servlet-name>
         <url-pattern>/customersearchregistration</url-pattern>
 
->>>>>>> d5abc26066aa8eeffefc5466a67a5ea4c6fe955f
+
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>
