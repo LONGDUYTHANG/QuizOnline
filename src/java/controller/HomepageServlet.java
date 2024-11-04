@@ -17,6 +17,7 @@ import model.Account;
 import model.Post;
 import model.Slider;
 import model.Subject;
+import model.Package;
 
 /**
  *
@@ -79,7 +80,7 @@ public class HomepageServlet extends HttpServlet {
         request.setAttribute("subject_list", subject_list);
 
         PackageDAO packageDAO = new PackageDAO();
-        List<model.Package> packageList = packageDAO.getAllPackage();
+        List<Package> packageList = packageDAO.getAllPackage1();
         String selectedDuration = request.getParameter("courseDuration");
         model.Package selectedPackageModel = packageList.get(0);
         if (selectedDuration != null) {

@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import model.Registration;
 import model.Registration_Status;
@@ -56,6 +57,9 @@ public class RegistrationDAO extends DBContext {
         }
         return registration_list;
     }
+    
+    
+
 
     /**
      * Get an user's registration list using his/her email
@@ -913,34 +917,45 @@ public class RegistrationDAO extends DBContext {
 
         return registeredSubjects;
     }
+    public boolean AddRegistration(Registration registration) {
+        PreparedStatement stm;
+        try {
+            String strSelect = "INSERT INTO Registration (registration_time, account_id, subject_id, cost, list_price, sale_price, status_id) VALUES (?,?,?,?,?,?,?)";
+            stm = connection.prepareStatement(strSelect);
+            stm.setTimestamp(1, java.sql.Timestamp.valueOf(registration.getRegistration_time()));
+            stm.setInt(2, registration.getAccount_id());
+            stm.setInt(3, registration.getSubject_id());
+            stm.setDouble(4, registration.getCost());
+            stm.setDouble(5, registration.getList_price());
+            stm.setDouble(6, registration.getSale_price());
+            stm.setInt(7, registration.getStatus_id());
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    
+    public boolean RemoveRegistration(int account_id,int subject_id){
+        PreparedStatement stm;
+        try {
+            String strSelect = "DELETE FROM Registration WHERE account_id=? AND subject_id=?";
+            stm = connection.prepareStatement(strSelect);     
+            stm.setInt(1, account_id);
+            stm.setInt(2, subject_id);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
 
     public static void main(String[] args) {
         // Khởi tạo đối tượng RegistrationDAO
         RegistrationDAO registrationDAO = new RegistrationDAO();
-
-        // ID của người dùng mà bạn muốn kiểm tra
-        int userId = 3; // Thay đổi theo userId bạn muốn kiểm tra
-
-        // Gọi hàm getRegisteredSubjectsByUserId và lấy danh sách môn học đã đăng ký
-        ArrayList<Subject> registeredSubjects = registrationDAO.getRegisteredSubjectsByUserId(userId);
-
-        // Kiểm tra và in ra các môn học đã đăng ký
-        if (registeredSubjects.isEmpty()) {
-            System.out.println("User với ID " + userId + " chưa đăng ký môn học nào.");
-        } else {
-            System.out.println("Các môn học mà user với ID " + userId + " đã đăng ký:");
-            for (Subject subject : registeredSubjects) {
-                System.out.println("Mã môn học: " + subject.getSubjectId());
-                System.out.println("Tên môn học: " + subject.getSubjectName());
-                System.out.println("Danh mục: " + subject.getCategoryId());
-                System.out.println("Trạng thái: " + (subject.isStatus() ? "Kích hoạt" : "Vô hiệu"));
-                System.out.println("Nổi bật: " + (subject.isIsFeatured() ? "Có" : "Không"));
-                System.out.println("Hình ảnh: " + subject.getThumbnail());
-                System.out.println("Tiêu đề: " + subject.getTagline());
-                System.out.println("Mô tả: " + subject.getDescription());
-                System.out.println("Người tạo: " + subject.getAccountId());
-                System.out.println("--------------------------------");
-            }
-        }
+         Registration registration=new Registration(LocalDateTime.now(), 8, 0, 3, 2, 200, 300);
+        registrationDAO.AddRegistration(registration);
     }
 }

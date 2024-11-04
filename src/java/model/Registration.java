@@ -41,6 +41,15 @@ public class Registration {
         this.sale_price = sale_price;
         this.note = note;
     }
+    public Registration(LocalDateTime  registration_time, int subject_id,  double cost,  int account_id, int status_id, double list_price, double sale_price) {
+        this.registration_time = registration_time;
+        this.subject_id = subject_id;
+        this.cost = cost;
+        this.account_id = account_id;
+        this.status_id = status_id;
+        this.list_price = list_price;
+        this.sale_price = sale_price;
+    }
 
     public int getRegistration_id() {
         return registration_id;

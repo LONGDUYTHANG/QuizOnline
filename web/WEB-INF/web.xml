@@ -6,7 +6,7 @@
     </filter>
     <filter-mapping>
         <filter-name>rolefilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/Demo</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>Demo</servlet-name>
@@ -157,8 +157,37 @@
         <servlet-class>controller.EditQuizServlet</servlet-class>
     </servlet>
     <servlet>
+<<<<<<< HEAD
         <servlet-name>AdminAddLessonTopicServlet</servlet-name>
         <servlet-class>controller.AdminAddLessonTopicServlet</servlet-class>
+=======
+        <servlet-name>ViewPracticeList</servlet-name>
+        <servlet-class>controller.ViewPracticeList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CustomerRegisterSubjectServlet</servlet-name>
+        <servlet-class>controller.CustomerRegisterSubjectServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ajaxServlet</servlet-name>
+        <servlet-class>controller.ajaxServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteQuestionServlet</servlet-name>
+        <servlet-class>controller.DeleteQuestionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteQuizServlet</servlet-name>
+        <servlet-class>controller.DeleteQuizServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CustomerRegistrationList</servlet-name>
+        <servlet-class>controller.CustomerRegistrationList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CustomerSearchRegistration</servlet-name>
+        <servlet-class>controller.CustomerSearchRegistration</servlet-class>
+>>>>>>> d5abc26066aa8eeffefc5466a67a5ea4c6fe955f
     </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
@@ -321,8 +350,37 @@
         <url-pattern>/editquiz</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+<<<<<<< HEAD
         <servlet-name>AdminAddLessonTopicServlet</servlet-name>
         <url-pattern>/adminaddlessontopic</url-pattern>
+=======
+
+        <servlet-name>ViewPracticeList</servlet-name>
+        <url-pattern>/view_practice</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+
+        <servlet-name>CustomerRegisterSubjectServlet</servlet-name>
+        <url-pattern>/customerregistersubject</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteQuestionServlet</servlet-name>
+        <url-pattern>/deletequestion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteQuizServlet</servlet-name>
+        <url-pattern>/deletequiz</url-pattern>
+
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CustomerRegistrationList</servlet-name>
+        <url-pattern>/customerregistrationlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CustomerSearchRegistration</servlet-name>
+        <url-pattern>/customersearchregistration</url-pattern>
+
+>>>>>>> d5abc26066aa8eeffefc5466a67a5ea4c6fe955f
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>
@@ -386,5 +444,9 @@
     <servlet-mapping>
         <servlet-name>UpdateEmail</servlet-name>
         <url-pattern>/update_email</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ajaxServlet</servlet-name>
+        <url-pattern>/vnpayajax/*</url-pattern>
     </servlet-mapping>
 </web-app>

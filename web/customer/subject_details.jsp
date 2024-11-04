@@ -52,7 +52,6 @@
     </head>
     <body id="bg">
         <div class="page-wraper">
-            <div id="loading-icon-bx"></div>
             <header class="header rs-nav header-transparent">
                 <%@include file="header.jsp" %>
             </header>
@@ -76,37 +75,41 @@
                             <div class="row d-flex flex-row-reverse">
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="course-detail-bx">
-                                        <div class="course-price">
-
+<!--                                        <form action="customerregistersubject" >-->
                                             <div class="course-price">
-                                                <label for="courseDuration">Choose duration:</label>
-                                                <select id="courseDuration" name="courseDuration" class="form-control" onchange="updatePrice()">
-                                                    <c:forEach var="pkg" items="${packageList}">
-                                                        <option value="${pkg.duration}" data-price="${pkg.salePrice}" 
-                                                                <c:if test="${pkg.duration == selectedDuration}">selected</c:if>
-                                                                    >
-                                                                ${pkg.duration} months
-                                                        </option>
-                                                    </c:forEach>
-                                                </select>
+
+                                                <div class="course-price">
+                                                    <label for="courseDuration">Choose duration:</label>
+                                                    <select id="courseDuration" name="courseDuration" class="form-control" onchange="updatePrice()">
+                                                        <c:forEach var="pkg" items="${packageList}">
+                                                            <option value="${pkg.package_id}" data-price="${pkg.salePrice}" 
+                                                                    <c:if test="${pkg.duration == selectedDuration}">selected</c:if>
+                                                                        >
+                                                                    ${pkg.duration} months
+                                                            </option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+<!--                                                <input type="text" hidden value="${sessionScope.user.account_id}" name="account_id">
+                                                <input type="text" hidden value="<%=request.getParameter("subject_id")%>" name="subject_id">
+                                                <input type="text" hidden value="${selectedPackageModel.listPrice}" name="list_price">
+                                                <input type="text" hidden value="${selectedPackageModel.salePrice}" name="sale_price">
+-->                                                <div class="course-price" style="margin-bottom: 5px;">
+                                                    <c:if test="${not empty selectedPackageModel}">
+                                                        <del>${selectedPackageModel.listPrice}</del>
+                                                        <h4 class="price">${selectedPackageModel.salePrice}</h4>
+                                                    </c:if>
+                                                </div>
+
                                             </div>
 
-                                            <div class="course-price" style="margin-bottom: 5px;">
-                                                <c:if test="${not empty selectedPackageModel}">
-                                                    <del>${selectedPackageModel.listPrice}</del>
-                                                    <h4 class="price">${selectedPackageModel.salePrice}</h4>
+
+                                            <div class="course-buy-now text-center">
+                                                <c:if test="${!isRegistered}">
+                                                    <a href="vnpay_pay.jsp?subject_id=<%=request.getParameter("subject_id")%>" class="btn radius-xl text-uppercase">Buy Now This Subject</a>
                                                 </c:if>
                                             </div>
-
-                                        </div>
-
-
-                                        <div class="course-buy-now text-center">
-                                            <c:if test="${!isRegistered}">
-                                                <a href="#" class="btn radius-xl text-uppercase">Buy Now This Subject</a> 
-                                            </c:if>
-                                        </div>
-
+<!--                                        </form>-->
 
 
 
@@ -114,7 +117,6 @@
                                             <div class="teacher-info">                                                
                                                 <div class="teacher-name">
                                                     <span>Teacher</span>
-                                                    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                                     <c:set var="c" value="${requestScope.account}" />
                                                     <h5 class="text-primary">${account.first_name} ${account.last_name}</h5> 
                                                 </div>
@@ -123,7 +125,6 @@
                                         <div class="cours-more-info">
                                             <div class="price categories">
                                                 <span>Categories</span>
-                                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                                 <c:set var="c" value="${requestScope.mySubject}" />
 
                                                 <h5 class="text-primary">${categoryName}</h5> 
@@ -142,7 +143,6 @@
 
                                 <div class="col-lg-9 col-md-8 col-sm-12">
                                     <!<!-- thêm subject detail -->
-                                    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                     <c:set var="c" value="${requestScope.mySubject}" />
                                     <div class="courses-post">
                                         <div class="ttr-post-media media-effect">
@@ -198,7 +198,7 @@
                                                                                     </a>
                                                                                 </c:when>
                                                                                 <c:when test="${lesson.lesson_type_id == 2}">
-                                                                                    <a href="quiz_handling?id=${lesson.lesson_id}">
+                                                                                    <a href="quiz_handling?id=${lesson.quiz_id}">
                                                                                         <span>Quiz ${lesson.lesson_order}.</span>
                                                                                         ${lesson.lesson_name}
                                                                                     </a>
@@ -233,7 +233,6 @@
                                                 <img src="https://cdn.shopify.com/s/files/1/0597/6149/2152/t/49/assets/0007019893114747_b-1650694026425_1200x.jpg?v=1650694028" alt="">
                                             </div>
                                             <div class="instructor-info">
-                                                <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                                 <c:set var="c" value="${requestScope.account}" />
                                                 <h5 class="text-primary">${account.first_name} ${account.last_name}</h5> 
                                                 <span>Author</span>
@@ -277,15 +276,15 @@
         <script src="assets/vendors/switcher/switcher.js"></script>
 
         <script>
-                                                    function updatePrice() {
-                                                        var select = document.getElementById('courseDuration');
-                                                        var selectedOption = select.options[select.selectedIndex];
-                                                        var salePrice = selectedOption.getAttribute('data-price');
-                                                        var priceElement = document.querySelector('.course-price h4.price');
+                                                        function updatePrice() {
+                                                            var select = document.getElementById('courseDuration');
+                                                            var selectedOption = select.options[select.selectedIndex];
+                                                            var salePrice = selectedOption.getAttribute('data-price');
+                                                            var priceElement = document.querySelector('.course-price h4.price');
 
-                                                        // C?p nh?t giá hi?n th?
-                                                        priceElement.innerText = salePrice;
-                                                    }
+                                                            // C?p nh?t giá hi?n th?
+                                                            priceElement.innerText = salePrice;
+                                                        }
         </script>
     </body>
 

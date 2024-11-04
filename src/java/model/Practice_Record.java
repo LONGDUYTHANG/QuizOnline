@@ -20,6 +20,15 @@ public class Practice_Record {
     private int correct_rate;
     private int account_id;
     private int quiz_id;
+    private Quiz quiz;
+
+    public Quiz getQuiz() {
+        return quiz;
+    }
+
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
+    }
 
     public Practice_Record(int practice_id, String practice_name, Timestamp created_date, int practice_duration, int correct_questions, int correct_rate, int account_id, int quiz_id) {
         this.practice_id = practice_id;
