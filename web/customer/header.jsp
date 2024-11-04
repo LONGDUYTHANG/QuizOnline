@@ -37,7 +37,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <li style="margin-left: 690px" ><a href="javascript:;" ><i style="font-size: 20px" class="fa fa-user"></i></a>
                                 <ul class="sub-menu">
                                     <li><a href="profile">My Profile</a></li>
-                                    <li><a href="index-2.html">My Registration Subject</a></li>
+                                    <li><a href="customerregistrationlist">My Registration Subject</a></li>
                                     <li><a href="logout">Logout</a></li>
                                 </ul>
                             </li>

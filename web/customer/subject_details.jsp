@@ -106,7 +106,7 @@
 
                                             <div class="course-buy-now text-center">
                                                 <c:if test="${!isRegistered}">
-                                                    <a href="vnpay_pay.jsp" class="btn radius-xl text-uppercase">Buy Now This Subject</a>
+                                                    <a href="vnpay_pay.jsp?subject_id=<%=request.getParameter("subject_id")%>" class="btn radius-xl text-uppercase">Buy Now This Subject</a>
                                                 </c:if>
                                             </div>
 <!--                                        </form>-->
@@ -198,7 +198,7 @@
                                                                                     </a>
                                                                                 </c:when>
                                                                                 <c:when test="${lesson.lesson_type_id == 2}">
-                                                                                    <a href="quiz_handling?id=${lesson.lesson_id}">
+                                                                                    <a href="quiz_handling?id=${lesson.quiz_id}">
                                                                                         <span>Quiz ${lesson.lesson_order}.</span>
                                                                                         ${lesson.lesson_name}
                                                                                     </a>

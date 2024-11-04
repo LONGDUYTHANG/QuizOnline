@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Question;
 import java.sql.*;
+import java.util.Comparator;
 import model.Answer;
 import model.Dimension;
 import model.DimensionType;
@@ -321,6 +322,22 @@ public class QuestionDAO extends DBContext {
         } catch (SQLException ex) {
             System.out.println(ex);
         }
+//        list.sort(new Comparator() {
+//            @Override
+//            public int compare(Object o1, Object o2) {
+//                Question_Handle qh1 = (Question_Handle) o1;
+//                Question_Handle qh2 = (Question_Handle) o2;
+//                return qh1.getQuestion_id() - qh2.getQuestion_id();
+//            }
+//        }
+//        );
+        Comparator<Question_Handle> cqh = new Comparator<Question_Handle>() {
+            @Override
+            public int compare(Question_Handle o1, Question_Handle o2) {
+                return o1.getQuestion_id() - o2.getQuestion_id();
+            }
+        };
+        list.sort(cqh);
         return list;
     }
 
@@ -380,7 +397,8 @@ public class QuestionDAO extends DBContext {
     public List<Answer> getAnswerOfQuestion(int quest_id) {
         String sql = "select answer_id, answer_detail, isCorrect, a.question_id from Question qe\n"
                 + "join Answer a on qe.question_id = a.question_id\n"
-                + "where a.question_id = ?";
+                + "where a.question_id = ? \n"
+                + "order by NEWID()";
         List<Answer> listAnswer = new ArrayList<>();
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
