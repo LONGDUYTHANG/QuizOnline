@@ -150,7 +150,7 @@
                                     <!-- Overview Tab -->
                                     <div class="tab-pane active" id="overview" role="tabpanel">
                                         <h4>Quiz Details</h4>
-                                        <c:out value="${requestScope.message}"/>
+                                        <p style="color: red">${requestScope.message}</p>
                                         <div class="form-group">
                                             <label for="name">Name</label>
                                             <input type="text" id="name" name="name" placeholder="Enter exam name" value="${requestScope.name}" required>

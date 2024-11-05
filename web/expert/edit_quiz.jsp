@@ -152,6 +152,7 @@
                                     <!-- Overview Tab -->
                                     <div class="tab-pane active" id="overview" role="tabpanel">
                                         <h4>Edit Quiz</h4>
+                                        <p style="color: red">${requestScope.failMessage}</p>
                                         <c:out value="${requestScope.message}"/>
                                         <div class="form-group">
                                             <label for="name">Name</label>
