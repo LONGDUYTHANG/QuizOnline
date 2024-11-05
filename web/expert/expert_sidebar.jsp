@@ -24,11 +24,11 @@
         <div class="sidebar-user">
             <div class="d-flex justify-content-center">
                 <div class="flex-shrink-0">
-                    <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" />
+                    <img src="${sessionScope.user.avatar}" class="avatar img-fluid rounded me-1" alt="" />
                 </div>
                 <div class="flex-grow-1 ps-2">
                     <a class="sidebar-user-title dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                        Charles Hall
+                        ${sessionScope.user.first_name}
                     </a>
                     <div class="dropdown-menu dropdown-menu-start">
                         <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
@@ -54,23 +54,6 @@
                     <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">DashBoard</span>
                 </a>
             </li>
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="pages-profile.html">
-                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="pages-invoice.html">
-                    <i class="align-middle" data-feather="credit-card"></i> <span class="align-middle">Change password</span>
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="pages-invoice.html">
-                    <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Logout</span>
-                </a>
-            </li>
-
 
             <li class="sidebar-header">
                 Feature
