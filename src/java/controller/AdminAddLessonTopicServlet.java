@@ -20,15 +20,15 @@ import model.Subject;
 public class AdminAddLessonTopicServlet extends HttpServlet {
 
     /**
-     * Handles the HTTP <code>GET</code> method to display the add lesson topic form.
+     * Handles the HTTP <code>GET</code> method to display the add lesson topic
+     * form.
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         String subjectName=request.getParameter("subjectName");
+        String subjectName = request.getParameter("subjectName");
         SubjectDAO sDao = new SubjectDAO();
-        int maxid=sDao.getMaxSubjectId();
-        
+        int maxid = sDao.getMaxSubjectId();
 
         // 
         DimensionDAO dDao = new DimensionDAO();
@@ -40,9 +40,10 @@ public class AdminAddLessonTopicServlet extends HttpServlet {
         List<DimensionType> listDimensionType = dDao.getAllType();
 
         request.setAttribute("listDimensionType", listDimensionType);
-        request.setAttribute("subjectName", subjectName);
+        request.setAttribute("subjectNamefordimension", subjectName);
+        request.setAttribute("subjectNameforlessontopic", subjectName);
         request.setAttribute("maxid", maxid);
-        
+
         List<Subject> listSubject = sDao.getListSubject();
         request.setAttribute("listSubject", listSubject);
         if (action != null) {
@@ -65,7 +66,8 @@ public class AdminAddLessonTopicServlet extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method to process the addition of a lesson topic.
+     * Handles the HTTP <code>POST</code> method to process the addition of a
+     * lesson topic.
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -73,6 +75,7 @@ public class AdminAddLessonTopicServlet extends HttpServlet {
         // Retrieve the lesson topic name and subject ID from the form input
         String lessonTopicName = request.getParameter("lesson_topic_name");
         String subjectIdParam = request.getParameter("subject_id");
+        String subjectName=request.getParameter("subjectNameforlessontopic");
 
         // Validate the inputs
         if (lessonTopicName != null && !lessonTopicName.trim().isEmpty() && subjectIdParam != null) {
@@ -87,10 +90,46 @@ public class AdminAddLessonTopicServlet extends HttpServlet {
                 // Use LessonTopicDAO to add the lesson topic to the database
                 LessonTopicDAO lessonTopicDAO = new LessonTopicDAO();
                 lessonTopicDAO.addLessonTopic(lessonTopic);
+                request.setAttribute("messforlessontopic", "Create successfully!");
+                request.removeAttribute("action");
+                SubjectDAO sDao = new SubjectDAO();
+                int maxid = sDao.getMaxSubjectId();
+
+                // 
+                DimensionDAO dDao = new DimensionDAO();
+                List<Dimension> listD = dDao.getAllDimension1();
+                request.setAttribute("listD", listD);
+
+                String action = request.getParameter("action");
+
+                List<DimensionType> listDimensionType = dDao.getAllType();
+
+                request.setAttribute("listDimensionType", listDimensionType);
+                request.setAttribute("subjectName", subjectName);
+                request.setAttribute("maxid", maxid);
+
+                List<Subject> listSubject = sDao.getListSubject();
+                request.setAttribute("listSubject", listSubject);
+                if (action != null) {
+
+                    if (action.equalsIgnoreCase("edit")) {
+
+                        int dimensionId = Integer.parseInt(request.getParameter("id"));
+                        Dimension dimension = dDao.getDimensionById1(dimensionId);
+                        request.setAttribute("dimension", dimension);
+                        request.setAttribute("action", "edit");
+
+                    }
+                    if (action.equalsIgnoreCase("delete")) {
+                        request.setAttribute(action, "delete");
+                    }
+
+                }
+
+                request.getRequestDispatcher("admin/adddimensionandlessontopic.jsp").forward(request, response);
 
                 // Redirect to the list page or success message page
-               //response.sendRedirect("admin/adddimensionandlessontopic.jsp");
-
+                //response.sendRedirect("admin/adddimensionandlessontopic.jsp");
             } catch (NumberFormatException e) {
                 // Handle case where subject ID is not a valid integer
                 request.setAttribute("errorMessage", "Invalid subject ID.");
@@ -99,9 +138,8 @@ public class AdminAddLessonTopicServlet extends HttpServlet {
         } else {
             // Display error message if input is empty or invalid
             request.setAttribute("errorMessage", "Lesson topic name and subject ID cannot be empty.");
-           
+
         }
-        doGet(request, response);
     }
 
     /**

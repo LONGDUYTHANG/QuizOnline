@@ -89,7 +89,7 @@
 
 
                             <c:if test="${action == 'edit'}">
-                                <c:if test="${empty mess && empty error}">
+                                <c:if test="${empty messfordimension && empty error}">
 
 
 
@@ -128,9 +128,9 @@
                             </c:if>
                             <div class="container mt-3">
                                 <!-- Success message -->
-                                <c:if test="${not empty mess}">
+                                <c:if test="${not empty messfordimension}">
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        ${mess}
+                                        ${messfordimension}
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
                                 </c:if>
