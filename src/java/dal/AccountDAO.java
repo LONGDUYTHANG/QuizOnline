@@ -480,14 +480,33 @@ public class AccountDAO extends DBContext {
             e.printStackTrace();
         }
 
-        return null; 
+        return null;
     }
+
+    public List<Account> getExpertsByRoleId() {
+    List<Account> experts = new ArrayList<>();
+    String sql = "SELECT account_id, first_name, last_name FROM Account WHERE role_id = 2";
+
+    try (PreparedStatement ps = connection.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+        while (rs.next()) {
+            Account account = new Account();
+            account.setAccount_id(rs.getInt("account_id"));
+            account.setFirst_name(rs.getString("first_name"));
+            account.setLast_name(rs.getString("last_name"));
+            experts.add(account);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return experts;
+}
 
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
 
-        Account account = dao.getAccountById(2);
-        System.out.println(account.getStatus());
+        List<Account> account = dao.getExpertsByRoleId();
+        System.out.println(account.get(0).getFirst_name());
 
     }
 

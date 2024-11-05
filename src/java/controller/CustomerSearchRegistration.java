@@ -6,22 +6,23 @@
 package controller;
 
 import dal.RegistrationDAO;
+import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Registration;
+import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import model.Account;
+import model.Subject;
 
 /**
  *
  * @author ADMIN
  */
-public class CustomerRegisterSubjectServlet extends HttpServlet {
+public class CustomerSearchRegistration extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,10 +39,10 @@ public class CustomerRegisterSubjectServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CustomerRegisterSubjectServlet</title>");  
+            out.println("<title>Servlet CustomerSearchRegistration</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CustomerRegisterSubjectServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet CustomerSearchRegistration at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,41 +59,28 @@ public class CustomerRegisterSubjectServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        RegistrationDAO registrationDAO = new RegistrationDAO();
-        String raw_duration=request.getParameter("courseDuration");
-        int duration=0;
-        try {
-            duration=Integer.parseInt(raw_duration);
-        } catch (NumberFormatException e) {
+        SubjectDAO subjectDAO=new SubjectDAO();
+        HttpSession session =request.getSession(false);
+            Account account=(Account)session.getAttribute("user");
+            int user_id=account.getAccount_id();
+        String action=request.getParameter("action");
+        if(action.equalsIgnoreCase("search")){
+       String keyword=request.getParameter("dzName");
+       ArrayList<Subject> filter_registration_saubject_list=subjectDAO.FilterRegistrationListOfAnUser(user_id, keyword);
+       request.setAttribute("registration_subject_list",filter_registration_saubject_list);
+       request.getRequestDispatcher("customerregistrationlist").forward(request, response);
         }
-        String raw_account_id=request.getParameter("account_id");
-        int account_id=0;
-        try {
-            account_id=Integer.parseInt(raw_account_id);
-        } catch (NumberFormatException e) {
+        if(action.equalsIgnoreCase("remove")){
+            String raw_subject_id=request.getParameter("id");
+            int subject_id=0;
+            try {
+                subject_id=Integer.parseInt(raw_subject_id);
+            } catch (NumberFormatException e) {
+            }
+            RegistrationDAO registrationDAO=new RegistrationDAO();
+            registrationDAO.RemoveRegistration(user_id, subject_id);
+            request.getRequestDispatcher("customerregistrationlist").forward(request, response);
         }
-        String raw_subject_id=request.getParameter("subject_id");
-        int subject_id=0;
-        try {
-            subject_id=Integer.parseInt(raw_subject_id);
-        } catch (NumberFormatException e) {
-        }
-        String raw_list_price=request.getParameter("list_price");
-        double list_price=0;
-        try {
-            list_price=Double.parseDouble(raw_list_price);
-        } catch (NumberFormatException e) {
-        }
-        String raw_sale_price=request.getParameter("sale_price");
-        double sale_price=0;
-        try {
-            sale_price=Double.parseDouble(raw_sale_price);
-        } catch (NumberFormatException e) {
-        }
-        double cost=0;
-        Registration registration=new Registration(LocalDateTime.now(), subject_id, 0, account_id, 2, list_price, sale_price);
-        registrationDAO.AddRegistration(registration);
-        request.getRequestDispatcher("customerregistrationlist").forward(request, response);
     } 
 
     /** 
