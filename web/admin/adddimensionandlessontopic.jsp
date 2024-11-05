@@ -89,7 +89,7 @@
 
 
                             <c:if test="${action == 'edit'}">
-                                <c:if test="${empty mess && empty error}">
+                                <c:if test="${empty messfordimension && empty error}">
 
 
 
@@ -128,9 +128,9 @@
                             </c:if>
                             <div class="container mt-3">
                                 <!-- Success message -->
-                                <c:if test="${not empty mess}">
+                                <c:if test="${not empty messfordimension}">
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        ${mess}
+                                        ${messfordimension}
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
                                 </c:if>
@@ -171,7 +171,7 @@
 
                                     <div class="col-md-3">
                                         <label for="validationDefault05" class="form-label">Subject</label>
-                                        <input name="subjectName" value="${subjectName}" type="text" class="form-control" id="validationDefault01"  disabled>
+                                        <input name="subjectNamefordimension" value="${requestScope.subjectNamefordimension}" type="text" class="form-control"  >
                                         <input name="subject_id" value="${maxid}" type="text" class="form-control"  hidden>
 
                                     </div>
@@ -181,6 +181,24 @@
                                         <button class="btn btn-primary" type="submit">Submit form</button>
                                     </div>
                                 </form>
+                            </div>
+
+                            <div class="container mt-3">
+                                <!-- Success message -->
+                                <c:if test="${not empty messforlessontopic}">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        ${messforlessontopic}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                </c:if>
+
+                                <!-- Error message -->
+                                <c:if test="${not empty error}">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        ${error}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                </c:if>
                             </div>
 
                             <div> <!-- Initially hidden -->
@@ -196,7 +214,7 @@
                                     <!-- Subject Name and ID (Hidden) -->
                                     <div class="col-md-3">
                                         <label for="subjectName" class="form-label">Subject</label>
-                                        <input name="subjectName" value="${subjectName}" type="text" class="form-control" id="subjectName" disabled>
+                                        <input name="subjectNameforlessontopic" value="${requestScope.subjectNameforlessontopic}" type="text" class="form-control" id="subjectName" >
                                         <input name="subject_id" value="${maxid}" type="hidden">
                                     </div>
 
