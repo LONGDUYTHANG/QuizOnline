@@ -119,7 +119,7 @@
                     <label>Payment Date:</label>
                     <span class="value"><%=formattedDate%></span>
                 </div>
-                <a href="homepage" class="btn">Return to Home</a>
+                <a href="homepage_1" class="btn">Return to Home</a>
             </div>
             <footer class="footer">
                 <p>&copy; VNPAY 2020</p>

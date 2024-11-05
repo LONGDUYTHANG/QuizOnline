@@ -46,7 +46,7 @@
                 Common
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-link" href="managerAccount">
+                <a class="sidebar-link" href="admindashboard">
                     <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Admin Dashboard</span>
                 </a>
             </li>
@@ -80,11 +80,6 @@
             <li class="sidebar-item">
                 <a class="sidebar-link" href="listBlogAdmin">
                     <i class="align-middle" data-feather="list"></i> <span class="align-middle">Manager Blog</span>
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="exsubjectlist">
-                    <i class="align-middle" data-feather="list"></i> <span class="align-middle">Subject List</span>
                 </a>
             </li>
 
