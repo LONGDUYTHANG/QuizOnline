@@ -109,7 +109,7 @@ public class LoginServlet extends HttpServlet {
         }
          else  if(myAccount.getRole_id()==myAccountDAO.getRole_Id("admin")){
             session.setAttribute("user", myAccount);
-            request.getRequestDispatcher("admindashboard").forward(request, response);
+            request.getRequestDispatcher("subject-details").forward(request, response);
         }
         
     }

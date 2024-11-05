@@ -120,7 +120,7 @@
                 <main class="content">
 
                     <div class="header">
-                        <h1>Quiz List</h1>
+                        <h1>Lesson List</h1>
                         <nav>
                             <button onclick="window.location.href='addlesson?subjectId=${requestScope.subject_id}'" class="btn btn-orange">New Lesson <i class="align-middle me-2 fas fa-fw fa-plus-circle"></i></button>
                         </nav>
