@@ -559,7 +559,7 @@ public class SubjectDAO extends DBContext {
         List<Subject> subject_list = new ArrayList<>();
 
         List<Subject> my_subject_list = new ArrayList<>();
-        my_subject_list = registerDAO.getRegisteredSubjectsByUserId(4);
+        my_subject_list = mySubjectDAO.getRegistrationListOfAnUser(4);
         List<Subject> allSubjects = new ArrayList<>();
         allSubjects = mySubjectDAO.getSubject();
         for (Subject s
