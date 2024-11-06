@@ -7,6 +7,7 @@ package controller;
 import dal.SubjectDAO;
 import dal.CategoryDAO;
 import dal.PackageDAO;
+import dal.RegistrationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -66,16 +67,39 @@ public class SubjectListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+           HttpSession session = request.getSession(false);
+        // Lấy đối tượng người dùng từ session
+        Account user = (Account) session.getAttribute("user");
+        int account_id = user.getAccount_id();
         String sort = request.getParameter("sort");
         String keyword = request.getParameter("keyword");
 
+        RegistrationDAO registerDAO =new RegistrationDAO();
         SubjectDAO mySubjectDAO = new SubjectDAO();
         List<Subject> subject_list = new ArrayList<>();
         
         List<Subject> featuredSubjects = mySubjectDAO.getFeaturedSubjects();
         request.setAttribute("featuredSubjects", featuredSubjects);
 
-        if (keyword != null && !keyword.trim().isEmpty()) {
+        if(keyword == null ){
+            List<Subject> my_subject_list=new ArrayList<>();
+            my_subject_list=mySubjectDAO.getRegistrationListOfAnUser(account_id);
+            List<Subject> allSubjects=new ArrayList<>();
+            allSubjects=mySubjectDAO.getSubject();
+            for(Subject s:allSubjects){
+                boolean check=false;
+                for(Subject s1:my_subject_list){
+                    if(s.getSubjectId()==s1.getSubjectId()){
+                        check=true;
+                        break;
+                    }
+                }
+                if(check==false){
+                    subject_list.add(s);
+                }
+            }
+        } else if (keyword != null && !keyword.trim().isEmpty()) {
             subject_list = mySubjectDAO.searchSubjects(keyword);
         } else {
             if (sort == null || sort.equals("featured")) {
@@ -114,9 +138,7 @@ public class SubjectListServlet extends HttpServlet {
         request.setAttribute("selectedDuration", selectedDuration);
         request.setAttribute("selectedPackageModel", selectedPackageModel);
 
-        HttpSession session = request.getSession(false);
         if (session != null) {
-            Account user = (Account) session.getAttribute("user");
             if (user != null) {
                 request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
                 return;

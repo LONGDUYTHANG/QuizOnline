@@ -455,7 +455,7 @@ public class SubjectDAO extends DBContext {
         }
         return false;  // Trả về false nếu có lỗi hoặc không tìm thấy bản ghi
     }
-    
+
     public List<Subject> getListSubjectByAccount(int account_id_raw) {
         List<Subject> list = new ArrayList<>();
         String sql = "SELECT * FROM Subject WHERE account_id = ?";
@@ -520,7 +520,7 @@ public class SubjectDAO extends DBContext {
         }
         return subject_id_list;
     }
-    
+
     public ArrayList<Subject> FilterRegistrationListOfAnUser(int user_id, String keyword) {
         PreparedStatement stm;
         PreparedStatement stm_view;
@@ -528,7 +528,7 @@ public class SubjectDAO extends DBContext {
         ArrayList<Subject> subject_id_list = new ArrayList<>();
         try {
             String strSelect = " SELECT DIstinct A.subject_id,A.subject_name,A.category_id,A.status, A.isFeatured, A.thumbnail,A.tagline, A.description,A.account_id,A.created_date, B.registration_time  FROM Subject A JOIN Registration B \n"
-                    + "ON A.subject_id=B.subject_id AND A.subject_name LIKE '"+keyword+"' AND B.account_id=? AND B.status_id=2 ORDER BY B.registration_time DESC";
+                    + "ON A.subject_id=B.subject_id AND A.subject_name LIKE '" + keyword + "' AND B.account_id=? AND B.status_id=2 ORDER BY B.registration_time DESC";
             stm = connection.prepareStatement(strSelect);
             stm.setInt(1, user_id);
             rs = stm.executeQuery();
@@ -554,7 +554,30 @@ public class SubjectDAO extends DBContext {
     }
 
     public static void main(String[] args) {
+        RegistrationDAO registerDAO = new RegistrationDAO();
+        SubjectDAO mySubjectDAO = new SubjectDAO();
+        List<Subject> subject_list = new ArrayList<>();
+
+        List<Subject> my_subject_list = new ArrayList<>();
+        my_subject_list = registerDAO.getRegisteredSubjectsByUserId(4);
+        List<Subject> allSubjects = new ArrayList<>();
+        allSubjects = mySubjectDAO.getSubject();
+        for (Subject s
+                : allSubjects) {
+            boolean check = false;
+            for (Subject s1 : my_subject_list) {
+                if (s.getSubjectId() == s1.getSubjectId()) {
+                    check = true;
+                    break;
+                }
+            }
+            if (check == false) {
+                subject_list.add(s);
+            }
+        }
+        System.out.println(subject_list.size());
+        System.out.println(my_subject_list.size());
+        System.out.println(allSubjects.size());
 
     }
-
 }

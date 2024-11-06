@@ -940,7 +940,9 @@ public class RegistrationDAO extends DBContext {
     public boolean RemoveRegistration(int account_id,int subject_id){
         PreparedStatement stm;
         try {
-            String strSelect = "DELETE FROM Registration WHERE account_id=? AND subject_id=?";
+            String strSelect = "Update Registration"
+                    + " SET status_id=1"
+                    + " WHERE account_id=? AND subject_id=?";
             stm = connection.prepareStatement(strSelect);     
             stm.setInt(1, account_id);
             stm.setInt(2, subject_id);
