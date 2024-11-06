@@ -111,6 +111,9 @@
                                                             <h4 class="price">${selectedPackageModel.salePrice}</h4>
                                                         </c:if>
                                                         <div style="margin-left: 50px;"></div>
+                                                        <c:if test="${not isRegistered}">
+                                                            <a href="#" class="btn btn-primary">Register</a>
+                                                        </c:if>
                                                     </div>
                                                 </div>
                                             </div>
