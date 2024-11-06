@@ -87,11 +87,11 @@ public class SubjectListServlet extends HttpServlet {
                 if (keyword != null && !keyword.trim().isEmpty()) {
                     subject_list = mySubjectDAO.searchSubjects(keyword);
                 } else {
-                    if (sort !=null && sort.equals("featured")) {
+                    if (sort != null && sort.equals("featured")) {
                         subject_list = mySubjectDAO.getFeaturedSubjects();
-                    } else if (sort !=null &&sort.equals("latest")) {
+                    } else if (sort != null && sort.equals("latest")) {
                         subject_list = mySubjectDAO.getLatestSubjects();
-                    } else if (sort !=null &&sort.equals("oldest")) {
+                    } else if (sort != null && sort.equals("oldest")) {
                         subject_list = mySubjectDAO.getOldestSubjects();
                     }
                 }
@@ -131,42 +131,22 @@ public class SubjectListServlet extends HttpServlet {
 
                 List<Subject> featuredSubjects = mySubjectDAO.getFeaturedSubjects();
                 request.setAttribute("featuredSubjects", featuredSubjects);
+                subject_list = mySubjectDAO.getSubject();
 
-                if (keyword == null) {
-                    List<Subject> my_registration_list = new ArrayList<>();
-                    my_registration_list = mySubjectDAO.getRegistrationListOfAnUser(account_id);
-                    List<Subject> allSubjects = new ArrayList<>();
-                    allSubjects = mySubjectDAO.getSubject();
-                    List<Subject> my_list = new ArrayList<>();
-                    my_list = registerDAO.getRegisteredSubjectsByUserId(account_id);
-                    List<Subject> combine = new ArrayList<>(my_registration_list);
-                    combine.addAll(my_list);
-                    for (Subject s : allSubjects) {
-                        boolean isRegistered = false;
-                        for (Subject s1 : combine) {
-                            if (s.getSubjectId() == s1.getSubjectId()) {
-                                isRegistered = true;
-                                break;
-                            }
-                        }
-                        if (isRegistered==false) {
-                            subject_list.add(s);
-                        }
-                    }
-
-                } else if (keyword != null && !keyword.trim().isEmpty()) {
+                if (keyword != null && !keyword.trim().isEmpty()) {
                     subject_list = mySubjectDAO.searchSubjects(keyword);
                 } else {
-                    if (sort == null || sort.equals("featured")) {
-                        subject_list = mySubjectDAO.getLatestSubjects();
-                    } else if (sort.equals("latest")) {
+                    if (sort != null && sort.equals("featured")) {
                         subject_list = mySubjectDAO.getFeaturedSubjects();
-                    } else if (sort.equals("oldest")) {
+                    } else if (sort != null && sort.equals("latest")) {
+                        subject_list = mySubjectDAO.getLatestSubjects();
+                    } else if (sort != null && sort.equals("oldest")) {
                         subject_list = mySubjectDAO.getOldestSubjects();
                     }
                 }
 
                 request.setAttribute("subject_list", subject_list);
+                request.setAttribute("subjectDAO", mySubjectDAO);
 
                 CategoryDAO myCategoryDAO = new CategoryDAO();
                 List<Category> category_list = myCategoryDAO.getCategory();

@@ -112,7 +112,9 @@
                                                                 <h4 class="price">${selectedPackageModel.salePrice}</h4>
                                                             </c:if>
                                                             <div style="margin-left: 50px;"></div>
-                                                            <button type="submit" class="btn btn-primary">Register</button>
+                                                            <c:if test="${requestScope.subjectDAO.HasSubjectNotBeenInteract(sessionScope.user.account_id,c.subjectId)}">
+                                                                <button type="submit" class="btn btn-primary">Register ${requestScope.subjectDAO.HasSubjectNotBeenInteract(sessionScope.user.account_id,c.subjectId)}</button>
+                                                            </c:if>
                                                         </div>
                                                     </div>
                                                 </div>

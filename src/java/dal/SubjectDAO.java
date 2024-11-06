@@ -552,32 +552,24 @@ public class SubjectDAO extends DBContext {
         }
         return subject_id_list;
     }
+    
+    public boolean HasSubjectNotBeenInteract(int accountId, int subjectId) {
+        String sql = "SELECT 1 FROM Registration WHERE account_id = ? AND subject_id = ? and (status_id = 3 or status_id=2)";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, accountId);
+            pstmt.setInt(2, subjectId);
+            ResultSet rs = pstmt.executeQuery();
+            return !rs.next();  // Trả về true nếu có kết quả, tức là đã đăng ký
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;  // Trả về false nếu có lỗi hoặc không tìm thấy bản ghi
+    }
 
     public static void main(String[] args) {
-        RegistrationDAO registerDAO = new RegistrationDAO();
-        SubjectDAO mySubjectDAO = new SubjectDAO();
-        List<Subject> subject_list = new ArrayList<>();
-
-        List<Subject> my_subject_list = new ArrayList<>();
-        my_subject_list = mySubjectDAO.getRegistrationListOfAnUser(4);
-        List<Subject> allSubjects = new ArrayList<>();
-        allSubjects = mySubjectDAO.getSubject();
-        for (Subject s
-                : allSubjects) {
-            boolean check = false;
-            for (Subject s1 : my_subject_list) {
-                if (s.getSubjectId() == s1.getSubjectId()) {
-                    check = true;
-                    break;
-                }
-            }
-            if (check == false) {
-                subject_list.add(s);
-            }
-        }
-        System.out.println(subject_list.size());
-        System.out.println(my_subject_list.size());
-        System.out.println(allSubjects.size());
-
+        SubjectDAO s=new SubjectDAO();
+boolean check=s.HasSubjectNotBeenInteract(4, 11);
+        System.out.println(check);
     }
 }
