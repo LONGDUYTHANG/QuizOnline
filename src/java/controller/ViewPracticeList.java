@@ -5,19 +5,24 @@
 
 package controller;
 
-import dal.RegistrationDAO;
+import dal.AccountDAO;
+import dal.QuizDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.Account;
+import model.Practice_Record;
 
 /**
  *
- * @author ADMIN
+ * @author DELL-PC
  */
-public class DeleteRegistrationServlet extends HttpServlet {
+public class ViewPracticeList extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,10 +39,10 @@ public class DeleteRegistrationServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DeleteRegistrationServlet</title>");  
+            out.println("<title>Servlet ViewPracticeList</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DeleteRegistrationServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ViewPracticeList at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -54,21 +59,13 @@ public class DeleteRegistrationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-      String raw_registration_id=request.getParameter("rid");
-        int registration_id=0;
-        try {
-            registration_id=Integer.parseInt(raw_registration_id);
-        } catch (NumberFormatException e) {
-        }
-        String raw_account_id=request.getParameter("aid");
-        int account_id=0;
-        try {
-            account_id=Integer.parseInt(raw_account_id);
-        } catch (NumberFormatException e) {
-        }
-        RegistrationDAO myRegistrationDAO=new RegistrationDAO();
-        myRegistrationDAO.RemoveRegistration(account_id, registration_id);
-        request.getRequestDispatcher("salerregistrationlist").forward(request, response);
+        HttpSession session = request.getSession(true);
+        Account a = (Account)session.getAttribute("user");
+        QuizDAO qd = new QuizDAO();
+        List<Practice_Record> listPrac = qd.getPracticeRecordListByAccountId(a.getAccount_id());
+        session.setAttribute("list_prac", listPrac);
+        
+        request.getRequestDispatcher("customer/practice_list.jsp").forward(request, response);
     } 
 
     /** 
@@ -81,8 +78,7 @@ public class DeleteRegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-      
-        
+        processRequest(request, response);
     }
 
     /** 

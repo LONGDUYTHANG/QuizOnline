@@ -14,7 +14,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import model.Account;
 import model.Subject;
 
 /**
@@ -58,10 +60,12 @@ public class Expert_SubjectListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account user = (Account)session.getAttribute("user");
         SubjectDAO sdao = new SubjectDAO();
         CategoryDAO cdao = new CategoryDAO();
         AccountDAO adao = new AccountDAO();
-        List<Subject> listSubject = sdao.getListSubject();
+        List<Subject> listSubject = sdao.getListSubjectByAccount(user.getAccount_id());
         request.setAttribute("listSubject", listSubject);
         request.setAttribute("cdao", cdao);
         request.setAttribute("adao", adao);

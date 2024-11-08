@@ -12,6 +12,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import model.Account;
 
 /**
  *
@@ -70,29 +74,46 @@ public class RegisterServlet extends HttpServlet {
         AccountDAO myAccountDAO = new AccountDAO();
         String email = request.getParameter("email");
         String pass = request.getParameter("pass");
+        String encrypted_pass=getMD5(pass);
         String confirmed_pass = request.getParameter("confirmedPass");
+        HttpSession session=request.getSession();
         //thong bao loi gui lai nguoi dung
         String register_error = "";
         //Neu mat khau xac nhan giong mat khau da nhap
         if (confirmed_pass.equals(pass)) {
             //neu email do to tai trong database
             if (myAccountDAO.getAccountByEmail(email) == null) {
-                myAccountDAO.addAccount( email, pass);
-                request.getRequestDispatcher("homepage_1.jsp").forward(request, response);
+                myAccountDAO.addAccount( email, encrypted_pass);
+                Account myAccount=myAccountDAO.getAccount(email, encrypted_pass);
+                session.setAttribute("user", myAccount);
+                request.getRequestDispatcher("homepage_1").forward(request, response);
             } else {
                 //gui lai cac thong tin nguoi dung da nhap sang page register de nguoi dung nhap tiep
                 register_error = "Email existed!";
                 request.setAttribute("email_error", register_error);
                 request.setAttribute("email", email);
                 request.setAttribute("pass", pass);
-                request.getRequestDispatcher("homepage.jsp").forward(request, response);
+                request.getRequestDispatcher("homepage").forward(request, response);
             }
         } else {
             //gui lai cac thong tin nguoi dung da nhap sang page register de nguoi dung nhap tiep
             register_error = "Wrong confirmed password!";
             request.setAttribute("pass_error", register_error);
             request.setAttribute("email", email);
-            request.getRequestDispatcher("homepage.jsp").forward(request, response);
+            request.getRequestDispatcher("homepage").forward(request, response);
+        }
+    }
+     public static String getMD5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : messageDigest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
     }
 

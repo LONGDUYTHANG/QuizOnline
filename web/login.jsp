@@ -48,11 +48,9 @@
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
 
-        
     </head>
     <body id="bg">
-
-        <div class="page-wraper popup" id="login-popup" style="margin-top: 50px" >
+        <div class="page-wraper popup" id="login-popup">
             <div class="account-form popup-content" >
                 <div class="account-form-inner" style="background-color: white">
                     <div style="text-align: right">
@@ -60,30 +58,28 @@
                     <div class="account-container">
                         <div class="heading-bx left">
                             <h2 class="title-head">Login to your <span>Account</span></h2>
-                            <p>Don't have an account? <a href="#" id="open-register-popup-in-login">Create one here</a></p>
+                            <p>Don't have an account? <a href="register.html">Create one here</a></p>
                         </div>	
                         <form class="contact-bx" action="login" method="post">
                             <div class="row placeani">
-                                <c:set var="cookie" value="${pageContext.request.cookies}"/>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <p style="color: red" id="login-error">${requestScope.login_error}</p>
-                                        <p style="color: red" id="check-login-error" hidden>Incorrect username or password</p>
+                                        <p style="color: red" id="check-login-error" hidden>Incorrect username or passwword</p>
                                         <label>Email</label>
-                                        <input name="email" type="email" required="" class="form-control" value="${cookie.c_user.value}">
+                                        <input name="email" type="email" required="" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <div class="form-group password-container"> 
+                                    <div class="form-group"> 
                                         <label>Your Password</label>
-                                        <input name="userPass" id="userPass" type="password" class="form-control" required=""> 
-                                        <i class="fas fa-eye toggle-password" onclick="togglePassword()"></i>
+                                        <input name="userPass" type="password" class="form-control" required="">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group form-forget">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input"  id="customControlAutosizing" name="rem" ${(cookie.c_check_button!=null?'checked':'')}> 
+                                            <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
                                             <label class="custom-control-label" for="customControlAutosizing">Remember me</label>
                                         </div>
                                         <a  href="#" class="ml-auto" id="open-requestPass-popup">Forgot Password?</a>
@@ -96,7 +92,7 @@
                                     <h6>Login with Social media</h6>
                                     <div class="d-flex">
                                         <a class="btn flex-fill m-r5 facebook" href="https://www.facebook.com/v20.0/dialog/oauth?
-                                           client_id=881147463974671&redirect_uri=http://localhost:8080/quizonline/facebooklogin"><i class="fa fa-facebook"></i>Facebook</a>
+  client_id=881147463974671&redirect_uri=http://localhost:8080/quizonline/facebooklogin"><i class="fa fa-facebook"></i>Facebook</a>
                                         <a class="btn flex-fill m-l5 google-plus" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/quizonline/googlelogin&response_type=code
                                            &client_id=393624416817-8crlnf1o21kjk410epg6pjg7q6bohd79.apps.googleusercontent.com&approval_prompt=force"><i class="fa fa-google-plus"></i>Google Plus</a>
                                     </div>
@@ -107,9 +103,6 @@
                 </div>
             </div>
         </div>
-
-
-
         <!-- External JavaScripts -->
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/vendors/bootstrap/js/popper.min.js"></script>
@@ -126,13 +119,8 @@
         <script src="assets/js/functions.js"></script>
         <script src="assets/js/contact.js"></script>
         <script src='assets/vendors/switcher/switcher.js'></script>
-        <script>
-            const openRegisterButtonInLogin = document.getElementById('open-register-popup-in-login');
-            openRegisterButtonInLogin.onclick = function () {
-                registerPopup.style.display = 'flex';
-            };
-        </script>
-        
     </body>
 
 </html>
+
+

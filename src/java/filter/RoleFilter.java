@@ -109,6 +109,8 @@ public class RoleFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         String url = req.getServletPath();
         Account account = (Account) req.getSession().getAttribute("user");
+
+
         if( account == null){
             if(url.contains("/saler") || url.contains("/admin")|| url.contains("/customer")){
                 res.sendRedirect("common/404error.html?status=account_not_valid");
@@ -125,6 +127,7 @@ public class RoleFilter implements Filter {
                 res.sendRedirect("common/404error.html?status=not_customer");
             }
         }
+
         Throwable problem = null;
         try {
             chain.doFilter(request, response);

@@ -74,81 +74,10 @@
                 text-align: center;
                 max-width: 400px;
                 margin: auto;
+                margin-top: 60px
             }
 
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: Arial, sans-serif;
-            }
-            .slider-container {
-                width: 100%;
-                overflow: hidden;
-                position: relative;
-            }
-            .slider {
-                display: flex;
-                width: 200%;
-                transition: 1s;
-                animation: slide 8s infinite;
-            }
-            .slide {
-                width: 100%;
-                position: relative;
-            }
-            .slide img {
-                width: 100%;
-                height: 500px;
-                object-fit: cover;
-            }
-            .text-overlay {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                color: #fff;
-                background-color: rgba(0, 0, 0, 0.5); /* L?p ph? che to�n slide */
-                padding: 20px;
-            }
-            .text-overlay h1 {
-                font-size: 3em;
-                margin-bottom: 10px;
-            }
-            .text-overlay p {
-                font-size: 1.2em;
-            }
-            @keyframes slide {
-                0%, 50% {
-                    transform: translateX(0);
-                }
-                50.01%, 100% {
-                    transform: translateX(-50%);
-                }
-            }
 
-        </style>
-        <style>
-            .password-container {
-                position: relative;
-            }
-            .password-container input[type="password"],
-            .password-container input[type="text"] {
-                width: 100%;
-                padding-right: 30px;
-            }
-            .password-container .toggle-password {
-                position: absolute;
-                right: 10px;
-                top: 70%;
-                transform: translateY(-50%);
-                cursor: pointer;
-            }
         </style>
     </head>
     <body id="bg" onload="LoginAgain()">
@@ -157,48 +86,137 @@
             <div id="loading-icon-bx"></div>
             <!-- Header Top ==== -->
             <header class="header rs-nav header-transparent">
+                 
                 <!-- login -->
-                <%@include file="login.jsp" %>
+                <%@include file="common/login.jsp" %>
                 <!-- register     -->
-                <%@include file="register.jsp" %>
-
-                <%@include file="header.html" %>
-
-                <%@include file="requestPassword.jsp" %>
-
+                <%@include file="common/register.jsp" %>
+                
+                <%@include file="common/header.html" %>
+            
+                <%@include file="common/requestPassword.jsp" %>
+                
             </header>
             <!-- Header Top END ==== -->
-
-
-
-
+            
+            
+            
+            
             <!-- Content -->
             <div class="page-content bg-white">
                 <!-- Main Slider -->
-                <div class="slider-container">
-                    <div class="slider">
-                        <c:forEach var="slider" items="${sliders_list}">
-                            <div class="slide">
-                                <a href="${slider.slider_link}"><img src="${slider.slider_image}" alt="Slider Image"></a>
-                                <div class="overlay"></div>
-                                <div class="text-overlay">
-                                    <h1 style="color: #FF9900;">Welcome To Quiz Online</h1>
-                                    <p style="color: #F7B205; font-size: 1.2em; font-weight: 600; text-align: center; margin-bottom: 5px;">
-                                        ${slider.slider_title}
-                                    </p>
-                                    <p style="color: white; font-size: 1em; text-align: center; line-height: 1.5; max-width: 600px; margin: 0 auto;">
-                                        ${slider.slider_detail}
-                                    </p>
-                                </div>
-                            </div>
-                        </c:forEach>
-                    </div>
-                </div>
-                <!-- Main Slider -->
+                <div class="rev-slider" style="height: 250px">
+                    <div id="rev_slider_486_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="news-gallery36" data-source="gallery" style="margin:0px auto;background-color:#ffffff;padding:0px;margin-top:0px;margin-bottom:0px;">
+                        <!-- START REVOLUTION SLIDER 5.3.0.2 fullwidth mode -->
+                        <div id="rev_slider_486_1" class="rev_slider fullwidthabanner" style="height: 300px" data-version="5.3.0.2">
+                            <ul>	<!-- SLIDE  -->
+                                <li data-index="rs-200" 
+                                    data-transition="parallaxvertical" 
+                                    data-slotamount="default" 
+                                    data-hideafterloop="0" 
+                                    data-hideslideonmobile="off" 
+                                    data-easein="default" 
+                                    data-easeout="default" 
+                                    data-masterspeed="default" 
+                                    data-thumb="" 
+                                    data-rotate="0" 
+                                    data-fstransition="fade" 
+                                    data-fsmasterspeed="1500" 
+                                    data-fsslotamount="7" 
+                                    data-saveperformance="off" 
+                                    data-title="A STUDY ON HAPPINESS" 
+                                    data-param1="" data-param2="" 
+                                    data-param3="" data-param4="" 
+                                    data-param5="" data-param6="" 
+                                    data-param7="" data-param8="" 
+                                    data-param9="" data-param10="" 
+                                    data-description="Science says that Women are generally happier">
+                                    <!-- MAIN IMAGE -->
+                                    <img src="" alt="" 
+                                         data-bgposition="center center" 
+                                         data-bgfit="cover" 
+                                         data-bgrepeat="no-repeat" 
+                                         data-bgparallax="10" 
+                                         class="rev-slidebg" 
+                                         data-no-retina />
 
+                                    <!-- LAYER NR. 1 -->
+                                    <div class="tp-caption tp-shape tp-shapewrapper " 
+                                         id="slide-200-layer-1" 
+                                         data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" 
+                                         data-y="['middle','middle','middle','middle']" data-voffset="['0','0','0','0']" 
+                                         data-width="full"
+                                         data-height="full"
+                                         data-whitespace="nowrap"
+                                         data-type="shape" 
+                                         data-basealign="slide" 
+                                         data-responsive_offset="off" 
+                                         data-responsive="off"
+                                         data-frames='[{"from":"opacity:0;","speed":1,"to":"o:1;","delay":0,"ease":"Power4.easeOut"},{"delay":"wait","speed":1000,"to":"opacity:1;","ease":"Power4.easeOut"}]'
+                                         data-textAlign="['left','left','left','left']"
+                                         data-paddingtop="[0,0,0,0]"
+                                         data-paddingright="[0,0,0,0]"
+                                         data-paddingbottom="[0,0,0,0]"
+                                         data-paddingleft="[0,0,0,0]"
+                                         style="z-index: 5;background-color:rgba(2, 0, 11, 0.80);border-color:rgba(0, 0, 0, 0);border-width:0px;"> 
+                                    </div>
+
+                                    <!-- LAYER NR. 2 -->
+                                    <div class="tp-caption Newspaper-Title   tp-resizeme" 
+                                         id="slide-200-layer-2" 
+                                         data-x="['center','center','center','center']" 
+                                         data-hoffset="['0','0','0','0']" 
+                                         data-y="['top','top','top','top']" 
+                                         data-voffset="['250','250','250','240']" 
+                                         data-fontsize="['50','50','50','30']"
+                                         data-lineheight="['55','55','55','35']"
+                                         data-width="full"
+                                         data-height="none"
+                                         data-whitespace="normal"
+                                         data-type="text" 
+                                         data-responsive_offset="on" 
+                                         data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
+                                         data-textAlign="['center','center','center','center']"
+                                         data-paddingtop="[0,0,0,0]"
+                                         data-paddingright="[0,0,0,0]"
+                                         data-paddingbottom="[10,10,10,10]"
+                                         data-paddingleft="[0,0,0,0]"
+                                         style="z-index: 6; font-family:rubik; font-weight:700; text-align:center; white-space: normal;text-transform:uppercase;">
+                                        Welcome To QuizOnline
+                                    </div>
+
+                                    <!-- LAYER NR. 3 -->
+                                    <div class="tp-caption Newspaper-Subtitle   tp-resizeme" 
+                                         id="slide-200-layer-3" 
+                                         data-x="['center','center','center','center']" 
+                                         data-hoffset="['0','0','0','0']" 
+                                         data-y="['top','top','top','top']" 
+                                         data-voffset="['210','210','210','210']" 
+                                         data-width="none"
+                                         data-height="none"
+                                         data-whitespace="nowrap"
+                                         data-type="text" 
+                                         data-responsive_offset="on"
+                                         data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
+                                         data-textAlign="['left','left','left','left']"
+                                         data-paddingtop="[0,0,0,0]"
+                                         data-paddingright="[0,0,0,0]"
+                                         data-paddingbottom="[0,0,0,0]"
+                                         data-paddingleft="[0,0,0,0]"
+                                         style="z-index: 7; white-space: nowrap;text-transform:uppercase; color:#fff; font-family:rubik; font-size:18px; font-weight:400;">
+                                        Batter Education For A Better 
+                                    </div>
+                                </li>
+
+                                <!-- SLIDE  -->
+                            </ul>
+                        </div><!-- END REVOLUTION SLIDER -->  
+                    </div>  
+                </div>  
+                <!-- Main Slider -->
                 <div class="content-block">
-                    <!-- Featured Subject -->
-                    <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(assets/images/background/bg1.jpg);">
+                    <!-- All Subject -->
+                    <div class="section-area section-sp2 popular-courses-bx" style="height: 510px">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 heading-bx left">
@@ -210,37 +228,32 @@
                                     <!-- thêm subjedt list -->
                                     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                                     <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-                                    <c:forEach var="subject" items="${subject_list}" varStatus="status">
-                                        <c:if test="${fn:contains(subject.description, param.keyword) || fn:contains(subject.subjectName, param.keyword)}">
-                                            <div class="item" style="width: 300px; height: 350px;">
-                                                <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;">
-                                                    <div class="action-box" style="width: 100%; height: 57%;">
-                                                        <img src="${subject.thumbnail}" alt="" style="width: 100%; height: 100%;">
-                                                        <a href="subject_details?subject_id=${subject.subjectId}" class="btn">Read More</a>
+                                    <c:forEach items="${requestScope.subject_list}" var="c">
+                                        <c:if test="${fn:contains(c.description, param.keyword) || fn:contains(c.subjectName, param.keyword)}">
+                                            <div class="item" style="width: 300px; height: 350px;"> <!-- Kích th??c c? ??nh -->
+                                                <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;"> <!-- B?o ??m kích th??c -->
+                                                    <div class="action-box" style="width: 100%; height: 57%;"> <!-- T? l? hình ?nh c? ??nh -->
+                                                        <img src="${c.thumbnail}" alt="" style="width: 100%; height: 100%;"> <!-- Kích th??c hình ?nh -->
+                                                        <a href="subject_details?subject_id=${c.subjectId}" class="btn">Read More</a>
                                                     </div>
                                                     <div class="info-bx text-center" style="padding: 10px;">
+                                                        <!-- S? d?ng CSS ?? c?t ?o?n text khi quá dài -->
                                                         <h5>
-                                                            <a href="subject_details?subject_id=${subject.subjectId}" 
+                                                            <a href="subject_details?subject_id=${c.subjectId}" 
                                                                style="color: black; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                                ${subject.description}
+                                                                ${c.description}
                                                             </a>
                                                         </h5>
-                                                        <span>${subject.tagline}</span>
+                                                        <span>${c.tagline}</span>
                                                     </div>
                                                     <div class="cours-more-info">
                                                         <div class="review">
-                                                            <i class="fa fa-user"></i>      <span>Author</span>
-                                                            <c:forEach var="account" items="${account_list}" varStatus="aStatus">
-                                                                <c:if test="${aStatus.index == status.index}">
-                                                                    <h5>${account.first_name} ${account.last_name}</h5>
-                                                                </c:if>
-                                                            </c:forEach>
+                                                            <span><i class="fa fa-user"></i> By Phunanh</span>
+                                                            <span><i class="fa fa-calendar"></i> ${c.createdDate}</span>
                                                         </div>
                                                         <div class="price">
-                                                            <c:if test="${not empty selectedPackageModel}">
-                                                                <del>${selectedPackageModel.listPrice}</del>
-                                                                <h5>${selectedPackageModel.salePrice}</h5>
-                                                            </c:if>
+                                                            <del>$190</del>
+                                                            <h5>$120</h5>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -257,7 +270,7 @@
                     <!-- Popular Courses END -->
 
                     <!-- Form -->
-                    <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(assets/images/background/bg1.jpg);">
+                    <div class="section-area section-sp1 ovpr-dark bg-fix online-cours" style="background-image:url(assets/images/background/bg1.jpg);">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 text-center text-white">
@@ -280,7 +293,7 @@
                                             <div class="icon-box">
                                                 <h3><i class="ti-user"></i><span class="counter">5</span>M</h3>
                                             </div>
-                                            <span class="cours-search-text">Over ${totalQuizzes} Quizzes</span>
+                                            <span class="cours-search-text">Over 5 million student</span>
                                         </div>
                                     </div>
                                     <div class="col-md-4 col-sm-6">
@@ -288,7 +301,7 @@
                                             <div class="icon-box">
                                                 <h3><i class="ti-book"></i><span class="counter">30</span>K</h3>
                                             </div>
-                                            <span class="cours-search-text">${totalSubjects} Subjects</span>
+                                            <span class="cours-search-text">30,000 Courses.</span>
                                         </div>
                                     </div>
                                     <div class="col-md-4 col-sm-12">
@@ -296,7 +309,7 @@
                                             <div class="icon-box">
                                                 <h3><i class="ti-layout-list-post"></i><span class="counter">20</span>K</h3>
                                             </div>
-                                            <span class="cours-search-text">Learn ${totalLessons} Lessons.</span>
+                                            <span class="cours-search-text">Learn Anything Online.</span>
                                         </div>
                                     </div>
                                 </div>
@@ -317,20 +330,15 @@
                             </div>
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
                                 <!--  thêm danh sách bài post m?i nh?t-->
-                                <c:forEach items="${requestScope.post_list}" var="c"  varStatus="status">
+                                <c:forEach items="${requestScope.post_list}" var="c">
                                     <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> 
                                         <a href="blog_detail?blog_id=${c.blog_id}">
                                             <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> 
                                         </a>
                                         <div class="ttr-post-info" style="padding: 10px; height: 40%;"> 
                                             <ul class="media-post">
-                                                <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li> 
-                                                        <c:forEach var="account" items="${account_list}" varStatus="aStatus">
-                                                            <c:if test="${aStatus.index == status.index}">
-                                                        <li><a href="#"><i class="fa fa-user"></i>${account.first_name} ${account.last_name}</a></li>
-                                                        </c:if>
-                                                    </c:forEach>
-
+                                                <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>                                      
+                                                <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
                                             </ul>
                                             <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
                                             <p style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.blog_summary}</p> 
@@ -354,7 +362,7 @@
                             <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
                                 <!--  thêm danh sách bài post hot nh?t-->
                                 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-                                <c:forEach items="${requestScope.hottest_post_list}" var="c"  varStatus="status">
+                                <c:forEach items="${requestScope.hottest_post_list}" var="c">
                                     <div class="blog-post blog-md clearfix" style="background-color: white; width: 550px; height: 450px; border-radius: 15px;"> <!-- Kích th??c c? ??nh -->
                                         <a href="blog_detail?blog_id=${c.blog_id}">
                                             <img src="${c.thumbnail}" alt="" style="width: 100%; height: 70%;"> <!-- Kích th??c hình ?nh -->
@@ -362,11 +370,7 @@
                                         <div class="ttr-post-info" style="padding: 10px; height: 40%;">
                                             <ul class="media-post">
                                                 <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
-                                                        <c:forEach var="account" items="${account_list}" varStatus="aStatus">
-                                                            <c:if test="${aStatus.index == status.index}">
-                                                        <li><a href="#"><i class="fa fa-user"></i>${account.first_name} ${account.last_name}</a></li>
-                                                        </c:if>
-                                                    </c:forEach>
+                                                <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
                                             </ul>
                                             <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
                                             <p style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.blog_summary}</p> <!-- Gi?i h?n chi?u dài bài tóm t?t -->
@@ -383,7 +387,7 @@
             </div>
             <!-- Content END-->
             <!-- Footer ==== -->
-            <%@include file="\common\footer.html" %>
+            <%@include file="customer/footer.html" %>
             <!-- Footer END ==== -->
             <button class="back-to-top fa fa-chevron-up" ></button>
         </div>
@@ -498,7 +502,7 @@
                     fallbacks: {
                         simplifyAll: "off",
                         nextSlideOnWindowFocus: "off",
-                        disableFocusListener: false
+                        disableFocusListener: false,
                     }
                 });
             }
@@ -525,7 +529,7 @@
             const RequestPopup = document.getElementById('requestPass-popup');
             const requestError = document.getElementById('requestPass-error');
             const checkRequestError = document.getElementById('check-requestPass-error');
-
+            
 
             openLoginButton.onclick = function () {
                 loginPopup.style.display = 'flex';
@@ -543,40 +547,30 @@
             };
             openRequestButton.onclick = function () {
                 loginPopup.style.display = 'none';
-                RequestPopup.style.display = 'flex';
+                RequestPopup.style.display='flex';
             };
-            closeRequestButton.onclick = function () {
+            closeRequestButton.onclick =function () {
                 loginPopup.style.display = 'flex';
-                RequestPopup.style.display = 'none';
+                RequestPopup.style.display='none';
             };
             function LoginAgain() {
+                if (checkLoginError.textContent === loginError.textContent) {
+                    loginPopup.style.display = 'flex';
+                }
+                if (checkEmailError.textContent === emailError.textContent) {
+                    registerPopup.style.display = 'flex';
+                }
+                if (checkPassError.textContent === passError.textContent) {
+                    registerPopup.style.display = 'flex';
+                }
+                if(requestError.textContent==='Send request success'){
+                    RequestPopup.style.display='flex';
+                }
+                if(requestError.textContent==='Email not existed'){
+                    RequestPopup.style.display='flex';
+                }
+                console.log(requestError.textContent);
                 
-                if (checkLoginError!==null&&checkLoginError.textContent === loginError.textContent) {
-                    loginPopup.style.display = 'flex';
-                    return;
-                }
-                 if (loginError!==null&loginError.textContent === "Email must end with @fpt.edu.vn") {
-                    loginPopup.style.display = 'flex';
-                    return;
-                }
-                if (emailError!==null&&emailError.textContent === "Email existed!") {
-                    registerPopup.style.display = 'flex';
-                    return;
-                }
-                if (passError!==null&&passError.textContent === "Wrong confirmed password!") {
-                    registerPopup.style.display = 'flex';
-                    return;
-                }
-                if (requestError!==null&&requestError.textContent === 'Send request success') {
-                    RequestPopup.style.display = 'flex';
-                    return;
-                }
-                if (requestError!==null&&requestError.textContent === 'Email not existed') {
-                    RequestPopup.style.display = 'flex';
-                    return;
-                }
-                console.log(emailError.textContent);
-
 
             }
 
@@ -594,50 +588,6 @@
                 }
             };
         </script>
-        <script>
-            function togglePassword() {
-                var passwordField = document.getElementById("userPass");
-                var toggleIcon = document.querySelector(".toggle-password");
-                if (passwordField.type === "password") {
-                    passwordField.type = "text";
-                    toggleIcon.classList.remove("fa-eye");
-                    toggleIcon.classList.add("fa-eye-slash");
-                } else {
-                    passwordField.type = "password";
-                    toggleIcon.classList.remove("fa-eye-slash");
-                    toggleIcon.classList.add("fa-eye");
-                }
-            }
-        </script>
-        <script>
-            function togglePasswordRegister() {
-                var passwordFieldforregister = document.getElementById("userPassforregister");
-                var toggleIcon = document.querySelector(".toggle-password");
-                if (passwordFieldforregister.type === "password") {
-                    passwordFieldforregister.type = "text";
-                    toggleIcon.classList.remove("fa-eye");
-                    toggleIcon.classList.add("fa-eye-slash");
-                } else {
-                    passwordFieldforregister.type = "password";
-                    toggleIcon.classList.remove("fa-eye-slash");
-                    toggleIcon.classList.add("fa-eye");
-                }
-            }
-            
-             function togglePasswordConfirm() {
-                var passwordFieldforregister = document.getElementById("userPassforconfirm");
-                var toggleIcon = document.querySelector(".toggle-password");
-                if (passwordFieldforregister.type === "password") {
-                    passwordFieldforregister.type = "text";
-                    toggleIcon.classList.remove("fa-eye");
-                    toggleIcon.classList.add("fa-eye-slash");
-                } else {
-                    passwordFieldforregister.type = "password";
-                    toggleIcon.classList.remove("fa-eye-slash");
-                    toggleIcon.classList.add("fa-eye");
-                }
-            }
-        </script>
-    </body>
-</html>
+            </body>
 
+</html>

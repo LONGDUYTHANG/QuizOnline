@@ -104,7 +104,7 @@ public class resetPasswordServlet extends HttpServlet {
         String confirmPassword = request.getParameter("confirm_password");
         //validate password...
         if(!password.equals(confirmPassword)) {
-            request.setAttribute("mess", "Confirm password must same password");
+            request.setAttribute("mess", "Confirm password must as same as password");
             request.setAttribute("email", email);
             request.getRequestDispatcher("common/resetPassword.jsp").forward(request, response);
             return;

@@ -5,12 +5,18 @@
 
 package controller;
 
+import dal.RegistrationDAO;
+import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import model.Account;
+import model.Subject;
 
 /**
  *
@@ -53,9 +59,28 @@ public class CustomerSearchRegistration extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        SubjectDAO subjectDAO=new SubjectDAO();
+        HttpSession session =request.getSession(false);
+            Account account=(Account)session.getAttribute("user");
+            int user_id=account.getAccount_id();
+        String action=request.getParameter("action");
+        if(action.equalsIgnoreCase("search")){
        String keyword=request.getParameter("dzName");
-       request.setAttribute("keyword",keyword);
+       ArrayList<Subject> filter_registration_saubject_list=subjectDAO.FilterRegistrationListOfAnUser(user_id, keyword);
+       request.setAttribute("registration_subject_list",filter_registration_saubject_list);
        request.getRequestDispatcher("customerregistrationlist").forward(request, response);
+        }
+        if(action.equalsIgnoreCase("remove")){
+            String raw_subject_id=request.getParameter("id");
+            int subject_id=0;
+            try {
+                subject_id=Integer.parseInt(raw_subject_id);
+            } catch (NumberFormatException e) {
+            }
+            RegistrationDAO registrationDAO=new RegistrationDAO();
+            registrationDAO.RemoveRegistration(user_id, subject_id);
+            request.getRequestDispatcher("customerregistrationlist").forward(request, response);
+        }
     } 
 
     /** 

@@ -78,29 +78,30 @@
                                         <div class="form-group">
                                             <form action="customersearchregistration">
                                                 <div class="input-group">
-                                                <label>Search My Registrations</label>
-                                                <input name="dzName" type="text" required class="form-control"><br><br>
-                                                <input type="submit" value="Search" class="btn radius-xl text-uppercase">
-                                            </div>
+                                                    <label>Search My Registrations</label>
+                                                    <input name="dzName" type="text" required class="form-control"><br><br>
+                                                    <input type="submit" value="Search" class="btn radius-xl text-uppercase">
+                                                    <input type="text" value="search" hidden name="action">
+                                                </div>
                                             </form>                                           
                                         </div>
                                     </div>
-                                                                        <div class="widget recent-posts-entry widget-courses">
+                                    <div class="widget recent-posts-entry widget-courses">
                                         <h5 class="widget-title style-1">My Subjects</h5>
                                         <div class="widget-post-bx">
                                             <!--                                       <them danh sach subject da dang ky o day-->
                                             <c:forEach items="${requestScope.registeredSubject_list}" var="c">
                                                 <c:if test="${fn:contains(fn:toLowerCase(c.subjectName), fn:toLowerCase(param.keyword))}">
-                                            <div class="blog-post blog-md clearfix">
-                                                <div class="ttr-post-media"  >
-                                                    <a href="subject_details?subject_id=${c.subjectId}"><img src="${c.thumbnail}" alt=""></a>
-                                                     <h5 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.subjectName}</a></h5>
-                                                </div>
-                                                
-                                            </div>
-                                        </c:if>
-                                               
-                                    </c:forEach>
+                                                    <div class="blog-post blog-md clearfix">
+                                                        <div class="ttr-post-media"  >
+                                                            <a href="subject_details?subject_id=${c.subjectId}"><img src="${c.thumbnail}" alt=""></a>
+                                                            <h5 class="post-title"><a href="subject_details?subject_id=${c.subjectId}">${c.subjectName}</a></h5>
+                                                        </div>
+
+                                                    </div>
+                                                </c:if>
+
+                                            </c:forEach>
                                         </div>
                                     </div>
                                 </div>
@@ -110,12 +111,11 @@
 
                                         <c:forEach var="subject" items="${registration_subject_list}" varStatus="status">
                                             <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
-                                                <c:if test="${fn:contains(subject.description, param.keyword) || fn:contains(subject.subjectName, param.keyword)}">
                                                     <div class="item" style="width: 250px; height: 300px;">
                                                         <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;">
                                                             <div class="action-box" style="width: 100%; height: 57%;">
                                                                 <img src="${subject.thumbnail}" alt="" style="width: 100%; height: 100%;">
-                                                                <a href="subject_details?subject_id=${subject.subjectId}" class="btn">Read More</a>
+                                                                <a href="customersearchregistration?action=remove&id=${subject.subjectId}" class="btn">Remove</a>
                                                             </div>
                                                             <div class="info-bx text-center" style="padding: 10px;">
                                                                 <h5>
@@ -144,14 +144,13 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </c:if>
                                             </div>
                                         </c:forEach>
                                         <c:if test="${empty requestScope.registration_subject_list}">
                                             <p>No subjects found matching your search.</p>
                                         </c:if>
 
-                                        
+
                                     </div>
                                 </div>
                             </div>

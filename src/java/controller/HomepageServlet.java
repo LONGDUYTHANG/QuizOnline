@@ -17,6 +17,7 @@ import model.Account;
 import model.Post;
 import model.Slider;
 import model.Subject;
+import model.Package;
 
 /**
  *
@@ -64,6 +65,14 @@ public class HomepageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //error with login
+        String account_error_login=(String)request.getAttribute("login_error");
+        request.setAttribute("login_error", account_error_login);
+        //error eeith register
+        String email_register_error=(String)request.getAttribute("email_error");
+        request.setAttribute("email_error", email_register_error);
+        String pass_register_error=(String)request.getAttribute("pass_error");
+        request.setAttribute("pass_error", pass_register_error);
         //post_list
         dal.PostDAO myPostDAO = new dal.PostDAO();
         ArrayList<Post> post_list = myPostDAO.getPost();
@@ -79,7 +88,7 @@ public class HomepageServlet extends HttpServlet {
         request.setAttribute("subject_list", subject_list);
 
         PackageDAO packageDAO = new PackageDAO();
-        List<model.Package> packageList = packageDAO.getAllPackage1();
+        List<Package> packageList = packageDAO.getAllPackage1();
         String selectedDuration = request.getParameter("courseDuration");
         model.Package selectedPackageModel = packageList.get(0);
         if (selectedDuration != null) {
@@ -136,7 +145,7 @@ public class HomepageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doGet(request, response);
     }
 
     /**
