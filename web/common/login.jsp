@@ -48,10 +48,11 @@
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
 
+        
     </head>
     <body id="bg">
-        
-<div class="page-wraper popup" id="login-popup" style="margin-top: 50px" >
+
+        <div class="page-wraper popup" id="login-popup" style="margin-top: 50px" >
             <div class="account-form popup-content" >
                 <div class="account-form-inner" style="background-color: white">
                     <div style="text-align: right">
@@ -59,7 +60,7 @@
                     <div class="account-container">
                         <div class="heading-bx left">
                             <h2 class="title-head">Login to your <span>Account</span></h2>
-                            <p>Don't have an account? <a href="register.html">Create one here</a></p>
+                            <p>Don't have an account? <a href="#" id="open-register-popup-in-login">Create one here</a></p>
                         </div>	
                         <form class="contact-bx" action="login" method="post">
                             <div class="row placeani">
@@ -73,9 +74,10 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <div class="form-group"> 
+                                    <div class="form-group password-container"> 
                                         <label>Your Password</label>
-                                        <input name="userPass" type="password" class="form-control" required="">
+                                        <input name="userPass" id="userPass" type="password" class="form-control" required=""> 
+                                        <i class="fas fa-eye toggle-password" onclick="togglePassword()"></i>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -108,7 +110,7 @@
 
 
 
-<!-- External JavaScripts -->
+        <!-- External JavaScripts -->
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/vendors/bootstrap/js/popper.min.js"></script>
         <script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
@@ -124,6 +126,13 @@
         <script src="assets/js/functions.js"></script>
         <script src="assets/js/contact.js"></script>
         <script src='assets/vendors/switcher/switcher.js'></script>
+        <script>
+            const openRegisterButtonInLogin = document.getElementById('open-register-popup-in-login');
+            openRegisterButtonInLogin.onclick = function () {
+                registerPopup.style.display = 'flex';
+            };
+        </script>
+        
     </body>
 
 </html>
