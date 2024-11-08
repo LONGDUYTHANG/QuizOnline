@@ -559,7 +559,7 @@
                     loginPopup.style.display = 'flex';
                     return;
                 }
-                if (emailError!==null&&emailError.textContent === "Email existed!") {
+                if (emailError.textContent === "Email existed!"||emailError.textContent === "Email must end with @fpt.edu.vn") {
                     registerPopup.style.display = 'flex';
                     return;
                 }
