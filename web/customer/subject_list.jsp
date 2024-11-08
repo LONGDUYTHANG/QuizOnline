@@ -113,7 +113,7 @@
                                                             </c:if>
                                                             <div style="margin-left: 50px;"></div>
                                                             <c:if test="${requestScope.subjectDAO.HasSubjectNotBeenInteract(sessionScope.user.account_id,c.subjectId)}">
-                                                                <button type="submit" class="btn btn-primary">Register ${requestScope.subjectDAO.HasSubjectNotBeenInteract(sessionScope.user.account_id,c.subjectId)}</button>
+                                                                <button type="submit" class="btn btn-primary">Register</button>
                                                             </c:if>
                                                         </div>
                                                     </div>

@@ -5,6 +5,8 @@
 package dal;
 
 import java.lang.reflect.Array;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -956,8 +958,22 @@ public class RegistrationDAO extends DBContext {
 
     public static void main(String[] args) {
         // Khởi tạo đối tượng RegistrationDAO
-        RegistrationDAO registrationDAO = new RegistrationDAO();
-         Registration registration=new Registration(LocalDateTime.now(), 8, 0, 3, 2, 200, 300);
-        registrationDAO.AddRegistration(registration);
+        System.out.println(getMD5("pass"));
+    }
+    
+    public static String getMD5(String input) {
+        try {
+
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            // Chuyển đổi chuỗi đầu vào thành mảng byte
+            byte[] messageDigest = md.digest(input.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : messageDigest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
