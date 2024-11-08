@@ -137,7 +137,9 @@
                                         </c:if>
                                     <td style="width: 120px">
                                         <button type="button" class="btn btn-success" ><a href="registrationdetail?rid=${registration.registration_id}&aid=${registration.account_id}" style="color: white"><i class="align-middle fas fa-edit"></i></a></button>
-                                        <button type="button" class="btn btn-danger" ><a href="deleteregistration?rid=${registration.registration_id}" style="color: white"><i class="align-middle  fas fa-trash-alt"></i></a></button>
+                                        <button type="button" onclick="confirmDeletion(${registration.subject_id}, ${registration.account_id})" class="btn btn-danger">
+                                            <i class="align-middle fas fa-trash-alt"></i>
+                                        </button>
                                     </td>
                                 </tr>
                                 <%id++;%>
@@ -154,6 +156,13 @@
 
             }
         </script>
+     <script>
+        function confirmDeletion(registrationId, accountId) {
+            if (confirm("Are you sure you want to cancel this registration?")) {
+                window.location.href = "salerdeleteregistration?rid="+registrationId+"&aid="+accountId+"";
+            }
+        }
+    </script>
     </body>
 
 </html>

@@ -450,4 +450,12 @@
         <servlet-name>ajaxServlet</servlet-name>
         <url-pattern>/vnpayajax/*</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteRegistrationServlet</servlet-name>
+        <servlet-class>controller.DeleteRegistrationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteRegistrationServlet</servlet-name>
+        <url-pattern>/salerdeleteregistration</url-pattern>
+    </servlet-mapping>
 </web-app>
