@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import model.Quiz;
 import model.Subject;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import model.Account;
 import model.Question;
 import model.Quiz_Question;
 
@@ -120,6 +122,7 @@ public class AddQuizServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         QuizDAO dao = new QuizDAO();
+        HttpSession session = request.getSession();
         PrintWriter out = response.getWriter();
         String name = request.getParameter("name");
         String subject_id = request.getParameter("subject_id");
@@ -160,7 +163,8 @@ public class AddQuizServlet extends HttpServlet {
         String group_selection[] = request.getParameterValues("group_selection");
         
         //This line is temporary, the account_id should be selected from session
-        int account_id = 1;
+        Account user = (Account)session.getAttribute("user");
+        int account_id = user.getAccount_id();
       
         //Build logic for retrive questions 
         HashMap<Integer, Integer> map = new HashMap<>();

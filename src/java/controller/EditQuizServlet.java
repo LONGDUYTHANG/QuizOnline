@@ -153,7 +153,8 @@ public class EditQuizServlet extends HttpServlet {
             for (Integer key : map.keySet()) {
                 int available = dao.getNumberOfQuestionBySubjectAndLessonTopic(quiz.getSubject_id(), key, Integer.parseInt(level_id));
                 if (map.get(key) > available) {
-                    response.sendRedirect("editquizvalidation?quiz_id=" + quiz_id);
+                    String failMessage = "Not enough question for " + dao.getLessonTopicById(key).getLesson_topic_name() + ", available: " + available;
+                    response.sendRedirect("editquizvalidation?quiz_id=" + quiz_id + "&failMessage=" + failMessage);
                     return;
                 }
             }
@@ -161,7 +162,8 @@ public class EditQuizServlet extends HttpServlet {
             for (Integer key : map.keySet()) {
                 int available = dao.getNumberOfQuestionBySubjectAndDimensionId(quiz.getSubject_id(), key, Integer.parseInt(level_id));
                 if (map.get(key) > available) {
-                    response.sendRedirect("editquizvalidation?quiz_id=" + quiz_id);
+                    String failMessage = "Not enough question for " + dao.getDimensionById(key).getDimension_name() + ", available: " + available;
+                    response.sendRedirect("editquizvalidation?quiz_id=" + quiz_id + "&failMessage=" + failMessage);
                     return;
                 }
             }

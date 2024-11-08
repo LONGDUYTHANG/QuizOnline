@@ -4,26 +4,34 @@
  */
 package controller;
 
-import dal.*;
+import dal.AccountDAO;
+import dal.CategoryDAO;
+import dal.LessonDAO;
+import dal.PackageDAO;
+import dal.QuizDAO;
+import dal.RegistrationDAO;
+import dal.SliderDAO;
+import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
+import model.Category;
 import model.Post;
 import model.Slider;
 import model.Subject;
-import model.Package;
 
 /**
  *
  * @author ADMIN
  */
-public class HomepageServlet extends HttpServlet {
+public class CustomerRegistrationList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +50,10 @@ public class HomepageServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomepageServlet</title>");
+            out.println("<title>Servlet CustomerRegistrationList</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HomepageServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CustomerRegistrationList at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,35 +68,29 @@ public class HomepageServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    int numberOfSubject = 6;
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //error with login
-        String account_error_login=(String)request.getAttribute("login_error");
-        request.setAttribute("login_error", account_error_login);
-        //error eeith register
-        String email_register_error=(String)request.getAttribute("email_error");
-        request.setAttribute("email_error", email_register_error);
-        String pass_register_error=(String)request.getAttribute("pass_error");
-        request.setAttribute("pass_error", pass_register_error);
-        //post_list
-        dal.PostDAO myPostDAO = new dal.PostDAO();
-        ArrayList<Post> post_list = myPostDAO.getPost();
-        request.setAttribute("post_list", post_list);
+        SubjectDAO testDAO=new SubjectDAO();
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            // Nếu không có người dùng đăng nhập, chuyển hướng đến trang đăng nhập
+            response.sendRedirect("login");
+            return;
+        }
 
-        //hottest_post_list
-        ArrayList<Post> hottest_post_list = myPostDAO.getHottestPost();
-        request.setAttribute("hottest_post_list", hottest_post_list);
+        // Lấy đối tượng người dùng từ session
+        Account user = (Account) session.getAttribute("user");
+        int account_id = user.getAccount_id();
+        ArrayList<Subject> registration_subject_list = testDAO.getRegistrationListOfAnUser(account_id);
 
+        String keyword = (String) request.getAttribute("keyword");
         //subject_list
-        SubjectDAO testDAO = new SubjectDAO();
         List<Subject> subject_list = testDAO.getSubject();
-        request.setAttribute("subject_list", subject_list);
+        request.setAttribute("registration_subject_list", registration_subject_list);
 
         PackageDAO packageDAO = new PackageDAO();
-        List<Package> packageList = packageDAO.getAllPackage1();
+        List<model.Package> packageList = packageDAO.getAllPackage();
         String selectedDuration = request.getParameter("courseDuration");
         model.Package selectedPackageModel = packageList.get(0);
         if (selectedDuration != null) {
@@ -113,7 +115,7 @@ public class HomepageServlet extends HttpServlet {
         QuizDAO quizDAO = new QuizDAO();
         int totalQuizzes = quizDAO.getQuizCount();
         request.setAttribute("totalQuizzes", totalQuizzes);
-        
+
         int totalSubjects = testDAO.countSubjects();
         request.setAttribute("totalSubjects", totalSubjects);
 
@@ -124,14 +126,19 @@ public class HomepageServlet extends HttpServlet {
             account_list.add(account);
         }
 
-        SliderDAO sliderDAO = new SliderDAO();
-        List<Slider> sliders_list = sliderDAO.getAllSlider();
-        request.setAttribute("sliders_list", sliders_list);
-        
+// Kiểm tra phiên đăng nhập
+        // Gọi DAO để lấy danh sách môn học đã đăng ký
+        RegistrationDAO registerDAO = new RegistrationDAO();
+        ArrayList<Subject> registeredSubject_list = registerDAO.getRegisteredSubjectsByUserId(account_id);
+
+        // Đặt danh sách vào request attribute và chuyển hướng đến JSP để hiển thị
+        request.setAttribute("registeredSubject_list", registeredSubject_list);
+
         request.setAttribute("account_list", account_list);
         request.setAttribute("selectedDuration", selectedDuration);
         request.setAttribute("selectedPackageModel", selectedPackageModel);
-        request.getRequestDispatcher("common/homepage.jsp").forward(request, response);
+        request.setAttribute("keyword", keyword);
+        request.getRequestDispatcher("customer/registrationlist.jsp").forward(request, response);
     }
 
     /**
@@ -145,7 +152,7 @@ public class HomepageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        processRequest(request, response);
     }
 
     /**

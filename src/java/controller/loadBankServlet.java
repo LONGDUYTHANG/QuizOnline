@@ -5,7 +5,6 @@
 
 package controller;
 
-import dal.QuizDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,9 +14,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author FPT SHOP
+ * @author ADMIN
  */
-public class DeleteQuizServlet extends HttpServlet {
+public class loadBankServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,10 +33,10 @@ public class DeleteQuizServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DeleteQuizServlet</title>");  
+            out.println("<title>Servlet loadBankServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DeleteQuizServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet loadBankServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -54,20 +53,8 @@ public class DeleteQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        int quiz_id = Integer.parseInt(request.getParameter("quiz_id"));
-        QuizDAO dao = new QuizDAO();
-        if (dao.countLessonByQuizId(quiz_id) != 0) {
-            response.sendRedirect("quizlist?showFailMessage=true");
-        } else {
-            try {
-                dao.deleteQuiz_Question(quiz_id);
-                dao.deleteQuiz(quiz_id);
-                response.sendRedirect("quizlist?showSuccessMessage=true");
-            } catch (Exception ex) {
-                System.out.println(ex);
-            }
-        }
-    }
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+    } 
 
     /** 
      * Handles the HTTP <code>POST</code> method.

@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import model.Account;
 import model.GooglePojo;
 import model.RestFB;
@@ -71,10 +73,10 @@ public class LoginFacebookServlet extends HttpServlet {
         Account myAccount =myAccountDAO.getAccountByEmail(user.getEmail());
         //if email has not been registered, add it to the database 
         if(myAccount==null){
-            myAccountDAO.addAccount(user.getEmail(), "pass");
+            myAccountDAO.addAccount(user.getEmail(), getMD5("pass"));
         }
        HttpSession session = request.getSession();
-         myAccount = myAccountDAO.getAccount(user.getEmail(), "pass");
+         myAccount = myAccountDAO.getAccount(user.getEmail(), getMD5("pass"));
         if (myAccount.getRole_id() == myAccountDAO.getRole_Id("none")) {
             String ms = "Incorrect username or passwword";
             request.setAttribute("login_error", ms);
@@ -109,6 +111,19 @@ public class LoginFacebookServlet extends HttpServlet {
         doGet(request, response);
     }
 
+    public static String getMD5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : messageDigest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
     /** 
      * Returns a short description of the servlet.
      * @return a String containing servlet description

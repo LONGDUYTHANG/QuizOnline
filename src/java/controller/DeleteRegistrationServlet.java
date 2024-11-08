@@ -60,9 +60,15 @@ public class DeleteRegistrationServlet extends HttpServlet {
             registration_id=Integer.parseInt(raw_registration_id);
         } catch (NumberFormatException e) {
         }
+        String raw_account_id=request.getParameter("aid");
+        int account_id=0;
+        try {
+            account_id=Integer.parseInt(raw_account_id);
+        } catch (NumberFormatException e) {
+        }
         RegistrationDAO myRegistrationDAO=new RegistrationDAO();
-        myRegistrationDAO.DeleteRegistration(registration_id);
-        request.getRequestDispatcher("registrationlist").forward(request, response);
+        myRegistrationDAO.RemoveRegistration(account_id, registration_id);
+        request.getRequestDispatcher("salerregistrationlist").forward(request, response);
     } 
 
     /** 

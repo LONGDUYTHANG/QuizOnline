@@ -89,6 +89,12 @@
                 background-color: #f8d7da;
                 color: #721c24;
             }
+            #success-message {
+                display: none;
+            }
+            #fail-message {
+                display: none;
+            }
         </style>
 
         <!-- jQuery (Required for DataTables) -->
@@ -116,7 +122,70 @@
             
             <div class="main">
                 <jsp:include page="navbar.jsp"/>
+                <div id="success-message" class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="alert-message">
+                        <strong>Changes saved! </strong>Quiz have been deleted
+                    </div>
+                </div>
+                <div id="fail-message" class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <div class="alert-message" style="background-color: red; color: white">
+                            <strong>Can not Delete! </strong>There is a quiz referenced to this lesson
+                        </div>
+                    </div>
+                <script>
+                        document.addEventListener('DOMContentLoaded', (event) => {
+                            let showMessageSuccess = ${requestScope.showSuccessMessage};
+                            let message = document.getElementById('success-message');
 
+                            if (showMessageSuccess) {
+                                // Show the message initially
+                                message.style.display = 'block';
+                                message.style.opacity = 1;
+
+                                // Fade out after 0.5 seconds
+                                setTimeout(() => {
+                                    let opacity = 1;
+                                    let interval = setInterval(() => {
+                                        if (opacity <= 0) {
+                                            clearInterval(interval);
+                                            message.style.display = 'none';
+                                        } else {
+                                            opacity -= 0.05; // Adjust the decrement step for different speeds
+                                            message.style.opacity = opacity;
+                                        }
+                                    }, 50); // Adjust interval timing as needed
+                                }, 1000); // Show duration before starting fade-out
+                            }
+                        });
+                </script>
+                <script>
+                        document.addEventListener('DOMContentLoaded', (event) => {
+                            let showMessageSuccess = ${requestScope.showFailMessage};
+                            let message = document.getElementById('fail-message');
+
+                            if (showMessageSuccess) {
+                                // Show the message initially
+                                message.style.display = 'block';
+                                message.style.opacity = 1;
+
+                                // Fade out after 0.5 seconds
+                                setTimeout(() => {
+                                    let opacity = 1;
+                                    let interval = setInterval(() => {
+                                        if (opacity <= 0) {
+                                            clearInterval(interval);
+                                            message.style.display = 'none';
+                                        } else {
+                                            opacity -= 0.05; // Adjust the decrement step for different speeds
+                                            message.style.opacity = opacity;
+                                        }
+                                    }, 50); // Adjust interval timing as needed
+                                }, 1000); // Show duration before starting fade-out
+                            }
+                        });
+                    </script>
                 <main class="content">
 
                     <div class="header">
@@ -150,9 +219,9 @@
                                         <td>${quiz.number_of_questions}</td>
                                         <td>${quiz.duration}</td>
                                         <td>${quiz.passrate}</td>
-                                        <td style="width: 120px">
-                                            <button type="button" class="btn btn-success" onclick="window.location.href='editquizvalidation?quiz_id=${quiz.quiz_id}'"><i class="align-middle me-2 fas fa-fw fa-edit"></i></button>
-                                            <button type="button" class="btn btn-danger" onclick="if(confirm('Are you sure you want to delete this question?')) { window.location.href='deletequiz?quiz_id=${quiz.quiz_id}'; }"><i class="align-middle me-2 fas fa-fw fa-trash-alt"></i></button>
+                                        <td style="width: 100px">
+                                            <button type="button" class="btn btn-success" onclick="window.location.href='editquizvalidation?quiz_id=${quiz.quiz_id}'"><i class="align-middle fas fa-fw fa-edit"></i></button>
+                                            <button type="button" class="btn btn-danger" onclick="if(confirm('Are you sure you want to delete this question?')) { window.location.href='deletequiz?quiz_id=${quiz.quiz_id}'; }"><i class="align-middle fas fa-fw fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
                                 </c:forEach>

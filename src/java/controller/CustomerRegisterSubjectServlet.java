@@ -5,6 +5,7 @@
 
 package controller;
 
+import dal.RegistrationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
@@ -57,6 +58,7 @@ public class CustomerRegisterSubjectServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        RegistrationDAO registrationDAO = new RegistrationDAO();
         String raw_duration=request.getParameter("courseDuration");
         int duration=0;
         try {
@@ -88,10 +90,9 @@ public class CustomerRegisterSubjectServlet extends HttpServlet {
         } catch (NumberFormatException e) {
         }
         double cost=0;
-        LocalDateTime valid_from=LocalDateTime.now();
-        LocalDateTime valid_to=LocalDateTime.now().plusDays(duration);
-        LocalDateTime registration_time=LocalDateTime.now();
-        //Registration    registration=new Registration( account_id, subject_id, list_price, sale_price, cost, valid_from, valid_to, registration_time);
+        Registration registration=new Registration(LocalDateTime.now(), subject_id, 0, account_id, 2, list_price, sale_price);
+        registrationDAO.AddRegistration(registration);
+        request.getRequestDispatcher("customerregistrationlist").forward(request, response);
     } 
 
     /** 

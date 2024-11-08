@@ -60,6 +60,14 @@ public class QuizListServlet extends HttpServlet {
         List<Quiz> listQuiz = dao.getAllQuiz();
         request.setAttribute("listQuiz", listQuiz);
         request.setAttribute("dao", dao);
+        boolean showSuccessMessage = Boolean.parseBoolean(request.getParameter("showSuccessMessage"));
+        boolean showFailMessage = Boolean.parseBoolean(request.getParameter("showFailMessage"));
+        if (showSuccessMessage == true) {
+            request.setAttribute("showSuccessMessage", true);
+        }
+        else if (showFailMessage == true) {
+            request.setAttribute("showFailMessage", true);
+        }
         request.getRequestDispatcher("expert/quiz_list.jsp").forward(request, response);
     } 
 

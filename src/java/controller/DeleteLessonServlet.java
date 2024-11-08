@@ -5,7 +5,7 @@
 
 package controller;
 
-import dal.QuizDAO;
+import dal.LessonDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author FPT SHOP
  */
-public class DeleteQuizServlet extends HttpServlet {
+public class DeleteLessonServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,10 +34,10 @@ public class DeleteQuizServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DeleteQuizServlet</title>");  
+            out.println("<title>Servlet DeleteLessonServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DeleteQuizServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet DeleteLessonServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -54,18 +54,15 @@ public class DeleteQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        int quiz_id = Integer.parseInt(request.getParameter("quiz_id"));
-        QuizDAO dao = new QuizDAO();
-        if (dao.countLessonByQuizId(quiz_id) != 0) {
-            response.sendRedirect("quizlist?showFailMessage=true");
-        } else {
-            try {
-                dao.deleteQuiz_Question(quiz_id);
-                dao.deleteQuiz(quiz_id);
-                response.sendRedirect("quizlist?showSuccessMessage=true");
-            } catch (Exception ex) {
-                System.out.println(ex);
-            }
+        PrintWriter out = response.getWriter();
+        LessonDAO dao = new LessonDAO();
+        int lesson_id = Integer.parseInt(request.getParameter("lesson_id"));
+        int subject_id = Integer.parseInt(request.getParameter("subject_id"));
+        try {
+            dao.deleteLesson(lesson_id);
+            response.sendRedirect("listlesson?subjectId=" + subject_id + "&showSuccessMessage=true");
+        } catch (Exception ex) {
+            System.out.println(ex);
         }
     }
 
@@ -79,7 +76,7 @@ public class DeleteQuizServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
     /** 

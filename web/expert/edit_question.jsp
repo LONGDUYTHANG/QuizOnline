@@ -173,7 +173,8 @@
                     <!-- Header -->
                     <div class="header">
                         <h1>FPT University</h1>
-                        <button class="btn btn-warning" type="submit" onclick="submitForm()">Save</button>
+                        <button class="btn btn-warning" type="submit" onclick="submitForm()" style="margin-left: 840px">Save</button>
+                        <button class="btn btn-outline-warning" type="submit" onclick="window.location.href='questionlist'">Back</button>
                     </div>
                     
                     <!-- Submit the form when clicking on Save button -->
@@ -306,49 +307,64 @@
                                 </div>
                                 <!-- Preview container -->
                                 <div id="preview-container" style="display: flex; justify-content: center; align-items: center; margin-top: 20px; height: 400px; border: 1px solid #ddd; padding: 10px;">
-                                    <p>No file chosen yet</p>
                                 </div>
 
                                 <script>
-                                    function showPreview(event) {
-                                        const file = event.target.files[0];
-                                        const previewContainer = document.getElementById('preview-container');
+    // Function to display an initial image from requestScope if available
+    window.onload = function() {
+        const initialImage = 'img/question_media/${question.media}';
+        const previewContainer = document.getElementById('preview-container');
 
-                                        // Clear any previous preview
-                                        previewContainer.innerHTML = '';
+        if (initialImage) {
+            const imgElement = document.createElement('img');
+            imgElement.src = initialImage;
+            imgElement.style.maxWidth = '100%';
+            imgElement.style.maxHeight = '100%';
+            previewContainer.appendChild(imgElement);
+        } else {
+            previewContainer.innerHTML = '<p>No file chosen yet</p>';
+        }
+    }
 
-                                        if (file) {
-                                            const fileType = file.type;
-                                            let previewElement;
+    function showPreview(event) {
+        const file = event.target.files[0];
+        const previewContainer = document.getElementById('preview-container');
 
-                                            // Check file type and create appropriate preview
-                                            if (fileType.startsWith('image/')) {
-                                                previewElement = document.createElement('img');
-                                                previewElement.src = URL.createObjectURL(file);
-                                                previewElement.style.maxWidth = '100%'; // Make the image responsive
-                                                previewElement.style.maxHeight = '100%';
-                                            } else if (fileType.startsWith('video/')) {
-                                                previewElement = document.createElement('video');
-                                                previewElement.src = URL.createObjectURL(file);
-                                                previewElement.controls = true;
-                                                previewElement.style.maxWidth = '100%';
-                                                previewElement.style.maxHeight = '100%';
-                                            } else if (fileType.startsWith('audio/')) {
-                                                previewElement = document.createElement('audio');
-                                                previewElement.src = URL.createObjectURL(file);
-                                                previewElement.controls = true;
-                                                previewElement.style.width = '100%'; // Make the audio player full width
-                                            } else {
-                                                previewElement = document.createElement('p');
-                                                previewElement.textContent = 'File type not supported for preview.';
-                                            }
+        // Clear any previous preview
+        previewContainer.innerHTML = '';
 
-                                            previewContainer.appendChild(previewElement);
-                                        } else {
-                                            previewContainer.innerHTML = '<p>No file chosen yet</p>';
-                                        }
-                                    }
-                                </script>
+        if (file) {
+            const fileType = file.type;
+            let previewElement;
+
+            // Check file type and create appropriate preview
+            if (fileType.startsWith('image/')) {
+                previewElement = document.createElement('img');
+                previewElement.src = URL.createObjectURL(file);
+                previewElement.style.maxWidth = '100%';
+                previewElement.style.maxHeight = '100%';
+            } else if (fileType.startsWith('video/')) {
+                previewElement = document.createElement('video');
+                previewElement.src = URL.createObjectURL(file);
+                previewElement.controls = true;
+                previewElement.style.maxWidth = '100%';
+                previewElement.style.maxHeight = '100%';
+            } else if (fileType.startsWith('audio/')) {
+                previewElement = document.createElement('audio');
+                previewElement.src = URL.createObjectURL(file);
+                previewElement.controls = true;
+                previewElement.style.width = '100%';
+            } else {
+                previewElement = document.createElement('p');
+                previewElement.textContent = 'File type not supported for preview.';
+            }
+
+            previewContainer.appendChild(previewElement);
+        } else {
+            previewContainer.innerHTML = '<p>No file chosen yet</p>';
+        }
+    }
+</script>
                             </div>
                         </div>
 
