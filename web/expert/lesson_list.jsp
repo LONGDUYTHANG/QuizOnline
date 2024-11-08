@@ -123,6 +123,7 @@
                         <h1>Lesson List</h1>
                         <nav>
                             <button onclick="window.location.href='addlesson?subjectId=${requestScope.subject_id}'" class="btn btn-orange">New Lesson <i class="align-middle me-2 fas fa-fw fa-plus-circle"></i></button>
+                            <button onclick="window.location.href='exsubjectlist'" class="btn btn-success" style="margin: 0">Back</button>
                         </nav>
                     </div>
                     <div class="container">
@@ -134,6 +135,7 @@
                                     <th>Lesson</th>
                                     <th>Order</th>
                                     <th>Type</th>
+                                    <th>Status</th>
                                     <th>Option</th>
                                 </tr>
                             </thead>
@@ -144,6 +146,12 @@
                                         <td>${lesson.lesson_name}</td>
                                         <td>${lesson.lesson_order}</td>
                                         <td>${lesson.getLesson_Type(requestScope.dao).getLesson_type_name()}</td>
+                                        <c:if test="${lesson.status == true}">
+                                            <td>Active</td>
+                                        </c:if>
+                                        <c:if test="${lesson.status == false}">
+                                            <td>InActive</td>
+                                        </c:if>    
                                         <td style="width: 120px">
                                             <button type="button" class="btn btn-success" onclick="window.location.href='editlesson?lesson_id=${lesson.lesson_id}'"><i class="align-middle me-2 fas fa-fw fa-edit"></i></button>
                                             <button type="button" class="btn btn-danger"><i class="align-middle me-2 fas fa-fw fa-trash-alt"></i></button>
