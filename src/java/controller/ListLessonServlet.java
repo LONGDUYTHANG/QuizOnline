@@ -62,11 +62,16 @@ public class ListLessonServlet extends HttpServlet {
         request.setAttribute("subject_id", subject_id);
         request.setAttribute("listLesson", listLesson);
         request.setAttribute("dao", dao);
+        boolean showSuccessMessage = Boolean.parseBoolean(request.getParameter("showSuccessMessage"));
+        if (showSuccessMessage == true) {
+            request.setAttribute("showSuccessMessage", true);
+        }
         request.getRequestDispatcher("expert/lesson_list.jsp").forward(request, response);
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
