@@ -147,7 +147,6 @@
                                     <th>Subject Name</th>
                                     <th>Category</th>
                                     <th>Number of lesson</th>
-                                    <th>Expert</th>
                                     <th>Status</th>
                                     <th>Option</th>
                                 </tr>
@@ -159,15 +158,14 @@
                                         <td>${subject.subjectName}</td>
                                         <td>${subject.getCategory(requestScope.cdao).getCategory_name()}</td>
                                         <td>cell</td>
-                                        <td>${subject.getAccount(requestScope.adao).getLast_name()}</td>
                                         <c:if test="${subject.status == true}">
                                             <td style="width: 120px"><span class="status status-published">Published</span></td>
                                         </c:if>
                                         <c:if test="${subject.status == false}">
                                             <td style="width: 120px"><span class="status status-unpublished">UnPublished</span></td>
                                         </c:if>    
-                                        <td style="width: 120px">
-                                            <button type="button" class="btn btn-danger" onclick="window.location.href = 'listlesson?subjectId=${subject.subjectId}'"><i class="align-middle me-2 fas fa-fw fa-plus-circle"></i></button>
+                                        <td style="width: 50px">
+                                            <button type="button" class="btn btn-danger" onclick="window.location.href = 'listlesson?subjectId=${subject.subjectId}'"><i class="align-middle fas fa-eye"></i></button>
                                         </td>
                                     </tr>
                                 </c:forEach>

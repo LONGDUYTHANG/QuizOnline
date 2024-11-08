@@ -5,6 +5,8 @@
 package dal;
 
 import java.lang.reflect.Array;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -940,7 +942,9 @@ public class RegistrationDAO extends DBContext {
     public boolean RemoveRegistration(int account_id,int subject_id){
         PreparedStatement stm;
         try {
-            String strSelect = "DELETE FROM Registration WHERE account_id=? AND subject_id=?";
+            String strSelect = "Update Registration"
+                    + " SET status_id=1"
+                    + " WHERE account_id=? AND subject_id=?";
             stm = connection.prepareStatement(strSelect);     
             stm.setInt(1, account_id);
             stm.setInt(2, subject_id);
@@ -954,8 +958,22 @@ public class RegistrationDAO extends DBContext {
 
     public static void main(String[] args) {
         // Khởi tạo đối tượng RegistrationDAO
-        RegistrationDAO registrationDAO = new RegistrationDAO();
-         Registration registration=new Registration(LocalDateTime.now(), 8, 0, 3, 2, 200, 300);
-        registrationDAO.AddRegistration(registration);
+        System.out.println(getMD5("pass"));
+    }
+    
+    public static String getMD5(String input) {
+        try {
+
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            // Chuyển đổi chuỗi đầu vào thành mảng byte
+            byte[] messageDigest = md.digest(input.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : messageDigest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

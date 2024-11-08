@@ -133,30 +133,30 @@
 
 
                                     <div class="container mt-4">
-                                        <h2 class="mb-4">Thêm Slider Mới</h2>
+                                        <h2 class="mb-4">Add New Slider</h2>
                                         <form action="addSlider" method="post">
                                             <div class="mb-3">
-                                                <label for="sliderTitle" class="form-label">Tiêu Đề:</label>
+                                                <label for="sliderTitle" class="form-label">Tittle</label>
                                                 <input type="text" class="form-control" id="sliderTitle" name="slider_title" required>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="sliderImage" class="form-label">Hình Ảnh:</label>
+                                                <label for="sliderImage" class="form-label">Image </label>
                                                 <input type="text" class="form-control" id="sliderImage" name="slider_image" required>
                                             </div>
 
                                             <div class="mb-3">
-                                                <label for="sliderLink" class="form-label">Liên Kết:</label>
+                                                <label for="sliderLink" class="form-label">Link</label>
                                                 <input type="text" class="form-control" id="sliderLink" name="slider_link" required>
                                             </div>
 
                                             <div class="mb-3">
-                                                <label for="sliderDetail" class="form-label">Chi Tiết:</label>
+                                                <label for="sliderDetail" class="form-label">Detail</label>
                                                 <textarea class="form-control" id="sliderDetail" name="slider_detail" rows="4" required></textarea>
                                             </div>
 
 
 
-                                            <button type="submit" class="btn btn-primary">Thêm</button>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
                                         </form>
                                     </div>
 

@@ -8,12 +8,17 @@ package controller;
 import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.regex.Matcher;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.regex.Pattern;
 import model.Account;
 
 /**
@@ -74,7 +79,14 @@ public class LoginServlet extends HttpServlet {
         HttpSession session=request.getSession();
         String email=request.getParameter("email");
         String userPass=request.getParameter("userPass");
+        String encrypted_pass=getMD5(userPass);
         String remember_me=request.getParameter("rem");
+        if (!isValidEmail(email)) {
+            String ms = "Email must end with @fpt.edu.vn";
+            request.setAttribute("login_error", ms);
+            request.getRequestDispatcher("homepage").forward(request, response);
+            return;
+        }
         //create 2 cookie for email and remember me
         Cookie user_email= new Cookie("c_user", email);
         Cookie user_remember_me=new Cookie("c_check_button", remember_me);
@@ -89,11 +101,11 @@ public class LoginServlet extends HttpServlet {
         response.addCookie(user_email);
         response.addCookie(user_remember_me);
         AccountDAO myAccountDAO=new AccountDAO();
-        Account myAccount=myAccountDAO.getAccount(email,userPass);
+        Account myAccount=myAccountDAO.getAccount(email,encrypted_pass);
         if(myAccount.getRole_id()==myAccountDAO.getRole_Id("none")){
-            String ms="Incorrect username or passwword";
+            String ms="Incorrect username or password";
             request.setAttribute("login_error", ms);
-            request.getRequestDispatcher("common/homepage.jsp").forward(request, response);
+            request.getRequestDispatcher("homepage").forward(request, response);
         }
         else if(myAccount.getRole_id()==myAccountDAO.getRole_Id("customer")){
             session.setAttribute("user", myAccount);
@@ -109,9 +121,30 @@ public class LoginServlet extends HttpServlet {
         }
          else  if(myAccount.getRole_id()==myAccountDAO.getRole_Id("admin")){
             session.setAttribute("user", myAccount);
-            request.getRequestDispatcher("admindashboard").forward(request, response);
+            request.getRequestDispatcher("subject-details").forward(request, response);
         }
         
+    }
+
+    public static String getMD5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : messageDigest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9._%+-]+@fpt\\.edu\\.vn$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     /** 

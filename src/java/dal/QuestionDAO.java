@@ -241,8 +241,8 @@ public class QuestionDAO extends DBContext {
     }
 
     public void addMutipleAnswers(Answer[] answers) {
-        for (Answer answer : answers) {
-            this.addAnswer(answer);
+        for (int i = 0; i < answers.length; i++) {
+            this.addAnswer(answers[i]);
         }
     }
 

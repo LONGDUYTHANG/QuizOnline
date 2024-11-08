@@ -368,7 +368,7 @@
                                     <input type="hidden" name="is_correct" class="is-correct" value="false">
                                     
                                     <!-- Answer content -->
-                                    <input style="margin-bottom: 5px" type="text" id="answer" name="answer" required>
+                                    <input style="margin-bottom: 5px" type="text" id="answer" name="answer" placeholder="Enter your answer..." required>
                                     <button type="button" class="btn btn-danger" onclick="deleteAnswer(this)">Delete</button>
                                     <button type="button" class="btn btn-success" onclick="markAsCorrect(this)">Mark as correct</button>
                                 </div>
@@ -399,7 +399,7 @@
                                         <label for="answer">Answer <span class="required-asterisk">*</span></label>
                                         <span class="correct-icon" style="display:none;">✔️</span>
                                         <input type="hidden" name="is_correct" class="is-correct" value="false">
-                                        <input style="margin-bottom: 5px" type="text" id="answer" name="answer" required>
+                                        <input style="margin-bottom: 5px" type="text" id="answer" name="answer" placeholder="Enter your answer..." required>
                                         <button type="button" class="btn btn-danger" onclick="deleteAnswer(this)">Delete</button>
                                         <button type="button" class="btn btn-success" onclick="markAsCorrect(this)">Mark as correct</button>
                                     `;

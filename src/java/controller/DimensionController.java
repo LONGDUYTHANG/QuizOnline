@@ -63,6 +63,9 @@ public class DimensionController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String subjectName = request.getParameter("subjectName");
+        SubjectDAO sDao = new SubjectDAO();
+        int maxid = sDao.getMaxSubjectId();
 
         // 
         DimensionDAO dDao = new DimensionDAO();
@@ -74,8 +77,10 @@ public class DimensionController extends HttpServlet {
         List<DimensionType> listDimensionType = dDao.getAllType();
 
         request.setAttribute("listDimensionType", listDimensionType);
+        request.setAttribute("subjectNamefordimension", subjectName);
+        request.setAttribute("subjectNameforlessontopic", subjectName);
+        request.setAttribute("maxid", maxid);
 
-        SubjectDAO sDao = new SubjectDAO();
         List<Subject> listSubject = sDao.getListSubject();
         request.setAttribute("listSubject", listSubject);
         if (action != null) {
@@ -94,7 +99,7 @@ public class DimensionController extends HttpServlet {
 
         }
 
-        request.getRequestDispatcher("admin/dimension.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/adddimensionandlessontopic.jsp").forward(request, response);
     }
 
     /**
@@ -120,7 +125,7 @@ public class DimensionController extends HttpServlet {
             boolean update = dDao.updateDimension(id, dimension_name, dimension_type_id);
 
             if (update) {
-                request.setAttribute("mess", "Update successfully!");
+                request.setAttribute("messfordimension", "Update successfully!");
                 request.removeAttribute("action");
             } else {
                 request.setAttribute("eror", "Update falsess!");
@@ -130,13 +135,47 @@ public class DimensionController extends HttpServlet {
             String dimension_name = request.getParameter("dimension_name");
             int dimension_type_id = Integer.parseInt(request.getParameter("dimension_type_id"));
             int subject_id = Integer.parseInt(request.getParameter("subject_id"));
-
+            String subjectName = request.getParameter("subjectNamefordimension");
             DimensionDAO dDao = new DimensionDAO();
 
             boolean create = dDao.createNewDimension(dimension_name, dimension_type_id, subject_id);
             if (create) {
-                request.setAttribute("mess", "Create successfully!");
+                SubjectDAO sDao = new SubjectDAO();
+                int maxid = sDao.getMaxSubjectId();
+
+                // 
+                List<Dimension> listD = dDao.getAllDimension1();
+                request.setAttribute("listD", listD);
+
+                List<DimensionType> listDimensionType = dDao.getAllType();
+
+                request.setAttribute("listDimensionType", listDimensionType);
+                request.setAttribute("maxid", maxid);
+
+                List<Subject> listSubject = sDao.getListSubject();
+                request.setAttribute("listSubject", listSubject);
+                if (action != null) {
+
+                    if (action.equalsIgnoreCase("edit")) {
+
+                        int dimensionId = Integer.parseInt(request.getParameter("id"));
+                        Dimension dimension = dDao.getDimensionById1(dimensionId);
+                        request.setAttribute("dimension", dimension);
+                        request.setAttribute("action", "edit");
+
+                    }
+                    if (action.equalsIgnoreCase("delete")) {
+                        request.setAttribute(action, "delete");
+                    }
+
+                }
+                request.setAttribute("messfordimension", "Create successfully!");
                 request.removeAttribute("action");
+                request.setAttribute("subjectNamefordimension", subjectName);
+                request.setAttribute("subjectNameforlessontopic", subjectName);
+               request.getRequestDispatcher("admin/adddimensionandlessontopic.jsp").forward(request, response);
+
+
             } else {
                 request.setAttribute("eror", "Create falsess!");
             }
@@ -156,7 +195,6 @@ public class DimensionController extends HttpServlet {
             }
         }
 
-        doGet(request, response);
     }
 
     /**

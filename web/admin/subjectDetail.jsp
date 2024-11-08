@@ -5,7 +5,7 @@
 
 <html lang="en">
 
-       <head>
+    <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
@@ -204,12 +204,17 @@
                                     </div>
                                     <div class="card bg-light py-2 py-md-3 border">
                                         <div class="card-body">
-                                            <div>
-                                                <h5>Assigned Expert </h5>
-                                                <h4>User 1</h4>
-                                                <h5>Email: ...@gmail.com</h5>
-                                                <input value="2" name="accountId" hidden="" type="text">
-                                            </div>
+                                            <div class="card-body">
+                                                <h5 style="font-size: 20px; font-weight: bold;">Assigned Expert</h5>
+                                                <div>
+                                                    <h6>Expert's Name:</h6>
+
+                                                    <select name="listExpert" class="form-select" id="validationDefault05" required="">
+                                                        <c:forEach items="${listExpert}" var="listType">
+                                                            <option value="${listType.account_id}">${listType.first_name} ${listType.last_name}</option>
+                                                        </c:forEach>
+                                                    </select>
+
                                         </div>
                                     </div>
 
@@ -246,28 +251,28 @@
 
             </div>
         </div>
- <script src="js/app.js"></script>
+        <script src="js/app.js"></script>
 
         <script>
-            document.addEventListener("DOMContentLoaded", function (event) {
-                setTimeout(function () {
-                    if (localStorage.getItem('popState') !== 'shown') {
-                        window.notyf.open({
-                            type: "success",
-                            message: "Get access to all 500+ components and 45+ pages with AdminKit PRO. <u><a class=\"text-white\" href=\"https://adminkit.io/pricing\" target=\"_blank\">More info</a></u> 🚀",
-                            duration: 10000,
-                            ripple: true,
-                            dismissible: false,
-                            position: {
-                                x: "left",
-                                y: "bottom"
-                            }
-                        });
+                                            document.addEventListener("DOMContentLoaded", function (event) {
+                                                setTimeout(function () {
+                                                    if (localStorage.getItem('popState') !== 'shown') {
+                                                        window.notyf.open({
+                                                            type: "success",
+                                                            message: "Get access to all 500+ components and 45+ pages with AdminKit PRO. <u><a class=\"text-white\" href=\"https://adminkit.io/pricing\" target=\"_blank\">More info</a></u> 🚀",
+                                                            duration: 10000,
+                                                            ripple: true,
+                                                            dismissible: false,
+                                                            position: {
+                                                                x: "left",
+                                                                y: "bottom"
+                                                            }
+                                                        });
 
-                        localStorage.setItem('popState', 'shown');
-                    }
-                }, 15000);
-            });
+                                                        localStorage.setItem('popState', 'shown');
+                                                    }
+                                                }, 15000);
+                                            });
         </script>
     </body>
 

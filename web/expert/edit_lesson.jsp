@@ -132,7 +132,7 @@
                                     <h2>Edit Lesson</h2>
                                     <div class="button-group">
                                         <button class="btn btn-primary" onclick="submitForm1()">Save</button>
-                                        <button class="btn btn-outline-primary">Back</button>
+                                        <button class="btn btn-outline-primary" onclick="window.location.href='listlesson?subjectId=${requestScope.subjectId}'">Back</button>
                                     </div>
                                 </div>
                                 <script>

@@ -188,6 +188,21 @@ public class SubjectDAO extends DBContext {
         }
     }
 
+    public int getMaxSubjectId() {
+        String sql = "SELECT MAX(subject_id) AS maxId FROM subject";
+        int maxId = 0;
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                maxId = rs.getInt("maxId");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return maxId;
+    }
+
     public int countEnrolledSubject(Account a) {
         String sql = "select COUNT(*) as countSubject from Registration\n"
                 + "where account_id = ?";
@@ -441,6 +456,33 @@ public class SubjectDAO extends DBContext {
         return false;  // Trả về false nếu có lỗi hoặc không tìm thấy bản ghi
     }
 
+    public List<Subject> getListSubjectByAccount(int account_id_raw) {
+        List<Subject> list = new ArrayList<>();
+        String sql = "SELECT * FROM Subject WHERE account_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, account_id_raw);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int subject_id = rs.getInt("subject_id");
+                String subject_name = rs.getString("subject_name");
+                int category_id = rs.getInt("category_id");
+                boolean status = rs.getBoolean("status");
+                boolean isFeatured = rs.getBoolean("isFeatured");
+                String thumbnail = rs.getString("thumbnail");
+                String tagline = rs.getString("tagline");
+                String description = rs.getString("description");
+                int account_id = rs.getInt("account_id");
+                java.sql.Timestamp created_date = rs.getTimestamp("created_date");
+                Subject subject = new Subject(subject_id, subject_name, category_id, status, isFeatured, thumbnail, tagline, description, account_id, created_date);
+                list.add(subject);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return list;
+    }
+
     /**
      * Get all subjects registration of an user
      *
@@ -478,7 +520,7 @@ public class SubjectDAO extends DBContext {
         }
         return subject_id_list;
     }
-    
+
     public ArrayList<Subject> FilterRegistrationListOfAnUser(int user_id, String keyword) {
         PreparedStatement stm;
         PreparedStatement stm_view;
@@ -486,7 +528,7 @@ public class SubjectDAO extends DBContext {
         ArrayList<Subject> subject_id_list = new ArrayList<>();
         try {
             String strSelect = " SELECT DIstinct A.subject_id,A.subject_name,A.category_id,A.status, A.isFeatured, A.thumbnail,A.tagline, A.description,A.account_id,A.created_date, B.registration_time  FROM Subject A JOIN Registration B \n"
-                    + "ON A.subject_id=B.subject_id AND A.subject_name LIKE '"+keyword+"' AND B.account_id=? AND B.status_id=2 ORDER BY B.registration_time DESC";
+                    + "ON A.subject_id=B.subject_id AND A.subject_name LIKE '" + keyword + "' AND B.account_id=? AND B.status_id=2 ORDER BY B.registration_time DESC";
             stm = connection.prepareStatement(strSelect);
             stm.setInt(1, user_id);
             rs = stm.executeQuery();
@@ -510,9 +552,24 @@ public class SubjectDAO extends DBContext {
         }
         return subject_id_list;
     }
+    
+    public boolean HasSubjectNotBeenInteract(int accountId, int subjectId) {
+        String sql = "SELECT 1 FROM Registration WHERE account_id = ? AND subject_id = ? and (status_id = 3 or status_id=2)";
 
-    public static void main(String[] args) {
-
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, accountId);
+            pstmt.setInt(2, subjectId);
+            ResultSet rs = pstmt.executeQuery();
+            return !rs.next();  // Trả về true nếu có kết quả, tức là đã đăng ký
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;  // Trả về false nếu có lỗi hoặc không tìm thấy bản ghi
     }
 
+    public static void main(String[] args) {
+        SubjectDAO s=new SubjectDAO();
+boolean check=s.HasSubjectNotBeenInteract(4, 11);
+        System.out.println(check);
+    }
 }

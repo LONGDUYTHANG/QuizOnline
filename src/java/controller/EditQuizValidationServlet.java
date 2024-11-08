@@ -99,7 +99,9 @@ public class EditQuizValidationServlet extends HttpServlet {
         }
         //Send a message to question_detail.jsp, alert that user added quiz successfully
         String message = request.getParameter("message");
+        String failMessage = request.getParameter("failMessage");
         request.setAttribute("showSuccessMessage", message);
+        request.setAttribute("failMessage", failMessage);
         request.getRequestDispatcher("expert/edit_quiz.jsp").forward(request, response);
     } 
 
