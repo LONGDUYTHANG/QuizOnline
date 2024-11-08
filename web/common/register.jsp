@@ -26,8 +26,8 @@
                             </div>
                         </div>
                         <div class="col-lg-12">
+                             <p style="color: red" id="pass-error">${requestScope.pass_error}</p>
                             <div class="form-group password-container">
-                                <p style="color: red" id="pass-error">${requestScope.pass_error}</p>
                                 <label>Confirm Password</label>
                                 <input name="confirmedPass" id="userPassforconfirm" type="password" class="form-control" required="">
                                  <i class="fas fa-eye toggle-password" onclick="togglePasswordConfirm()"></i>
