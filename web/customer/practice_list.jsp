@@ -5,6 +5,7 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -119,13 +120,14 @@
                     <c:forEach items="${sessionScope.list_prac}" var="lp">
                         <div class="col-lg-2 border" style="display: block">
                             ${lp.practice_name}
-                            <span style="display: block">Type: ${lp.quiz.quiz_type.quiz_type_name}</span>
+                            <span style="display: block; font-weight: 100">Type: ${lp.quiz.quiz_type.quiz_type_name}</span>
+                            <span style="display: block; font-weight: 100">Subject: ${lp.subject.quiz_type.quiz_type_name}</span>
                         </div>
                         <div class="col-lg-2 border">
                             ${lp.created_date}
                         </div>
                         <div class="col-lg-2 border">
-                            ${lp.practice_duration}s
+                            ${Math.floor((lp.practice_duration /60))} Mins ${lp.practice_duration % 60} Secs
                         </div>
                         <div class="col-lg-2 border">
                             ${lp.correct_questions}

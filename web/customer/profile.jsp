@@ -111,29 +111,52 @@
                                         <hr>
                                         <label style="cursor: pointer" onclick="changeAvatar()" id="changeavt_label">Change Avatar</label>
                                         <form action="changavt" method="post" style="display: none" enctype="multipart/form-data" id="change_avt">
-                                            <input type="file" id="imageInput" style="width: 100px" name="avt" required="" id="new_avt">
+                                            <input type="file" id="imageInput" style="width: 100px" name="avt" required>
                                             <br><br>
                                             <img id="imagePreview" style="width: 70px; height: 70px; display: none; border-radius: 100%; margin: 0 65% 10% 35%">
+                                            <input type="submit" value="Change" onclick="return confirmUpload();" />
 
                                             <script>
                                                 const imageInput = document.getElementById('imageInput');
                                                 const imagePreview = document.getElementById('imagePreview');
+                                                const maxFileSize = 2 * 1024 * 1024; // Giới hạn dung lượng (2MB)
 
                                                 imageInput.addEventListener('change', function (event) {
-                                                    const file = event.target.files[0]; // Lấy file người dùng chọn
-                                                    if (file) {
-                                                        const reader = new FileReader(); // Tạo đối tượng FileReader để đọc file
+                                                    const file = event.target.files[0];
 
-                                                        reader.onload = function (e) {
-                                                            imagePreview.src = e.target.result; // Gán kết quả vào src của thẻ img
-                                                            imagePreview.style.display = 'flex'; // Hiển thị thẻ img
+                                                    if (file) {
+                                                        // Kiểm tra loại file
+                                                        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                                                        if (!allowedTypes.includes(file.type)) {
+                                                            alert('Avatar must be JPG, PNG or GIF.');
+                                                            imageInput.value = ''; // Xóa file đã chọn
+                                                            imagePreview.style.display = 'none'; // Ẩn ảnh xem trước nếu không đúng định dạng
+                                                            return;
                                                         }
 
-                                                        reader.readAsDataURL(file); // Đọc file dưới dạng Data URL (base64)
+                                                        // Kiểm tra dung lượng file
+                                                        if (file.size > maxFileSize) {
+                                                            alert('Size of file cannot exceed 2MB.');
+                                                            imageInput.value = ''; // Xóa file đã chọn
+                                                            imagePreview.style.display = 'none'; // Ẩn ảnh xem trước nếu quá dung lượng
+                                                            return;
+                                                        }
+
+                                                        // Xem trước hình ảnh
+                                                        const reader = new FileReader();
+                                                        reader.onload = function (e) {
+                                                            imagePreview.src = e.target.result;
+                                                            imagePreview.style.display = 'block';
+                                                        };
+                                                        reader.readAsDataURL(file);
                                                     }
                                                 });
+
+                                                // Xác nhận trước khi thực hiện thay đổi ảnh
+                                                function confirmUpload() {
+                                                    return confirm("Are you sure to change?");
+                                                }
                                             </script>
-                                            <input type="submit" value="Change" />
                                         </form>
                                         <div class="profile-tabnav">
                                             <ul class="nav nav-tabs">
@@ -240,7 +263,7 @@
                                                 </div>
                                                 <div class="profile-head" style="margin-top: 20px">
                                                     <h3>Recently Enrolled Subjects</h3>
-                                                    
+
                                                 </div>
                                                 <div class="courses-filter">
                                                     <div class="clearfix">
@@ -355,7 +378,7 @@
                                                                 <div class="col-12 col-sm-9 col-md-9 col-lg-7" style="display: ">
                                                                     <button type="button" class="btn" id="updatepro" onclick="updateProfile()">Save changes</button>
                                                                     <button type="reset" class="btn-secondry">Cancel</button>
-                                                                    
+
                                                                 </div>
                                                             </div>
                                                         </div>
