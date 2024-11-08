@@ -15,6 +15,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import model.Account;
 
 /**
@@ -76,6 +78,12 @@ public class RegisterServlet extends HttpServlet {
         String pass = request.getParameter("pass");
         String encrypted_pass=getMD5(pass);
         String confirmed_pass = request.getParameter("confirmedPass");
+        if (!isValidEmail(email)) {
+            String ms = "Email must end with @fpt.edu.vn";
+            request.setAttribute("email_error", ms);
+            request.getRequestDispatcher("homepage").forward(request, response);
+            return;
+        }
         HttpSession session=request.getSession();
         //thong bao loi gui lai nguoi dung
         String register_error = "";
@@ -115,6 +123,13 @@ public class RegisterServlet extends HttpServlet {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+    }
+     
+     private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9._%+-]+@fpt\\.edu\\.vn$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     /** 
