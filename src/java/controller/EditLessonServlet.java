@@ -97,7 +97,7 @@ public class EditLessonServlet extends HttpServlet {
                 int topic = Integer.parseInt(topic_raw);
                 int order = Integer.parseInt(order_raw);
                 boolean status = "1".equals(status_raw);
-                dao.updateLesson(new Lesson(lesson.getLesson_id(),name, order, summary, status, 1, lesson.getSubject_id(), topic, "", "", 8));
+                dao.updateLesson(new Lesson(lesson.getLesson_id(),name, order, summary, status, 1, lesson.getSubject_id(), topic, "", "", null));
             } catch (Exception ex) {
                 out.println(ex);
             }
@@ -114,7 +114,7 @@ public class EditLessonServlet extends HttpServlet {
                 int topic = Integer.parseInt(topic_raw);
                 int order = Integer.parseInt(order_raw);
                 boolean status = "1".equals(status_raw);
-                dao.updateLesson(new Lesson(lesson.getLesson_id(),name, order, summary, status, 2, lesson.getSubject_id(), topic, url, quill, 8));
+                dao.updateLesson(new Lesson(lesson.getLesson_id(),name, order, summary, status, 2, lesson.getSubject_id(), topic, url, quill, null));
                 
             } catch (Exception ex) {
                 out.println(ex);

@@ -157,7 +157,7 @@
                                         <td>${subject.subjectId}</td>
                                         <td>${subject.subjectName}</td>
                                         <td>${subject.getCategory(requestScope.cdao).getCategory_name()}</td>
-                                        <td>cell</td>
+                                        <td>${requestScope.sdao.getNumberOfLessonsBySubject(subject.subjectId)}</td>
                                         <c:if test="${subject.status == true}">
                                             <td style="width: 120px"><span class="status status-published">Published</span></td>
                                         </c:if>

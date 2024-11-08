@@ -894,9 +894,24 @@ public class QuizDAO extends DBContext {
         }
     }
     
+    public int countLessonByQuizId(int quiz_id) {
+        String sql = "SELECT COUNT(Quiz.quiz_id) AS result FROM Quiz JOIN Lesson ON Quiz.quiz_id = Lesson.quiz_id WHERE Quiz.quiz_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, quiz_id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt("result");
+                return count;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return 0;
+    }
+    
     public static void main(String[] args) {
         QuizDAO dao = new QuizDAO();
-        Quiz quiz = dao.getQuiz(10);
-        dao.updateQuiz(new Quiz(quiz.getQuiz_id(), "Quiztt", quiz.getSubject_id(), quiz.getLevel_id(), quiz.getNumber_of_questions(), quiz.getDuration(), quiz.getPassrate(), quiz.getQuiz_type_id(), quiz.getQuiz_description(), quiz.getCreated_date(), quiz.getUpdated_date(), quiz.getAccount_id(), quiz.getSelectedGroup()));
+        System.out.println(dao.countLessonByQuizId(2));
     }
 }
