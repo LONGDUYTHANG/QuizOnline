@@ -79,7 +79,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="#" onclick="showFilterOption()">
+                <a class="sidebar-link" href="logout" >
                     <i class="fa-solid fa-filter"></i><span class="align-middle">Logout</span>
                 </a>
             </li>

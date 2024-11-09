@@ -7,6 +7,7 @@ package controller;
 import dal.SubjectDAO;
 import dal.CategoryDAO;
 import dal.PackageDAO;
+import dal.RegistrationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -21,6 +22,7 @@ import model.Category;
 import model.Subject;
 import model.SubjectCategory;
 import jakarta.servlet.http.HttpSession;
+import java.util.HashSet;
 
 /**
  *
@@ -69,60 +71,115 @@ public class SubjectListServlet extends HttpServlet {
         String sort = request.getParameter("sort");
         String keyword = request.getParameter("keyword");
 
+        RegistrationDAO registerDAO = new RegistrationDAO();
         SubjectDAO mySubjectDAO = new SubjectDAO();
-        List<Subject> subject_list = new ArrayList<>();
-        
-        List<Subject> featuredSubjects = mySubjectDAO.getFeaturedSubjects();
-        request.setAttribute("featuredSubjects", featuredSubjects);
+        HttpSession session = request.getSession(false);
+        // Lấy đối tượng người dùng từ session
+        Account user = (Account) session.getAttribute("user");
+        if (session != null) {
+            if (user == null) {
+                List<Subject> subject_list = new ArrayList<>();
 
-        if (keyword != null && !keyword.trim().isEmpty()) {
-            subject_list = mySubjectDAO.searchSubjects(keyword);
-        } else {
-            if (sort == null || sort.equals("featured")) {
-                subject_list = mySubjectDAO.getLatestSubjects();
-            } else if (sort.equals("latest")) {
-                subject_list = mySubjectDAO.getFeaturedSubjects();
-            } else if (sort.equals("oldest")) {
-                subject_list = mySubjectDAO.getOldestSubjects();
-            }
-        }
+                List<Subject> featuredSubjects = mySubjectDAO.getFeaturedSubjects();
+                request.setAttribute("featuredSubjects", featuredSubjects);
 
-        request.setAttribute("subject_list", subject_list);
+                subject_list = mySubjectDAO.getSubject();
 
-        CategoryDAO myCategoryDAO = new CategoryDAO();
-        List<Category> category_list = myCategoryDAO.getCategory();
-        request.setAttribute("category_list", category_list);
-
-        PackageDAO packageDAO = new PackageDAO();
-        List<model.Package> packageList = packageDAO.getAllPackage();
-        String selectedDuration = request.getParameter("courseDuration");
-        model.Package selectedPackageModel = packageList.get(0);
-        if (selectedDuration != null) {
-            try {
-                int duration = Integer.parseInt(selectedDuration);
-                for (model.Package pkg : packageList) {
-                    if (pkg.getDuration() == duration) {
-                        selectedPackageModel = pkg;
-                        break;
+                if (keyword != null && !keyword.trim().isEmpty()) {
+                    subject_list = mySubjectDAO.searchSubjects(keyword);
+                } else {
+                    if (sort != null && sort.equals("featured")) {
+                        subject_list = mySubjectDAO.getFeaturedSubjects();
+                    } else if (sort != null && sort.equals("latest")) {
+                        subject_list = mySubjectDAO.getLatestSubjects();
+                    } else if (sort != null && sort.equals("oldest")) {
+                        subject_list = mySubjectDAO.getOldestSubjects();
                     }
                 }
-            } catch (NumberFormatException e) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid course duration.");
-                return;
-            }
-        }
-        request.setAttribute("selectedDuration", selectedDuration);
-        request.setAttribute("selectedPackageModel", selectedPackageModel);
 
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            Account user = (Account) session.getAttribute("user");
-            if (user != null) {
-                request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
+                request.setAttribute("subject_list", subject_list);
+
+                CategoryDAO myCategoryDAO = new CategoryDAO();
+                List<Category> category_list = myCategoryDAO.getCategory();
+                request.setAttribute("category_list", category_list);
+
+                PackageDAO packageDAO = new PackageDAO();
+                List<model.Package> packageList = packageDAO.getAllPackage();
+                String selectedDuration = request.getParameter("courseDuration");
+                model.Package selectedPackageModel = packageList.get(0);
+                if (selectedDuration != null) {
+                    try {
+                        int duration = Integer.parseInt(selectedDuration);
+                        for (model.Package pkg : packageList) {
+                            if (pkg.getDuration() == duration) {
+                                selectedPackageModel = pkg;
+                                break;
+                            }
+                        }
+                    } catch (NumberFormatException e) {
+                        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid course duration.");
+                        return;
+                    }
+                }
+                request.setAttribute("pkgDAO", packageDAO);
+                request.setAttribute("selectedDuration", selectedDuration);
+                request.setAttribute("selectedPackageModel", selectedPackageModel);
+
+                request.getRequestDispatcher("common/subject_list.jsp").forward(request, response);
                 return;
+            } else {
+                int account_id = user.getAccount_id();
+                List<Subject> subject_list = new ArrayList<>();
+
+                List<Subject> featuredSubjects = mySubjectDAO.getFeaturedSubjects();
+                request.setAttribute("featuredSubjects", featuredSubjects);
+                subject_list = mySubjectDAO.getSubject();
+
+                if (keyword != null && !keyword.trim().isEmpty()) {
+                    subject_list = mySubjectDAO.searchSubjects(keyword);
+                } else {
+                    if (sort != null && sort.equals("featured")) {
+                        subject_list = mySubjectDAO.getFeaturedSubjects();
+                    } else if (sort != null && sort.equals("latest")) {
+                        subject_list = mySubjectDAO.getLatestSubjects();
+                    } else if (sort != null && sort.equals("oldest")) {
+                        subject_list = mySubjectDAO.getOldestSubjects();
+                    }
+                }
+
+                request.setAttribute("subject_list", subject_list);
+                request.setAttribute("subjectDAO", mySubjectDAO);
+
+                CategoryDAO myCategoryDAO = new CategoryDAO();
+                List<Category> category_list = myCategoryDAO.getCategory();
+                request.setAttribute("category_list", category_list);
+
+                PackageDAO packageDAO = new PackageDAO();
+                List<model.Package> packageList = packageDAO.getAllPackage1();
+                String selectedDuration = request.getParameter("courseDuration");
+                model.Package selectedPackageModel = packageList.get(0);
+                if (selectedDuration != null) {
+                    try {
+                        int duration = Integer.parseInt(selectedDuration);
+                        for (model.Package pkg : packageList) {
+                            if (pkg.getDuration() == duration) {
+                                selectedPackageModel = pkg;
+                                break;
+                            }
+                        }
+                    } catch (NumberFormatException e) {
+                        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid course duration.");
+                        return;
+                    }
+                }
+                request.setAttribute("pkgDAO", packageDAO);
+
+                request.setAttribute("selectedDuration", selectedDuration);
+                request.setAttribute("selectedPackageModel", selectedPackageModel);
+                request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);
             }
         }
-        request.getRequestDispatcher("common/subject_list.jsp").forward(request, response);
+
     }
 
     /**

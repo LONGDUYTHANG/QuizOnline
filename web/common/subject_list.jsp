@@ -24,6 +24,9 @@
         <!-- FAVICONS ICON ============================================= -->
         <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
+        <script src="https://kit.fontawesome.com/f36b960bbe.js" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
         <!-- PAGE TITLE HERE ============================================= -->
         <title>EduChamp : Education HTML Template </title>
@@ -139,8 +142,8 @@
                                                     <p>${c.description}</p>
                                                     <div class="post-extra">                                                                                                              
                                                         <c:if test="${not empty selectedPackageModel}">
-                                                            <del>${selectedPackageModel.listPrice}</del>
-                                                            <h4 class="price">${selectedPackageModel.salePrice}</h4>
+                                                            <del>${pkgDAO.getListPackageBySubjectID(c.subjectId).get(0).listPrice}</del>
+                                                            <h4 class="price">${pkgDAO.getListPackageBySubjectID(c.subjectId).get(0).salePrice}</h4>
                                                         </c:if>
                                                         <div style="margin-left: 50px;"></div>
                                                         <a href="login.jsp" class="btn btn-primary">Register</a>
@@ -259,12 +262,12 @@
         <script src="assets/js/contact.js"></script>
         <script src='assets/vendors/switcher/switcher.js'></script>
         <script>
-                                                        function search() {
-                                                            var b = document.getElementById("myButton").value;
-                                                            document.getElementById("output").value = b;
+                                                                function search() {
+                                                                    var b = document.getElementById("myButton").value;
+                                                                    document.getElementById("output").value = b;
 
-                                                        }
-                                                        function SearchByCategory() {
+                                                                }
+                                                                function SearchByCategory() {
                                                                     var form = document.getElementById('category_form');
                                                                     form.submit();
                                                                 }

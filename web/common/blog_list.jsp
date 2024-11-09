@@ -23,6 +23,9 @@
         <!-- FAVICONS ICON ============================================= -->
         <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
+        <script src="https://kit.fontawesome.com/f36b960bbe.js" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
         <!-- PAGE TITLE HERE ============================================= -->
         <title>EduChamp : Education HTML Template </title>
@@ -135,8 +138,8 @@
                                                         <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
                                                         <li><a href="#"><i class="fa fa-user"></i>By ${account_list[status.index].first_name} ${account_list[status.index].last_name}</a></li>
                                                     </ul>
-                                                    <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_summary}</a></h5>
-                                                    <p>${c.blog_content}</p>
+                                                    <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
+                                                    <p>${c.blog_summary}</p>
                                                     <div class="post-extra">
                                                         <a href="blog_detail?blog_id=${c.blog_id}" class="btn-link">READ MORE</a>
                                                     </div>
@@ -217,7 +220,7 @@
                                                         <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
                                                         <div class="ttr-post-info">
                                                             <div class="ttr-post-header">
-                                                                <h6 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_summary}</a></h6>
+                                                                <h6 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h6>
                                                             </div>
                                                             <ul class="media-post">
                                                                 <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>

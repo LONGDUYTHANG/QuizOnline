@@ -103,8 +103,62 @@
 
             <div class="main" >
                 <jsp:include page="navbar.jsp"/>
+                <div style="width: 1900px; margin-left: 1040px; margin-top: 10px">
+                    <button onclick="$('#importModal').modal('show');" class="btn btn-success">Registration Import <i class="align-middle me-2 fas fa-fw fa-file-excel"></i></button>
+                </div>
+                <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="importModalLabel">Import Questions</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="importForm" method="post" action="salerimportregistration" enctype="multipart/form-data">
+                                        <div class="mb-3">
+                                            <label for="fileInput" class="form-label">Select Excel File</label>
+                                            <input type="file" class="form-control" id="fileInput" name="file" accept=".xls,.xlsx" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Upload</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="messageModalLabel">Notification</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Success Message -->
+                                    <c:if test="${not empty message}">
+                                        <div class="alert alert-success" role="alert">
+                                            ${message}
+                                        </div>
+                                    </c:if>
+    
+                                    <!-- Error Messages -->
+                                    <c:if test="${not empty errors}">
+                                        <div class="alert alert-danger" role="alert">
+                                            <ul>
+                                                <c:forEach var="error" items="${errors}">
+                                                    <li>${error}</li>
+                                                </c:forEach>
+                                            </ul>
+                                        </div>
+                                    </c:if>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <main class="content">
                     <div class="container">
+                    
                         <%int id=1;%>
                         <table  class="table table-striped" onload="saveStatus()">
                             <thead>
@@ -137,7 +191,9 @@
                                         </c:if>
                                     <td style="width: 120px">
                                         <button type="button" class="btn btn-success" ><a href="registrationdetail?rid=${registration.registration_id}&aid=${registration.account_id}" style="color: white"><i class="align-middle fas fa-edit"></i></a></button>
-                                        <button type="button" class="btn btn-danger" ><a href="deleteregistration?rid=${registration.registration_id}" style="color: white"><i class="align-middle  fas fa-trash-alt"></i></a></button>
+                                        <button type="button" onclick="confirmDeletion(${registration.subject_id}, ${registration.account_id})" class="btn btn-danger">
+                                            <i class="align-middle fas fa-trash-alt"></i>
+                                        </button>
                                     </td>
                                 </tr>
                                 <%id++;%>
@@ -148,12 +204,30 @@
                 </main>   
             </div>
         </div>
+        <script src="js/app.js"></script>
+        <%@include file="js.jsp" %>
         <script>
-            function saveStatus() {
-                console.log("a");
+                                            function saveStatus() {
+                                                console.log("a");
 
+                                            }
+        </script>
+        <script>
+            function confirmDeletion(registrationId, accountId) {
+                if (confirm("Are you sure you want to cancel this registration?")) {
+                    window.location.href = "salerdeleteregistration?rid=" + registrationId + "&aid=" + accountId + "";
+                }
             }
         </script>
+
+<c:if test="${not empty message || not empty errors}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
+            messageModal.show();
+        });
+    </script>
+</c:if>
     </body>
 
 </html>

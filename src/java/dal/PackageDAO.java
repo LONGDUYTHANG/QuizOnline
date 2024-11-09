@@ -74,6 +74,39 @@ public class PackageDAO extends DBContext {
         return packageList;
     }
 
+
+    public List<Package> getListPackageBySubjectID(int subject_id) {
+        List<Package> packageList = new ArrayList<>();
+        String sql = "SELECT [package_id], [package_name], [duration], [listPrice], [salePrice], [status], [subject_id] FROM [dbo].[Package] WHERE subject_id = ?";
+
+        try (
+                PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            // Set subject_id parameter
+            pstmt.setInt(1, subject_id);
+
+            // Execute the query
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    // Create a new Package object for each row in the ResultSet
+                    Package pkg = new Package();
+                    pkg.setPackage_id(rs.getInt("package_id"));
+                    pkg.setPackage_name(rs.getString("package_name"));
+                    pkg.setDuration(rs.getInt("duration"));
+                    pkg.setListPrice(rs.getDouble("listPrice"));
+                    pkg.setSalePrice(rs.getDouble("salePrice"));
+                    pkg.setStatus(rs.getString("status"));
+                    pkg.setSubject_id(rs.getInt("subject_id"));
+
+                    packageList.add(pkg);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception for debugging
+        }
+
+        return packageList;
+    }
+
     public boolean createPackage(String packageName, int duration, double listPrice, double salePrice, int status, int subjectId) {
         String sql = "INSERT INTO [dbo].[Package] (package_name, duration, listPrice, salePrice, status, subject_id) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
@@ -132,38 +165,6 @@ public class PackageDAO extends DBContext {
         return pkg;
     }
 
-    public List<Package> getListPackageBySubjectID(int subject_id) {
-        List<Package> packageList = new ArrayList<>();
-        String sql = "SELECT [package_id], [package_name], [duration], [listPrice], [salePrice], [status], [subject_id] FROM [QuizOnline].[dbo].[Package] WHERE subject_id = ?";
-
-        try (
-                PreparedStatement pstmt = connection.prepareStatement(sql)) {
-
-            // Bind the subject_id parameter to the PreparedStatement
-            pstmt.setInt(1, subject_id);
-
-            // Execute the query
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    // Create a new Package object for each row in the ResultSet
-                    Package pkg = new Package();
-                    pkg.setPackage_id(rs.getInt("package_id"));
-                    pkg.setPackage_name(rs.getString( "package_name"));
-                    pkg.setDuration(rs.getInt("duration"));
-                    pkg.setListPrice(rs.getDouble("listPrice"));
-                    pkg.setSalePrice(rs.getDouble("salePrice"));
-                    pkg.setStatus(rs.getString("status"));
-                    pkg.setSubject_id(rs.getInt("subject_id"));
-
-                    packageList.add(pkg);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); // Log the exception for debugging
-        }
-
-        return packageList;
-    }
 
     public Package getPricePackageById(int packageId) {
         Package pkg = null;
@@ -229,6 +230,7 @@ public class PackageDAO extends DBContext {
     public static void main(String[] args) {
         PackageDAO dao = new PackageDAO();
         List<Package> list = dao.getListPackageBySubjectID(53);
+
         for (Package package1 : list) {
             System.out.println(package1);
         }

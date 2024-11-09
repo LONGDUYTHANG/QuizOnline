@@ -1,6 +1,6 @@
 
 <div class="page-wraper popup" id="register-popup" style="margin-top: 50px">
-    <div class="account-form popup-content">
+    <div class="account-form popup-content" style="max-height: 100vh; overflow-y: auto;">
         <div class="account-form-inner">
             <div style="text-align: right">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-register-popup"></button></div>
@@ -13,24 +13,24 @@
 
                         <div class="col-lg-12">
                             <p style="color: red" id="email-error">${requestScope.email_error}</p>
-                            <p style="color: red" id="check-email-error" hidden>Email existed!</p>
                             <div class="form-group">
                                 <label>Your Email Address</label>
                                 <input name="email" type="email" required="" class="form-control" value="${requestScope.email}">
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <div class="form-group">
+                            <div class="form-group password-container">
                                 <label>Password</label>
-                                <input name="pass" type="password" class="form-control" required="">     
+                                <input name="pass" id="userPassforregister" type="password" class="form-control" required="">  
+                                 <i class="fas fa-eye toggle-password" onclick="togglePasswordRegister()"></i>
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <div class="form-group">
-                                <p style="color: red" id="pass-error">${requestScope.pass_error}</p>
-                                <p style="color: red" id="check-pass-error" hidden>Wrong confirmed password!</p>
+                             <p style="color: red" id="pass-error">${requestScope.pass_error}</p>
+                            <div class="form-group password-container">
                                 <label>Confirm Password</label>
-                                <input name="confirmedPass" type="password" class="form-control" required="">
+                                <input name="confirmedPass" id="userPassforconfirm" type="password" class="form-control" required="">
+                                 <i class="fas fa-eye toggle-password" onclick="togglePasswordConfirm()"></i>
                             </div>
                         </div>
                         <div class="col-lg-12 m-b30">

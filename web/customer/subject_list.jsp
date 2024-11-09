@@ -108,11 +108,13 @@
                                                         <p>${c.description}</p>
                                                         <div class="post-extra">
                                                             <c:if test="${not empty selectedPackageModel}">
-                                                                <del>${selectedPackageModel.listPrice}</del>
-                                                                <h4 class="price">${selectedPackageModel.salePrice}</h4>
+                                                                <del>${pkgDAO.getListPackageBySubjectID(c.subjectId).get(0).listPrice}</del>
+                                                                <h4 class="price">${pkgDAO.getListPackageBySubjectID(c.subjectId).get(0).salePrice}</h4>
                                                             </c:if>
                                                             <div style="margin-left: 50px;"></div>
-                                                            <button type="submit" class="btn btn-primary">Register</button>
+                                                            <c:if test="${requestScope.subjectDAO.HasSubjectNotBeenInteract(sessionScope.user.account_id,c.subjectId)}">
+                                                                <button type="submit" class="btn btn-primary">Register</button>
+                                                            </c:if>
                                                         </div>
                                                     </div>
                                                 </div>

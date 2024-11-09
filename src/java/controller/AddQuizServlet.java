@@ -160,6 +160,17 @@ public class AddQuizServlet extends HttpServlet {
         }
         
         String number_of_questions[] = request.getParameterValues("number_of_questions");
+        boolean no_question = true;
+        for (String number_of_question : number_of_questions) {
+            if(!number_of_question.equals("0")) {
+                no_question = false;
+            }
+        }
+        if (no_question) {
+            request.setAttribute("message", "No Questions chose for the quiz!");
+            request.getRequestDispatcher("expert/add_quiz.jsp").forward(request, response);
+            return;
+        }
         String group_selection[] = request.getParameterValues("group_selection");
         
         //This line is temporary, the account_id should be selected from session
@@ -197,7 +208,7 @@ public class AddQuizServlet extends HttpServlet {
         try {
             int subject_id_new = Integer.parseInt(subject_id);
             int level_id_new = Integer.parseInt(level_id);
-            double duration_new = Double.parseDouble(duration);
+            double duration_new = Double.parseDouble(duration) * 60;
             double passrate_new = Double.parseDouble(passrate);
             int quiz_type_id_new = Integer.parseInt(quiztype_id);
             int total_question_new = Integer.parseInt(totalquestion);

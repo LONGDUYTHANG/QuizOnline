@@ -7,6 +7,9 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
@@ -277,6 +280,11 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
+    public String getFormatDate(LocalDateTime myDateObj) {
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = myDateObj.format(myFormatObj);
+        return formattedDate;
+    }
     /**
      * Add an account(when guest register) (required email and password role_id
      * is 1)
@@ -287,7 +295,7 @@ public class AccountDAO extends DBContext {
     public void addAccount(String email, String password) {
         PreparedStatement stm;
         try {
-            String strSelect = "insert into [dbo].[Account](first_name, last_name, gender, email,password,role_id) VALUES(?,?,?,?,?,?) ";
+            String strSelect = "insert into [dbo].[Account](first_name, last_name, gender, email,password,role_id, registration_time) VALUES(?,?,?,?,?,?,?) ";
             stm = connection.prepareStatement(strSelect);
             stm.setString(1, "default");
             stm.setString(2, "name");
@@ -295,6 +303,7 @@ public class AccountDAO extends DBContext {
             stm.setString(4, email);
             stm.setString(5, password);
             stm.setInt(6, 1);
+            stm.setTimestamp(7, Timestamp.valueOf(getFormatDate(LocalDateTime.now())));
             stm.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

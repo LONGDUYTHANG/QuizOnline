@@ -149,19 +149,18 @@
                 <!-- Main Slider -->
 
                 <div class="content-block">
-                    <!-- Featured Subject -->
+                    <!--Registed Subject Form -->
                     <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(assets/images/background/bg1.jpg);">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 heading-bx left">
-                                    <h2 class="title-head" style="color: white">All <span>Subject</span></h2>
+                                    <h2 class="title-head" style="color: white">My <span>Subjects</span></h2>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
                                     <!-- thêm subjedt list -->
-
-                                    <c:forEach var="subject" items="${subject_list}" varStatus="status">
+                                    <c:forEach var="subject" items="${registeredSubject_list}" varStatus="status">
                                         <c:if test="${fn:contains(subject.description, param.keyword) || fn:contains(subject.subjectName, param.keyword)}">
                                             <div class="item" style="width: 300px; height: 350px;">
                                                 <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;">
@@ -189,8 +188,8 @@
                                                         </div>
                                                         <div class="price">
                                                             <c:if test="${not empty selectedPackageModel}">
-                                                                <del>${selectedPackageModel.listPrice}</del>
-                                                                <h5>${selectedPackageModel.salePrice}</h5>
+                                                                <del>${pkgDAO.getListPackageBySubjectID(subject.subjectId).get(0).listPrice}</del>
+                                                                <h5>${pkgDAO.getListPackageBySubjectID(subject.subjectId).get(0).salePrice}</h5>
                                                             </c:if>
                                                         </div>
                                                     </div>
@@ -205,20 +204,19 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Popular Courses END -->
 
-                    <!--Registed Subject Form -->
                     <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(assets/images/background/bg1.jpg);">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 heading-bx left">
-                                    <h2 class="title-head" style="color: white">Registered <span>Subject</span></h2>
+                                    <h2 class="title-head" style="color: white">All <span>Subjects</span></h2>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
                                     <!-- thêm subjedt list -->
-                                    <c:forEach var="subject" items="${registeredSubject_list}" varStatus="status">
+
+                                    <c:forEach var="subject" items="${subject_list}" varStatus="status">
                                         <c:if test="${fn:contains(subject.description, param.keyword) || fn:contains(subject.subjectName, param.keyword)}">
                                             <div class="item" style="width: 300px; height: 350px;">
                                                 <div class="cours-bx" style="background-color: #fff; width: 100%; height: 100%; border-radius: 5px;">

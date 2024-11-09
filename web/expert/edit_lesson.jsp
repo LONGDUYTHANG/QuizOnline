@@ -132,7 +132,7 @@
                                     <h2>Edit Lesson</h2>
                                     <div class="button-group">
                                         <button class="btn btn-primary" onclick="submitForm1()">Save</button>
-                                        <button class="btn btn-outline-primary">Back</button>
+                                        <button class="btn btn-outline-primary" onclick="window.location.href='listlesson?subjectId=${lesson.subject_id}'">Back</button>
                                     </div>
                                 </div>
                                 <script>
@@ -193,7 +193,7 @@
                                     <h2>Lesson Details</h2>
                                     <div class="button-group">
                                         <button class="btn btn-primary" onclick="submitForm2()">Save</button>
-                                        <button class="btn btn-outline-primary">Back</button>
+                                        <button class="btn btn-outline-primary" onclick="window.location.href='listlesson?subjectId=${lesson.subject_id}'">Back</button>
                                     </div>
                                 </div>
                                 <script>
@@ -261,7 +261,7 @@
                                         <label for="topic">Topic</label>
                                         <select type="text" id="topic" name="topic">
                                             <c:forEach var="lesson_topic" items="${requestScope.listLesson_Topic}">
-                                                <option value="${lesson_topic.lesson_topic_id}">${lesson_topic.lesson_topic_name}</option>
+                                                <option value="${lesson_topic.lesson_topic_id}" ${lesson.lesson_topic_id == lesson_topic.lesson_topic_id ? 'selected' : ''}>${lesson_topic.lesson_topic_name}</option>
                                             </c:forEach>
                                         </select>
                                     </div>
@@ -355,7 +355,7 @@
                                     <h2>Lesson Details</h2>
                                     <div class="button-group">
                                         <button class="btn btn-primary" onclick="submitForm3()">Save</button>
-                                        <button class="btn btn-outline-primary">Back</button>
+                                        <button class="btn btn-outline-primary" onclick="window.location.href='listlesson?subjectId=${lesson.subject_id}'">Back</button>
                                     </div>
                                 </div>
                                 <script>

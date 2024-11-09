@@ -5,6 +5,8 @@
 package dal;
 
 import java.lang.reflect.Array;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -920,7 +922,7 @@ public class RegistrationDAO extends DBContext {
     public boolean AddRegistration(Registration registration) {
         PreparedStatement stm;
         try {
-            String strSelect = "INSERT INTO Registration (registration_time, account_id, subject_id, cost, list_price, sale_price, status_id) VALUES (?,?,?,?,?,?,?)";
+            String strSelect = "INSERT INTO Registration (registration_time, account_id, subject_id, cost, list_price, sale_price, status_id, note) VALUES (?,?,?,?,?,?,?,?)";
             stm = connection.prepareStatement(strSelect);
             stm.setTimestamp(1, java.sql.Timestamp.valueOf(registration.getRegistration_time()));
             stm.setInt(2, registration.getAccount_id());
@@ -929,6 +931,7 @@ public class RegistrationDAO extends DBContext {
             stm.setDouble(5, registration.getList_price());
             stm.setDouble(6, registration.getSale_price());
             stm.setInt(7, registration.getStatus_id());
+            stm.setString(8, registration.getNote());
             stm.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -940,7 +943,9 @@ public class RegistrationDAO extends DBContext {
     public boolean RemoveRegistration(int account_id,int subject_id){
         PreparedStatement stm;
         try {
-            String strSelect = "DELETE FROM Registration WHERE account_id=? AND subject_id=?";
+            String strSelect = "Update Registration"
+                    + " SET status_id=1"
+                    + " WHERE account_id=? AND subject_id=?";
             stm = connection.prepareStatement(strSelect);     
             stm.setInt(1, account_id);
             stm.setInt(2, subject_id);
@@ -951,11 +956,198 @@ public class RegistrationDAO extends DBContext {
             return false;
         }
     }
+    public int GetAllBoughtSubjects(){
+        PreparedStatement stm;
+        ResultSet rs;
+        int count = 0;
+        try {
+            String strSelect = "SELECT COUNT(*) as count FROM Registration WHERE  status_id=3";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return count;
+    }
+
+    public ArrayList<Subject> getTop5BoughtSubjects(){
+        PreparedStatement stm;
+        ResultSet rs;
+        ArrayList<Subject> top5BoughtSubjects = new ArrayList<>();
+        try {
+            String strSelect = "SELECT TOP 5 s.subject_id, s.subject_name, s.description, COUNT(r.subject_id) as count FROM Subject s \r\n" + //
+                                "JOIN Registration r ON s.subject_id = r.subject_id \r\n" + //
+                                "WHERE r.status_id=3 GROUP BY s.subject_id, s.subject_name, s.description ORDER BY count DESC"
+                    ;
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Subject subject = new Subject();
+                subject.setSubjectId(rs.getInt("subject_id"));
+                subject.setSubjectName(rs.getString("subject_name"));
+
+                subject.setDescription(rs.getInt("count")+"");
+
+                top5BoughtSubjects.add(subject);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return top5BoughtSubjects;
+    }
+
+
 
     public static void main(String[] args) {
-        // Khởi tạo đối tượng RegistrationDAO
-        RegistrationDAO registrationDAO = new RegistrationDAO();
-         Registration registration=new Registration(LocalDateTime.now(), 8, 0, 3, 2, 200, 300);
-        registrationDAO.AddRegistration(registration);
+        RegistrationDAO a =new RegistrationDAO();
+        ArrayList<Subject> s=a.getTop5BoughtSubjects();
+        for(Subject h:s){
+            System.out.println(h.getDescription());
+        }
+    }
+
+    /**
+     * Get number of registration in a week
+     *
+     * @param now
+     * @return an array list that provides number of registration of 7 days in a
+     * week
+     */
+    public ArrayList<Integer> getNumberofBoughtSubjectInAWeek(LocalDate now) {
+        PreparedStatement stm;
+        ResultSet rs;
+        //some days in a week might not have data
+        ArrayList<Integer> list_registration = new ArrayList<>();
+        //some days in a week might not be contained
+        ArrayList<Integer> list_day = new ArrayList<>();
+        int month = now.getMonthValue();
+        DayOfWeek dayOfWeek = now.getDayOfWeek();
+        int day = dayOfWeek.getValue();
+        int dayOfMonth = now.getDayOfMonth();
+
+        try {
+            String strSelect = "SELECT COUNT(*) as number, e.day as day FROM (Select COUNT(*) as numer, MONTH(registration_time ) as mon, DAY(registration_time) as day FROM Registration\r\n"
+                    + //
+                    "  WHERE MONTH(registration_time)=? AND DAY(registration_time)>=? AND DAY(registration_time)<=? AND status_id=3 GROUP BY registration_time)\r\n"
+                    + //
+                    "  AS e GROUP BY e.day";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, month);
+            stm.setInt(2, dayOfMonth - day + 1);
+            stm.setInt(3, dayOfMonth + 7 - day);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                list_registration.add(rs.getInt("number"));
+                list_day.add(rs.getInt("day"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        //contains info of 7 days in a week
+        ArrayList<Integer> outcome_list = new ArrayList();
+        //check from the first day of the week that corespond to the date user choose
+        //Ex: user choose thursday the 15th then check_date is 12th
+        int check_date = dayOfMonth - day + 1;
+        //list day and list should be coressponding
+        int listday_index = 0;
+        for (int i = 0; i < 7; i++) {
+            //if there is a date that should have in the the outcome_list but
+            //not exist in the list_day 
+            if ((int) list_day.get(listday_index) != check_date) {
+                outcome_list.add(i, 0);
+            } else {
+                outcome_list.add(i, (int) list_registration.get(listday_index));
+                if (listday_index <= list_day.size() - 2) {
+                    //since the value in the list_registration has been asigned to outcome_list,
+                    //we move to the next element in the list_registration
+                    listday_index++;
+                }
+
+            }
+
+            check_date++;
+        }
+        return outcome_list;
+    }
+
+    public boolean CheckIfUserBoughtSubject(int account_id, int subject_id) {
+        PreparedStatement stm;
+        ResultSet rs;
+        try {
+            String strSelect = "SELECT * FROM Registration WHERE account_id=? AND subject_id=? AND(status_id=2 or status_id=3)";    
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, account_id);
+            stm.setInt(2, subject_id);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    public boolean CofirmRegistration(LocalDateTime registration_time,int account_id, int subject_id, double sale_price, double list_price, double cost) {
+        PreparedStatement stm;
+        try {
+            String strSelect = "Update Registration"
+                    + " SET status_id=3,"
+                    + " registration_time=?,"
+                    + " cost=?,"
+                    + " sale_price=?,"
+                    + " list_price=?"
+                    + " WHERE account_id=? AND subject_id=? AND status_id=2";
+            stm = connection.prepareStatement(strSelect);
+            stm.setTimestamp(1, java.sql.Timestamp.valueOf(registration_time));
+            stm.setDouble(2, cost);
+            stm.setDouble(3, sale_price);
+            stm.setDouble(4, list_price);
+            stm.setInt(5, account_id);
+            stm.setInt(6, subject_id);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    
+    public boolean IfSubjectsInRegistration(int account_id, int subject_id){
+        PreparedStatement stm;
+        ResultSet rs;
+        try {
+            String strSelect = "SELECT * FROM Registration WHERE account_id=? AND subject_id=? AND status_id=2 ";    
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, account_id);
+            stm.setInt(2, subject_id);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+    
+    public static String getMD5(String input) {
+        try {
+
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            // Chuyển đổi chuỗi đầu vào thành mảng byte
+            byte[] messageDigest = md.digest(input.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : messageDigest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

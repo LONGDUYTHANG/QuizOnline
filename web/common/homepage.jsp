@@ -133,6 +133,23 @@
             }
 
         </style>
+        <style>
+            .password-container {
+                position: relative;
+            }
+            .password-container input[type="password"],
+            .password-container input[type="text"] {
+                width: 100%;
+                padding-right: 30px;
+            }
+            .password-container .toggle-password {
+                position: absolute;
+                right: 10px;
+                top: 70%;
+                transform: translateY(-50%);
+                cursor: pointer;
+            }
+        </style>
     </head>
     <body id="bg" onload="LoginAgain()">
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -185,7 +202,7 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 heading-bx left">
-                                    <h2 class="title-head" style="color: white">All <span>Subject</span></h2>
+                                    <h2 class="title-head" style="color: white">All <span>Subject </span></h2>
                                 </div>
                             </div>
                             <div class="row">
@@ -221,8 +238,8 @@
                                                         </div>
                                                         <div class="price">
                                                             <c:if test="${not empty selectedPackageModel}">
-                                                                <del>${selectedPackageModel.listPrice}</del>
-                                                                <h5>${selectedPackageModel.salePrice}</h5>
+                                                                <del>${pkgDAO.getListPackageBySubjectID(subject.subjectId).get(0).listPrice}</del>
+                                                                <h5>${pkgDAO.getListPackageBySubjectID(subject.subjectId).get(0).salePrice}</h5>
                                                             </c:if>
                                                         </div>
                                                     </div>
@@ -533,22 +550,32 @@
                 RequestPopup.style.display = 'none';
             };
             function LoginAgain() {
-                if (checkLoginError.textContent === loginError.textContent) {
+
+                if (checkLoginError !== null && checkLoginError.textContent === loginError.textContent) {
                     loginPopup.style.display = 'flex';
+                    return;
                 }
-                if (checkEmailError.textContent === emailError.textContent) {
+                if (loginError !== null & loginError.textContent === "Email must end with @fpt.edu.vn") {
+                    loginPopup.style.display = 'flex';
+                    return;
+                }
+                if (emailError.textContent === "Email existed!" || emailError.textContent === "Email must end with @fpt.edu.vn") {
                     registerPopup.style.display = 'flex';
+                    return;
                 }
-                if (checkPassError.textContent === passError.textContent) {
+                if (passError !== null && passError.textContent === "Wrong confirmed password!") {
                     registerPopup.style.display = 'flex';
+                    return;
                 }
-                if (requestError.textContent === 'Send request success') {
+                if (requestError !== null && requestError.textContent === 'Send request success') {
                     RequestPopup.style.display = 'flex';
+                    return;
                 }
-                if (requestError.textContent === 'Email not existed') {
+                if (requestError !== null && requestError.textContent === 'Email not existed') {
                     RequestPopup.style.display = 'flex';
+                    return;
                 }
-                console.log(requestError.textContent);
+                console.log(emailError.textContent);
 
 
             }
@@ -566,6 +593,50 @@
                     registerPopup.style.display = 'none';
                 }
             };
+        </script>
+        <script>
+            function togglePassword() {
+                var passwordField = document.getElementById("userPass");
+                var toggleIcon = document.querySelector(".toggle-password");
+                if (passwordField.type === "password") {
+                    passwordField.type = "text";
+                    toggleIcon.classList.remove("fa-eye");
+                    toggleIcon.classList.add("fa-eye-slash");
+                } else {
+                    passwordField.type = "password";
+                    toggleIcon.classList.remove("fa-eye-slash");
+                    toggleIcon.classList.add("fa-eye");
+                }
+            }
+        </script>
+        <script>
+            function togglePasswordRegister() {
+                var passwordFieldforregister = document.getElementById("userPassforregister");
+                var toggleIcon = document.querySelector(".toggle-password");
+                if (passwordFieldforregister.type === "password") {
+                    passwordFieldforregister.type = "text";
+                    toggleIcon.classList.remove("fa-eye");
+                    toggleIcon.classList.add("fa-eye-slash");
+                } else {
+                    passwordFieldforregister.type = "password";
+                    toggleIcon.classList.remove("fa-eye-slash");
+                    toggleIcon.classList.add("fa-eye");
+                }
+            }
+
+            function togglePasswordConfirm() {
+                var passwordFieldforregister = document.getElementById("userPassforconfirm");
+                var toggleIcon = document.querySelector(".toggle-password");
+                if (passwordFieldforregister.type === "password") {
+                    passwordFieldforregister.type = "text";
+                    toggleIcon.classList.remove("fa-eye");
+                    toggleIcon.classList.add("fa-eye-slash");
+                } else {
+                    passwordFieldforregister.type = "password";
+                    toggleIcon.classList.remove("fa-eye-slash");
+                    toggleIcon.classList.add("fa-eye");
+                }
+            }
         </script>
     </body>
 </html>
