@@ -91,6 +91,7 @@ public class CustomerRegisterSubjectServlet extends HttpServlet {
         }
         double cost=0;
         Registration registration=new Registration(LocalDateTime.now(), subject_id, 0, account_id, 2, list_price, sale_price);
+        registration.setNote("Online Payment");
         registrationDAO.AddRegistration(registration);
         request.getRequestDispatcher("customerregistrationlist").forward(request, response);
     } 

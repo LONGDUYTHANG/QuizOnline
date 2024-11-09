@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
+<%@page import="dal.RegistrationDAO"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -91,11 +92,39 @@
                 <div class="form-group">
                     <label>Amount:</label>
                     <span class="value"><%=request.getParameter("vnp_Amount")%></span>
-                </div>  
-                <div class="form-group">
-                    <label>Order Description:</label>
-                    <span class="value"><%=request.getParameter("vnp_OrderInfo")%></span>
                 </div> 
+                <% 
+                    String orderInfo = request.getParameter("vnp_OrderInfo");
+                    // Split using escaped pipe
+                    String[] parts = orderInfo.split("\\|");
+                    String subject = "";
+                    String number1 = "";
+                    String number2 = "";
+                    if(parts.length >= 3){
+                        subject = parts[0].replace("Buy subject: ", "");
+                        number1 = parts[1];
+                        number2 = parts[2];
+                         
+                    } else {
+                        // Handle unexpected format
+                        subject = "N/A";
+                        number1 = "N/A";
+                        number2 = "N/A";
+                    }
+                   
+                    
+                %> 
+                <div class="form-group">
+                    <label>Order Detail:</label>
+                    <span class="value">Buy subject: <%= subject %></span>
+                </div>
+                <div class="form-group" style="display: none" >
+                    <label>Number 2:</label>
+                    <span class="value"><% RegistrationDAO a=new RegistrationDAO();
+                    int account_id=Integer.parseInt(number2);
+                    int subject_id=Integer.parseInt(number1);
+                    boolean check=a.CofirmRegistration(account_id, subject_id); %></span>
+                </div>
                 <div class="form-group">
                     <label>Response Code:</label>
                     <span class="value"><%=request.getParameter("vnp_ResponseCode")%></span>
@@ -119,7 +148,7 @@
                     <label>Payment Date:</label>
                     <span class="value"><%=formattedDate%></span>
                 </div>
-                <a href="homepage_1" class="btn">Return to Home</a>
+                <a href="customerregistrationlist" class="btn">Return to Home</a>
             </div>
             <footer class="footer">
                 <p>&copy; VNPAY 2020</p>

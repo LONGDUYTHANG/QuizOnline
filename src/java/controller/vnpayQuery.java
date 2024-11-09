@@ -39,6 +39,7 @@ public class vnpayQuery extends HttpServlet {
         String vnp_OrderInfo = "Kiem tra ket qua GD OrderId:" + vnp_TxnRef;
         //String vnp_TransactionNo = req.getParameter("transactionNo");
         String vnp_TransDate = req.getParameter("trans_date");
+        String orderType=req.getParameter("vnp_OrderType");
         
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -54,6 +55,7 @@ public class vnpayQuery extends HttpServlet {
         vnp_Params.addProperty("vnp_TmnCode", vnp_TmnCode);
         vnp_Params.addProperty("vnp_TxnRef", vnp_TxnRef);
         vnp_Params.addProperty("vnp_OrderInfo", vnp_OrderInfo);
+        vnp_Params.addProperty("vnp_OrderType", orderType);
         //vnp_Params.put("vnp_TransactionNo", vnp_TransactionNo);
         vnp_Params.addProperty("vnp_TransactionDate", vnp_TransDate);
         vnp_Params.addProperty("vnp_CreateDate", vnp_CreateDate);
