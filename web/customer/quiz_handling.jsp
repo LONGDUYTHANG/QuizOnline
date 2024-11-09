@@ -340,20 +340,24 @@
                                         </c:forEach>
                                     </div>
                                     <br>
-                                    <div class="peek_at_question" style="display:none; width: 500px; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; border:1px solid black; padding:20px; z-index:1009;">
-                                        <h3>Peek At Answer</h3>
-                                        <p>The correct answer is ${fn:substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', qe.correct_answer, qe.correct_answer + 1)}.</p>
-                                        <p>Explanation: ${qe.explanation}.</p>
-                                        <p>${qe.dimension_type.dimension_type_name} : ${qe.dimension.dimension_name}.</p>
-                                        <p>Source : ${qe.subject.subjectName}.</p>
-                                        <div onclick="closePopupPeek()" class="btn">Close</div>
+                                    <c:if test="${prac}" >
+                                        <div class="peek_at_question" style="display:none; width: 500px; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; border:1px solid black; padding:20px; z-index:1009;">
+                                            <h3>Peek At Answer</h3>
+                                            <p>The correct answer is ${fn:substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', qe.correct_answer, qe.correct_answer + 1)}.</p>
+                                            <p>Explanation: ${qe.explanation}.</p>
+                                            <p>${qe.dimension_type.dimension_type_name} : ${qe.dimension.dimension_name}.</p>
+                                            <p>Source : ${qe.subject.subjectName}.</p>
+                                            <div onclick="closePopupPeek()" class="btn">Close</div>
 
-                                    </div>
+                                        </div>
+                                    </c:if>
+
 
                                 </div>
                             </c:forEach>
-                            <button id="peek_at_question" class="btn-dark" style="height: 50px; width: 200px; border-radius: 8px" type="button">Peek At Question</button>
-
+                            <c:if test="${prac}" >
+                                <button id="peek_at_question" class="btn-dark" style="height: 50px; width: 200px; border-radius: 8px" type="button">Peek At Question</button>
+                            </c:if>
 
 
 
@@ -441,9 +445,11 @@
                         peek.style.display = "none";
                         overlay2.style.display = "none";
                     }
-                    peek_at_question.addEventListener('click', () => {
-                        showPeek();
-                    });
+                    if (${prac}) {
+                        peek_at_question.addEventListener('click', () => {
+                            showPeek();
+                        });
+                    }
 
                     function showPopupSubmitInShowQuest() {
                         closeQuestionSelectPopup();
@@ -801,6 +807,7 @@
                             const overlay3 = document.getElementById("overlay3");
                             popup_submitted.style.display = "block"; // Ẩn popup
                             overlay3.style.display = "block"; // Ẩn lớp phủ
+                            clearInterval(timerInterval);
                         }
                     }
 
@@ -810,9 +817,7 @@
 // Gọi loadQuestionStatus khi tải trang để khôi phục trạng thái
                     // Tải trạng thái câu hỏi từ sessionStorage khi tải trang
                     window.onload = () => {
-                        if (isSub !== null && isSub === "true") {
-                            clearInterval(timerInterval);
-                        }
+                        isSubmitted();
                         restoreCurrentQuestion(); // Khôi phục câu hỏi hiện tại
                         restoreQuestionStatus(); // Khôi phục trạng thái câu hỏi
                         restoreMarkedQuestions(); // Khôi phục trạng thái đánh dấu câu hỏi
@@ -820,7 +825,7 @@
                         showQuestion(currentQuestion); // Hiển thị câu hỏi hiện tại
                         updateNavigationButtons();
                         updateTimer(); // Khởi tạo hiển thị thời gian
-                        isSubmitted();
+                        
                     };
         </script>
 

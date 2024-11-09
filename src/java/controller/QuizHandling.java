@@ -71,6 +71,9 @@ public class QuizHandling extends HttpServlet {
         if(isPrac != null && !isPrac.isEmpty()) {
             request.setAttribute("prac", true);
         }
+        else {
+            request.setAttribute("prac", false);
+        }
         //List<Quiz> quiz = qd.getAllQuiz();
         Quiz handleQuiz;
         try {
