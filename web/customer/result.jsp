@@ -150,6 +150,7 @@
                                 }
 
                                 window.onload = () => {
+                                    sessionStorage.setItem("isSubmitted", "true");
                                     updateTimer();
                                 };
 

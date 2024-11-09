@@ -157,11 +157,9 @@
         <servlet-class>controller.EditQuizServlet</servlet-class>
     </servlet>
     <servlet>
-
         <servlet-name>AdminAddLessonTopicServlet</servlet-name>
         <servlet-class>controller.AdminAddLessonTopicServlet</servlet-class>
-</servlet>
-
+    </servlet>
     <servlet>
         <servlet-name>ViewPracticeList</servlet-name>
         <servlet-class>controller.ViewPracticeList</servlet-class>
@@ -189,6 +187,14 @@
     <servlet>
         <servlet-name>CustomerSearchRegistration</servlet-name>
         <servlet-class>controller.CustomerSearchRegistration</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteLessonServlet</servlet-name>
+        <servlet-class>controller.DeleteLessonServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NewPractice</servlet-name>
+        <servlet-class>controller.NewPractice</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
@@ -351,16 +357,14 @@
         <url-pattern>/editquiz</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
         <servlet-name>AdminAddLessonTopicServlet</servlet-name>
         <url-pattern>/adminaddlessontopic</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ViewPracticeList</servlet-name>
         <url-pattern>/view_practice</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
         <servlet-name>CustomerRegisterSubjectServlet</servlet-name>
         <url-pattern>/customerregistersubject</url-pattern>
     </servlet-mapping>
@@ -371,7 +375,6 @@
     <servlet-mapping>
         <servlet-name>DeleteQuizServlet</servlet-name>
         <url-pattern>/deletequiz</url-pattern>
-
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CustomerRegistrationList</servlet-name>
@@ -380,8 +383,14 @@
     <servlet-mapping>
         <servlet-name>CustomerSearchRegistration</servlet-name>
         <url-pattern>/customersearchregistration</url-pattern>
-
-
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteLessonServlet</servlet-name>
+        <url-pattern>/deletelesson</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewPractice</servlet-name>
+        <url-pattern>/new_practice</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>
@@ -449,5 +458,13 @@
     <servlet-mapping>
         <servlet-name>ajaxServlet</servlet-name>
         <url-pattern>/vnpayajax/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteRegistrationServlet</servlet-name>
+        <servlet-class>controller.DeleteRegistrationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteRegistrationServlet</servlet-name>
+        <url-pattern>/salerdeleteregistration</url-pattern>
     </servlet-mapping>
 </web-app>

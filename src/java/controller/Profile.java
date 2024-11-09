@@ -15,6 +15,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
@@ -67,9 +69,6 @@ public class Profile extends HttpServlet {
         HttpSession session = request.getSession(true);
         AccountDAO ad = new AccountDAO();
         Account ac = (Account) session.getAttribute("user");
-        if (ac == null) {
-            ac = ad.getAccountById(3);
-        }
         ac = ad.getAccountById(ac.getAccount_id());
         session.setAttribute("user", ac);
         SubjectDAO sd = new SubjectDAO();
@@ -126,13 +125,42 @@ public class Profile extends HttpServlet {
 
             ad.updateProfile(uAcc);
         } else {
-            ad.updatePassword(newPass, ac);
+            String np = getMD5(newPass);
+            ad.updatePassword(np, ac);
             ac = ad.getAccount(ac.getEmail());
             request.setAttribute("cpsuccess", "Update success");
         }
         ac = ad.getAccountById(ac.getAccount_id());
         session.setAttribute("user", ac);
         request.getRequestDispatcher("customer/profile.jsp").forward(request, response);
+    }
+    
+    public static String getMD5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : messageDigest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public static String getMD5a(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : messageDigest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

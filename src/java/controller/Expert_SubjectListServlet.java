@@ -69,6 +69,7 @@ public class Expert_SubjectListServlet extends HttpServlet {
         request.setAttribute("listSubject", listSubject);
         request.setAttribute("cdao", cdao);
         request.setAttribute("adao", adao);
+        request.setAttribute("sdao", sdao);
         request.getRequestDispatcher("expert/subject_list.jsp").forward(request, response);
     } 
 

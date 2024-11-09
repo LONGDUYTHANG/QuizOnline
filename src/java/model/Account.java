@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author ADMIN
@@ -22,6 +24,7 @@ public class Account {
     private Role role_id1;
     private int gender1;
     private String status;
+    private LocalDateTime register_time;
 
     public Account() {
     }
@@ -163,6 +166,15 @@ public class Account {
     public void setGender1(int gender1) {
         this.gender1 = gender1;
     }
+
+    public LocalDateTime getRegister_time() {
+        return register_time;
+    }
+
+    public void setRegister_time(LocalDateTime register_time) {
+        this.register_time = register_time;
+    }
+    
 
     @Override
     public String toString() {

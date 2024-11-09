@@ -352,10 +352,7 @@ public class SubjectDAO extends DBContext {
                 subject.setThumbnail(rs.getString("thumbnail"));
                 subject.setTagline(rs.getString("tagline"));
                 subject.setDescription(rs.getString("description"));
-
-                AccountDAO aDao = new AccountDAO();
-                Account acc = aDao.getAccountById(rs.getString("account_id"));
-                subject.setAccountId(acc.getAccount_id());
+                subject.setAccountId(a.getAccount_id());
                 subject.setCreatedDate(rs.getTimestamp("created_date"));
                 subject.setCost(rs.getInt("cost"));
                 subject.setList_price(rs.getDouble("list_price"));
@@ -455,7 +452,7 @@ public class SubjectDAO extends DBContext {
         }
         return false;  // Trả về false nếu có lỗi hoặc không tìm thấy bản ghi
     }
-    
+
     public List<Subject> getListSubjectByAccount(int account_id_raw) {
         List<Subject> list = new ArrayList<>();
         String sql = "SELECT * FROM Subject WHERE account_id = ?";
@@ -520,7 +517,7 @@ public class SubjectDAO extends DBContext {
         }
         return subject_id_list;
     }
-    
+
     public ArrayList<Subject> FilterRegistrationListOfAnUser(int user_id, String keyword) {
         PreparedStatement stm;
         PreparedStatement stm_view;
@@ -528,7 +525,7 @@ public class SubjectDAO extends DBContext {
         ArrayList<Subject> subject_id_list = new ArrayList<>();
         try {
             String strSelect = " SELECT DIstinct A.subject_id,A.subject_name,A.category_id,A.status, A.isFeatured, A.thumbnail,A.tagline, A.description,A.account_id,A.created_date, B.registration_time  FROM Subject A JOIN Registration B \n"
-                    + "ON A.subject_id=B.subject_id AND A.subject_name LIKE '"+keyword+"' AND B.account_id=? AND B.status_id=2 ORDER BY B.registration_time DESC";
+                    + "ON A.subject_id=B.subject_id AND A.subject_name LIKE '" + keyword + "' AND B.account_id=? AND B.status_id=2 ORDER BY B.registration_time DESC";
             stm = connection.prepareStatement(strSelect);
             stm.setInt(1, user_id);
             rs = stm.executeQuery();
@@ -552,9 +549,39 @@ public class SubjectDAO extends DBContext {
         }
         return subject_id_list;
     }
+    
+    public boolean HasSubjectNotBeenInteract(int accountId, int subjectId) {
+        String sql = "SELECT 1 FROM Registration WHERE account_id = ? AND subject_id = ? and (status_id = 3 or status_id=2)";
 
-    public static void main(String[] args) {
-
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, accountId);
+            pstmt.setInt(2, subjectId);
+            ResultSet rs = pstmt.executeQuery();
+            return !rs.next();  // Trả về true nếu có kết quả, tức là đã đăng ký
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;  // Trả về false nếu có lỗi hoặc không tìm thấy bản ghi
+    }
+    public int getNumberOfLessonsBySubject(int subject_id) {
+        String sql = "SELECT COUNT(lesson_id) AS result FROM Lesson WHERE subject_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, subject_id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int result = rs.getInt("result");
+                return result;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        return 0;
     }
 
+    public static void main(String[] args) {
+        SubjectDAO s=new SubjectDAO();
+boolean check=s.HasSubjectNotBeenInteract(4, 11);
+        System.out.println(check);
+    }
 }

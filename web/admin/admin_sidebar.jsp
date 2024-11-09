@@ -79,11 +79,6 @@
                     <i class="align-middle" data-feather="list"></i> <span class="align-middle">Manager Blog</span>
                 </a>
             </li>
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="exsubjectlist">
-                    <i class="align-middle" data-feather="list"></i> <span class="align-middle">Subject List</span>
-                </a>
-            </li>
 
         </ul>
 
