@@ -187,7 +187,7 @@
                                                                     <c:otherwise>Female</c:otherwise>
                                                                 </c:choose>
                                                             </td>
-                                                            <td>${account.role_id}</td>
+                                                            <td>${requestScope.accountdao.getRoleNameByRoleId(account.role_id)} </td>
 
                                                             <td>
                                                                 <a href="userDetail?id=${account.account_id}">

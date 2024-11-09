@@ -410,11 +410,11 @@ public class AccountDAO extends DBContext {
                 account.setGender(rs.getBoolean("gender"));
                 account.setEmail(rs.getString("email"));
                 account.setMobile(rs.getString("mobile"));
-                account.setAvatar(rs.getString("avatar"));
+                account.setRole_id(rs.getInt("role_id"));
 
                 AccountDAO adao = new AccountDAO();
-                Role role = adao.getRoleById(rs.getInt("role_id"));
-                account.setRole_id1(role);
+               
+                
                 accounts.add(account);
             }
 
@@ -443,6 +443,23 @@ public class AccountDAO extends DBContext {
             e.printStackTrace();
             return false; // Trả về false nếu có lỗi
         }
+    }
+
+    public String getRoleNameByRoleId(int role_id) {
+        String sql = "SELECT role_name FROM Role WHERE role_id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, role_id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("role_name"); // Lấy đúng cột role_name
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public boolean updateStatus(int account_id, String status) {
@@ -484,29 +501,28 @@ public class AccountDAO extends DBContext {
     }
 
     public List<Account> getExpertsByRoleId() {
-    List<Account> experts = new ArrayList<>();
-    String sql = "SELECT account_id, first_name, last_name FROM Account WHERE role_id = 2";
+        List<Account> experts = new ArrayList<>();
+        String sql = "SELECT account_id, first_name, last_name FROM Account WHERE role_id = 2";
 
-    try (PreparedStatement ps = connection.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
-        while (rs.next()) {
-            Account account = new Account();
-            account.setAccount_id(rs.getInt("account_id"));
-            account.setFirst_name(rs.getString("first_name"));
-            account.setLast_name(rs.getString("last_name"));
-            experts.add(account);
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Account account = new Account();
+                account.setAccount_id(rs.getInt("account_id"));
+                account.setFirst_name(rs.getString("first_name"));
+                account.setLast_name(rs.getString("last_name"));
+                experts.add(account);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return experts;
     }
-    return experts;
-}
 
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
 
-        List<Account> account = dao.getExpertsByRoleId();
-        System.out.println(account.get(0).getFirst_name());
+        String role_name = dao.getRoleNameByRoleId(1);
+        System.out.println(role_name);
 
     }
 

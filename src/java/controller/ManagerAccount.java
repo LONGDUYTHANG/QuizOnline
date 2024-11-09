@@ -63,7 +63,7 @@ public class ManagerAccount extends HttpServlet {
         AccountDAO aDao = new AccountDAO();
         List<Account> listAllAccount = aDao.getAllAccount();
         request.setAttribute("listAllAccount", listAllAccount);
-
+        request.setAttribute("accountdao", aDao);
         request.getRequestDispatcher("admin/managerAccount.jsp").forward(request, response);
     }
 
@@ -75,30 +75,29 @@ public class ManagerAccount extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-   @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    String firstName = request.getParameter("firstName");
-    String lastName = request.getParameter("lastName");
-    String email = request.getParameter("email");
-    String mobile = request.getParameter("mobile");
-    int gender = Integer.parseInt(request.getParameter("gender")); // 1 cho nam, 0 cho nữ
-    int role = Integer.parseInt(request.getParameter("role"));
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        AccountDAO adao = new AccountDAO();
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String email = request.getParameter("email");
+        String mobile = request.getParameter("mobile");
+        int gender = Integer.parseInt(request.getParameter("gender")); // 1 cho nam, 0 cho nữ
+        int role = Integer.parseInt(request.getParameter("role"));
+        request.setAttribute("accountdao", adao);
+        boolean isSuccess = adao.createAccount(firstName, lastName, email, mobile, gender, role);
 
-    AccountDAO accountDAO = new AccountDAO();
-    boolean isSuccess = accountDAO.createAccount(firstName, lastName, email, mobile, gender, role);
+        // Kiểm tra kết quả
+        if (isSuccess) {
+            request.setAttribute("mess", "Account created successfully.");
+        } else {
+            request.setAttribute("error", "Failed to create account.");
+        }
 
-    // Kiểm tra kết quả
-    if (isSuccess) {
-        request.setAttribute("mess", "Account created successfully.");
-    } else {
-        request.setAttribute("error", "Failed to create account.");
+        // Chuyển hướng về trang danh sách tài khoản hoặc hiện thị thông báo
+        doGet(request, response);
     }
-    
-    // Chuyển hướng về trang danh sách tài khoản hoặc hiện thị thông báo
-    doGet(request, response);
-}
-
 
     /**
      * Returns a short description of the servlet.
