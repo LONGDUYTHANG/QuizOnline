@@ -1097,7 +1097,7 @@ public class RegistrationDAO extends DBContext {
         try {
             String strSelect = "Update Registration"
                     + " SET status_id=3"
-                    + " WHERE account_id=? AND subject_id=?";
+                    + " WHERE account_id=? AND subject_id=? AND status_id=2";
             stm = connection.prepareStatement(strSelect);     
             stm.setInt(1, account_id);
             stm.setInt(2, subject_id);
@@ -1107,6 +1107,24 @@ public class RegistrationDAO extends DBContext {
             System.out.println(e);
             return false;
         }
+    }
+    
+    public boolean IfSubjectsInRegistration(int account_id, int subject_id){
+        PreparedStatement stm;
+        ResultSet rs;
+        try {
+            String strSelect = "SELECT * FROM Registration WHERE account_id=? AND subject_id=? AND status_id=2 ";    
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, account_id);
+            stm.setInt(2, subject_id);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
     }
     
     public static String getMD5(String input) {
