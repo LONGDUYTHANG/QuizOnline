@@ -145,7 +145,7 @@ public class HomepageCustomer extends HttpServlet {
 
         // Đặt danh sách vào request attribute và chuyển hướng đến JSP để hiển thị
         request.setAttribute("registeredSubject_list", registeredSubject_list);
-
+        request.setAttribute("pkgDAO", packageDAO);
         request.setAttribute("account_list", account_list);
         request.setAttribute("selectedDuration", selectedDuration);
         request.setAttribute("selectedPackageModel", selectedPackageModel);
