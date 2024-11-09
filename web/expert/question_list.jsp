@@ -89,6 +89,12 @@
                 background-color: #f8d7da;
                 color: #721c24;
             }
+            #success-message {
+                display: none;
+            }
+            #fail-message {
+                display: none;
+            }
         </style>
 
         <!-- jQuery (Required for DataTables) -->
@@ -118,7 +124,70 @@
                 <jsp:include page="navbar.jsp"/>
 
                 <main class="content">
+                    <div id="success-message" class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="alert-message">
+                        <strong>Changes saved! </strong>Quiz have been deleted
+                    </div>
+                </div>
+                <div id="fail-message" class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <div class="alert-message" style="background-color: red; color: white">
+                            <strong>Can not Delete! </strong>This question is activated in another quiz!
+                        </div>
+                    </div>
+                <script>
+                        document.addEventListener('DOMContentLoaded', (event) => {
+                            let showMessageSuccess = ${requestScope.showSuccessMessage};
+                            let message = document.getElementById('success-message');
 
+                            if (showMessageSuccess) {
+                                // Show the message initially
+                                message.style.display = 'block';
+                                message.style.opacity = 1;
+
+                                // Fade out after 0.5 seconds
+                                setTimeout(() => {
+                                    let opacity = 1;
+                                    let interval = setInterval(() => {
+                                        if (opacity <= 0) {
+                                            clearInterval(interval);
+                                            message.style.display = 'none';
+                                        } else {
+                                            opacity -= 0.05; // Adjust the decrement step for different speeds
+                                            message.style.opacity = opacity;
+                                        }
+                                    }, 50); // Adjust interval timing as needed
+                                }, 1000); // Show duration before starting fade-out
+                            }
+                        });
+                </script>
+                <script>
+                        document.addEventListener('DOMContentLoaded', (event) => {
+                            let showMessageSuccess = ${requestScope.showFailMessage};
+                            let message = document.getElementById('fail-message');
+
+                            if (showMessageSuccess) {
+                                // Show the message initially
+                                message.style.display = 'block';
+                                message.style.opacity = 1;
+
+                                // Fade out after 0.5 seconds
+                                setTimeout(() => {
+                                    let opacity = 1;
+                                    let interval = setInterval(() => {
+                                        if (opacity <= 0) {
+                                            clearInterval(interval);
+                                            message.style.display = 'none';
+                                        } else {
+                                            opacity -= 0.05; // Adjust the decrement step for different speeds
+                                            message.style.opacity = opacity;
+                                        }
+                                    }, 50); // Adjust interval timing as needed
+                                }, 1000); // Show duration before starting fade-out
+                            }
+                        });
+                    </script>
                     <div class="header">
                         <h1>Question List</h1>
                         <nav>

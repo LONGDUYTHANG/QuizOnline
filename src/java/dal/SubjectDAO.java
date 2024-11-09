@@ -352,10 +352,7 @@ public class SubjectDAO extends DBContext {
                 subject.setThumbnail(rs.getString("thumbnail"));
                 subject.setTagline(rs.getString("tagline"));
                 subject.setDescription(rs.getString("description"));
-
-                AccountDAO aDao = new AccountDAO();
-                Account acc = aDao.getAccountById(rs.getString("account_id"));
-                subject.setAccountId(acc.getAccount_id());
+                subject.setAccountId(a.getAccount_id());
                 subject.setCreatedDate(rs.getTimestamp("created_date"));
                 subject.setCost(rs.getInt("cost"));
                 subject.setList_price(rs.getDouble("list_price"));
@@ -565,6 +562,21 @@ public class SubjectDAO extends DBContext {
             e.printStackTrace();
         }
         return true;  // Trả về false nếu có lỗi hoặc không tìm thấy bản ghi
+    }
+    public int getNumberOfLessonsBySubject(int subject_id) {
+        String sql = "SELECT COUNT(lesson_id) AS result FROM Lesson WHERE subject_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, subject_id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int result = rs.getInt("result");
+                return result;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+        return 0;
     }
 
     /**
