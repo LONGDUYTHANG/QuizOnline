@@ -74,6 +74,7 @@ public class PackageDAO extends DBContext {
         return packageList;
     }
 
+
     public List<Package> getListPackageBySubjectID(int subject_id) {
         List<Package> packageList = new ArrayList<>();
         String sql = "SELECT [package_id], [package_name], [duration], [listPrice], [salePrice], [status], [subject_id] FROM [dbo].[Package] WHERE subject_id = ?";
@@ -164,6 +165,7 @@ public class PackageDAO extends DBContext {
         return pkg;
     }
 
+
     public Package getPricePackageById(int packageId) {
         Package pkg = null;
         String sql = "SELECT [package_id], [package_name], [duration], [listPrice], [salePrice], [status], [subject_id] "
@@ -227,7 +229,8 @@ public class PackageDAO extends DBContext {
 
     public static void main(String[] args) {
         PackageDAO dao = new PackageDAO();
-        List<Package> list = dao.getListPackageBySubjectID(4);
+        List<Package> list = dao.getListPackageBySubjectID(53);
+
         for (Package package1 : list) {
             System.out.println(package1);
         }
