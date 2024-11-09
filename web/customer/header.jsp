@@ -38,6 +38,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 <ul class="sub-menu">
                                     <li><a href="profile">My Profile</a></li>
                                     <li><a href="customerregistrationlist">My Registration Subject</a></li>
+                                    <li><a href="view_practice">My Finished Quizzes</a></li>
                                     <li><a href="logout">Logout</a></li>
                                 </ul>
                             </li>

@@ -267,8 +267,7 @@ public class QuestionDAO extends DBContext {
         List<Question_Handle> list = new ArrayList<>();
         DimensionDAO dd = new DimensionDAO();
         SubjectDAO sd = new SubjectDAO();
-        String sql = "SELECT \n"
-                + "    top " + num_quest
+        String sql = "SELECT TOP (?) \n"
                 + "    qe.question_id, \n"
                 + "    qe.subject_id, \n"
                 + "    qe.dimension_id, \n"
@@ -281,17 +280,16 @@ public class QuestionDAO extends DBContext {
                 + "FROM \n"
                 + "    Quiz qz\n"
                 + "JOIN \n"
-                + "    Lesson l ON qz.quiz_id = l.quiz_id\n"
-                + "JOIN \n"
-                + "    Lesson_Topic lt ON lt.lesson_topic_id = l.lesson_topic_id\n"
-                + "JOIN \n"
-                + "    Question qe ON qe.lesson_topic_id = lt.lesson_topic_id\n"
+                + "    Quiz_Question qq on qq.quiz_id = qz.quiz_id\n"
+                + "Join\n"
+                + "	Question qe on qe.question_id = qq.question_id\n"
                 + "WHERE \n"
                 + "    qz.quiz_id = ?\n"
                 + "ORDER BY NEWID()";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, quiz_id);
+            st.setInt(1, num_quest);
+            st.setInt(2, quiz_id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 int question_id = rs.getInt("question_id");
@@ -554,7 +552,7 @@ public class QuestionDAO extends DBContext {
             e.printStackTrace();
         }
     }
-    
+
     public void deleteQuestion(int question_id) {
         String sql = "DELETE FROM [dbo].[Question]\n"
                 + "      WHERE question_id = ?";
@@ -566,6 +564,7 @@ public class QuestionDAO extends DBContext {
             System.out.println(ex);
         }
     }
+
     public void deleteAnswers(int question_id) {
         String sql = "DELETE FROM [dbo].[Answer]\n"
                 + "      WHERE question_id = ?";
@@ -580,8 +579,8 @@ public class QuestionDAO extends DBContext {
 
     public static void main(String[] args) {
         QuestionDAO dao = new QuestionDAO();
-        dao.deleteQuestion(9608);
-        dao.deleteAnswers(9608);
+        List<Question_Handle> l = dao.getAllQuestionByQuizId(6, 10);
+        System.out.println(l);
 
     }
 }
