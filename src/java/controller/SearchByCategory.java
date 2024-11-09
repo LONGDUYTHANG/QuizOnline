@@ -109,6 +109,8 @@ public class SearchByCategory extends HttpServlet {
             Account account = accountDAO.getAccountById(blog.getAccount_id());
             account_list.add(account);
         }
+                request.setAttribute("account_list", account_list);
+                
         List<Category> category_list;
         if (keyword != null && !keyword.isEmpty()) {
             category_list = myCategoryDAO.searchCategories(keyword);
