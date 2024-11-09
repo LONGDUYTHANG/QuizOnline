@@ -2,6 +2,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.Subject" %>
 <%@ page import="dal.SubjectDAO" %>
+<%@ page import="dal.PackageDAO" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -10,7 +11,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-        <title>Tạo mới đơn hàng</title>
+        <title>Create New Order</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -46,23 +47,12 @@
                 font-weight: bold;
             }
             .form-group input[type="number"],
-            .form-group input[type="radio"] {
+            .form-group input[type="text"] {
                 width: 100%;
                 padding: 8px;
                 box-sizing: border-box;
                 border: 1px solid #ced4da;
                 border-radius: 4px;
-            }
-            .form-check {
-                margin-bottom: 10px;
-            }
-            .form-check input[type="radio"] {
-                width: auto;
-                margin-right: 10px;
-            }
-            .form-check label {
-                display: inline-block;
-                margin-bottom: 0;
             }
             .btn {
                 display: inline-block;
@@ -89,60 +79,60 @@
         </style>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </head>
-
     <body>
-
         <div class="container">
             <div class="header clearfix">
-                <h3 class="text-muted">VNPAY </h3>
+                <h3 class="text-muted">VNPAY</h3>
             </div>
-            <h3>New Order</h3>
-            <%String raw_id=request.getParameter("subject_id");
-            int id=0;
-                    try {
-            id=Integer.parseInt(raw_id);
-        } catch (NumberFormatException e) {
-        }
-           SubjectDAO subjectDAO=new SubjectDAO();
-           Subject subject=subjectDAO.getSubjectByID( id);%>
+            <h3>Create New Order</h3>
+            <% 
+                String raw_id = request.getParameter("subject_id");
+                int id = 0;
+                try {
+                    id = Integer.parseInt(raw_id);
+                } catch (NumberFormatException e) {
+                    // Handle exception
+                }
+                SubjectDAO subjectDAO = new SubjectDAO();
+                Subject subject = subjectDAO.getSubjectByID(id);
+            %>
             <div class="table-responsive">
-                <form action="vnpayajax?name=<%=subject.getSubjectName()%>"  method="post">   
-                    <%String raw_sale_price=request.getParameter("pkg_price");
-                    double sale_price=Double.parseDouble(raw_sale_price)*1000;%>
+                <form action="vnpayajax?name=<%=subject.getSubjectName()%>" method="post">
+                    <% 
+                        String raw_package_id = request.getParameter("courseDuration");
+                        int package_id=Integer.parseInt(raw_package_id);    
+    PackageDAO packageDAO=new PackageDAO();
+    double sale_price_raw = packageDAO.getPricePackageById(package_id).getSalePrice() * 1000;
+double list_price_raw = packageDAO.getPricePackageById(package_id).getListPrice() * 1000;
+String sale_price = String.format("%.0f", sale_price_raw);
+String list_price = String.format("%.0f", list_price_raw);
+                    
+                    %>
                     <div class="form-group">
                         <label for="amount">Price:</label>
                         <input class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." name="amount" type="number" value="<%=sale_price%>" />
-                    </div>  
-                    <div class="form-group">
-                        <label for="amount">Description</label>
-                        <input class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" max="100000000" min="1" name="description" type="text" value="Buy Subject: <%=subject.getSubjectName() %>" />
-                    </div>  
-                    <div class="form-group">
-                        <h5>Language:</h5>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" id="language" name="language" value="vn" checked>
-                            <label class="form-check-label" for="language">Tiếng việt</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" id="language" name="language" value="en">
-                            <label class="form-check-label" for="language">Tiếng anh</label>
-                        </div>
                     </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input class="form-control" data-val="true" data-val-required="The Description field is required." id="description" max="100000000" min="1" name="description" type="text" value="Buy Subject: <%=subject.getSubjectName() %>" />
+                    </div>
+                    <input type="text" value="<%=request.getParameter("subject_id")%>" name="subject_id" hidden>
+                    <input type="text" value="<%=request.getParameter("account_id")%>" name="account_id" hidden>
+                    <input type="text" value="<%=sale_price%>" name="sale_price" hidden>
+                    <input type="text" value="<%=list_price%>" name="list_price" hidden>
                     <button type="submit" class="btn">Purchase</button>
                 </form>
             </div>
-            <p>&nbsp;</p>
             <footer class="footer">
                 <p>&copy; VNPAY 2020</p>
             </footer>
         </div>
-
         <link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet" />
         <script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
         <script type="text/javascript">
             $("#frmCreateOrder").submit(function () {
-                var postData = $("#frmCreateOrder").serialize();
-                var submitUrl = $("#frmCreateOrder").attr("action");
+                var postData = $(this).serialize();
+                var submitUrl = $(this).attr("action");
                 $.ajax({
                     type: "POST",
                     url: submitUrl,
@@ -163,6 +153,6 @@
                 });
                 return false;
             });
-        </script>       
+        </script>
     </body>
 </html>
