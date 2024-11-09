@@ -71,6 +71,9 @@ public class QuizHandling extends HttpServlet {
         if(isPrac != null && !isPrac.isEmpty()) {
             request.setAttribute("prac", true);
         }
+        else {
+            request.setAttribute("prac", false);
+        }
         //List<Quiz> quiz = qd.getAllQuiz();
         Quiz handleQuiz;
         try {
@@ -159,6 +162,9 @@ public class QuizHandling extends HttpServlet {
         }
         PrintWriter out = response.getWriter();
         List<Question_Handle> lq = (ArrayList<Question_Handle>) session.getAttribute("questions");
+        if(lq == null) {
+            response.sendRedirect("view_practice");
+        }
         for (int i = 0; i < numQuestions; i++) {
             lq.get(i).setAnswered(userAnswers[i]);
             lq.get(i).setIs_mark("marked".equals(userMarks[i]));

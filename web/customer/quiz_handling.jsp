@@ -238,7 +238,7 @@
 
 
     </head>
-    <body id="bg" >
+    <body id="bg" onload="isSubmitted()">
         <div id="">
             <div id="container" style="">
                 <div class="" >
@@ -340,20 +340,24 @@
                                         </c:forEach>
                                     </div>
                                     <br>
-                                    <div class="peek_at_question" style="display:none; width: 500px; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; border:1px solid black; padding:20px; z-index:1009;">
-                                        <h3>Peek At Answer</h3>
-                                        <p>The correct answer is ${fn:substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', qe.correct_answer, qe.correct_answer + 1)}.</p>
-                                        <p>Explanation: ${qe.explanation}.</p>
-                                        <p>${qe.dimension_type.dimension_type_name} : ${qe.dimension.dimension_name}.</p>
-                                        <p>Source : ${qe.subject.subjectName}.</p>
-                                        <div onclick="closePopupPeek()" class="btn">Close</div>
+                                    <c:if test="${prac}" >
+                                        <div class="peek_at_question" style="display:none; width: 500px; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; border:1px solid black; padding:20px; z-index:1009;">
+                                            <h3>Peek At Answer</h3>
+                                            <p>The correct answer is ${fn:substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', qe.correct_answer, qe.correct_answer + 1)}.</p>
+                                            <p>Explanation: ${qe.explanation}.</p>
+                                            <p>${qe.dimension_type.dimension_type_name} : ${qe.dimension.dimension_name}.</p>
+                                            <p>Source : ${qe.subject.subjectName}.</p>
+                                            <div onclick="closePopupPeek()" class="btn">Close</div>
 
-                                    </div>
+                                        </div>
+                                    </c:if>
+
 
                                 </div>
                             </c:forEach>
-                            <button id="peek_at_question" class="btn-dark" style="height: 50px; width: 200px; border-radius: 8px" type="button">Peek At Question</button>
-
+                            <c:if test="${prac}" >
+                                <button id="peek_at_question" class="btn-dark" style="height: 50px; width: 200px; border-radius: 8px" type="button">Peek At Question</button>
+                            </c:if>
 
 
 
@@ -371,7 +375,7 @@
                     <div id="popup_submitted" style="display: none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; border:1px solid black; padding:20px; z-index:2001;">
                         <h3>Warning</h3>
                         <p>You have submitted</p>
-                        <button onclick="submitQuiz()" class="btn">OK</button>
+                        <button  class="btn"><a href="view_practice">OK</a></button>
 
                     </div>
                 </div>
@@ -441,9 +445,11 @@
                         peek.style.display = "none";
                         overlay2.style.display = "none";
                     }
-                    peek_at_question.addEventListener('click', () => {
-                        showPeek();
-                    });
+                    if (${prac}) {
+                        peek_at_question.addEventListener('click', () => {
+                            showPeek();
+                        });
+                    }
 
                     function showPopupSubmitInShowQuest() {
                         closeQuestionSelectPopup();
@@ -644,15 +650,18 @@
                             let ttt = Math.floor(new Date().getTime() / 1000) + tt;
                             sessionStorage.setItem("time_finish", ttt);
                         }
+
                     }
 
                     // Bắt đầu đếm ngược
                     const timerInterval = setInterval(() => {
                         if (${prac}) {
+                            isSubmitted();
                             totalTime++;
                             dur.value = totalTime;
                             updateTimer();
                         } else {
+                            isSubmitted();
                             totalTime = time_left - Math.floor(new Date().getTime() / 1000);
                             if (totalTime >= 0) {
                                 dur.value = ${sessionScope.duration} - totalTime;
@@ -789,39 +798,34 @@
 
                     // Hàm nộp bài
                     function submitQuiz() {
-                        //clearInterval(timerInterval);
                         sessionStorage.setItem("isSubmitted", "true");
+                        closePopupSubmitInShowQuest();
                         form.submit();
                     }
 
+// Hàm kiểm tra xem người dùng đã nộp bài hay chưa khi tải lại trang
                     function isSubmitted() {
-                        if (isSub !== null && isSub === "true") {
-                            //clearInterval(timerInterval);
+                        const isSub = sessionStorage.getItem("isSubmitted"); // Lấy giá trị từ sessionStorage
+                        if (isSub === "true") {
                             const popup_submitted = document.getElementById("popup_submitted");
                             const overlay3 = document.getElementById("overlay3");
-                            popup_submitted.style.display = "block"; // Ẩn popup
-                            overlay3.style.display = "block"; // Ẩn lớp phủ
+                            popup_submitted.style.display = "block"; // Hiển thị popup
+                            overlay3.style.display = "block"; // Hiển thị lớp phủ
+                            clearInterval(timerInterval); // Dừng bộ đếm thời gian
                         }
                     }
 
-                    // Hiển thị câu hỏi đầu tiên khi tải trang
-//            showQuestion(currentQuestion);
-//            updateTimer(); // Khởi tạo hiển thị thời gian
-// Gọi loadQuestionStatus khi tải trang để khôi phục trạng thái
-                    // Tải trạng thái câu hỏi từ sessionStorage khi tải trang
+// Tải trạng thái câu hỏi từ sessionStorage khi tải trang
                     window.onload = () => {
-                        if (isSub !== null && isSub === "true") {
-                            clearInterval(timerInterval);
-                        }
                         restoreCurrentQuestion(); // Khôi phục câu hỏi hiện tại
                         restoreQuestionStatus(); // Khôi phục trạng thái câu hỏi
                         restoreMarkedQuestions(); // Khôi phục trạng thái đánh dấu câu hỏi
-                        restoreMarkedQuests();
                         showQuestion(currentQuestion); // Hiển thị câu hỏi hiện tại
                         updateNavigationButtons();
                         updateTimer(); // Khởi tạo hiển thị thời gian
-                        isSubmitted();
+                        isSubmitted(); // Kiểm tra xem người dùng đã nộp bài chưa
                     };
+
         </script>
 
     </body>
