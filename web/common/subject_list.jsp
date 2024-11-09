@@ -142,8 +142,8 @@
                                                     <p>${c.description}</p>
                                                     <div class="post-extra">                                                                                                              
                                                         <c:if test="${not empty selectedPackageModel}">
-                                                            <del>${pkgDAO.getListPackageBySubjectID(c.subjectId).get(0).listPrice}</del>
-                                                            <h4 class="price">${pkgDAO.getListPackageBySubjectID(c.subjectId).get(0).salePrice}</h4>
+                                                            <del>${pkgDAO.getListPackageBySubjectID(c.subjectId).get(0).listPrice}$</del>
+                                                            <h4 class="price">${pkgDAO.getListPackageBySubjectID(c.subjectId).get(0).salePrice}$</h4>
                                                         </c:if>
                                                         <div style="margin-left: 50px;"></div>
                                                         <a href="login.jsp" class="btn btn-primary">Register</a>
