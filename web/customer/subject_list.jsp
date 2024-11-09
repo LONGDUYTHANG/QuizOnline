@@ -94,7 +94,7 @@
                                     <!-- Subject list -->
                                     <c:forEach items="${requestScope.subject_list}" var="c">
                                         <c:if test="${param.keyword == null || param.keyword == '' || c.description.toLowerCase().contains(param.keyword.toLowerCase())}">
-                                            <form action="customerregistersubject" >-->
+                                            <form action="customerregistersubject" >
                                                 <div class="blog-post blog-md clearfix">
                                                     <div class="ttr-post-media">
                                                         <a href="subject_details?subject_id=${c.subjectId}"><img src="${c.thumbnail}" alt=""></a>
