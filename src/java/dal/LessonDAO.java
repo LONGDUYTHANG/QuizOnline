@@ -114,7 +114,7 @@ public class LessonDAO extends DBContext {
             st.setInt(7, lesson.getLesson_topic_id());
             st.setString(8, lesson.getVideo_link());
             st.setString(9, lesson.getLesson_content());
-            st.setInt(10, lesson.getQuiz_id());
+            st.setObject(10, lesson.getQuiz_id());
 
             st.executeUpdate();
         } catch (SQLException ex) {
@@ -218,7 +218,7 @@ public class LessonDAO extends DBContext {
             st.setInt(7, lesson.getLesson_topic_id());
             st.setString(8, lesson.getVideo_link());
             st.setString(9, lesson.getLesson_content());
-            st.setInt(10, lesson.getQuiz_id());
+            st.setObject(10, lesson.getQuiz_id());
             st.setInt(11, lesson.getLesson_id());
 
             st.executeUpdate();
@@ -384,13 +384,23 @@ public class LessonDAO extends DBContext {
         }
         return null;
     }
+    
+    public void deleteLesson(int lesson_id) {
+        String sql = "DELETE FROM [dbo].[Lesson]\n"
+                + "      WHERE lesson_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, lesson_id);
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
 
     public static void main(String[] args) {
         LessonDAO dao = new LessonDAO();
 
-        // Tính tổng số lượng lesson
-        int totalLessons = dao.countTotalLessons();
-        System.out.println("Tổng số lượng lesson: " + totalLessons);
+       
     }
 
 }

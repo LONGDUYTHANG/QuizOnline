@@ -67,7 +67,13 @@ public class QuizHandling extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
         QuizDAO qd = new QuizDAO();
-
+        String isPrac = request.getParameter("is_practice");
+        if(isPrac != null && !isPrac.isEmpty()) {
+            request.setAttribute("prac", true);
+        }
+        else {
+            request.setAttribute("prac", false);
+        }
         //List<Quiz> quiz = qd.getAllQuiz();
         Quiz handleQuiz;
         try {
@@ -89,9 +95,7 @@ public class QuizHandling extends HttpServlet {
         SubjectDAO sd = new SubjectDAO();
         session.setAttribute("dimension_dao", dd);
         session.setAttribute("subject_dao", sd);
-        LocalDateTime lc = LocalDateTime.now();
-        Practice_Record pr = new Practice_Record(handleQuiz.getQuiz_name(), Timestamp.valueOf(lc), 0, 0, 0, a.getAccount_id(), handleQuiz.getQuiz_id());
-        //out.print(listQuestion.size());
+
         float passrate = qd.getPassRate(handleQuiz.getQuiz_id());
         session.setAttribute("passrate", passrate);
         session.setAttribute("handling_quiz", handleQuiz);
@@ -103,10 +107,12 @@ public class QuizHandling extends HttpServlet {
         session.setAttribute("num_quest", numberOfQuest);
         if (session.getAttribute("questions") == null) {
             session.setAttribute("questions", listQuestion);
-            
-
         }
-        if(session.getAttribute("prac_record") == null) {
+
+        if (session.getAttribute("prac_record") == null) {
+            LocalDateTime lc = LocalDateTime.now();
+            Practice_Record pr = new Practice_Record(handleQuiz.getQuiz_name(), Timestamp.valueOf(lc), 0, 0, 0, a.getAccount_id(), handleQuiz.getQuiz_id());
+            //out.print(listQuestion.size());
             qd.addPracticeRecord(pr);
             int newlyPractice = qd.searchNewlyPractice(a.getAccount_id());
             for (Question_Handle question_Handle : listQuestion) {
@@ -138,6 +144,7 @@ public class QuizHandling extends HttpServlet {
         HttpSession session = request.getSession(true);
         // Lấy số lượng câu hỏi từ session hoặc các thông tin cần thiết khác
         int numQuestions = (Integer) session.getAttribute("num_quest");
+
         int countCorrect = 0;
         // Mảng lưu trữ câu trả lời của người dùng
         String[] userAnswers = new String[numQuestions];
@@ -155,6 +162,9 @@ public class QuizHandling extends HttpServlet {
         }
         PrintWriter out = response.getWriter();
         List<Question_Handle> lq = (ArrayList<Question_Handle>) session.getAttribute("questions");
+        if(lq == null) {
+            response.sendRedirect("view_practice");
+        }
         for (int i = 0; i < numQuestions; i++) {
             lq.get(i).setAnswered(userAnswers[i]);
             lq.get(i).setIs_mark("marked".equals(userMarks[i]));
@@ -182,6 +192,9 @@ public class QuizHandling extends HttpServlet {
         //out.println(countCorrect);
         //processRequest(request, response);
         request.setAttribute("correct_quest", countCorrect);
+        session.setAttribute("questions", null);
+        session.setAttribute("duration", null);
+        session.setAttribute("prac_record", null);
         request.getRequestDispatcher("customer/result.jsp").forward(request, response);
     }
 

@@ -142,8 +142,8 @@
                                                     <p>${c.description}</p>
                                                     <div class="post-extra">                                                                                                              
                                                         <c:if test="${not empty selectedPackageModel}">
-                                                            <del>${selectedPackageModel.listPrice}</del>
-                                                            <h4 class="price">${selectedPackageModel.salePrice}</h4>
+                                                            <del>${pkgDAO.getListPackageBySubjectID(c.subjectId).get(0).listPrice}</del>
+                                                            <h4 class="price">${pkgDAO.getListPackageBySubjectID(c.subjectId).get(0).salePrice}</h4>
                                                         </c:if>
                                                         <div style="margin-left: 50px;"></div>
                                                         <a href="login.jsp" class="btn btn-primary">Register</a>
@@ -262,12 +262,12 @@
         <script src="assets/js/contact.js"></script>
         <script src='assets/vendors/switcher/switcher.js'></script>
         <script>
-                                                        function search() {
-                                                            var b = document.getElementById("myButton").value;
-                                                            document.getElementById("output").value = b;
+                                                                function search() {
+                                                                    var b = document.getElementById("myButton").value;
+                                                                    document.getElementById("output").value = b;
 
-                                                        }
-                                                        function SearchByCategory() {
+                                                                }
+                                                                function SearchByCategory() {
                                                                     var form = document.getElementById('category_form');
                                                                     form.submit();
                                                                 }

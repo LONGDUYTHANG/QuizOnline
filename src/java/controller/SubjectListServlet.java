@@ -22,6 +22,7 @@ import model.Category;
 import model.Subject;
 import model.SubjectCategory;
 import jakarta.servlet.http.HttpSession;
+import java.util.HashSet;
 
 /**
  *
@@ -120,6 +121,7 @@ public class SubjectListServlet extends HttpServlet {
                         return;
                     }
                 }
+                request.setAttribute("pkgDAO", packageDAO);
                 request.setAttribute("selectedDuration", selectedDuration);
                 request.setAttribute("selectedPackageModel", selectedPackageModel);
 
@@ -153,7 +155,7 @@ public class SubjectListServlet extends HttpServlet {
                 request.setAttribute("category_list", category_list);
 
                 PackageDAO packageDAO = new PackageDAO();
-                List<model.Package> packageList = packageDAO.getAllPackage();
+                List<model.Package> packageList = packageDAO.getAllPackage1();
                 String selectedDuration = request.getParameter("courseDuration");
                 model.Package selectedPackageModel = packageList.get(0);
                 if (selectedDuration != null) {
@@ -170,6 +172,8 @@ public class SubjectListServlet extends HttpServlet {
                         return;
                     }
                 }
+                request.setAttribute("pkgDAO", packageDAO);
+
                 request.setAttribute("selectedDuration", selectedDuration);
                 request.setAttribute("selectedPackageModel", selectedPackageModel);
                 request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);

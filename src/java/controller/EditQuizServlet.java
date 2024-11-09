@@ -72,7 +72,7 @@ public class EditQuizServlet extends HttpServlet {
         String question_type = request.getParameter("question_type");
         Duration duration = quiz.getDuration();
         String duration_raw = request.getParameter("duration");
-        long minutes = duration.toMinutes();
+        long minutes = duration.toMinutes() / 60;
         request.setAttribute("quiz", quiz);
         request.setAttribute("minutes", minutes);
         request.setAttribute("validation", 1);
@@ -170,7 +170,7 @@ public class EditQuizServlet extends HttpServlet {
         }
         try {
             int level_id_new = Integer.parseInt(level_id);
-            double duration_new = Double.parseDouble(duration);
+            double duration_new = Double.parseDouble(duration) * 60;
             double passrate_new = Double.parseDouble(passrate);
             int quiz_type_id_new = Integer.parseInt(quiztype_id);
             int total_question_new = Integer.parseInt(totalquestion);

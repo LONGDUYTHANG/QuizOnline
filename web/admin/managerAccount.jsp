@@ -134,8 +134,10 @@
                                                                 <div class="mb-3">
                                                                     <label for="role" class="form-label">Role</label>
                                                                     <select name="role" class="form-select" id="role" required>
-                                                                        <option value="1">Admin</option>
-                                                                        <option value="2">User</option>
+                                                                        <option value="1">Customer</option>
+                                                                        <option value="2">Expert</option>
+                                                                        <option value="3">Sale</option>
+                                                                        <option value="4">Admin</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -185,7 +187,7 @@
                                                                     <c:otherwise>Female</c:otherwise>
                                                                 </c:choose>
                                                             </td>
-                                                            <td>${account.role_id}</td>
+                                                            <td>${requestScope.accountdao.getRoleNameByRoleId(account.role_id)} ${account.role_id}</td>
 
                                                             <td>
                                                                 <a href="userDetail?id=${account.account_id}">

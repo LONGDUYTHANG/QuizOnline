@@ -1,4 +1,4 @@
-    /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -73,7 +73,39 @@ public class PackageDAO extends DBContext {
 
         return packageList;
     }
-    
+
+    public List<Package> getListPackageBySubjectID(int subject_id) {
+        List<Package> packageList = new ArrayList<>();
+        String sql = "SELECT [package_id], [package_name], [duration], [listPrice], [salePrice], [status], [subject_id] FROM [dbo].[Package] WHERE subject_id = ?";
+
+        try (
+                PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            // Set subject_id parameter
+            pstmt.setInt(1, subject_id);
+
+            // Execute the query
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    // Create a new Package object for each row in the ResultSet
+                    Package pkg = new Package();
+                    pkg.setPackage_id(rs.getInt("package_id"));
+                    pkg.setPackage_name(rs.getString("package_name"));
+                    pkg.setDuration(rs.getInt("duration"));
+                    pkg.setListPrice(rs.getDouble("listPrice"));
+                    pkg.setSalePrice(rs.getDouble("salePrice"));
+                    pkg.setStatus(rs.getString("status"));
+                    pkg.setSubject_id(rs.getInt("subject_id"));
+
+                    packageList.add(pkg);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception for debugging
+        }
+
+        return packageList;
+    }
+
     public boolean createPackage(String packageName, int duration, double listPrice, double salePrice, int status, int subjectId) {
         String sql = "INSERT INTO [dbo].[Package] (package_name, duration, listPrice, salePrice, status, subject_id) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
@@ -104,7 +136,7 @@ public class PackageDAO extends DBContext {
 //        }
 //
 //    }
- public Package getPricePackageById1(int packageId) {
+    public Package getPricePackageById1(int packageId) {
         Package pkg = null;
         String sql = "SELECT [package_id], [package_name], [duration], [listPrice], [salePrice], [status], [subject_id] "
                 + "FROM [dbo].[Package] WHERE [package_id] = ?";
@@ -122,7 +154,7 @@ public class PackageDAO extends DBContext {
                     pkg.setSalePrice(rs.getDouble("salePrice"));
                     pkg.setStatus(rs.getString("status"));
                     pkg.setSubject_id(rs.getInt("subject_id"));
-                    
+
                 }
             }
         } catch (Exception e) {
@@ -131,6 +163,7 @@ public class PackageDAO extends DBContext {
 
         return pkg;
     }
+
     public Package getPricePackageById(int packageId) {
         Package pkg = null;
         String sql = "SELECT [package_id], [package_name], [duration], [listPrice], [salePrice], [status], [subject_id] "
@@ -191,9 +224,10 @@ public class PackageDAO extends DBContext {
             return false;
         }
     }
+
     public static void main(String[] args) {
         PackageDAO dao = new PackageDAO();
-        List<Package> list = dao.getAllPackage1();
+        List<Package> list = dao.getListPackageBySubjectID(4);
         for (Package package1 : list) {
             System.out.println(package1);
         }

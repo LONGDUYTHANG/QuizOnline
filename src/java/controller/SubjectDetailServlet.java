@@ -78,7 +78,9 @@ public class SubjectDetailServlet extends HttpServlet {
         }
 
         PackageDAO packageDAO = new PackageDAO();
-        List<model.Package> packageList = packageDAO.getAllPackage();
+
+        List<model.Package> packageList = packageDAO.getListPackageBySubjectID(subject_id);
+
 
         SubjectDAO mySubjectDAO = new SubjectDAO();
         CategoryDAO categoryDAO = new CategoryDAO();

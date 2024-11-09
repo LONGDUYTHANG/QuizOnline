@@ -189,8 +189,17 @@
         <servlet-class>controller.CustomerSearchRegistration</servlet-class>
     </servlet>
     <servlet>
+
         <servlet-name>SalerImportRegistration</servlet-name>
         <servlet-class>controller.SalerImportRegistration</servlet-class>
+</servlet>
+<servlet>
+        <servlet-name>DeleteLessonServlet</servlet-name>
+        <servlet-class>controller.DeleteLessonServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NewPractice</servlet-name>
+        <servlet-class>controller.NewPractice</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Demo</servlet-name>
@@ -383,6 +392,14 @@
     <servlet-mapping>
         <servlet-name>SalerImportRegistration</servlet-name>
         <url-pattern>/salerimportregistration</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+        <servlet-name>DeleteLessonServlet</servlet-name>
+        <url-pattern>/deletelesson</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewPractice</servlet-name>
+        <url-pattern>/new_practice</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>

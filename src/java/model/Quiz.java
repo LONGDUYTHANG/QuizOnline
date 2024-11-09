@@ -26,6 +26,16 @@ public class Quiz {
     private int account_id;
     private int selectedGroup; 
     private Quiz_Type quiz_type;
+    private Subject subject;
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
+    
 
     public Quiz_Type getQuiz_type() {
         return quiz_type;
@@ -210,6 +220,10 @@ public class Quiz {
 
     public void setSelectedGroup(int selectedGroup) {
         this.selectedGroup = selectedGroup;
+    }
+    public long getLongDuration() {
+        long minutes = duration.toMinutes();
+        return minutes / 60;
     }
 
     @Override

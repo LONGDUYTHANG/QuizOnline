@@ -2,6 +2,9 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="dal.RegistrationDAO"%>
+<%@page import="model.Registration"%>
+<%@page import="java.time.LocalDateTime"%>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -100,38 +103,44 @@
                     String subject = "";
                     String number1 = "";
                     String number2 = "";
+                    String number3 = "";
+                    String number4 = "";
                     if(parts.length >= 3){
                         subject = parts[0].replace("Buy subject: ", "");
                         number1 = parts[1];
                         number2 = parts[2];
+                        number3= parts[3];
+                        number4= parts[4];
                          
                     } else {
                         // Handle unexpected format
                         subject = "N/A";
                         number1 = "N/A";
                         number2 = "N/A";
+                         number3 = "N/A";
+                         number4 = "N/A";
                     }
                    
                     
                 %> 
                 <div class="form-group">
                     <label>Order Detail:</label>
-                    <span class="value">Buy subject: <%= subject %></span>
+                    <span class="value">Buy subject: <%= subject %> </span>
                 </div>
                 <div class="form-group" style="display: none" >
                     <label>Number 2:</label>
                     <span class="value"><% RegistrationDAO a=new RegistrationDAO();
                     int account_id=Integer.parseInt(number2);
                     int subject_id=Integer.parseInt(number1);
-                    boolean check=a.CofirmRegistration(account_id, subject_id); %></span>
-                </div>
-                <div class="form-group">
-                    <label>Response Code:</label>
-                    <span class="value"><%=request.getParameter("vnp_ResponseCode")%></span>
-                </div> 
-                <div class="form-group">
-                    <label>Transaction No at VNPAY-QR:</label>
-                    <span class="value"><%=request.getParameter("vnp_TransactionNo")%></span>
+                    double sale_price=Double.parseDouble(number4);
+                    double list_price=Double.parseDouble(number3);
+                    if(a.IfSubjectsInRegistration(account_id, subject_id)){
+                    boolean check=a.CofirmRegistration(LocalDateTime.now(),account_id, subject_id, sale_price, list_price, sale_price);}
+                    else{
+                            Registration registration=new Registration(LocalDateTime.now(), subject_id, sale_price, account_id, 3, list_price, sale_price);
+        registration.setNote("Online Payment");
+        a.AddRegistration(registration);
+                            }%></span>
                 </div> 
                 <div class="form-group">
                     <label>Bank Code:</label>

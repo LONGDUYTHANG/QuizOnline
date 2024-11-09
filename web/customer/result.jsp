@@ -102,7 +102,7 @@
                         <br>
                         <div style="font-size: 30px">
                             <a href="quiz_review?practice_id=${sessionScope.new_practice_id}"><button id="prev" class="btn" style="width: 100%">Review Now</button></a> <br>
-                            <button id="prev" class="btn" style="width: 100%" id="back" onclick="backHome()"><a href="homepage">Back</a></button>
+                            <button id="prev" class="btn" style="width: 100%" id="back" onclick="backHome()"><a href="view_practice">Back</a></button>
                         </div>
                     </main>
 
@@ -150,6 +150,7 @@
                                 }
 
                                 window.onload = () => {
+                                    sessionStorage.setItem("isSubmitted", "true");
                                     updateTimer();
                                 };
 

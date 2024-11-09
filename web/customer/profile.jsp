@@ -102,7 +102,7 @@
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="profile-bx text-center">
                                         <div class="user-profile-thumb">
-                                            <img src="${acc.avatar}" alt=""/>
+                                            <img src="${acc.avatar == null ? 'img\\avatars\\default-avatar.jpg':acc.avatar}" alt=""/>
 
                                         </div>
                                         <div class="profile-info">
@@ -111,29 +111,52 @@
                                         <hr>
                                         <label style="cursor: pointer" onclick="changeAvatar()" id="changeavt_label">Change Avatar</label>
                                         <form action="changavt" method="post" style="display: none" enctype="multipart/form-data" id="change_avt">
-                                            <input type="file" id="imageInput" style="width: 100px" name="avt" required="" id="new_avt">
+                                            <input type="file" id="imageInput" style="width: 100px" name="avt" required>
                                             <br><br>
                                             <img id="imagePreview" style="width: 70px; height: 70px; display: none; border-radius: 100%; margin: 0 65% 10% 35%">
+                                            <input type="submit" value="Change" onclick="return confirmUpload();" />
 
                                             <script>
                                                 const imageInput = document.getElementById('imageInput');
                                                 const imagePreview = document.getElementById('imagePreview');
+                                                const maxFileSize = 2 * 1024 * 1024; // Giới hạn dung lượng (2MB)
 
                                                 imageInput.addEventListener('change', function (event) {
-                                                    const file = event.target.files[0]; // Lấy file người dùng chọn
-                                                    if (file) {
-                                                        const reader = new FileReader(); // Tạo đối tượng FileReader để đọc file
+                                                    const file = event.target.files[0];
 
-                                                        reader.onload = function (e) {
-                                                            imagePreview.src = e.target.result; // Gán kết quả vào src của thẻ img
-                                                            imagePreview.style.display = 'flex'; // Hiển thị thẻ img
+                                                    if (file) {
+                                                        // Kiểm tra loại file
+                                                        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                                                        if (!allowedTypes.includes(file.type)) {
+                                                            alert('Avatar must be JPG, PNG or GIF.');
+                                                            imageInput.value = ''; // Xóa file đã chọn
+                                                            imagePreview.style.display = 'none'; // Ẩn ảnh xem trước nếu không đúng định dạng
+                                                            return;
                                                         }
 
-                                                        reader.readAsDataURL(file); // Đọc file dưới dạng Data URL (base64)
+                                                        // Kiểm tra dung lượng file
+                                                        if (file.size > maxFileSize) {
+                                                            alert('Size of file cannot exceed 2MB.');
+                                                            imageInput.value = ''; // Xóa file đã chọn
+                                                            imagePreview.style.display = 'none'; // Ẩn ảnh xem trước nếu quá dung lượng
+                                                            return;
+                                                        }
+
+                                                        // Xem trước hình ảnh
+                                                        const reader = new FileReader();
+                                                        reader.onload = function (e) {
+                                                            imagePreview.src = e.target.result;
+                                                            imagePreview.style.display = 'block';
+                                                        };
+                                                        reader.readAsDataURL(file);
                                                     }
                                                 });
+
+                                                // Xác nhận trước khi thực hiện thay đổi ảnh
+                                                function confirmUpload() {
+                                                    return confirm("Are you sure to change?");
+                                                }
                                             </script>
-                                            <input type="submit" value="Change" />
                                         </form>
                                         <div class="profile-tabnav">
                                             <ul class="nav nav-tabs">
@@ -165,7 +188,7 @@
                                                             <div class="col-md-5 dashboard_attribute" >
                                                                 <div style="display: flex; justify-content: normal; position: relative">
                                                                     <h6>Total Enrolled Subject</h6>
-                                                                    <a class="dashboard_brief" href="#" >
+                                                                    <a class="dashboard_brief" href="customerregistrationlist" >
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16" style="width: 40px;  color: white;">
                                                                         <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
                                                                         <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
@@ -183,7 +206,7 @@
                                                             <div class="col-md-5 dashboard_attribute" style="">
                                                                 <div style="display: flex; justify-content: normal; position: relative">
                                                                     <h6>Total Quiz Done</h6>
-                                                                    <a class="dashboard_brief" href="#" style="">
+                                                                    <a class="dashboard_brief" href="view_practice" style="">
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16" style="width: 40px;  color: white;">
                                                                         <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
                                                                         <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
@@ -193,21 +216,6 @@
                                                                 </div>
 
                                                                 <p>${sessionScope.finished_quiz}</p>
-
-                                                            </div>
-                                                            <div class="col-md-5 dashboard_attribute" style="margin-top: 30px">
-                                                                <div style="display: flex; justify-content: normal; position: relative">
-                                                                    <h6>Created Blogs</h6>
-                                                                    <a class="dashboard_brief" href="#" >
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16" style="width: 40px;  color: white;">
-                                                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
-                                                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
-                                                                        </svg>
-                                                                    </a>
-
-                                                                </div>
-
-                                                                <p>${sessionScope.created_blog}</p>
 
                                                             </div>
                                                             <%--
@@ -240,7 +248,7 @@
                                                 </div>
                                                 <div class="profile-head" style="margin-top: 20px">
                                                     <h3>Recently Enrolled Subjects</h3>
-                                                    
+
                                                 </div>
                                                 <div class="courses-filter">
                                                     <div class="clearfix">
@@ -355,7 +363,7 @@
                                                                 <div class="col-12 col-sm-9 col-md-9 col-lg-7" style="display: ">
                                                                     <button type="button" class="btn" id="updatepro" onclick="updateProfile()">Save changes</button>
                                                                     <button type="reset" class="btn-secondry">Cancel</button>
-                                                                    
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -438,6 +446,8 @@
         <script src="assets/js/functions.js"></script>
         <script src="assets/js/contact.js"></script>
         <script src='assets/vendors/switcher/switcher.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
 
         <script >
                                                                 function changeAvatar() {
@@ -470,31 +480,46 @@
                                                                     let newPass = document.getElementById('newpass');
                                                                     let reNewPass = document.getElementById('renewpass');
                                                                     let cp = document.getElementById('changepass');
-                                                                    if (pass != ${acc.password}) {
+                                                                    const computedHash = CryptoJS.MD5(pass).toString();
+                                                                    const op = '${acc.password}'.toString();
+
+                                                                    // Kiểm tra mật khẩu hiện tại
+                                                                    if (computedHash !== op) {
+                                                                        console.log(computedHash);
                                                                         cp.type = 'reset';
                                                                         err.innerHTML = 'Current password is not correct';
-                                                                    } else if (newPass.value.length === 0) {
+                                                                    }
+                                                                    // Kiểm tra độ dài của mật khẩu mới
+                                                                    else if (newPass.value.length === 0) {
                                                                         cp.type = 'button';
                                                                         err.innerHTML = 'Enter new password';
-                                                                    } else if (newPass.value != reNewPass.value) {
+                                                                    }
+                                                                    // Kiểm tra định dạng của mật khẩu mới
+                                                                    else if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(newPass.value)) {
                                                                         cp.type = 'button';
-                                                                        err.innerHTML = 'Re type new password is not match';
-                                                                    } else {
+                                                                        err.innerHTML = 'Password must be at least 8 characters long, include letters, numbers, and special characters';
+                                                                    }
+                                                                    // Kiểm tra xác nhận lại mật khẩu mới
+                                                                    else if (newPass.value !== reNewPass.value) {
+                                                                        cp.type = 'button';
+                                                                        err.innerHTML = 'Re-typed new password does not match';
+                                                                    }
+                                                                    // Xác nhận thay đổi mật khẩu
+                                                                    else if (window.confirm("Are you sure you want to save these changes?")) {
                                                                         err.innerHTML = '';
                                                                         cp.type = 'submit';
-                                                                        cp.click();
                                                                     }
                                                                 }
+
 
                                                                 function updateProfile() {
                                                                     let mobile = document.getElementById('mobile');
                                                                     let errU = document.getElementById('errorupdate');
                                                                     let updatePro = document.getElementById('updatepro');
-                                                                    if (!Number(mobile.value) || mobile.value.length < 10) {
-                                                                        errU.innerHTML = 'Phone number is not correct';
-                                                                    } else {
+                                                                    if (!Number(mobile.value) || mobile.value.length !== 10) {
+                                                                        errU.innerHTML = 'Phone number must have 10 number';
+                                                                    } else if(window.confirm("Are you sure you want to save these changes?")) {
                                                                         updatePro.type = 'submit';
-                                                                        updatePro.click();
                                                                     }
                                                                 }
 
