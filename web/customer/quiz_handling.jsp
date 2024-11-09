@@ -245,7 +245,7 @@
                     <!-- Thời gian đếm ngược -->
                     <header style="align-items: center; position: relative; height: 50px">
                         <button id="selectQuestionButton" class="btn" style="">Review Progress</button>
-                        <div id="time">02:00</div>
+                        <div id="time"></div>
 
                         <!-- Nút đánh dấu câu hỏi hiện tại -->
                         <button id="markCurrentQuestion" class="btn" style=""> Mark Question</button>
