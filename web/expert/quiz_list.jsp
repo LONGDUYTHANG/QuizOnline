@@ -217,7 +217,7 @@
                                         <td>${quiz.getSubject(requestScope.dao).getSubjectName()}</td>
                                         <td>${quiz.getLevel(requestScope.dao).getLevel_name()}</td>
                                         <td>${quiz.number_of_questions}</td>
-                                        <td>${quiz.duration}</td>
+                                        <td>${quiz.getLongDuration()}</td>
                                         <td>${quiz.passrate}</td>
                                         <td style="width: 100px">
                                             <button type="button" class="btn btn-success" onclick="window.location.href='editquizvalidation?quiz_id=${quiz.quiz_id}'"><i class="align-middle fas fa-fw fa-edit"></i></button>

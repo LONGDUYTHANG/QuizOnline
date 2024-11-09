@@ -106,7 +106,7 @@
                     <div class="container-fluid p-0">
 
                         <h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
-                                                <div class="row">
+                        <div class="row">
                             <div class="card col-6" >
                                 <div class="card-body">
                                     <div class="row">
@@ -151,7 +151,7 @@
                                                     <div class="row">
                                                         <div class="col mt-0">
                                                             <h5 class="card-title" id="month_revenue_label" style="display: none">Month Revenue</h5>
-                                                             <h5 class="card-title" id="week_revenue_label">Week Revenue</h5>
+                                                            <h5 class="card-title" id="week_revenue_label">Week Revenue</h5>
                                                         </div>
 
                                                         <div class="col-auto">
@@ -178,9 +178,9 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                   <h1 class="mt-1 mb-3" id="all_month_registration" style="display: none">${requestScope.all_month_registration} </h1>
+                                                    <h1 class="mt-1 mb-3" id="all_month_registration" style="display: none">${requestScope.all_month_registration} </h1>
                                                     <h1 class="mt-1 mb-3" id="all_week_registration">${requestScope.all_week_registration} </h1>
-                
+
                                                 </div>
                                             </div>
                                         </div>
@@ -231,12 +231,12 @@
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <div class="chart chart-sm" id="month_registration_status"  style="display: none">
-                                                         <canvas id="chartjs-pie-month-registration-status"></canvas>
+                                                        <canvas id="chartjs-pie-month-registration-status"></canvas>
                                                     </div>
                                                     <div class="chart chart-sm" id="week_registration_status">
                                                         <canvas id="chartjs-pie-week-registration-status"></canvas>
                                                     </div>
-                                                   
+
                                                 </div>
                                             </div>
                                         </div>
@@ -276,7 +276,7 @@
                 </main>
             </div>
         </div>
-<!--month info statistic-->
+        <!--month info statistic-->
         <div style="display: none" >    
             <%ArrayList<Integer> month_revenue=(ArrayList<Integer>)request.getAttribute("month_revenue");
                 ArrayList<Integer> month_registrations=(ArrayList<Integer>)request.getAttribute("month_registration");
@@ -289,7 +289,7 @@
             <p id="rs<%=j%>"><%=month_registrations_status.get(j)%></p> 
             <%}%>
         </div>
-<!--week info statistic-->
+        <!--week info statistic-->
         <div  style="display: none">    
             <%ArrayList<Integer> week_revenue=(ArrayList<Integer>)request.getAttribute("week_revenue");
                ArrayList<Integer> week_registrations=(ArrayList<Integer>)request.getAttribute("week_registration");

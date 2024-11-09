@@ -221,6 +221,10 @@ public class Quiz {
     public void setSelectedGroup(int selectedGroup) {
         this.selectedGroup = selectedGroup;
     }
+    public long getLongDuration() {
+        long minutes = duration.toMinutes();
+        return minutes / 60;
+    }
 
     @Override
     public String toString() {

@@ -140,7 +140,68 @@
                                     <h1 class="mt-1 mb-3" id="all_week_user">${requestScope.total_user} </h1>
                                 </div>
                             </div>
+                                <div class="card col-6" >
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title" id="week_user_label">Number of access</h5>
+                                        </div>
+
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="align-middle" data-feather="dollar-sign"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1 mb-3" id="all_week_user">${applicationScope.visitorCount}</h1>
+                                </div>
+                            </div>
+                                <div class="card col-6" >
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title" id="week_user_label">Total Bought Subjects</h5>
+                                        </div>
+
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <i class="align-middle" data-feather="dollar-sign"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1 mb-3" id="all_week_user">${requestScope.total_bought_subject} </h1>
+                                </div>
+                            </div>
                         </div>
+                                <div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Top 5 Subjects Purchased</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Subject Name</th>
+                            <th>Quantity Purchased</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="subject" items="${requestScope.top_5_bought_subjects}" varStatus="status">
+                            <tr>
+                                <td>${status.index + 1}</td>
+                                <td>${subject.subjectName}</td>
+                                <td>${subject.description}</td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
                         <!-- Revenue statistics-->
                         <div class="row">
                             <div class="col-xl-4 col-xxl-3 d-flex">
