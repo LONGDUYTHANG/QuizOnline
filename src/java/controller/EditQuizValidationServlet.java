@@ -65,7 +65,7 @@ public class EditQuizValidationServlet extends HttpServlet {
         
         Quiz quiz = dao.getQuiz(quiz_id);
         Duration duration = quiz.getDuration();
-        long minutes = duration.toMinutes();
+        long minutes = duration.toMinutes() /60;
         if (quiz.getSelectedGroup() == 1) {
             request.setAttribute("question_type", "topic");
         }

@@ -90,7 +90,7 @@ public class CustomerRegistrationList extends HttpServlet {
         request.setAttribute("registration_subject_list", registration_subject_list);
 
         PackageDAO packageDAO = new PackageDAO();
-        List<model.Package> packageList = packageDAO.getAllPackage();
+        List<model.Package> packageList = packageDAO.getAllPackage1();
         String selectedDuration = request.getParameter("courseDuration");
         model.Package selectedPackageModel = packageList.get(0);
         if (selectedDuration != null) {
