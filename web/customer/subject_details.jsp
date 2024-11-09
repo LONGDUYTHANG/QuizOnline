@@ -102,8 +102,8 @@
                                                 </div>
 
                                             </div>
-
-
+                                                <input type="text" value="${sessionScope.user.account_id}" hidden name="account_id"><!-- comment -->
+<input type="text" value="<%=request.getParameter("subject_id")%>" hidden name="subject_id">
                                             <div class="course-buy-now text-center">    
                                                 <c:if test="${!isRegistered}">
                                                     <button class="btn radius-xl text-uppercase" type="submit">Buy Now This Subject</button>
