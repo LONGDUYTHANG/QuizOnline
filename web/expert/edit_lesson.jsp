@@ -261,7 +261,7 @@
                                         <label for="topic">Topic</label>
                                         <select type="text" id="topic" name="topic">
                                             <c:forEach var="lesson_topic" items="${requestScope.listLesson_Topic}">
-                                                <option value="${lesson_topic.lesson_topic_id}">${lesson_topic.lesson_topic_name}</option>
+                                                <option value="${lesson_topic.lesson_topic_id}" ${lesson.lesson_topic_id == lesson_topic.lesson_topic_id ? 'selected' : ''}>${lesson_topic.lesson_topic_name}</option>
                                             </c:forEach>
                                         </select>
                                     </div>

@@ -179,7 +179,7 @@ public class Lesson {
     public Lesson_Type getLesson_Type(LessonDAO dao) {
         return dao.getLessonTypeById(lesson_type_id);
     }
-
+    
     @Override
     public String toString() {
         return "Lesson{" + "lesson_id=" + lesson_id + ", lesson_name=" + lesson_name + ", lesson_order=" + lesson_order + ", summary=" + summary + ", status=" + status + ", lesson_type_id=" + lesson_type_id + ", subject_id=" + subject_id + ", lesson_topic_id=" + lesson_topic_id + ", video_link=" + video_link + ", lesson_content=" + lesson_content + ", quiz_id=" + quiz_id + '}';
