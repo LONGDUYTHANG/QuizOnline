@@ -99,6 +99,10 @@ public class UpdateRegistrationServlet extends HttpServlet {
         //Get cost
         String raw_cost=request.getParameter("cost");
         double cost=0;
+        try {
+            cost=Double.parseDouble(raw_cost);
+        } catch (NumberFormatException e) {
+        }
         //Get status id
         String raw_status_id=request.getParameter("status");
         int status_id=0;
@@ -118,7 +122,7 @@ public class UpdateRegistrationServlet extends HttpServlet {
 //        out.println(status_id+""+package_id);
     RegistrationDAO myRegistrationDAO=new RegistrationDAO();
     myRegistrationDAO.UpdateRegistration(package_id, list_price, sale_price, cost, status_id, from, to, note, registration_id);
-    request.getRequestDispatcher("registrationlist").forward(request, response);
+    request.getRequestDispatcher("salerregistrationlist").forward(request, response);
     
     }
 
