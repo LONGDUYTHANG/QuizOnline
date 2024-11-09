@@ -66,12 +66,12 @@ public class HomepageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //error with login
-        String account_error_login=(String)request.getAttribute("login_error");
+        String account_error_login = (String) request.getAttribute("login_error");
         request.setAttribute("login_error", account_error_login);
         //error eeith register
-        String email_register_error=(String)request.getAttribute("email_error");
+        String email_register_error = (String) request.getAttribute("email_error");
         request.setAttribute("email_error", email_register_error);
-        String pass_register_error=(String)request.getAttribute("pass_error");
+        String pass_register_error = (String) request.getAttribute("pass_error");
         request.setAttribute("pass_error", pass_register_error);
         //post_list
         dal.PostDAO myPostDAO = new dal.PostDAO();
@@ -113,7 +113,7 @@ public class HomepageServlet extends HttpServlet {
         QuizDAO quizDAO = new QuizDAO();
         int totalQuizzes = quizDAO.getQuizCount();
         request.setAttribute("totalQuizzes", totalQuizzes);
-        
+
         int totalSubjects = testDAO.countSubjects();
         request.setAttribute("totalSubjects", totalSubjects);
 
@@ -127,7 +127,8 @@ public class HomepageServlet extends HttpServlet {
         SliderDAO sliderDAO = new SliderDAO();
         List<Slider> sliders_list = sliderDAO.getAllSlider();
         request.setAttribute("sliders_list", sliders_list);
-        
+
+        request.setAttribute("pkgDAO", packageDAO);
         request.setAttribute("account_list", account_list);
         request.setAttribute("selectedDuration", selectedDuration);
         request.setAttribute("selectedPackageModel", selectedPackageModel);

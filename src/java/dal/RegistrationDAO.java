@@ -1092,15 +1092,23 @@ public class RegistrationDAO extends DBContext {
         return false;
     }
 
-    public boolean CofirmRegistration(int account_id, int subject_id) {
+    public boolean CofirmRegistration(LocalDateTime registration_time,int account_id, int subject_id, double sale_price, double list_price, double cost) {
         PreparedStatement stm;
         try {
             String strSelect = "Update Registration"
-                    + " SET status_id=3"
+                    + " SET status_id=3,"
+                    + " registration_time=?,"
+                    + " cost=?,"
+                    + " sale_price=?,"
+                    + " list_price=?"
                     + " WHERE account_id=? AND subject_id=? AND status_id=2";
-            stm = connection.prepareStatement(strSelect);     
-            stm.setInt(1, account_id);
-            stm.setInt(2, subject_id);
+            stm = connection.prepareStatement(strSelect);
+            stm.setTimestamp(1, java.sql.Timestamp.valueOf(registration_time));
+            stm.setDouble(2, cost);
+            stm.setDouble(3, sale_price);
+            stm.setDouble(4, list_price);
+            stm.setInt(5, account_id);
+            stm.setInt(6, subject_id);
             stm.executeUpdate();
             return true;
         } catch (SQLException e) {
