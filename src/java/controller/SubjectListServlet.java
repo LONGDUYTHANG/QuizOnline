@@ -153,7 +153,7 @@ public class SubjectListServlet extends HttpServlet {
                 request.setAttribute("category_list", category_list);
 
                 PackageDAO packageDAO = new PackageDAO();
-                List<model.Package> packageList = packageDAO.getAllPackage();
+                List<model.Package> packageList = packageDAO.getAllPackage1();
                 String selectedDuration = request.getParameter("courseDuration");
                 model.Package selectedPackageModel = packageList.get(0);
                 if (selectedDuration != null) {

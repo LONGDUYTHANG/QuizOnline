@@ -208,7 +208,7 @@ public class AddQuizServlet extends HttpServlet {
         try {
             int subject_id_new = Integer.parseInt(subject_id);
             int level_id_new = Integer.parseInt(level_id);
-            double duration_new = Double.parseDouble(duration);
+            double duration_new = Double.parseDouble(duration) * 60;
             double passrate_new = Double.parseDouble(passrate);
             int quiz_type_id_new = Integer.parseInt(quiztype_id);
             int total_question_new = Integer.parseInt(totalquestion);
