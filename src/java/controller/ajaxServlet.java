@@ -39,6 +39,7 @@ public class ajaxServlet extends HttpServlet {
         String account_id=req.getParameter("account_id");
         String sale_price=req.getParameter("sale_price");
         String list_price=req.getParameter("list_price");
+        String package_id=req.getParameter("package_id");
         long amount = Integer.parseInt(req.getParameter("amount"))*100;
         String bankCode = req.getParameter("bankCode");
         
@@ -58,7 +59,7 @@ public class ajaxServlet extends HttpServlet {
             vnp_Params.put("vnp_BankCode", bankCode);
         }
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-        vnp_Params.put("vnp_OrderInfo", "Buy subject: " + name+"|" +subject_id+"|"+account_id+"|"+list_price+"|"+sale_price);
+        vnp_Params.put("vnp_OrderInfo", "Buy subject: " + name+"|" +subject_id+"|"+account_id+"|"+list_price+"|"+sale_price+"|"+package_id);
         vnp_Params.put("vnp_OrderType", orderType+"");
 
         String locate = req.getParameter("language");
