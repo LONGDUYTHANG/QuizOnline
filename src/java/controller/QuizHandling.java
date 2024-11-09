@@ -67,7 +67,10 @@ public class QuizHandling extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
         QuizDAO qd = new QuizDAO();
-
+        String isPrac = request.getParameter("is_practice");
+        if(isPrac != null && !isPrac.isEmpty()) {
+            request.setAttribute("prac", true);
+        }
         //List<Quiz> quiz = qd.getAllQuiz();
         Quiz handleQuiz;
         try {
