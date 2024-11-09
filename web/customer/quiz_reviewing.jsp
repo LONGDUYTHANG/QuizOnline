@@ -264,6 +264,7 @@
                             <button class="filter-button btn" data-filter="incorrect"><span style='align-items: center; background-color: #f6b3b3; border: 1px solid #cccccc; padding: 0 9px; border-radius: 2px'></span>&nbsp;Incorrect</button>
                             <button class="filter-button btn" data-filter="unanswer"><span style='align-items: center; background-color: #f0f0f0; border: 1px solid #cccccc; padding: 0 9px; border-radius: 2px'></span>&nbsp;Unanswer</button>
                             <button class="filter-button btn" data-filter="marked"><i class="fa fa-bookmark" aria-hidden="true" style="color: red; "></i> Marked</button>
+                            <button class="submit-button btn-danger" style="margin-left: 120px"><a href="view_practice" style="; color: white">Quit Review</a></button>
                         </div>
                         <div id="questionList" style="display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px;"></div>
                         <div style="font-weight: bold; color: ${sessionScope.practice_record.correct_rate >= passrate ? 'green':'red'}; background-color: ${sessionScope.practice_record.correct_rate >= passrate ? '#ccffcc':'#ffcccc'}; border-radius: 8px; height: 80px; display: flex; align-items: center; justify-content: center">
