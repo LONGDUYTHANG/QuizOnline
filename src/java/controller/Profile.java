@@ -105,6 +105,10 @@ public class Profile extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession(true);
+        String changeP = (String)request.getAttribute("changed_avt");
+        if(changeP.isEmpty()) {
+            request.setAttribute("changed_avt", "done");
+        }
         AccountDAO ad = new AccountDAO();
         Account ac = (Account) session.getAttribute("user");
         String fullName = request.getParameter("fullname");
