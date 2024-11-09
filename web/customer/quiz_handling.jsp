@@ -238,7 +238,7 @@
 
 
     </head>
-    <body id="bg" >
+    <body id="bg" onload="isSubmitted()">
         <div id="">
             <div id="container" style="">
                 <div class="" >
@@ -650,15 +650,18 @@
                             let ttt = Math.floor(new Date().getTime() / 1000) + tt;
                             sessionStorage.setItem("time_finish", ttt);
                         }
+
                     }
 
                     // Bắt đầu đếm ngược
                     const timerInterval = setInterval(() => {
                         if (${prac}) {
+                            isSubmitted();
                             totalTime++;
                             dur.value = totalTime;
                             updateTimer();
                         } else {
+                            isSubmitted();
                             totalTime = time_left - Math.floor(new Date().getTime() / 1000);
                             if (totalTime >= 0) {
                                 dur.value = ${sessionScope.duration} - totalTime;
@@ -795,38 +798,34 @@
 
                     // Hàm nộp bài
                     function submitQuiz() {
-                        //clearInterval(timerInterval);
                         sessionStorage.setItem("isSubmitted", "true");
+                        closePopupSubmitInShowQuest();
                         form.submit();
                     }
 
+// Hàm kiểm tra xem người dùng đã nộp bài hay chưa khi tải lại trang
                     function isSubmitted() {
-                        if (isSub !== null && isSub === "true") {
-                            //clearInterval(timerInterval);
+                        const isSub = sessionStorage.getItem("isSubmitted"); // Lấy giá trị từ sessionStorage
+                        if (isSub === "true") {
                             const popup_submitted = document.getElementById("popup_submitted");
                             const overlay3 = document.getElementById("overlay3");
-                            popup_submitted.style.display = "block"; // Ẩn popup
-                            overlay3.style.display = "block"; // Ẩn lớp phủ
-                            clearInterval(timerInterval);
+                            popup_submitted.style.display = "block"; // Hiển thị popup
+                            overlay3.style.display = "block"; // Hiển thị lớp phủ
+                            clearInterval(timerInterval); // Dừng bộ đếm thời gian
                         }
                     }
 
-                    // Hiển thị câu hỏi đầu tiên khi tải trang
-//            showQuestion(currentQuestion);
-//            updateTimer(); // Khởi tạo hiển thị thời gian
-// Gọi loadQuestionStatus khi tải trang để khôi phục trạng thái
-                    // Tải trạng thái câu hỏi từ sessionStorage khi tải trang
+// Tải trạng thái câu hỏi từ sessionStorage khi tải trang
                     window.onload = () => {
-                        isSubmitted();
                         restoreCurrentQuestion(); // Khôi phục câu hỏi hiện tại
                         restoreQuestionStatus(); // Khôi phục trạng thái câu hỏi
                         restoreMarkedQuestions(); // Khôi phục trạng thái đánh dấu câu hỏi
-                        restoreMarkedQuests();
                         showQuestion(currentQuestion); // Hiển thị câu hỏi hiện tại
                         updateNavigationButtons();
                         updateTimer(); // Khởi tạo hiển thị thời gian
-                        
+                        isSubmitted(); // Kiểm tra xem người dùng đã nộp bài chưa
                     };
+
         </script>
 
     </body>
