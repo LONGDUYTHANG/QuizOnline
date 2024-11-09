@@ -874,7 +874,8 @@ public class QuizDAO extends DBContext {
                 + "  , account_id\n"
                 + "  , quiz_id\n"
                 + "  from Practice_Record\n"
-                + "  where account_id = ? and practice_name like ?\n";
+                + "  where account_id = ? and practice_name like ?\n"
+                + "  order by created_date desc";
         List<Practice_Record> listPrac = new ArrayList<>();
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
