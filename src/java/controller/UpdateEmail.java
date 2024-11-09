@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import model.Account;
 import model.Email;
 
@@ -112,6 +114,12 @@ public class UpdateEmail extends HttpServlet {
                 request.getRequestDispatcher("customer/update_email.jsp").forward(request, response);
                 return;
             }
+            if(!isValidEmail(newEmail)) {
+                request.setAttribute("confirm_ss", true);
+                request.setAttribute("duplicate_email", "Email must end with @fpt.edu.vn");
+                request.getRequestDispatcher("customer/update_email.jsp").forward(request, response);
+                return;
+            }
             String formattedNumber = generateOTP();
             session.setAttribute("confirm_code", formattedNumber);
             confirmCode = (String) session.getAttribute("confirm_code");
@@ -151,6 +159,13 @@ public class UpdateEmail extends HttpServlet {
             }
         }
         return formattedNumber;
+    }
+    
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9._%+-]+@fpt\\.edu\\.vn$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     /**

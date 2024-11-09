@@ -173,7 +173,7 @@
                             Duration
                         </div>
                         <div class="col-lg-2 text-content border-head">
-                            Correct Question
+                            Questions
                         </div>
                         <div class="col-lg-2 text-content border-head">
                             Correct%
@@ -197,7 +197,10 @@
                                 ${Math.floor((lp.practice_duration / 60))} Mins ${lp.practice_duration % 60} Secs
                             </div>
                             <div class="col-lg-2 border">
-                                ${lp.correct_questions}
+                                <div style="display: block">
+                                    Total question ${lp.quiz.number_of_questions}<br>
+                                    Correct ${lp.correct_questions}
+                                </div>
                             </div>
                             <div class="col-lg-2 border">
                                 <div style="background-color: ${lp.correct_rate >= lp.quiz.passrate ? '#66ff66' : '#ff6666'}; border-radius: 8px; padding: 35px 0; color: white; width: 200px; height: 100px; text-align: center; align-items: center">

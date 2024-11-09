@@ -462,11 +462,17 @@
                                                                         changeLabel.innerHTML = 'Change Avatar';
                                                                     }
                                                                 }
+                                                                
                                                                 function firstAccess() {
                                                                     if (${requestScope.updatesc != null}) {
                                                                         window.alert('Update successfully');
                                                                     } else if (${requestScope.cpsuccess != null}) {
                                                                         window.alert('Change password successfully');
+                                                                    } else if (${sessionScope.changed_avt != null}) {
+                                                                        window.alert('Change avatar successfully');
+                                                                                                                                            <%
+                                                                                                                                                session.setAttribute("changed_avt", null);
+                                                                                                                                                %>
                                                                     }
                                                                     document.getElementById("first_link").click();
                                                                 }
@@ -518,7 +524,7 @@
                                                                     let updatePro = document.getElementById('updatepro');
                                                                     if (!Number(mobile.value) || mobile.value.length !== 10) {
                                                                         errU.innerHTML = 'Phone number must have 10 number';
-                                                                    } else if(window.confirm("Are you sure you want to save these changes?")) {
+                                                                    } else if (window.confirm("Are you sure you want to save these changes?")) {
                                                                         updatePro.type = 'submit';
                                                                     }
                                                                 }
