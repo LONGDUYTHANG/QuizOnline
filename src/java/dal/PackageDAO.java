@@ -148,7 +148,7 @@ public class PackageDAO extends DBContext {
                     // Create a new Package object for each row in the ResultSet
                     Package pkg = new Package();
                     pkg.setPackage_id(rs.getInt("package_id"));
-                    pkg.setPackage_name(rs.getString("package_name"));
+                    pkg.setPackage_name(rs.getString( "package_name"));
                     pkg.setDuration(rs.getInt("duration"));
                     pkg.setListPrice(rs.getDouble("listPrice"));
                     pkg.setSalePrice(rs.getDouble("salePrice"));
