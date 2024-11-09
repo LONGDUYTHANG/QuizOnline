@@ -160,7 +160,7 @@ public class NewPractice extends HttpServlet {
                         selectedGroup = 2;
                     }
                     List<Question> listQuestion = qd.getAllSelectQuestionByTopic(subject_id, group_id, num_quest, lv);
-                    Quiz q = new Quiz(new_name, subject_id, lv, num_quest, Duration.ofMillis((long) (100 * 60 * 1000)), 50, 2, "Practice quiz", date, date, a.getAccount_id(), selectedGroup);
+                    Quiz q = new Quiz(new_name, subject_id, lv, num_quest, Duration.ofMillis((long) (100 * 60 * 1000)), 50, 1, "Practice quiz", date, date, a.getAccount_id(), selectedGroup);
                     qd.addQuiz(q);
                     int id = qd.getNewlyAddedQuizByAccountId(a.getAccount_id()).getQuiz_id();
                     for (Question question : listQuestion) {
@@ -191,7 +191,7 @@ public class NewPractice extends HttpServlet {
                     }
                     
                     List<Question> listQuestion = qd.getAllSelectQuestionByDimension(subject_id, group_id, num_quest, lv);
-                    Quiz q = new Quiz(new_name, subject_id, lv, num_quest, Duration.ofMillis((long) (100 * 60 * 1000)), 50, 2, "Practice quiz", date, date, a.getAccount_id(), selectedGroup);
+                    Quiz q = new Quiz(new_name, subject_id, lv, num_quest, Duration.ofMillis((long) (100 * 60 * 1000)), 50, 1, "Practice quiz", date, date, a.getAccount_id(), selectedGroup);
                     qd.addQuiz(q);
                     int id = qd.getNewlyAddedQuizByAccountId(a.getAccount_id()).getQuiz_id();
                     for (Question question : listQuestion) {
