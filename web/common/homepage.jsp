@@ -238,8 +238,8 @@
                                                         </div>
                                                         <div class="price">
                                                             <c:if test="${not empty selectedPackageModel}">
-                                                                <del>${selectedPackageModel.listPrice}</del>
-                                                                <h5>${selectedPackageModel.salePrice}</h5>
+                                                                <del>${pkgDAO.getListPackageBySubjectID(subject.subjectId).get(0).listPrice}</del>
+                                                                <h5>${pkgDAO.getListPackageBySubjectID(subject.subjectId).get(0).salePrice}</h5>
                                                             </c:if>
                                                         </div>
                                                     </div>
@@ -550,28 +550,28 @@
                 RequestPopup.style.display = 'none';
             };
             function LoginAgain() {
-                
-                if (checkLoginError!==null&&checkLoginError.textContent === loginError.textContent) {
+
+                if (checkLoginError !== null && checkLoginError.textContent === loginError.textContent) {
                     loginPopup.style.display = 'flex';
                     return;
                 }
-                 if (loginError!==null&loginError.textContent === "Email must end with @fpt.edu.vn") {
+                if (loginError !== null & loginError.textContent === "Email must end with @fpt.edu.vn") {
                     loginPopup.style.display = 'flex';
                     return;
                 }
-                if (emailError.textContent === "Email existed!"||emailError.textContent === "Email must end with @fpt.edu.vn") {
+                if (emailError.textContent === "Email existed!" || emailError.textContent === "Email must end with @fpt.edu.vn") {
                     registerPopup.style.display = 'flex';
                     return;
                 }
-                if (passError!==null&&passError.textContent === "Wrong confirmed password!") {
+                if (passError !== null && passError.textContent === "Wrong confirmed password!") {
                     registerPopup.style.display = 'flex';
                     return;
                 }
-                if (requestError!==null&&requestError.textContent === 'Send request success') {
+                if (requestError !== null && requestError.textContent === 'Send request success') {
                     RequestPopup.style.display = 'flex';
                     return;
                 }
-                if (requestError!==null&&requestError.textContent === 'Email not existed') {
+                if (requestError !== null && requestError.textContent === 'Email not existed') {
                     RequestPopup.style.display = 'flex';
                     return;
                 }
@@ -623,8 +623,8 @@
                     toggleIcon.classList.add("fa-eye");
                 }
             }
-            
-             function togglePasswordConfirm() {
+
+            function togglePasswordConfirm() {
                 var passwordFieldforregister = document.getElementById("userPassforconfirm");
                 var toggleIcon = document.querySelector(".toggle-password");
                 if (passwordFieldforregister.type === "password") {
