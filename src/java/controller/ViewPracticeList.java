@@ -7,6 +7,7 @@ package controller;
 
 import dal.AccountDAO;
 import dal.QuizDAO;
+import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,9 +15,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import model.Account;
 import model.Practice_Record;
+import model.RegisteredSubject;
 
 /**
  *
@@ -64,6 +67,9 @@ public class ViewPracticeList extends HttpServlet {
         QuizDAO qd = new QuizDAO();
         List<Practice_Record> listPrac = qd.getPracticeRecordListByAccountId(a.getAccount_id());
         session.setAttribute("list_prac", listPrac);
+        SubjectDAO sd = new SubjectDAO();
+        List<RegisteredSubject> listSuject = sd.getEnrolledSubject(a);
+        session.setAttribute("list_sbj", listSuject);
         
         request.getRequestDispatcher("customer/practice_list.jsp").forward(request, response);
     } 
@@ -78,7 +84,33 @@ public class ViewPracticeList extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession(true);
+        Account a = (Account)session.getAttribute("user");
+        QuizDAO qd = new QuizDAO();
+        List<Practice_Record> listPrac = qd.getPracticeRecordListByAccountId(a.getAccount_id());;
+        String sort = request.getParameter("sort");
+        String filter = request.getParameter("filter");
+        String search_prac = request.getParameter("search_prac");
+        
+        request.setAttribute("sort", sort);
+        request.setAttribute("filter", filter);
+        if(sort != null && !sort.equals("all")) {
+            listPrac = qd.getPracticeRecordListByAccountIdOrder(a.getAccount_id(), sort);
+        }
+        
+        if(filter != null && !filter.equalsIgnoreCase("all")) {
+            int sub_id = Integer.parseInt(filter);
+            listPrac = qd.getPracticeRecordListByAccountIdAndSubject(a.getAccount_id(), sub_id);
+        }
+        
+        if(search_prac != null) {
+            listPrac = qd.getPracticeRecordListByAccountIdAndKey(a.getAccount_id(), search_prac);
+        }
+        //List<Practice_Record> listPrac = qd.getPracticeRecordListByAccountId(a.getAccount_id());
+        session.setAttribute("list_prac", listPrac);
+        
+        request.getRequestDispatcher("customer/practice_list.jsp").forward(request, response);
+        
     }
 
     /** 

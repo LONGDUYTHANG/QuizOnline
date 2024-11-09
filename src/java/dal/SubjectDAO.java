@@ -352,10 +352,7 @@ public class SubjectDAO extends DBContext {
                 subject.setThumbnail(rs.getString("thumbnail"));
                 subject.setTagline(rs.getString("tagline"));
                 subject.setDescription(rs.getString("description"));
-
-                AccountDAO aDao = new AccountDAO();
-                Account acc = aDao.getAccountById(rs.getString("account_id"));
-                subject.setAccountId(acc.getAccount_id());
+                subject.setAccountId(a.getAccount_id());
                 subject.setCreatedDate(rs.getTimestamp("created_date"));
                 subject.setCost(rs.getInt("cost"));
                 subject.setList_price(rs.getDouble("list_price"));

@@ -5,6 +5,7 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -73,6 +74,35 @@
                 justify-content: center;
                 font-weight: bold
             }
+            .content {
+                padding: 80px 0;
+            }
+
+            .select {
+                display: flex;
+                justify-content: space-between
+            }
+            #paginationControls button {
+                padding: 8px 16px;
+                margin: 0 4px;
+                border: 1px solid #ddd;
+                background-color: white;
+                cursor: pointer;
+            }
+
+            #paginationControls button.active {
+                background-color: #4CAF50;
+                color: white;
+                border: 1px solid #4CAF50;
+            }
+            ul li a {
+                text-decoration: none;
+            }
+            a {
+                text-decoration: none;
+            }
+
+
         </style>
     </head>
     <body id="bg">
@@ -92,57 +122,109 @@
                         </div>
                     </div>
                 </div> 
-                <span>Filter by:</span>
+                <div class="container content border-danger" style="position: relative">
+                    <div style="margin-bottom: 30px">
+                        <form action="view_practice" method="post" >
+                            <div class="" style="display: flex; width: 300px; align-items: center; margin-bottom: 10px">
 
-                <div class="row" style="background-color: #7bdcb5; margin: 0 90px; font-size: 40px; font-weight: bold">
-                    <div class="col-lg-2 text-content border-head">
-                        Practice Title
-                    </div>
-                    <div class="col-lg-2 text-content border-head">
-                        Exam Date
-                    </div>
-                    <div class="col-lg-2 text-content border-head">
-                        Duration
-                    </div>
-                    <div class="col-lg-2 text-content border-head">
-                        Correct Question
-                    </div>
-                    <div class="col-lg-2 text-content border-head">
-                        Correct%
-                    </div>
-                    <div class="col-lg-2 text-content border-head">
-                        Details
-                    </div>
+                                <label style="width: 90px">Filter by:</label>
+                                <select style="width: 50px;" name="filter" onchange="this.form.submit();">
+                                    <option value="all" ${filter == null ? 'selected':''} >All subject</option>
+                                    <c:forEach items="${sessionScope.list_sbj}" var="ls">
+                                        <option value="${ls.subjectId}" ${filter == ls.subjectId.toString() ? 'selected':''}>${ls.subjectName}</option>
+                                    </c:forEach>
+                                </select>
 
-                </div>
-                <div class="row" style="margin: 0 90px; font-size: 20px; ">
-                    <c:forEach items="${sessionScope.list_prac}" var="lp">
-                        <div class="col-lg-2 border" style="display: block">
-                            ${lp.practice_name}
-                            <span style="display: block">Type: ${lp.quiz.quiz_type.quiz_type_name}</span>
-                        </div>
-                        <div class="col-lg-2 border">
-                            ${lp.created_date}
-                        </div>
-                        <div class="col-lg-2 border">
-                            ${lp.practice_duration}s
-                        </div>
-                        <div class="col-lg-2 border">
-                            ${lp.correct_questions}
-                        </div>
-                        <div class="col-lg-2 border">
-                            
-                            <div style="background-color: ${lp.correct_rate >= lp.quiz.passrate ? '#66ff66':'#ff6666'} ; border-radius: 8px; padding: 35px 0; color: white; width: 200px; height: 100px; text-align: center; align-items: center">
-                                ${lp.correct_rate}%
+                                <noscript><input type=”submit” value=”Submit”></noscript>
                             </div>
+                        </form>
+                        <form action="view_practice" method="post">
+                            <div class="select-item" style="display: flex; width: 300px; align-items: center" >
+                                <label style="width: 90px">Sort by:</label>
+                                <select style="width: 50px;" name="sort" onchange="this.form.submit();">
+                                    <option value="all" ${sort == null ? 'selected':''}>Recently update</option>
+                                    <option value="correct" ${sort == 'correct' ? 'selected':''}>Correct%</option>
+                                    <option value="duration" ${sort == 'duration' ? 'selected':''}>Duration</option>
+                                </select>
+                                <noscript><input type=”submit” value=”Submit”></noscript>
+                            </div>
+                        </form>
+                        <div style="display: flex; justify-content: space-between; width: 400px; align-items: center; margin-bottom: 10px; position: absolute; top: 110px; left: 900px">
+                            <label style="width: 90px">Search:</label>
+                            <form action="view_practice" method="post" style="display: flex; justify-content: space-between;">
+                                <input type="text" class="input-group-text" name="search_prac" placeholder="Search practice by Title"/>
+                                <input class="btn-danger" value="Search" type="submit"/>
+                            </form>
                         </div>
-                        <div class="col-lg-2 border">
-                            <a href="quiz_review?practice_id=${lp.practice_id}">View</a>
+                        <a href="new_practice" style="color: white; position: absolute; top: 110px; left: 400px; width: 150px; height: 30px; text-align: center; border-radius: 8px" class="btn-danger">New Practice</a>
+                    </div>
+
+
+
+
+                    <div class="row" style="background-color: #7bdcb5; font-size: 30px; font-weight: bold">
+                        <div class="col-lg-2 text-content border-head">
+                            Practice Title
                         </div>
-                    </c:forEach>
+                        <div class="col-lg-2 text-content border-head">
+                            Exam Date
+                        </div>
+                        <div class="col-lg-2 text-content border-head">
+                            Duration
+                        </div>
+                        <div class="col-lg-2 text-content border-head">
+                            Correct Question
+                        </div>
+                        <div class="col-lg-2 text-content border-head">
+                            Correct%
+                        </div>
+                        <div class="col-lg-2 text-content border-head">
+                            Details
+                        </div>
+
+                    </div>
+                    <div class="row" style=" font-size: 20px; ">
+                        <c:forEach var="lp" items="${sessionScope.list_prac}">
+                            <div class="col-lg-2 border" style="display: block">
+                                ${lp.practice_name}
+                                <span style="display: block; font-weight: 100">Type: ${lp.quiz.quiz_type.quiz_type_name}</span>
+                                <span style="display: block; font-weight: 100">Subject: ${lp.quiz.subject.subjectName}</span>
+                            </div>
+                            <div class="col-lg-2 border">
+                                ${lp.created_date}
+                            </div>
+                            <div class="col-lg-2 border">
+                                ${Math.floor((lp.practice_duration / 60))} Mins ${lp.practice_duration % 60} Secs
+                            </div>
+                            <div class="col-lg-2 border">
+                                ${lp.correct_questions}
+                            </div>
+                            <div class="col-lg-2 border">
+                                <div style="background-color: ${lp.correct_rate >= lp.quiz.passrate ? '#66ff66' : '#ff6666'}; border-radius: 8px; padding: 35px 0; color: white; width: 200px; height: 100px; text-align: center; align-items: center">
+                                    ${lp.correct_rate}%
+                                </div>
+                            </div>
+                            <div class="col-lg-2 border">
+                                <a href="quiz_review?practice_id=${lp.practice_id}">View</a>
+                            </div>
+                        </c:forEach>
+                    </div>
+                    <div style="margin-top: 50px">
+                        <div class="pagination-bx rounded-sm gray clearfix" style="text-align: center;">
+                            <ul class="pagination" style="display: flex; justify-content: center; align-items: center; text-decoration: none">
+                                <li class="previous " ><a href="#" hidden=""><i class="ti-arrow-left"></i> Prev</a></li>
+                                <li class="active "><a href="#">1</a></li>
+                                <li class="next "><a href="#">Next <i class="ti-arrow-right"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+
+
             </div> 
         </div> 
+
+
 
         <!-- Content END-->
         <!-- Footer ==== -->
@@ -169,6 +251,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
 
         </script>
+
+
     </body>
 
 </html>

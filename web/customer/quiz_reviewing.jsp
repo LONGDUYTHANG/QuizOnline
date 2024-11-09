@@ -336,7 +336,7 @@
             <div id="footer" style="display: flex; justify-content: space-around">
                 <button id="prev" class="btn">Previous</button>
                 <button id="next" class="btn">Next</button>
-                <button id="submit" class="btn" onclick="showPopupSubmitInShowQuest()">Quit Review</button>
+                <button id="submit" class="btn"><a href="view_practice">Quit Review</a></button>
             </div>
             <!-- Fixed buttons outside the footer -->
             <!-- External JavaScripts -->
