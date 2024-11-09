@@ -161,7 +161,8 @@
         <servlet-name>AdminAddLessonTopicServlet</servlet-name>
         <servlet-class>controller.AdminAddLessonTopicServlet</servlet-class>
 </servlet>
- <servlet>
+
+    <servlet>
         <servlet-name>ViewPracticeList</servlet-name>
         <servlet-class>controller.ViewPracticeList</servlet-class>
     </servlet>
@@ -355,7 +356,6 @@
         <url-pattern>/adminaddlessontopic</url-pattern>
 </servlet-mapping>
 <servlet-mapping>
-
         <servlet-name>ViewPracticeList</servlet-name>
         <url-pattern>/view_practice</url-pattern>
     </servlet-mapping>
