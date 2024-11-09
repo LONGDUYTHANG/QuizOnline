@@ -295,7 +295,7 @@
                                                     </select>
                                                 </c:otherwise>
                                             </c:choose>
-                                            <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" style="width: 100px; caret-color: transparent;" placeholder="Questions"  value="0" min="0">
+                                            <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" style="width: 100px; caret-color: transparent;" value="0" min="0" required>
                                             <button type="button" class="btn btn-secondary">Delete</button>
                                         </div>
                                         <script>
@@ -330,7 +330,7 @@
                                                 </c:otherwise>
                                             </c:choose>
                                                             </select>
-                                                            <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" placeholder="Questions" style="width: 100px; caret-color: transparent;" value="0" min="0">
+                                                            <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions"  style="width: 100px; caret-color: transparent;" value="0" min="0" required>
                                                             <button type="button" class="btn btn-secondary" onclick="removeGroup(this)">Delete</button>
                                                         </div>
                                                     `;
@@ -378,7 +378,13 @@
                                                 attachInputListener(input);
                                             });
                                         </script>
-
+                                        <script>
+                                        document.querySelector('.number-of-questions').addEventListener('blur', function() {
+                                            if (this.value === '') {
+                                                this.value = 0;
+                                            }
+                                        });
+                                    </script>
                                     </div>
                                 </div>
                             </div>
