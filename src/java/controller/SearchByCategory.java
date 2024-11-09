@@ -103,13 +103,13 @@ public class SearchByCategory extends HttpServlet {
         List<Post> hottest_post_list = myPostDAO.getHottestPost();
         request.setAttribute("hottest_post_list", hottest_post_list);
 
-                AccountDAO accountDAO = new AccountDAO();
+        AccountDAO accountDAO = new AccountDAO();
         List<Account> account_list = new ArrayList<>();
         for (Post blog : post_list) {
             Account account = accountDAO.getAccountById(blog.getAccount_id());
             account_list.add(account);
         }
-                request.setAttribute("account_list", account_list);
+        request.setAttribute("account_list", account_list);
                 
         List<Category> category_list;
         if (keyword != null && !keyword.isEmpty()) {
