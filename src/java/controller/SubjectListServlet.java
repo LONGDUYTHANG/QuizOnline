@@ -22,6 +22,7 @@ import model.Category;
 import model.Subject;
 import model.SubjectCategory;
 import jakarta.servlet.http.HttpSession;
+import java.util.HashSet;
 
 /**
  *
@@ -120,6 +121,7 @@ public class SubjectListServlet extends HttpServlet {
                         return;
                     }
                 }
+                request.setAttribute("pkgDAO", packageDAO);
                 request.setAttribute("selectedDuration", selectedDuration);
                 request.setAttribute("selectedPackageModel", selectedPackageModel);
 
@@ -170,6 +172,8 @@ public class SubjectListServlet extends HttpServlet {
                         return;
                     }
                 }
+                request.setAttribute("pkgDAO", packageDAO);
+
                 request.setAttribute("selectedDuration", selectedDuration);
                 request.setAttribute("selectedPackageModel", selectedPackageModel);
                 request.getRequestDispatcher("customer/subject_list.jsp").forward(request, response);

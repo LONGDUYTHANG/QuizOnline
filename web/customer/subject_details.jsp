@@ -75,7 +75,7 @@
                             <div class="row d-flex flex-row-reverse">
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="course-detail-bx">
-<!--                                        <form action="customerregistersubject" >-->
+                                     <form action="vnpay_pay.jsp" >
                                             <div class="course-price">
 
                                                 <div class="course-price">
@@ -102,14 +102,14 @@
                                                 </div>
 
                                             </div>
-
-
+                                                <input type="text" value="${sessionScope.user.account_id}" hidden name="account_id"><!-- comment -->
+<input type="text" value="<%=request.getParameter("subject_id")%>" hidden name="subject_id">
                                             <div class="course-buy-now text-center">    
                                                 <c:if test="${!isRegistered}">
-                                                    <a href="vnpay_pay.jsp?subject_id=<%=request.getParameter("subject_id")%>&account_id=${sessionScope.user.account_id}&pkg_price=${selectedPackageModel.salePrice}" class="btn radius-xl text-uppercase">Buy Now This Subject</a>
+                                                    <button class="btn radius-xl text-uppercase" type="submit">Buy Now This Subject</button>
                                                 </c:if>
                                             </div>
-<!--                                        </form>-->
+                                      </form>
 
 
 
@@ -142,7 +142,7 @@
                                 </div>
 
                                 <div class="col-lg-9 col-md-8 col-sm-12">
-                                    <!<!-- thêm subject detail -->
+                                    <!<!-- thÃªm subject detail -->
                                     <c:set var="c" value="${requestScope.mySubject}" />
                                     <div class="courses-post">
                                         <div class="ttr-post-media media-effect">
@@ -282,7 +282,7 @@
                                                             var salePrice = selectedOption.getAttribute('data-price');
                                                             var priceElement = document.querySelector('.course-price h4.price');
 
-                                                            // C?p nh?t giá hi?n th?
+                                                            // C?p nh?t giÃ¡ hi?n th?
                                                             priceElement.innerText = salePrice;
                                                         }
         </script>
