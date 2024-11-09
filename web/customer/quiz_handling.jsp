@@ -375,7 +375,7 @@
                     <div id="popup_submitted" style="display: none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; border:1px solid black; padding:20px; z-index:2001;">
                         <h3>Warning</h3>
                         <p>You have submitted</p>
-                        <button onclick="submitQuiz()" class="btn">OK</button>
+                        <button  class="btn"><a href="view_practice">OK</a></button>
 
                     </div>
                 </div>
