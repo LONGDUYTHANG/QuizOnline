@@ -127,7 +127,12 @@ public class NewPractice extends HttpServlet {
             }
             request.getRequestDispatcher("customer/new_practice.jsp").forward(request, response);
         } else if (subject.equalsIgnoreCase("all")) {
+            request.setAttribute("group", null);
             request.setAttribute("no_subject", "Choose subject first");
+            request.getRequestDispatcher("customer/new_practice.jsp").forward(request, response);
+        } else if (td.isEmpty() || group.isEmpty()) {
+            request.setAttribute("group", null);
+            request.setAttribute("no_subject", "Please choose all the field");
             request.getRequestDispatcher("customer/new_practice.jsp").forward(request, response);
         } else if (!subject.isEmpty() && !td.isEmpty() && !name.isBlank() && !ex_num.isEmpty() && !group.isEmpty() && sbm != null) {
             int subject_id = Integer.parseInt(subject);
