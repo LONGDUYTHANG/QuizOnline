@@ -410,7 +410,7 @@
         <script>
                     const totalQuestions = ${sessionScope.num_quest}; // Tổng số câu hỏi
                     let currentQuestion = ${sessionScope.curr_quest}; // Câu hỏi hiện tại bắt đầu từ 0
-                    let totalTime = sessionStorage.getItem("totalTime") || ${sessionScope.duration};
+                    let totalTime = sessionStorage.getItem("totalTime") || ${prac ? 0:sessionScope.duration};
                     let answered_questions = sessionStorage.getItem("answered") || 0;
                     const timeEl = document.getElementById("time"); // Phần tử hiển thị thời gian
                     const quizzes = document.querySelectorAll(".quiz");
@@ -648,17 +648,23 @@
 
                     // Bắt đầu đếm ngược
                     const timerInterval = setInterval(() => {
-                        totalTime = time_left - Math.floor(new Date().getTime() / 1000);
-                        if (totalTime >= 0) {
-                            dur.value = ${sessionScope.duration} - totalTime;
-                        }
-                        updateTimer();
-                        if (totalTime <= 0) {
-                            clearInterval(timerInterval);
-                            // Hết thời gian, hiển thị popup
-                            showPopup(); // Hiển thị popup
-                            //submitQuiz(); // Gọi hàm nộp bài
+                        if (${prac}) {
+                            totalTime++;
+                            dur.value = totalTime;
+                            updateTimer();
+                        } else {
+                            totalTime = time_left - Math.floor(new Date().getTime() / 1000);
+                            if (totalTime >= 0) {
+                                dur.value = ${sessionScope.duration} - totalTime;
+                            }
+                            updateTimer();
+                            if (totalTime <= 0) {
+                                clearInterval(timerInterval);
+                                // Hết thời gian, hiển thị popup
+                                showPopup(); // Hiển thị popup
+                                //submitQuiz(); // Gọi hàm nộp bài
 
+                            }
                         }
 
                     }, 1000); // Cập nhật mỗi giây

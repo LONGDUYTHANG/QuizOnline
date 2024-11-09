@@ -167,7 +167,7 @@ public class NewPractice extends HttpServlet {
                         qd.addQuizQuestion(new Quiz_Question(id, question.getQuestion_id()));
                     }
                     //out.print(q);
-                    response.sendRedirect("quiz_handling?id=" + id);
+                    response.sendRedirect("quiz_handling?id=" + id + "&is_practice=true");
                     
                 }
             } else {
@@ -198,7 +198,7 @@ public class NewPractice extends HttpServlet {
                         qd.addQuizQuestion(new Quiz_Question(id, question.getQuestion_id()));
                     }
                     //out.print(q);
-                    response.sendRedirect("quiz_handling?id=" + id);
+                    response.sendRedirect("quiz_handling?id=" + id + "&is_practice=true");
                 }
                 
             }
