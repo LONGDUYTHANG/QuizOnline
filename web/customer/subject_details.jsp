@@ -82,7 +82,7 @@
                                                     <label for="courseDuration">Choose duration:</label>
                                                     <select id="courseDuration" name="courseDuration" class="form-control" onchange="updatePrice()">
                                                         <c:forEach var="pkg" items="${packageList}">
-                                                            <option value="${pkg.package_id}" data-price="${pkg.salePrice}" 
+                                                            <option value="${pkg.package_id}" data-price="${pkg.salePrice}$" 
                                                                     <c:if test="${pkg.duration == selectedDuration}">selected</c:if>
                                                                         >
                                                                     ${pkg.duration} months
@@ -96,8 +96,8 @@
                                                 <input type="text" hidden value="${selectedPackageModel.salePrice}" name="sale_price">
 -->                                                <div class="course-price" style="margin-bottom: 5px;">
                                                     <c:if test="${not empty selectedPackageModel}">
-                                                        <del>${selectedPackageModel.listPrice}</del>
-                                                        <h4 class="price">${selectedPackageModel.salePrice}</h4>
+                                                        <del>${selectedPackageModel.listPrice}$</del>
+                                                        <h4 class="price">${selectedPackageModel.salePrice}$</h4>
                                                     </c:if>
                                                 </div>
 

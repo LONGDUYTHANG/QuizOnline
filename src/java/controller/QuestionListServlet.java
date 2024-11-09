@@ -63,11 +63,19 @@ public class QuestionListServlet extends HttpServlet {
         request.setAttribute("dao", dao);
         boolean showSuccessMessage = Boolean.parseBoolean(request.getParameter("showSuccessMessage"));
         boolean showFailMessage = Boolean.parseBoolean(request.getParameter("showFailMessage"));
+        boolean importfail = Boolean.parseBoolean(request.getParameter("importfail"));
+        boolean importsuccess = Boolean.parseBoolean(request.getParameter("importsuccess"));
         if (showSuccessMessage == true) {
             request.setAttribute("showSuccessMessage", true);
         }
         else if (showFailMessage == true) {
             request.setAttribute("showFailMessage", true);
+        }
+        else if (importfail == true) {
+            request.setAttribute("importfail", true);
+        }
+        else if (importsuccess == true){
+            request.setAttribute("importsuccess", true);
         }
         request.getRequestDispatcher("expert/question_list.jsp").forward(request, response);
     } 

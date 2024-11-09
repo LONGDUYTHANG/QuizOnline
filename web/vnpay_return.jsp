@@ -2,6 +2,7 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="dal.RegistrationDAO"%>
+<%@page import="dal.PackageDAO"%>
 <%@page import="model.Registration"%>
 <%@page import="java.time.LocalDateTime"%>
 
@@ -105,12 +106,14 @@
                     String number2 = "";
                     String number3 = "";
                     String number4 = "";
+                    String number5 = "";
                     if(parts.length >= 3){
                         subject = parts[0].replace("Buy subject: ", "");
                         number1 = parts[1];
                         number2 = parts[2];
                         number3= parts[3];
                         number4= parts[4];
+                        number5= parts[5];
                          
                     } else {
                         // Handle unexpected format
@@ -119,6 +122,7 @@
                         number2 = "N/A";
                          number3 = "N/A";
                          number4 = "N/A";
+                         number5 = "N/A";
                     }
                    
                     
@@ -134,12 +138,16 @@
                     int subject_id=Integer.parseInt(number1);
                     double sale_price=Double.parseDouble(number4);
                     double list_price=Double.parseDouble(number3);
+                    int package_id=Integer.parseInt(number5);
+                    PackageDAO pkgDAO=new PackageDAO();
+                    int duration= pkgDAO.getPricePackageById(package_id).getDuration();
+                    LocalDateTime valid_from=LocalDateTime.now();
+                    LocalDateTime valid_to=valid_from.plusDays(duration);
                     if(a.IfSubjectsInRegistration(account_id, subject_id)){
-                    boolean check=a.CofirmRegistration(LocalDateTime.now(),account_id, subject_id, sale_price, list_price, sale_price);}
+                    boolean check=a.CofirmRegistration(LocalDateTime.now(),account_id, subject_id, sale_price, list_price, sale_price, valid_from, valid_to, package_id);}
                     else{
-                            Registration registration=new Registration(LocalDateTime.now(), subject_id, sale_price, account_id, 3, list_price, sale_price);
-        registration.setNote("Online Payment");
-        a.AddRegistration(registration);
+        a.PurchasedSubject(LocalDateTime.now(), account_id, subject_id,  sale_price,
+            list_price, sale_price, valid_from, valid_to, package_id);
                             }%></span>
                 </div> 
                 <div class="form-group">

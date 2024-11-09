@@ -238,8 +238,8 @@
                                                         </div>
                                                         <div class="price">
                                                             <c:if test="${not empty selectedPackageModel}">
-                                                                <del>${pkgDAO.getListPackageBySubjectID(subject.subjectId).get(0).listPrice}</del>
-                                                                <h5>${pkgDAO.getListPackageBySubjectID(subject.subjectId).get(0).salePrice}</h5>
+                                                                <del>${pkgDAO.getListPackageBySubjectID(subject.subjectId).get(0).listPrice}$</del>
+                                                                <h5>${pkgDAO.getListPackageBySubjectID(subject.subjectId).get(0).salePrice}$</h5>
                                                             </c:if>
                                                         </div>
                                                     </div>
