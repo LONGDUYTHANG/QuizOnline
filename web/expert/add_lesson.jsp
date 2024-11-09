@@ -415,7 +415,7 @@
                             
                             <div class="form-group">
                                 <label for="quiz">Quiz Selected</label>
-                                <select id="quiz" name="quiz">
+                                <select id="quiz" name="quiz" required>
                                     <c:forEach var="quiz" items="${requestScope.listQuiz}">
                                         <option value="${quiz.quiz_id}">${quiz.quiz_name}</option>
                                     </c:forEach>

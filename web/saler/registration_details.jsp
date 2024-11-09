@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -89,7 +88,9 @@
             }
         </style>
 
-
+        <!-- Include jQuery and Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     </head>
     <body >
@@ -98,7 +99,7 @@
             <div class="main">
 
                 <main class="content" >
-                    <form action="updateregistration" method="post">
+                    <form action="salerupdateregistration" method="post">
                         <div class="container">
                             <div class="row p-3" > 
                                 <div class="col-4">
@@ -112,26 +113,26 @@
                                 </div>
                                 <div class="col-4">
                                     <p class="form-label" style="font-weight: bolder">Price Package</p>
-                                    <select name="package" style="width: 195px;height: 28px" >
+                                    <select id="packageSelect" name="package" style="width: 195px;height: 28px" >
                                         <c:forEach items="${requestScope.package_list}" var="s">
-                                            <option value="${s.package_id}" ${s.package_name eq requestScope.price_package?'selected':''}>${s.package_name}</option>
+                                            <option value="${s.package_id}" data-duration="${s.duration}" ${s.package_name eq requestScope.price_package?'selected':''}>${s.package_name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
                                 <div class="col-4">
-                                    <p class="form-label" style="font-weight: bolder">Sale</p>
-                                    <input type="text" value="${requestScope.sale}">
+                                    <p class="form-label" style="font-weight: bolder">Customer Payment</p>
+                                    <input type="text" name="sale" value="${requestScope.sale}">
                                 </div>
                             </div>
 
                             <div class="row p-3">
                                 <div class="col-4">
                                     <p class="form-label" style="font-weight: bolder">List Price</p>
-                                    <input type="text" name="list_price" value="${requestScope.list_price}">
+                                    <input type="text" name="list_price" value="${requestScope.list_price}" disabled>
                                 </div>
                                 <div class="col-4">
                                     <p class="form-label" style="font-weight: bolder">Sale Price</p>
-                                    <input type="text" name="sale_price" value="${requestScope.sale_price}">
+                                    <input type="text" name="sale_price" value="${requestScope.sale_price}" disabled>
                                 </div>
                                 <div class="col-4">
                                     <p class="form-label" style="font-weight: bolder">Status</p>
@@ -149,11 +150,11 @@
                                 </div>
                                 <div class="col-4">
                                     <p class="form-label" style="font-weight: bolder">Valid From</p>
-                                    <input type="date" name="from" value="${requestScope.from}"><br>
+                                    <input type="date" id="validFrom" name="from" value="${requestScope.from}"><br>
                                 </div>
                                 <div class="col-4">
                                     <p class="form-label" style="font-weight: bolder">Valid To</p>
-                                    <input type="date" name="to" value="${requestScope.to}"><br>
+                                    <input type="date" id="validTo" name="to" value="${requestScope.to}" disabled><br>
                                 </div>
                             </div>
 
@@ -184,8 +185,15 @@
                                     <input type="text" name="registration_id" value="${requestScope.registration_id}" hidden>
                                 </div>
                                 <div class="col-2">
-                                    <button class="btn btn-success" type="submit" ><i class="align-middle me-2 fas fa-fw fa-edit"></i></button>
-                                    <button type="button" class="btn btn-danger" ><a href="registrationlist" style="color: white"><i class="fa-solid fa-house"></i></a></button>
+                                    <!-- Thêm onClick xác nhận trước khi submit -->
+                                    <button class="btn btn-success" type="submit" onclick="return confirm('Are you sure you want to update this registration?');">
+                                        <i class="align-middle me-2 fas fa-fw fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger">
+                                        <a href="registrationlist" style="color: white">
+                                            <i class="fa-solid fa-house"></i>
+                                        </a>
+                                    </button>
                                 </div>
                             </div>
 
@@ -195,6 +203,40 @@
             </div>
         </div>
         <jsp:include page="script.jsp"/>
+
+        <script>
+            $(document).ready(function() {
+                function updateValidTo() {
+                    var selectedOption = $('#packageSelect option:selected');
+                    var validityDays = parseInt(selectedOption.data('duration'));
+                    var validFrom = $('#validFrom').val();
+
+                    if (validFrom && validityDays) {
+                        var fromDate = new Date(validFrom);
+                        fromDate.setDate(fromDate.getDate() + validityDays);
+                        var year = fromDate.getFullYear();
+                        var month = ('0' + (fromDate.getMonth() + 1)).slice(-2);
+                        var day = ('0' + fromDate.getDate()).slice(-2);
+                        var validTo = year + '-' + month + '-' + day;
+                        $('#validTo').val(validTo);
+                    }
+                }
+
+                // When package selection changes
+                $('#packageSelect').change(function() {
+                    updateValidTo();
+                });
+
+                // When validFrom date changes
+                $('#validFrom').change(function() {
+                    updateValidTo();
+                });
+
+                // Initialize on page load
+                updateValidTo();
+            });
+        </script>
+
     </body>
 
 </html>
