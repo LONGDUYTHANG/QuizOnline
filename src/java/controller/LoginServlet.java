@@ -87,6 +87,7 @@ public class LoginServlet extends HttpServlet {
             request.getRequestDispatcher("homepage").forward(request, response);
             return;
         }
+
         //create 2 cookie for email and remember me
         Cookie user_email= new Cookie("c_user", email);
         Cookie user_remember_me=new Cookie("c_check_button", remember_me);
@@ -144,6 +145,12 @@ public class LoginServlet extends HttpServlet {
         String emailRegex = "^[A-Za-z0-9._%+-]+@fpt\\.edu\\.vn$";
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+    private boolean isValidPassword(String password) {
+        String passwordRegex = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$";
+        Pattern pattern = Pattern.compile(passwordRegex);
+        Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
 

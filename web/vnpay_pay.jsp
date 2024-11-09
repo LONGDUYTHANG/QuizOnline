@@ -102,8 +102,8 @@
                         String raw_package_id = request.getParameter("courseDuration");
                         int package_id=Integer.parseInt(raw_package_id);    
     PackageDAO packageDAO=new PackageDAO();
-    double sale_price_raw = packageDAO.getPricePackageById(package_id).getSalePrice() * 1000;
-double list_price_raw = packageDAO.getPricePackageById(package_id).getListPrice() * 1000;
+    double sale_price_raw = packageDAO.getPricePackageById(package_id).getSalePrice() * 20000;
+double list_price_raw = packageDAO.getPricePackageById(package_id).getListPrice() * 20000;
 String sale_price = String.format("%.0f", sale_price_raw);
 String list_price = String.format("%.0f", list_price_raw);
                     
@@ -120,6 +120,7 @@ String list_price = String.format("%.0f", list_price_raw);
                     <input type="text" value="<%=request.getParameter("account_id")%>" name="account_id" hidden>
                     <input type="text" value="<%=sale_price%>" name="sale_price" hidden>
                     <input type="text" value="<%=list_price%>" name="list_price" hidden>
+                    <input type="text" value="<%=package_id%>" name="package_id" hidden>
                     <button type="submit" class="btn">Purchase</button>
                 </form>
             </div>
