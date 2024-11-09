@@ -6,6 +6,7 @@
 package controller;
 
 import dal.QuizDAO;
+import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -68,7 +69,10 @@ public class AddQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("user");
         QuizDAO dao = new QuizDAO();
+        SubjectDAO sdao = new SubjectDAO();
         PrintWriter out = response.getWriter();
         String name = request.getParameter("name");
         String subject_id = request.getParameter("subject_id");
@@ -89,7 +93,7 @@ public class AddQuizServlet extends HttpServlet {
         request.setAttribute("totalquestion", totalquestion);
         request.setAttribute("question_type", question_type);
         
-        request.setAttribute("listSubject", dao.getAllSubject());
+        request.setAttribute("listSubject", sdao.getListSubjectByAccount(a.getAccount_id()));
         request.setAttribute("listLevel", dao.getAllLevel());
         request.setAttribute("listQuiz_Type", dao.getAllQuizType());
         //Get activeTab
@@ -122,7 +126,9 @@ public class AddQuizServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         QuizDAO dao = new QuizDAO();
+        SubjectDAO sdao = new SubjectDAO();
         HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("user");
         PrintWriter out = response.getWriter();
         String name = request.getParameter("name");
         String subject_id = request.getParameter("subject_id");
@@ -145,7 +151,7 @@ public class AddQuizServlet extends HttpServlet {
         request.setAttribute("totalquestion", totalquestion);
         request.setAttribute("question_type", question_type);
         
-        request.setAttribute("listSubject", dao.getAllSubject());
+        request.setAttribute("listSubject", sdao.getListSubjectByAccount(a.getAccount_id()));
         request.setAttribute("listLevel", dao.getAllLevel());
         request.setAttribute("listQuiz_Type", dao.getAllQuizType());
         
