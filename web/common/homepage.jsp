@@ -202,7 +202,7 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 heading-bx left">
-                                    <h2 class="title-head" style="color: white">All <span>Subject</span></h2>
+                                    <h2 class="title-head" style="color: white">All <span>Subject </span></h2>
                                 </div>
                             </div>
                             <div class="row">

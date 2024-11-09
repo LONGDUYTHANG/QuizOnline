@@ -106,15 +106,17 @@
            SubjectDAO subjectDAO=new SubjectDAO();
            Subject subject=subjectDAO.getSubjectByID( id);%>
             <div class="table-responsive">
-                <form action="vnpayajax?name=<%=subject.getSubjectName()%>"  method="post">        
+                <form action="vnpayajax?name=<%=subject.getSubjectName()%>"  method="post">   
+                    <%String raw_sale_price=request.getParameter("pkg_price");
+                    double sale_price=Double.parseDouble(raw_sale_price)*1000;%>
                     <div class="form-group">
                         <label for="amount">Price:</label>
-                        <input class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" max="100000000" min="1" name="amount" type="number" value="10000" />
+                        <input class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." name="amount" type="number" value="<%=sale_price%>" />
                     </div>  
                     <div class="form-group">
                         <label for="amount">Description</label>
                         <input class="form-control" data-val="true" data-val-number="The field Amount must be a number." data-val-required="The Amount field is required." id="amount" max="100000000" min="1" name="description" type="text" value="Buy Subject: <%=subject.getSubjectName() %>" />
-                    </div> 
+                    </div>  
                     <div class="form-group">
                         <h5>Language:</h5>
                         <div class="form-check">

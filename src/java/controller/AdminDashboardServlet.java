@@ -12,6 +12,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Subject;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -60,36 +62,36 @@ public class AdminDashboardServlet extends HttpServlet {
         //revenue in 12 months
         ArrayList<Integer> month_revenue = myRegistrationDAO.getListPriceByMonth();
         request.setAttribute("month_revenue", month_revenue);
-        double all_month_revenue = myRegistrationDAO.getMonthRevenue(LocalDate.now().minusDays(7));
+        double all_month_revenue = myRegistrationDAO.getMonthRevenue(LocalDate.now());
         request.setAttribute("all_month_revenue", all_month_revenue);
         //number of registration of 12 months
         ArrayList<Integer> month_registrations = myRegistrationDAO.getRegistrationByMonth();
         request.setAttribute("month_registration", month_registrations);
-        int all_month_registration=myRegistrationDAO.getMonthRegitration(LocalDate.now().minusDays(7));
+        int all_month_registration=myRegistrationDAO.getMonthRegitration(LocalDate.now());
         request.setAttribute("all_month_registration", all_month_registration);
         ArrayList<Integer> month_registration_status=myRegistrationDAO.getMonthRegistrationStatus();
         request.setAttribute("month_registration_status", month_registration_status);
         //get revenue of a week
-        ArrayList<Integer> week_revenue = myRegistrationDAO.getRevenueByWeek(LocalDate.now().minusDays(7));
+        ArrayList<Integer> week_revenue = myRegistrationDAO.getRevenueByWeek(LocalDate.now());
         request.setAttribute("week_revenue", week_revenue);
         double all_week_revenue=myRegistrationDAO.getAllWeekRevenue(LocalDate.now());
         request.setAttribute("all_week_revenue", all_week_revenue);
         //get numbr of registration of 1 week
-        ArrayList<Integer> week_registrations = myRegistrationDAO.getNumberofRegistrationsInAWeek(LocalDate.now().minusDays(7));
+        ArrayList<Integer> week_registrations = myRegistrationDAO.getNumberofBoughtSubjectInAWeek(LocalDate.now().minusDays(7));
         request.setAttribute("week_registration", week_registrations);
         int all_week_registration=myRegistrationDAO.getAllWeekRegitration(LocalDate.now());
         request.setAttribute("all_week_registration", all_week_registration);
-        ArrayList<Integer> week_registration_status=myRegistrationDAO.getWeekRegistrationStatus(LocalDate.now().minusDays(7));
+        ArrayList<Integer> week_registration_status=myRegistrationDAO.getWeekRegistrationStatus(LocalDate.now());
         request.setAttribute("week_registration_status", week_registration_status);
         //get user of a month
         ArrayList<Integer> month_user = myRegistrationDAO.getMonthUser();
         request.setAttribute("month_user", month_user);
-        int all_month_user=myRegistrationDAO.getUserInAMonth(LocalDate.now().minusDays(7));
+        int all_month_user=myRegistrationDAO.getUserInAMonth(LocalDate.now());
         request.setAttribute("all_month_user", all_month_user);
         //get user of a week
-        ArrayList<Integer> week_user = myRegistrationDAO.getNumberofUsersInAWeek(LocalDate.now().minusDays(14));
+        ArrayList<Integer> week_user = myRegistrationDAO.getNumberofUsersInAWeek(LocalDate.now());
         request.setAttribute("week_user", week_user);
-        int all_week_user=myRegistrationDAO.getAllUserInAWeek(LocalDate.now().minusDays(14));
+        int all_week_user=myRegistrationDAO.getAllUserInAWeek(LocalDate.now());
         request.setAttribute("all_week_user", all_week_user);
         
         //Total revenue
@@ -99,6 +101,14 @@ public class AdminDashboardServlet extends HttpServlet {
         //Total user
         int total_user=myRegistrationDAO.getAllUser();
         request.setAttribute("total_user",total_user);
+        
+        //Total bought subjects
+        int total_bought_subject=myRegistrationDAO.GetAllBoughtSubjects();
+        request.setAttribute("total_bought_subject",total_bought_subject);
+        ArrayList<Subject> bought_subjects=myRegistrationDAO.getTop5BoughtSubjects();
+
+        request.setAttribute("top_5_bought_subjects",bought_subjects);
+        
 
         request.getRequestDispatcher("admin/dashboard.jsp").forward(request, response);
     } 

@@ -579,6 +579,26 @@ public class SubjectDAO extends DBContext {
         return 0;
     }
 
+    /**
+     * Get subject by subject name
+     * @param subjectName
+     * @return      subject object  
+     */
+    public int GetSubjectIdBySubjectName(String subjectName) {
+        String sql = "SELECT subject_id FROM Subject WHERE subject_name = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, subjectName);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("subject_id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
         SubjectDAO s=new SubjectDAO();
 boolean check=s.HasSubjectNotBeenInteract(4, 11);
