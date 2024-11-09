@@ -142,7 +142,7 @@
                                 </div>
 
                                 <div class="col-lg-9 col-md-8 col-sm-12">
-                                    <!<!-- thÍm subject detail -->
+                                    <!<!-- th√™m subject detail -->
                                     <c:set var="c" value="${requestScope.mySubject}" />
                                     <div class="courses-post">
                                         <div class="ttr-post-media media-effect">
@@ -193,13 +193,13 @@
                                                                             <c:choose>
                                                                                 <c:when test="${lesson.lesson_type_id == 1}">
                                                                                     <a href="lesson_detail?lesson_id=${lesson.lesson_id}">
-                                                                                        <span>Lesson ${lesson.lesson_order}.</span>
+                                                                                        <span>Lesson </span>
                                                                                         ${lesson.lesson_name}
                                                                                     </a>
                                                                                 </c:when>
                                                                                 <c:when test="${lesson.lesson_type_id == 2}">
                                                                                     <a href="quiz_handling?id=${lesson.quiz_id}">
-                                                                                        <span>Quiz ${lesson.lesson_order}.</span>
+                                                                                        <span>Quiz </span>
                                                                                         ${lesson.lesson_name}
                                                                                     </a>
                                                                                 </c:when>
@@ -211,7 +211,7 @@
                                                                     </c:if>
                                                                     <c:if test="${!isRegistered}">
                                                                         <div class="curriculum-list-box">
-                                                                            <span>Lesson ${lesson.lesson_order}.</span>
+                                                                            <span>Lesson </span>
                                                                             ${lesson.lesson_name}
                                                                         </div>
                                                                     </c:if>
@@ -282,7 +282,7 @@
                                                             var salePrice = selectedOption.getAttribute('data-price');
                                                             var priceElement = document.querySelector('.course-price h4.price');
 
-                                                            // C?p nh?t gi· hi?n th?
+                                                            // C?p nh?t gi√° hi?n th?
                                                             priceElement.innerText = salePrice;
                                                         }
         </script>
