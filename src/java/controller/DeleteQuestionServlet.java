@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Quiz_Question;
 
 /**
  *
@@ -58,15 +59,19 @@ public class DeleteQuestionServlet extends HttpServlet {
         int question_id = Integer.parseInt(request.getParameter("question_id"));
         out.print(question_id);
         QuestionDAO dao = new QuestionDAO();
-        try {
-            dao.deleteAnswers(question_id);
-            dao.deleteQuestion(question_id);
+        Quiz_Question qq = dao.getQuiz_Question(question_id);
+        if (qq != null) {
+            response.sendRedirect("questionlist?showFailMessage=true");
+        } else {
+            try {
+                dao.deleteAnswers(question_id);
+                dao.deleteQuestion(question_id);
+                response.sendRedirect("questionlist?showSuccessMessage=true");
+            } catch (Exception ex) {
+                out.println(ex);
+            }
         }
-        catch (Exception ex) {
-            out.println(ex);
-        }
-        request.getRequestDispatcher("questionlist").forward(request, response);
-    } 
+    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.
