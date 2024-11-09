@@ -189,6 +189,11 @@
         <servlet-class>controller.CustomerSearchRegistration</servlet-class>
     </servlet>
     <servlet>
+
+        <servlet-name>SalerImportRegistration</servlet-name>
+        <servlet-class>controller.SalerImportRegistration</servlet-class>
+</servlet>
+<servlet>
         <servlet-name>DeleteLessonServlet</servlet-name>
         <servlet-class>controller.DeleteLessonServlet</servlet-class>
     </servlet>
@@ -385,6 +390,10 @@
         <url-pattern>/customersearchregistration</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>SalerImportRegistration</servlet-name>
+        <url-pattern>/salerimportregistration</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
         <servlet-name>DeleteLessonServlet</servlet-name>
         <url-pattern>/deletelesson</url-pattern>
     </servlet-mapping>
@@ -467,4 +476,7 @@
         <servlet-name>DeleteRegistrationServlet</servlet-name>
         <url-pattern>/salerdeleteregistration</url-pattern>
     </servlet-mapping>
+    <listener>
+    <listener-class>controller.VisitorCounterListener</listener-class>
+</listener>
 </web-app>

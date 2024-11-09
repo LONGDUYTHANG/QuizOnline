@@ -15,6 +15,7 @@ import model.DimensionType;
 import model.Lesson_Topic;
 import model.Level;
 import model.Question_Handle;
+import model.Quiz_Question;
 import model.Subject;
 
 /**
@@ -576,11 +577,25 @@ public class QuestionDAO extends DBContext {
             System.out.println(ex);
         }
     }
-
+    public Quiz_Question getQuiz_Question(int question_id_raw) {
+        String sql = "select * from Quiz_Question where question_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, question_id_raw);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int quiz_id = rs.getInt("quiz_id");
+                int question_id = rs.getInt("question_id");
+                
+                return new Quiz_Question(quiz_id, question_id);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
     public static void main(String[] args) {
         QuestionDAO dao = new QuestionDAO();
-        List<Question_Handle> l = dao.getAllQuestionByQuizId(6, 10);
-        System.out.println(l);
 
     }
 }

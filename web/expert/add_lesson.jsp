@@ -134,11 +134,12 @@
                         </div>
                         <script>
                             function submitForm1() {
-                                var form = document.getElementById('form1');
-                                form.submit();
+                                if (validateForm1()) {
+                                document.getElementById('form1').submit();
                             }
+                        }
                         </script>
-                        <form id="form1" action="addlesson" method="post">
+                        <form id="form1" action="addlesson" method="post" onsubmit="return validateForm()">
                             <input type="hidden" value="${requestScope.subjectId}" name="subjectId">
                             <div class="form-group">
                                 <label for="type">Type</label>
@@ -151,7 +152,7 @@
 
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" id="name" name="name" placeholder="Enter Lesson Name">
+                                <input type="text" id="name" name="name" placeholder="Enter Lesson Name" required>
                             </div>
 
                             <div class="form-group">
@@ -165,12 +166,12 @@
 
                             <div class="form-group">
                                 <label for="summary">Summary</label>
-                                <textarea id="summary" name="summary" placeholder="Enter Summary"></textarea>
+                                <textarea id="summary" name="summary" placeholder="Enter Summary" required></textarea>
                             </div>
 
                             <div class="form-group">
                                 <label for="order">Order</label>
-                                <input type="number" id="order" name="order" value="1">
+                                <input type="number" id="order" name="order" value="1" min="1" onkeydown="return false;" required>
                             </div>
 
                             <div class="form-group">
@@ -181,6 +182,27 @@
                                 </select>
                             </div>
                         </form>
+                            <script>
+                                function validateForm1() {
+                                    // Get form elements
+                                    const name = document.getElementById("name").value.trim();
+                                    const summary = document.getElementById("summary").value.trim();
+                                    const order = document.getElementById("order");
+
+                                    // Check if required fields are empty
+                                    if (!name || !summary) {
+                                        alert("Please fill out all required fields.");
+                                        return false;
+                                    }
+
+                                    // Set default value for 'order' if empty
+                                    if (!order.value || order.value < 1) {
+                                        order.value = 1;
+                                    }
+
+                                    return true;  // Allow form submission
+                                }
+                                </script>
                     </div>
 
                     <!-- Page 2: Video Type -->
@@ -202,7 +224,9 @@
                                 document.getElementById('quillContent').value = quillContent;
 
                                 // Submit the form
-                                document.getElementById('form2').submit();
+                                if (validateForm2()) {
+                                    document.getElementById('form2').submit();
+                                }
                             }
                         </script>
                         <form id="form2" action="addlesson" method="post">
@@ -217,8 +241,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" id="name" placeholder="Enter Lesson Name" name="name">
+                                <label for="name2">Name</label>
+                                <input type="text" id="name2" placeholder="Enter Lesson Name" name="name" required>
                             </div>
 
                             <div class="form-group">
@@ -231,13 +255,13 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="summary">Summary</label>
-                                <textarea id="summary" name="summary" placeholder="Enter summary"></textarea>
+                                <label for="summary2">Summary</label>
+                                <textarea id="summary2" name="summary" placeholder="Enter summary" required></textarea>
                             </div>
                             
                             <div class="form-group">
                                 <label for="order">Order</label>
-                                <input type="number" id="order" name="order" value="1">
+                                <input type="number" id="order2" name="order" value="1" min="1" onkeydown="return false;" required>
                             </div>
 
                             <div class="form-group">
@@ -249,8 +273,8 @@
                             </div>
                             
                             <div class="form-group">
-                                <label for="video-link">Video Link</label>
-                                <input type="url" id="video-link" name="url" placeholder="Ex: https://www.youtube.com/embed/example">
+                                <label for="video_link">Video Link</label>
+                                <input type="url" id="video_link" name="url" placeholder="Ex: https://www.youtube.com/embed/example" required>
                             </div>
 
                             <div class="form-group">
@@ -307,6 +331,25 @@
                                     </div>
                                 </div>
                             </div>
+                            <script>
+                                function validateForm2() {
+                                    // Get form elements
+                                    const name = document.getElementById("name2").value.trim();
+                                    const summary = document.getElementById("summary2").value.trim();
+                                    const order = document.getElementById("order2");
+                                    const video_link = document.getElementById("video_link");
+                                    // Check if required fields are empty
+                                    if (!name || !summary) {
+                                        alert("Please fill out all required fields.");
+                                        return false;
+                                    }
+                                    else if (!video_link.validity.valid) {
+                                        alert("Invalid URL");
+                                        return false;
+                                    }
+                                    return true;  // Allow form submission
+                                }
+                            </script>
                         </form>
                     </div>
 
@@ -322,7 +365,9 @@
                         <script>
                             function submitForm3() {
                                 // Submit the form
-                                document.getElementById('form3').submit();
+                                if (validateForm3()) {
+                                    document.getElementById('form3').submit();
+                                }
                             }
                         </script>
                         <form id="form3" action="addlesson" method="post">
@@ -337,8 +382,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" id="name" name="name" placeholder="Enter Lesson Name">
+                                <label for="name3">Name</label>
+                                <input type="text" id="name3" name="name" placeholder="Enter Lesson Name" required>
                             </div>
                             
                             <div class="form-group">
@@ -351,13 +396,13 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="summary">Summary</label>
-                                <textarea id="summary" name="summary" placeholder="Enter Summary"></textarea>
+                                <label for="summary3">Summary</label>
+                                <textarea id="summary3" name="summary" placeholder="Enter Summary" required></textarea>
                             </div>
                             
                             <div class="form-group">
-                                <label for="order">Order</label>
-                                <input type="number" id="order" name="order" value="1">
+                                <label for="order3">Order</label>
+                                <input type="number" id="order3" name="order" value="1" min="1" onkeydown="return false;" required>
                             </div>
 
                             <div class="form-group">
@@ -376,6 +421,19 @@
                                     </c:forEach>
                                 </select>
                             </div>
+                            <script>
+                                function validateForm3() {
+                                    // Get form elements
+                                    const name = document.getElementById("name3").value.trim();
+                                    const summary = document.getElementById("summary3").value.trim();
+                                    // Check if required fields are empty
+                                    if (!name || !summary) {
+                                        alert("Please fill out all required fields.");
+                                        return false;
+                                    }
+                                    return true;  // Allow form submission
+                                }
+                            </script>
                         </form>
                     </div>
                 </main>
