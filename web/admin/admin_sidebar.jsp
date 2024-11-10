@@ -30,7 +30,7 @@
                         <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> Statistic</a>
                         <div class="dropdown-divider"></div>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Log out</a>
+                        <a class="dropdown-item" href="logout">Log out</a>
                     </div>
 
                     <div class="sidebar-user-subtitle">Admin</div>
