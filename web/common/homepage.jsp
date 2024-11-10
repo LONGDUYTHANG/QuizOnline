@@ -555,15 +555,17 @@
                     loginPopup.style.display = 'flex';
                     return;
                 }
-                if (loginError !== null & loginError.textContent === "Email must end with @fpt.edu.vn") {
+                if (loginError !== null & loginError.textContent === "Email must end with @fpt.edu.vn"||
+                        loginError.textContent === "Password must contain at least 8 characters, 1 uppercase letter, 1 number and 1 special character") {
                     loginPopup.style.display = 'flex';
                     return;
                 }
-                if (emailError.textContent === "Email existed!" || emailError.textContent === "Email must end with @fpt.edu.vn") {
+                if (emailError.textContent === "Email existed!" || emailError.textContent === "Email must end with @fpt.edu.vn" ) {
                     registerPopup.style.display = 'flex';
                     return;
                 }
-                if (passError !== null && passError.textContent === "Wrong confirmed password!") {
+                if (passError !== null && passError.textContent === "Wrong confirmed password!"
+                        ||passError.textContent === "Password must contain at least 8 characters, 1 uppercase letter, 1 number and 1 special character") {
                     registerPopup.style.display = 'flex';
                     return;
                 }

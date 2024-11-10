@@ -77,7 +77,7 @@ public class AdminDashboardServlet extends HttpServlet {
         double all_week_revenue=myRegistrationDAO.getAllWeekRevenue(LocalDate.now());
         request.setAttribute("all_week_revenue", all_week_revenue);
         //get numbr of registration of 1 week
-        ArrayList<Integer> week_registrations = myRegistrationDAO.getNumberofBoughtSubjectInAWeek(LocalDate.now().minusDays(7));
+        ArrayList<Integer> week_registrations = myRegistrationDAO.getNumberofBoughtSubjectInAWeek(LocalDate.now());
         request.setAttribute("week_registration", week_registrations);
         int all_week_registration=myRegistrationDAO.getAllWeekRegitration(LocalDate.now());
         request.setAttribute("all_week_registration", all_week_registration);

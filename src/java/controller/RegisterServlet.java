@@ -84,6 +84,12 @@ public class RegisterServlet extends HttpServlet {
             request.getRequestDispatcher("homepage").forward(request, response);
             return;
         }
+                if(!isValidPassword(pass)){
+            String ms = "Password must contain at least 8 characters, 1 uppercase letter, 1 number and 1 special character";
+            request.setAttribute("login_error", ms);
+            request.getRequestDispatcher("homepage").forward(request, response);
+            return;
+        }
         HttpSession session=request.getSession();
         //thong bao loi gui lai nguoi dung
         String register_error = "";
@@ -129,6 +135,12 @@ public class RegisterServlet extends HttpServlet {
         String emailRegex = "^[A-Za-z0-9._%+-]+@fpt\\.edu\\.vn$";
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+     private boolean isValidPassword(String password) {
+        String passwordRegex = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$";
+        Pattern pattern = Pattern.compile(passwordRegex);
+        Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
 
