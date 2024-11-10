@@ -95,6 +95,12 @@
             #fail-message {
                 display: none;
             }
+            #importfail {
+                display: none;
+            }
+            #importsuccess {
+                display: none;
+            }
         </style>
 
         <!-- jQuery (Required for DataTables) -->
@@ -136,6 +142,19 @@
                             <strong>Can not Delete! </strong>This question is activated in another quiz!
                         </div>
                     </div>
+                    <div id="importfail" class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <div class="alert-message" style="background-color: red; color: white">
+                            <strong>Import failed! </strong>Make sure you follow the template
+                        </div>
+                    </div>
+                    <div id="importsuccess" class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="alert-message">
+                        <strong>Import questions successful! </strong>
+                    </div>
+                </div>
+                <script>
                 <script>
                         document.addEventListener('DOMContentLoaded', (event) => {
                             let showMessageSuccess = ${requestScope.showSuccessMessage};
@@ -168,6 +187,58 @@
                             let message = document.getElementById('fail-message');
 
                             if (showMessageSuccess) {
+                                // Show the message initially
+                                message.style.display = 'block';
+                                message.style.opacity = 1;
+
+                                // Fade out after 0.5 seconds
+                                setTimeout(() => {
+                                    let opacity = 1;
+                                    let interval = setInterval(() => {
+                                        if (opacity <= 0) {
+                                            clearInterval(interval);
+                                            message.style.display = 'none';
+                                        } else {
+                                            opacity -= 0.05; // Adjust the decrement step for different speeds
+                                            message.style.opacity = opacity;
+                                        }
+                                    }, 50); // Adjust interval timing as needed
+                                }, 1000); // Show duration before starting fade-out
+                            }
+                        });
+                    </script>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', (event) => {
+                            let showImportFail = ${requestScope.importfail};
+                            let message = document.getElementById('importfail');
+
+                            if (showImportFail) {
+                                // Show the message initially
+                                message.style.display = 'block';
+                                message.style.opacity = 1;
+
+                                // Fade out after 0.5 seconds
+                                setTimeout(() => {
+                                    let opacity = 1;
+                                    let interval = setInterval(() => {
+                                        if (opacity <= 0) {
+                                            clearInterval(interval);
+                                            message.style.display = 'none';
+                                        } else {
+                                            opacity -= 0.05; // Adjust the decrement step for different speeds
+                                            message.style.opacity = opacity;
+                                        }
+                                    }, 50); // Adjust interval timing as needed
+                                }, 1000); // Show duration before starting fade-out
+                            }
+                        });
+                    </script>
+                            <script>
+                        document.addEventListener('DOMContentLoaded', (event) => {
+                            let showImportSuccess = ${requestScope.importsuccess};
+                            let message = document.getElementById('importsuccess');
+
+                            if (showImportSuccess) {
                                 // Show the message initially
                                 message.style.display = 'block';
                                 message.style.opacity = 1;
@@ -240,6 +311,12 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
+                                    <!-- Download link added here -->
+                                    <a href="template/QuestionTemplate.xlsx" download class="btn btn-secondary mb-3">
+                                        Download Sample Excel File
+                                    </a>
+
+                                    <!-- Form for uploading file -->
                                     <form id="importForm" method="post" action="import" enctype="multipart/form-data">
                                         <div class="mb-3">
                                             <label for="fileInput" class="form-label">Select Excel File</label>
@@ -251,9 +328,9 @@
                             </div>
                         </div>
                     </div>
-                </main>
+                            </main>
 
-                <jsp:include page="footer.jsp"/>    
+                            <jsp:include page="footer.jsp"/>    
             </div>
         </div>
         <jsp:include page="script.jsp"/>

@@ -85,6 +85,7 @@ public class ChangeAvatar extends HttpServlet {
         AccountDAO ad = new AccountDAO();
         String newAvatar = "img\\avatars\\" + fileName;
         ad.changeAvatar(newAvatar, a);
+        session.setAttribute("changed_avt", "done");
         response.sendRedirect("profile");
     }
 

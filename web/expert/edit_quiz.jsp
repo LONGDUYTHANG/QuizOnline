@@ -331,7 +331,7 @@
                                                         </select>
                                                     </c:otherwise>
                                                 </c:choose>
-                                                <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" placeholder="Questions" style="width: 100px; caret-color: transparent;" value="${group.getNumberOfQuestions()}" min="0">
+                                                <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" style="width: 100px; caret-color: transparent;" value="${group.getNumberOfQuestions()}" min="0">
                                                 <button type="button" class="btn btn-secondary" onclick="removeGroup(this)">Delete</button>
                                             </div>
                                         </c:forEach>
@@ -375,7 +375,7 @@
                                                         </select>
                                                     </c:otherwise>
                                                 </c:choose>
-                                                <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" placeholder="Questions" style="width: 100px; caret-color: transparent;" value="${group.getNumberOfQuestions()}" min="0">
+                                                <input type="number" class="form-control me-2 number-of-questions" name="number_of_questions" style="width: 100px; caret-color: transparent;" value="${group.getNumberOfQuestions() != null ? group.getNumberOfQuestions() : 0}" min="0">
                                                 <button type="button" class="btn btn-secondary" onclick="removeGroup(this)">Delete</button>
                                             </div>`;
 
@@ -428,7 +428,13 @@
                             </div>
                         </form>
                     </div>
-
+                    <script>
+                                        document.querySelector('.number-of-questions').addEventListener('blur', function() {
+                                            if (this.value === '') {
+                                                this.value = 0;
+                                            }
+                                        });
+                                    </script>                                
                 </main>
                 <!-- Script to handle active tab -->
                 <script>

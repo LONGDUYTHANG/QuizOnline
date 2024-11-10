@@ -1092,7 +1092,8 @@ public class RegistrationDAO extends DBContext {
         return false;
     }
 
-    public boolean CofirmRegistration(LocalDateTime registration_time,int account_id, int subject_id, double sale_price, double list_price, double cost) {
+    public boolean CofirmRegistration(LocalDateTime registration_time,int account_id, int subject_id, double sale_price,
+            double list_price, double cost, LocalDateTime valid_from, LocalDateTime valid_to, int package_id) {
         PreparedStatement stm;
         try {
             String strSelect = "Update Registration"
@@ -1100,15 +1101,46 @@ public class RegistrationDAO extends DBContext {
                     + " registration_time=?,"
                     + " cost=?,"
                     + " sale_price=?,"
-                    + " list_price=?"
+                    + " list_price=?,"
+                    + " valid_from=?,"
+                    + " valid_to=?,"
+                    + " package_id=?"
                     + " WHERE account_id=? AND subject_id=? AND status_id=2";
             stm = connection.prepareStatement(strSelect);
             stm.setTimestamp(1, java.sql.Timestamp.valueOf(registration_time));
             stm.setDouble(2, cost);
             stm.setDouble(3, sale_price);
             stm.setDouble(4, list_price);
-            stm.setInt(5, account_id);
-            stm.setInt(6, subject_id);
+            stm.setTimestamp(5, java.sql.Timestamp.valueOf(valid_from));
+            stm.setTimestamp(6, java.sql.Timestamp.valueOf(valid_to));
+            stm.setInt(7, package_id);
+            stm.setInt(8, account_id);
+            stm.setInt(9, subject_id);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+    
+    public boolean PurchasedSubject(LocalDateTime registration_time,int account_id, int subject_id, double sale_price,
+            double list_price, double cost, LocalDateTime valid_from, LocalDateTime valid_to, int package_id) {
+        PreparedStatement stm;
+        try {
+            String strSelect = "INSERT INTO Registration (registration_time, account_id, subject_id, cost, list_price, sale_price, status_id, valid_from, valid_to, package_id, note) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+            stm = connection.prepareStatement(strSelect);
+            stm.setTimestamp(1, java.sql.Timestamp.valueOf(registration_time));
+            stm.setInt(2, account_id);
+            stm.setInt(3, subject_id);
+            stm.setDouble(4, cost);
+            stm.setDouble(5, list_price);
+            stm.setDouble(6, sale_price);
+            stm.setInt(7, 3);
+            stm.setTimestamp(8, java.sql.Timestamp.valueOf(valid_from));
+            stm.setTimestamp(9, java.sql.Timestamp.valueOf(valid_to));
+            stm.setInt(10, package_id);
+            stm.setString(11, "Online Payment");
             stm.executeUpdate();
             return true;
         } catch (SQLException e) {

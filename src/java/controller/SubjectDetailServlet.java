@@ -68,14 +68,9 @@ public class SubjectDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
         String raw_subject_id = request.getParameter("subject_id");
-        int subject_id = 0;
-        try {
-            subject_id = Integer.parseInt(raw_subject_id);
-        } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid subject ID.");
-            return;
-        }
+        int subject_id = Integer.parseInt(raw_subject_id);
 
         PackageDAO packageDAO = new PackageDAO();
 
@@ -119,6 +114,7 @@ public class SubjectDetailServlet extends HttpServlet {
         // Lấy thông tin gói khóa học
         String selectedDuration = request.getParameter("courseDuration");
         model.Package selectedPackageModel = packageList.get(0);
+        out.print(selectedPackageModel);
         if (selectedDuration != null) {
             try {
                 int duration = Integer.parseInt(selectedDuration);
@@ -157,7 +153,6 @@ public class SubjectDetailServlet extends HttpServlet {
                 SubjectDAO registrationDAO = new SubjectDAO();
                 isRegistered = registrationDAO.isSubjectRegistered(user.getAccount_id(), subject_id);
                 request.setAttribute("isRegistered", isRegistered);
-
                 request.getRequestDispatcher("customer/subject_details.jsp").forward(request, response);
                 return;
             }

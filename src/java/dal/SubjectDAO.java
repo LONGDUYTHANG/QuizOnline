@@ -389,27 +389,80 @@ public class SubjectDAO extends DBContext {
     }
 
     public List<Subject> getFeaturedSubjects() {
-        List<Subject> subjects = getSubject();
-        List<Subject> featuredSubjects = new ArrayList<>();
+        List<Subject> subjects = new ArrayList<>();
+        String sql = "SELECT * FROM Subject WHERE isFeatured = 1";
 
-        for (Subject subject : subjects) {
-            if (subject.isIsFeatured()) {
-                featuredSubjects.add(subject);
+        try (PreparedStatement pstmt = connection.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Subject subject = new Subject();
+                subject.setSubjectId(rs.getInt("subject_id"));
+                subject.setSubjectName(rs.getString("subject_name"));
+                subject.setCategoryId(rs.getInt("category_id"));
+                subject.setStatus(rs.getInt("status") == 1);
+                subject.setIsFeatured(rs.getBoolean("isFeatured"));
+                subject.setThumbnail(rs.getString("thumbnail"));
+                subject.setTagline(rs.getString("tagline"));
+                subject.setDescription(rs.getString("description"));
+                subject.setAccountId(rs.getInt("account_id"));
+                subject.setCreatedDate(rs.getTimestamp("created_date"));
+                subjects.add(subject);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        return featuredSubjects;
+        return subjects;
     }
 
     public List<Subject> getLatestSubjects() {
-        List<Subject> subjects = getSubject();
-        subjects.sort((s1, s2) -> s2.getCreatedDate().compareTo(s1.getCreatedDate()));
+        List<Subject> subjects = new ArrayList<>();
+        String sql = "SELECT * FROM Subject ORDER BY created_date DESC";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Subject subject = new Subject();
+                subject.setSubjectId(rs.getInt("subject_id"));
+                subject.setSubjectName(rs.getString("subject_name"));
+                subject.setCategoryId(rs.getInt("category_id"));
+                subject.setStatus(rs.getInt("status") == 1);
+                subject.setIsFeatured(rs.getBoolean("isFeatured"));
+                subject.setThumbnail(rs.getString("thumbnail"));
+                subject.setTagline(rs.getString("tagline"));
+                subject.setDescription(rs.getString("description"));
+                subject.setAccountId(rs.getInt("account_id"));
+                subject.setCreatedDate(rs.getTimestamp("created_date"));
+                subjects.add(subject);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return subjects;
     }
 
     public List<Subject> getOldestSubjects() {
-        List<Subject> subjects = getSubject();
-        subjects.sort((s1, s2) -> s1.getCreatedDate().compareTo(s2.getCreatedDate()));
+        List<Subject> subjects = new ArrayList<>();
+        String sql = "SELECT * FROM Subject ORDER BY created_date ASC";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Subject subject = new Subject();
+                subject.setSubjectId(rs.getInt("subject_id"));
+                subject.setSubjectName(rs.getString("subject_name"));
+                subject.setCategoryId(rs.getInt("category_id"));
+                subject.setStatus(rs.getInt("status") == 1);
+                subject.setIsFeatured(rs.getBoolean("isFeatured"));
+                subject.setThumbnail(rs.getString("thumbnail"));
+                subject.setTagline(rs.getString("tagline"));
+                subject.setDescription(rs.getString("description"));
+                subject.setAccountId(rs.getInt("account_id"));
+                subject.setCreatedDate(rs.getTimestamp("created_date"));
+                subjects.add(subject);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return subjects;
     }
 
@@ -549,7 +602,7 @@ public class SubjectDAO extends DBContext {
         }
         return subject_id_list;
     }
-    
+
     public boolean HasSubjectNotBeenInteract(int accountId, int subjectId) {
         String sql = "SELECT 1 FROM Registration WHERE account_id = ? AND subject_id = ? and (status_id = 3 or status_id=2)";
 
@@ -563,6 +616,7 @@ public class SubjectDAO extends DBContext {
         }
         return true;  // Trả về false nếu có lỗi hoặc không tìm thấy bản ghi
     }
+
     public int getNumberOfLessonsBySubject(int subject_id) {
         String sql = "SELECT COUNT(lesson_id) AS result FROM Lesson WHERE subject_id = ?";
         try {
@@ -581,8 +635,9 @@ public class SubjectDAO extends DBContext {
 
     /**
      * Get subject by subject name
+     *
      * @param subjectName
-     * @return      subject object  
+     * @return subject object
      */
     public int GetSubjectIdBySubjectName(String subjectName) {
         String sql = "SELECT subject_id FROM Subject WHERE subject_name = ?";
@@ -600,8 +655,8 @@ public class SubjectDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-        SubjectDAO s=new SubjectDAO();
-boolean check=s.HasSubjectNotBeenInteract(4, 11);
+        SubjectDAO s = new SubjectDAO();
+        boolean check = s.HasSubjectNotBeenInteract(4, 11);
         System.out.println(check);
     }
 }

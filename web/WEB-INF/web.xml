@@ -479,4 +479,12 @@
     <listener>
     <listener-class>controller.VisitorCounterListener</listener-class>
 </listener>
+<servlet>
+        <servlet-name>UpdateRegistrationServlet</servlet-name>
+        <servlet-class>controller.UpdateRegistrationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateRegistrationServlet</servlet-name>
+        <url-pattern>/salerupdateregistration</url-pattern>
+    </servlet-mapping>
 </web-app>

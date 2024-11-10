@@ -60,7 +60,8 @@
         </form>
         <c:if test="${update_ss}">
             <div style="background-color: white; position: absolute; top: 100px; width: 800px; left: 600px; height: 200px; text-align: center; border-radius: 8px; box-shadow: 1px 1px 9px 1px">
-                UPDATE SUCCESS!
+                <h1>UPDATE SUCCESS!</h1>
+                <br>
                 <a href="profile">return</a>
             </div>
         </c:if>
