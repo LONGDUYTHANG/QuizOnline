@@ -487,7 +487,5 @@
         <servlet-name>UpdateRegistrationServlet</servlet-name>
         <url-pattern>/salerupdateregistration</url-pattern>
     </servlet-mapping>
-    <listener>
-    <listener-class>controller.RegistrationScheduler</listener-class>
-</listener>
+    
 </web-app>

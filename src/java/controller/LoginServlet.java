@@ -5,6 +5,7 @@
 
 package controller;
 
+import Utils.Validation;
 import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -77,11 +78,12 @@ public class LoginServlet extends HttpServlet {
     throws ServletException, IOException {
         //Whenever a user login sucessfully create a sesion to caontain his/her account information
         HttpSession session=request.getSession();
+        Validation valid = new Validation();
         String email=request.getParameter("email");
         String userPass=request.getParameter("userPass");
-        String encrypted_pass=getMD5(userPass);
+        String encrypted_pass= valid.getMD5(userPass);
         String remember_me=request.getParameter("rem");
-        if (!isValidEmail(email)) {
+        if (!valid.isValidEmail(email)) {
             String ms = "Email must end with @fpt.edu.vn";
             request.setAttribute("login_error", ms);
             request.getRequestDispatcher("homepage").forward(request, response);

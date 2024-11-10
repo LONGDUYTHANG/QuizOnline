@@ -60,12 +60,8 @@ public class Quiz_Review extends HttpServlet {
         HttpSession session = request.getSession(true);
         QuizDAO qd = new QuizDAO();
         Practice_Record pr;
-        try {
         int practice_id = Integer.parseInt(request.getParameter("practice_id"));
-            pr = qd.getPracticeRecord(practice_id);
-        } catch (Exception e) {
-            pr = qd.getPracticeRecord(37);
-        }
+        pr = qd.getPracticeRecord(practice_id);
         request.setAttribute("passrate", qd.getPassRate(pr.getQuiz_id()));
         session.setAttribute("practice_record", pr);
         request.setAttribute("num_quest", qd.getNumberOfQuestion(pr.getQuiz_id()));
