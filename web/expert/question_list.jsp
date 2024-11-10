@@ -312,7 +312,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <!-- Download link added here -->
-                                    <a href="template/QuestionTemplate.xlsx" download class="btn btn-secondary mb-3">
+                                    <a href="template/Sample.xlsx" download class="btn btn-secondary mb-3">
                                         Download Sample Excel File
                                     </a>
 
