@@ -1004,10 +1004,11 @@ public class RegistrationDAO extends DBContext {
 
     public static void main(String[] args) {
         RegistrationDAO a =new RegistrationDAO();
-        ArrayList<Subject> s=a.getTop5BoughtSubjects();
-        for(Subject h:s){
-            System.out.println(h.getDescription());
-        }
+       ArrayList<Integer> h=a.getRevenueByWeek(LocalDate.now().minusDays(7));
+       for(int s:h){
+           System.out.println(s);
+       }
+       
     }
 
     /**

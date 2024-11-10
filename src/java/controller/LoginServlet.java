@@ -87,6 +87,12 @@ public class LoginServlet extends HttpServlet {
             request.getRequestDispatcher("homepage").forward(request, response);
             return;
         }
+        if(!isValidPassword(userPass)){
+            String ms = "Password must contain at least 8 characters, 1 uppercase letter, 1 number and 1 special character";
+            request.setAttribute("login_error", ms);
+            request.getRequestDispatcher("homepage").forward(request, response);
+            return;
+        }
 
         //create 2 cookie for email and remember me
         Cookie user_email= new Cookie("c_user", email);
