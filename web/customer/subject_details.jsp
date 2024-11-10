@@ -142,7 +142,7 @@
                                 </div>
 
                                 <div class="col-lg-9 col-md-8 col-sm-12">
-                                    <!<!-- thÃªm subject detail -->
+                                    <!<!-- thêm subject detail -->
                                     <c:set var="c" value="${requestScope.mySubject}" />
                                     <div class="courses-post">
                                         <div class="ttr-post-media media-effect">
@@ -282,11 +282,10 @@
                                                             var salePrice = selectedOption.getAttribute('data-price');
                                                             var priceElement = document.querySelector('.course-price h4.price');
 
-                                                            // C?p nh?t giÃ¡ hi?n th?
+                                                            // C?p nh?t giá hi?n th?
                                                             priceElement.innerText = salePrice;
                                                         }
         </script>
     </body>
 
 </html>
-

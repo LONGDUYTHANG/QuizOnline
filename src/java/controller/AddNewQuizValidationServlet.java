@@ -6,13 +6,16 @@
 package controller;
 
 import dal.QuizDAO;
+import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import model.Account;
 import model.Level;
 import model.Quiz_Type;
 import model.Subject;
@@ -58,8 +61,11 @@ public class AddNewQuizValidationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("user");
         QuizDAO dao = new QuizDAO();
-        List<Subject> listSubject = dao.getAllSubject();
+        SubjectDAO sdao = new SubjectDAO();
+        List<Subject> listSubject = sdao.getListSubjectByAccount(a.getAccount_id());
         List<Level> listLevel = dao.getAllLevel();
         List<Quiz_Type> listQuiz_Type = dao.getAllQuizType();
         request.setAttribute("listSubject", listSubject);

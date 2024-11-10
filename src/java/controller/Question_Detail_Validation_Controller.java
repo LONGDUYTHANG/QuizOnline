@@ -6,6 +6,8 @@
 package controller;
 
 import dal.QuestionDAO;
+import dal.QuizDAO;
+import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,6 +15,8 @@ import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Account;
 
 
 /**
@@ -57,8 +61,11 @@ public class Question_Detail_Validation_Controller extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("user");
+        SubjectDAO sdao = new SubjectDAO();
         QuestionDAO dao = new QuestionDAO();
-        request.setAttribute("listSubject", dao.getAllSubject());
+        request.setAttribute("listSubject", sdao.getListSubjectByAccount(a.getAccount_id()));
         request.setAttribute("listLevel", dao.getAllLevel());
         //Send a message to question_detail.jsp, alert that user added question successfully
         String message = request.getParameter("message");
@@ -77,6 +84,9 @@ public class Question_Detail_Validation_Controller extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("user");
+        SubjectDAO sdao = new SubjectDAO();
         PrintWriter out = response.getWriter();
         QuestionDAO dao = new QuestionDAO();
         String subject_id = request.getParameter("subject_id");
@@ -90,7 +100,7 @@ public class Question_Detail_Validation_Controller extends HttpServlet {
         request.setAttribute("status", Integer.parseInt(status));
         request.setAttribute("content", content);
         request.setAttribute("explanation", explanation);
-        request.setAttribute("listSubject", dao.getAllSubject());
+        request.setAttribute("listSubject", sdao.getListSubjectByAccount(a.getAccount_id()));
         request.setAttribute("listDimension", dao.getAllDimensionBySubjectId(Integer.parseInt(subject_id)));
         request.setAttribute("listLevel", dao.getAllLevel());
         request.setAttribute("listLesson_Topic", dao.getAllLessonTopicBySubjectId(Integer.parseInt(subject_id)));

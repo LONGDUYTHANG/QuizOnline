@@ -1182,4 +1182,15 @@ public class RegistrationDAO extends DBContext {
             throw new RuntimeException(e);
         }
     }
+
+    public void processExpiredRegistrations() {
+        PreparedStatement stm;
+        try {
+            String strSelect = "UPDATE Registration SET status_id=1 WHERE valid_to < GETDATE() AND status_id=3";
+            stm = connection.prepareStatement(strSelect);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
 }

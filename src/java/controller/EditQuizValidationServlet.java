@@ -6,14 +6,17 @@
 package controller;
 
 import dal.QuizDAO;
+import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.time.Duration;
 import java.util.List;
+import model.Account;
 import model.Level;
 import model.Quiz;
 import model.Quiz_Type;
@@ -61,6 +64,9 @@ public class EditQuizValidationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         QuizDAO dao = new QuizDAO();
+        SubjectDAO sdao = new SubjectDAO();
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("user");
         int quiz_id = Integer.parseInt(request.getParameter("quiz_id"));
         
         Quiz quiz = dao.getQuiz(quiz_id);
@@ -82,7 +88,7 @@ public class EditQuizValidationServlet extends HttpServlet {
         request.setAttribute("level_id", quiz.getLevel_id());
         request.setAttribute("quiz", quiz);
         request.setAttribute("minutes", minutes);
-        request.setAttribute("listSubject", dao.getAllSubject());
+        request.setAttribute("listSubject", sdao.getListSubjectByAccount(a.getAccount_id()));
         request.setAttribute("listLevel", dao.getAllLevel());
         request.setAttribute("listQuiz_Type", dao.getAllQuizType());
         if (quiz.getSelectedGroup() == 1) {

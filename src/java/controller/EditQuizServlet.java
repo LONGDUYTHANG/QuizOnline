@@ -6,18 +6,21 @@
 package controller;
 
 import dal.QuizDAO;
+import dal.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import model.Account;
 import model.Question;
 import model.Quiz;
 import model.Quiz_Question;
@@ -63,6 +66,9 @@ public class EditQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("user");
+        SubjectDAO sdao = new SubjectDAO();
         QuizDAO dao = new QuizDAO();
         PrintWriter out = response.getWriter();
         
@@ -77,7 +83,7 @@ public class EditQuizServlet extends HttpServlet {
         request.setAttribute("minutes", minutes);
         request.setAttribute("validation", 1);
         request.setAttribute("question_type", question_type);
-        request.setAttribute("listSubject", dao.getAllSubject());
+        request.setAttribute("listSubject", sdao.getListSubjectByAccount(a.getAccount_id()));
         request.setAttribute("listLevel", dao.getAllLevel());
         request.setAttribute("listQuiz_Type", dao.getAllQuizType());
         
@@ -139,6 +145,17 @@ public class EditQuizServlet extends HttpServlet {
         String number_of_questions[] = request.getParameterValues("number_of_questions");
         String group_selection[] = request.getParameterValues("group_selection");
         
+        boolean no_question = true;
+        for (String number_of_question : number_of_questions) {
+            if(!number_of_question.equals("0")) {
+                no_question = false;
+            }
+        }
+        if (no_question) {
+            String failMessage = "There are no questions in the quiz";
+            response.sendRedirect("editquizvalidation?quiz_id=" + quiz_id + "&failMessage=" + failMessage);
+            return;
+        }
         //This line is temporary, the account_id should be selected from session
         int account_id = 1;
         //Logic
@@ -172,6 +189,16 @@ public class EditQuizServlet extends HttpServlet {
             int level_id_new = Integer.parseInt(level_id);
             double duration_new = Double.parseDouble(duration) * 60;
             double passrate_new = Double.parseDouble(passrate);
+            if (duration_new > 3600) {
+                String failMessage = "Duration cannot exceed 60 minutes";
+                response.sendRedirect("editquizvalidation?quiz_id=" + quiz_id + "&failMessage=" + failMessage);
+                return;
+            }
+            if (passrate_new > 100) {
+                String failMessage = "Passrate cannot exceed 100";
+                response.sendRedirect("editquizvalidation?quiz_id=" + quiz_id + "&failMessage=" + failMessage);
+                return;
+            }
             int quiz_type_id_new = Integer.parseInt(quiztype_id);
             int total_question_new = Integer.parseInt(totalquestion);
             out.println(question_type);

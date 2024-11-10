@@ -138,8 +138,8 @@
                                                         <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>
                                                         <li><a href="#"><i class="fa fa-user"></i>By ${account_list[status.index].first_name} ${account_list[status.index].last_name}</a></li>
                                                     </ul>
-                                                    <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_summary}</a></h5>
-                                                    <p>${c.blog_content}</p>
+                                                    <h5 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h5>
+                                                    <p>${c.blog_summary}</p>
                                                     <div class="post-extra">
                                                         <a href="blog_detail?blog_id=${c.blog_id}" class="btn-link">READ MORE</a>
                                                     </div>
@@ -220,7 +220,7 @@
                                                         <div class="ttr-post-media"> <img src="${c.thumbnail}" width="200" height="143" alt=""> </div>
                                                         <div class="ttr-post-info">
                                                             <div class="ttr-post-header">
-                                                                <h6 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_summary}</a></h6>
+                                                                <h6 class="post-title"><a href="blog_detail?blog_id=${c.blog_id}">${c.blog_title}</a></h6>
                                                             </div>
                                                             <ul class="media-post">
                                                                 <li><a href="#"><i class="fa fa-calendar"></i>${c.created_date}</a></li>

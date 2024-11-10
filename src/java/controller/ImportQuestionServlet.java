@@ -115,11 +115,21 @@ public class ImportQuestionServlet extends HttpServlet {
                         break;
                 }
             }
-            int subject_id = (int) listObject.get(0);
-            int dimension_id = (int) listObject.get(1);
-            int lesson_topic_id = (int) listObject.get(2);
-            int level_id = (int) listObject.get(3);
-            boolean status = (int) listObject.get(4) == 1 ? true : false;
+            int subject_id;
+            int dimension_id;
+            int lesson_topic_id;
+            int level_id;
+            boolean status;
+            try {
+                subject_id = (int) listObject.get(0);
+                dimension_id = (int) listObject.get(1);
+                lesson_topic_id = (int) listObject.get(2);
+                level_id = (int) listObject.get(3);
+                status = (int) listObject.get(4) == 1 ? true : false;
+            } catch (Exception ex) {
+                response.sendRedirect("questionlist?importfail=true");
+                return;
+            }
             String question_content = (String) listObject.get(5);
             String explanation = (String) listObject.get(6);
             String media = (String) listObject.get(7);
@@ -129,7 +139,8 @@ public class ImportQuestionServlet extends HttpServlet {
                 dao.addQuestion(question);
             }
             catch (Exception ex) {
-                out.print(ex);
+                response.sendRedirect("questionlist?importfail=true");
+                return;
             }
             String answer_1 = (String) listObject.get(8);
             String answer_2 = (String) listObject.get(9);
@@ -144,9 +155,11 @@ public class ImportQuestionServlet extends HttpServlet {
                 dao.addAnswer(new Answer(answer_4, isCorrect == 4 ? true : false, question_id));
             }
             catch(Exception ex) {
-                out.print(ex);
+                response.sendRedirect("questionlist?importfail=true");
+                return;
             }
         }
+        request.setAttribute("importsuccess", true);
         request.getRequestDispatcher("questionlist").forward(request, response);
     }
 
