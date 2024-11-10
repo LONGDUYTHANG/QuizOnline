@@ -142,13 +142,14 @@ public class ImportQuestionServlet extends HttpServlet {
                 response.sendRedirect("questionlist?importfail=true");
                 return;
             }
-            String answer_1 = (String) listObject.get(8);
+            
+            try {
+                String answer_1 = (String) listObject.get(8);
             String answer_2 = (String) listObject.get(9);
             String answer_3 = (String) listObject.get(10);
             String answer_4 = (String) listObject.get(11);
             int isCorrect = (int) listObject.get(12);
             int question_id = dao.getLastQuestion().getQuestion_id();
-            try {
                 dao.addAnswer(new Answer(answer_1, isCorrect == 1 ? true : false, question_id));
                 dao.addAnswer(new Answer(answer_2, isCorrect == 2 ? true : false, question_id));
                 dao.addAnswer(new Answer(answer_3, isCorrect == 3 ? true : false, question_id));
