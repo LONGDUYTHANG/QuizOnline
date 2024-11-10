@@ -12,13 +12,10 @@
     </a>
 
 <div style="margin-top: 10px">
-        <h1 class="h3 mb-3"><strong>Statistic</strong> in</h1>
+               <h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
     </div>
          <div style="margin-left: 10px">
-         <select name="cars" id="cars" onchange="changeId()" >
-        <option value="volvo">This Week </option>
-        <option value="saab">Months</option>
-    </select>
+
      </div>
     <div class="navbar-collapse collapse">
         <ul class="navbar-nav navbar-align">
