@@ -104,9 +104,6 @@
                 <jsp:include page="dashboard_navbar.jsp" />
                 <main class="content">
                     <div class="container-fluid p-0">
-
-
-                        <h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
                         <div class="row">
                             <div class="card col-6" >
                                 <div class="card-body">
@@ -140,7 +137,7 @@
                                     <h1 class="mt-1 mb-3" id="all_week_user">${requestScope.total_user} </h1>
                                 </div>
                             </div>
-                                <div class="card col-6" >
+                            <div class="card col-6" >
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col mt-0">
@@ -156,7 +153,7 @@
                                     <h1 class="mt-1 mb-3" id="all_week_user">${applicationScope.visitorCount}</h1>
                                 </div>
                             </div>
-                                <div class="card col-6" >
+                            <div class="card col-6" >
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col mt-0">
@@ -173,279 +170,287 @@
                                 </div>
                             </div>
                         </div>
-                                <div class="row mt-4">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Top 5 Subjects Purchased</h5>
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Top 5 Subjects Purchased</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Subject Name</th>
+                                                    <th>Quantity Purchased</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach var="subject" items="${requestScope.top_5_bought_subjects}" varStatus="status">
+                                                    <tr>
+                                                        <td>${status.index + 1}</td>
+                                                        <td>${subject.subjectName}</td>
+                                                        <td>${subject.description}</td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h1 class="h3 mb-3"><strong>Statistic</strong> in</h1>
+                    </div>
+                    <div style="margin-left: 10px; margin-bottom: 10px">
+                        <select name="cars" id="cars" onchange="changeId()" >
+                            <option value="volvo">This Week </option>
+                            <option value="saab">Months</option>
+                        </select>
+                    </div>
+                    <!-- Revenue statistics-->
+                    <div class="row">
+                        <div class="col-xl-4 col-xxl-3 d-flex">
+                            <div class="w-100">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col mt-0">
+                                                        <h5 class="card-title" id="month_revenue_label" style="display: none">Month Revenue</h5>
+                                                        <h5 class="card-title" id="week_revenue_label">Week Revenue</h5>
+                                                    </div>
+
+                                                    <div class="col-auto">
+                                                        <div class="stat text-primary">
+                                                            <i class="align-middle" data-feather="dollar-sign"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h1 class="mt-1 mb-3" id="all_month_revenue" style="display: none">${requestScope.all_month_revenue} $</h1>
+                                                <h1 class="mt-1 mb-3" id="all_week_revenue">${requestScope.all_week_revenue} $</h1>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col mt-0">
+                                                        <h5 class="card-title" id="month_registration_label" style="display: none">Month Registrations</h5>
+                                                        <h5 class="card-title" id="week_registration_label">Week Registrations</h5>
+                                                    </div>
+
+                                                    <div class="col-auto">
+                                                        <div class="stat text-primary">
+                                                            <i class="align-middle" data-feather="credit-card"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h1 class="mt-1 mb-3" id="all_month_registration" style="display: none">${requestScope.all_month_registration} </h1>
+                                                <h1 class="mt-1 mb-3" id="all_week_registration">${requestScope.all_week_registration} </h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Month Revenue statistics-->
+                        <div class="col-xl-8 col-xxl-9" id="month_revenue" style="display: none">
+                            <div class="card flex-fill w-100">
+                                <div class="card-header">
+
+                                    <h5 class="card-title mb-0">Recent Month Revenue</h5>
+                                </div>
+                                <div class="card-body py-3">
+                                    <div class="chart chart-sm">
+                                        <canvas id="chartjs-dashboard-month-revenue"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Week Revenue statistics-->
+                        <div class="col-xl-8 col-xxl-9" id="week_revenue">
+                            <div class="card flex-fill w-100">
+                                <div class="card-header">
+
+                                    <h5 class="card-title mb-0">Recent Week Revenue</h5>
+                                </div>
+                                <div class="card-body py-3">
+                                    <div class="chart chart-sm">
+                                        <canvas id="chartjs-dashboard-week-revenue"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--Registration statistic-->
+                    <div class="row">
+                        <div class="col-xl-4 col-xxl-3 d-flex">
+                            <div class="w-100">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col mt-0">
+                                                <h5 class="card-title" id="month_registration_status_label"style="display: none"> Month Registration status</h5>
+                                                <h5 class="card-title" id="week_registration_status_label"> Week Registration status</h5>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="chart chart-sm" id="month_registration_status"  style="display: none">
+                                                    <canvas id="chartjs-pie-month-registration-status"></canvas>
+                                                </div>
+                                                <div class="chart chart-sm" id="week_registration_status">
+                                                    <canvas id="chartjs-pie-week-registration-status"></canvas>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--month registrations-->
+                        <div class="col-xl-8 col-xxl-9" id="month_registration" style="display: none">
+                            <div class="card flex-fill w-100">
+                                <div class="card-header">
+
+                                    <h5 class="card-title mb-0">Recent Month Registrations</h5>
+                                </div>
+                                <div class="card-body py-3">
+                                    <div class="chart chart-sm">
+                                        <canvas id="chartjs-dashboard-month-registrations"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--week registration-->
+                        <div class="col-xl-8 col-xxl-9" id="week_registration">
+                            <div class="card flex-fill w-100">
+                                <div class="card-header">
+
+                                    <h5 class="card-title mb-0">Recent Week Registrations</h5>
+                                </div>
+                                <div class="card-body py-3">
+                                    <div class="chart chart-sm">
+                                        <canvas id="chartjs-dashboard-week-registrations"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--User statistic-->
+                    <div class="row">
+                        <div class="col-xl-4 col-xxl-3 d-flex">
+                            <div class="w-100">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col mt-0">
+                                                        <h5 class="card-title" id="week_user_label">Week New User</h5>
+                                                    </div>
+
+                                                    <div class="col-auto">
+                                                        <div class="stat text-primary">
+                                                            <i class="align-middle" data-feather="user"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h1 class="mt-1 mb-3" id="all_week_user">${requestScope.all_week_user} </h1>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col mt-0">
+                                                        <h5 class="card-title" id="week_user_label">Month New User</h5>
+                                                    </div>
+
+                                                    <div class="col-auto">
+                                                        <div class="stat text-primary">
+                                                            <i class="align-middle" data-feather="user"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h1 class="mt-1 mb-3" id="all_month_user" >${requestScope.all_month_user} </h1>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Week User statistics-->
+                        <div class="col-xl-8 col-xxl-9" id="week_user">
+                            <div class="card flex-fill w-100">
+                                <div class="card-header">
+
+                                    <h5 class="card-title mb-0">Recent Week User</h5>
+                                </div>
+                                <div class="card-body py-3">
+                                    <div class="chart chart-sm">
+                                        <canvas id="chartjs-dashboard-week-user"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Month User statistics-->
+                        <div class="col-xl-8 col-xxl-9" id="month_user" style="display: none">
+                            <div class="card flex-fill w-100">
+                                <div class="card-header">
+
+                                    <h5 class="card-title mb-0">Recent Month User</h5>
+                                </div>
+                                <div class="card-body py-3">
+                                    <div class="chart chart-sm">
+                                        <canvas id="chartjs-dashboard-month-user"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
             </div>
-            <div class="card-body">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Subject Name</th>
-                            <th>Quantity Purchased</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="subject" items="${requestScope.top_5_bought_subjects}" varStatus="status">
-                            <tr>
-                                <td>${status.index + 1}</td>
-                                <td>${subject.subjectName}</td>
-                                <td>${subject.description}</td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        </main>
     </div>
 </div>
-                        <!-- Revenue statistics-->
-                        <div class="row">
-                            <div class="col-xl-4 col-xxl-3 d-flex">
-                                <div class="w-100">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col mt-0">
-                                                            <h5 class="card-title" id="month_revenue_label" style="display: none">Month Revenue</h5>
-                                                            <h5 class="card-title" id="week_revenue_label">Week Revenue</h5>
-                                                        </div>
+<!--month info statistic-->
+<div style="display: none" >    
+    <%ArrayList<Integer> month_revenue=(ArrayList<Integer>)request.getAttribute("month_revenue");
+        ArrayList<Integer> month_registrations=(ArrayList<Integer>)request.getAttribute("month_registration");
+        ArrayList<Integer> month_registrations_status=(ArrayList<Integer>)request.getAttribute("month_registration_status"); 
+        ArrayList<Integer> month_user=(ArrayList<Integer>)request.getAttribute("month_user");
+        for(int i=0; i<month_revenue.size();i++){%>
+    <p id="et<%=i%>"><%=month_revenue.get(i)%></p>
+    <p id="re<%=i%>"><%=month_registrations.get(i)%></p>
+    <p id="mu<%=i%>"><%=month_user.get(i)%></p>
+    <%}%>
+    <%for(int j=0;j<3;j++){%>
+    <p id="rs<%=j%>"><%=month_registrations_status.get(j)%></p> 
+    <%}%>
+</div>
+<!--week info statistic-->
+<div  style="display: none">    
+    <%ArrayList<Integer> week_revenue=(ArrayList<Integer>)request.getAttribute("week_revenue");
+       ArrayList<Integer> week_registrations=(ArrayList<Integer>)request.getAttribute("week_registration");
+       ArrayList<Integer> week_registrations_status=(ArrayList<Integer>)request.getAttribute("week_registration_status"); 
+       ArrayList<Integer> week_user=(ArrayList<Integer>)request.getAttribute("week_user");
+        for(int i=0; i<week_revenue.size();i++){%>
+    <p id="wr<%=i%>"><%=week_revenue.get(i)%></p>
+    <p id="wre<%=i%>"><%=week_registrations.get(i)%></p>     
+    <p id="wu<%=i%>"><%=week_user.get(i)%></p>  
+    <%}%>
+    <%for(int j=0;j<3;j++){%>
+    <p id="wrs<%=j%>"><%=week_registrations_status.get(j)%></p> 
+    <%}%>
+</div>
 
-                                                        <div class="col-auto">
-                                                            <div class="stat text-primary">
-                                                                <i class="align-middle" data-feather="dollar-sign"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <h1 class="mt-1 mb-3" id="all_month_revenue" style="display: none">${requestScope.all_month_revenue} $</h1>
-                                                    <h1 class="mt-1 mb-3" id="all_week_revenue">${requestScope.all_week_revenue} $</h1>
-                                                </div>
-                                            </div>
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col mt-0">
-                                                            <h5 class="card-title" id="month_registration_label" style="display: none">Month Registrations</h5>
-                                                            <h5 class="card-title" id="week_registration_label">Week Registrations</h5>
-                                                        </div>
-
-                                                        <div class="col-auto">
-                                                            <div class="stat text-primary">
-                                                                <i class="align-middle" data-feather="credit-card"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <h1 class="mt-1 mb-3" id="all_month_registration" style="display: none">${requestScope.all_month_registration} </h1>
-                                                    <h1 class="mt-1 mb-3" id="all_week_registration">${requestScope.all_week_registration} </h1>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--Month Revenue statistics-->
-                            <div class="col-xl-8 col-xxl-9" id="month_revenue" style="display: none">
-                                <div class="card flex-fill w-100">
-                                    <div class="card-header">
-
-                                        <h5 class="card-title mb-0">Recent Month Revenue</h5>
-                                    </div>
-                                    <div class="card-body py-3">
-                                        <div class="chart chart-sm">
-                                            <canvas id="chartjs-dashboard-month-revenue"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--Week Revenue statistics-->
-                            <div class="col-xl-8 col-xxl-9" id="week_revenue">
-                                <div class="card flex-fill w-100">
-                                    <div class="card-header">
-
-                                        <h5 class="card-title mb-0">Recent Week Revenue</h5>
-                                    </div>
-                                    <div class="card-body py-3">
-                                        <div class="chart chart-sm">
-                                            <canvas id="chartjs-dashboard-week-revenue"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <!--Registration statistic-->
-                        <div class="row">
-                            <div class="col-xl-4 col-xxl-3 d-flex">
-                                <div class="w-100">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col mt-0">
-                                                    <h5 class="card-title" id="month_registration_status_label"style="display: none"> Month Registration status</h5>
-                                                    <h5 class="card-title" id="week_registration_status_label"> Week Registration status</h5>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <div class="chart chart-sm" id="month_registration_status"  style="display: none">
-                                                        <canvas id="chartjs-pie-month-registration-status"></canvas>
-                                                    </div>
-                                                    <div class="chart chart-sm" id="week_registration_status">
-                                                        <canvas id="chartjs-pie-week-registration-status"></canvas>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--month registrations-->
-                            <div class="col-xl-8 col-xxl-9" id="month_registration" style="display: none">
-                                <div class="card flex-fill w-100">
-                                    <div class="card-header">
-
-                                        <h5 class="card-title mb-0">Recent Month Registrations</h5>
-                                    </div>
-                                    <div class="card-body py-3">
-                                        <div class="chart chart-sm">
-                                            <canvas id="chartjs-dashboard-month-registrations"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--week registration-->
-                            <div class="col-xl-8 col-xxl-9" id="week_registration">
-                                <div class="card flex-fill w-100">
-                                    <div class="card-header">
-
-                                        <h5 class="card-title mb-0">Recent Week Registrations</h5>
-                                    </div>
-                                    <div class="card-body py-3">
-                                        <div class="chart chart-sm">
-                                            <canvas id="chartjs-dashboard-week-registrations"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--User statistic-->
-                        <div class="row">
-                            <div class="col-xl-4 col-xxl-3 d-flex">
-                                <div class="w-100">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col mt-0">
-                                                            <h5 class="card-title" id="week_user_label">Week New User</h5>
-                                                        </div>
-
-                                                        <div class="col-auto">
-                                                            <div class="stat text-primary">
-                                                                <i class="align-middle" data-feather="user"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <h1 class="mt-1 mb-3" id="all_week_user">${requestScope.all_week_user} </h1>
-                                                </div>
-                                            </div>
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col mt-0">
-                                                            <h5 class="card-title" id="week_user_label">Month New User</h5>
-                                                        </div>
-
-                                                        <div class="col-auto">
-                                                            <div class="stat text-primary">
-                                                                <i class="align-middle" data-feather="user"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <h1 class="mt-1 mb-3" id="all_month_user" >${requestScope.all_month_user} </h1>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--Week User statistics-->
-                            <div class="col-xl-8 col-xxl-9" id="week_user">
-                                <div class="card flex-fill w-100">
-                                    <div class="card-header">
-
-                                        <h5 class="card-title mb-0">Recent Week User</h5>
-                                    </div>
-                                    <div class="card-body py-3">
-                                        <div class="chart chart-sm">
-                                            <canvas id="chartjs-dashboard-week-user"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--Month User statistics-->
-                            <div class="col-xl-8 col-xxl-9" id="month_user" style="display: none">
-                                <div class="card flex-fill w-100">
-                                    <div class="card-header">
-
-                                        <h5 class="card-title mb-0">Recent Month User</h5>
-                                    </div>
-                                    <div class="card-body py-3">
-                                        <div class="chart chart-sm">
-                                            <canvas id="chartjs-dashboard-month-user"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-                                                    
-                                                    
-                    </div>
-                </main>
-            </div>
-        </div>
-        <!--month info statistic-->
-        <div style="display: none" >    
-            <%ArrayList<Integer> month_revenue=(ArrayList<Integer>)request.getAttribute("month_revenue");
-                ArrayList<Integer> month_registrations=(ArrayList<Integer>)request.getAttribute("month_registration");
-                ArrayList<Integer> month_registrations_status=(ArrayList<Integer>)request.getAttribute("month_registration_status"); 
-                ArrayList<Integer> month_user=(ArrayList<Integer>)request.getAttribute("month_user");
-                for(int i=0; i<month_revenue.size();i++){%>
-            <p id="et<%=i%>"><%=month_revenue.get(i)%></p>
-            <p id="re<%=i%>"><%=month_registrations.get(i)%></p>
-            <p id="mu<%=i%>"><%=month_user.get(i)%></p>
-            <%}%>
-            <%for(int j=0;j<3;j++){%>
-            <p id="rs<%=j%>"><%=month_registrations_status.get(j)%></p> 
-            <%}%>
-        </div>
-        <!--week info statistic-->
-        <div  style="display: none">    
-            <%ArrayList<Integer> week_revenue=(ArrayList<Integer>)request.getAttribute("week_revenue");
-               ArrayList<Integer> week_registrations=(ArrayList<Integer>)request.getAttribute("week_registration");
-               ArrayList<Integer> week_registrations_status=(ArrayList<Integer>)request.getAttribute("week_registration_status"); 
-               ArrayList<Integer> week_user=(ArrayList<Integer>)request.getAttribute("week_user");
-                for(int i=0; i<week_revenue.size();i++){%>
-            <p id="wr<%=i%>"><%=week_revenue.get(i)%></p>
-            <p id="wre<%=i%>"><%=week_registrations.get(i)%></p>     
-            <p id="wu<%=i%>"><%=week_user.get(i)%></p>  
-            <%}%>
-            <%for(int j=0;j<3;j++){%>
-            <p id="wrs<%=j%>"><%=week_registrations_status.get(j)%></p> 
-            <%}%>
-        </div>
-
-        <script src="js/app.js"></script>
-        <%@include file="js.jsp" %>
-    </body>
+<script src="js/app.js"></script>
+<%@include file="js.jsp" %>
+</body>
 
 </html>

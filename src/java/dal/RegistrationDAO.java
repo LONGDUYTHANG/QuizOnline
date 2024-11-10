@@ -354,6 +354,7 @@ public class RegistrationDAO extends DBContext {
         PreparedStatement stm;
         ResultSet rs;
         ArrayList<Integer> list = new ArrayList<>();
+           ArrayList<Integer> outcome_list = new ArrayList<>();
         try {
             String strSelect = "  SELECT SUM(e.earnings) as earning, e.mon from "
                     + " ( Select SUM(list_price) as earnings, MONTH(registration_time ) as mon FROM Registration GROUP BY registration_time) as e Group by e.mon";
@@ -365,7 +366,40 @@ public class RegistrationDAO extends DBContext {
         } catch (SQLException e) {
             System.out.println(e);
         }
-        return list;
+         ArrayList<Integer> list_day = new ArrayList<>();
+        list_day.add(1);
+        list_day.add(2);
+        list_day.add(3);
+        list_day.add(4);
+        list_day.add(5);
+        list_day.add(6);
+        list_day.add(7);
+        list_day.add(8);
+        list_day.add(9);
+        list_day.add(10);
+        list_day.add(11);
+        list_day.add(12);
+        
+        int listday_index = 0;
+        int check_date=1;
+        for (int i = 0; i < 12; i++) {
+            //if there is a date that should have in the the outcome_list but
+            //not exist in the list_day 
+            if ((int) list_day.get(listday_index) != check_date) {
+                outcome_list.add(i, 0);
+            } else {
+                outcome_list.add(i, (int) list.get(listday_index));
+                if (listday_index <= list_day.size() - 3) {
+                    //since the value in the list_registration has been asigned to outcome_list,
+                    //we move to the next element in the list_registration
+                    listday_index++;
+                }
+
+            }
+
+            check_date++;
+        }
+        return outcome_list;
     }
 
     /**
@@ -377,6 +411,7 @@ public class RegistrationDAO extends DBContext {
         PreparedStatement stm;
         ResultSet rs;
         ArrayList<Integer> list = new ArrayList<>();
+        ArrayList<Integer> outcome_list = new ArrayList<>();
         try {
             String strSelect = " SELECT COUNT(e.number) as earning, e.mon from"
                     + " ( Select COUNT(*) as number, MONTH(registration_time ) as mon FROM Registration GROUP BY registration_time) as e Group by e.mon";
@@ -388,7 +423,40 @@ public class RegistrationDAO extends DBContext {
         } catch (SQLException e) {
             System.out.println(e);
         }
-        return list;
+        ArrayList<Integer> list_day = new ArrayList<>();
+        list_day.add(1);
+        list_day.add(2);
+        list_day.add(3);
+        list_day.add(4);
+        list_day.add(5);
+        list_day.add(6);
+        list_day.add(7);
+        list_day.add(8);
+        list_day.add(9);
+        list_day.add(10);
+        list_day.add(11);
+        list_day.add(12);
+        
+        int listday_index = 0;
+        int check_date=1;
+        for (int i = 0; i < 12; i++) {
+            //if there is a date that should have in the the outcome_list but
+            //not exist in the list_day 
+            if ((int) list_day.get(listday_index) != check_date) {
+                outcome_list.add(i, 0);
+            } else {
+                outcome_list.add(i, (int) list.get(listday_index));
+                if (listday_index <= list_day.size() - 3) {
+                    //since the value in the list_registration has been asigned to outcome_list,
+                    //we move to the next element in the list_registration
+                    listday_index++;
+                }
+
+            }
+
+            check_date++;
+        }
+        return outcome_list;
     }
 
     /**
@@ -642,6 +710,7 @@ public class RegistrationDAO extends DBContext {
         } catch (SQLException e) {
             System.out.println(e);
         }
+        
         return week_registration;
     }
 
@@ -680,8 +749,9 @@ public class RegistrationDAO extends DBContext {
         ResultSet rs;
         ArrayList<Integer> month_registration_status = new ArrayList<>();
         try {
-            String strSelect = "SELECT COUNT(status_id) as number, status_id FROM Registration GROUP BY status_id";
+            String strSelect = "SELECT COUNT(status_id) as number, status_id FROM Registration WHERE MONTH(registration_time)=? GROUP BY status_id";
             stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, LocalDate.now().getMonthValue());
             rs = stm.executeQuery();
             while (rs.next()) {
                 month_registration_status.add(rs.getInt("number"));
@@ -1004,10 +1074,8 @@ public class RegistrationDAO extends DBContext {
 
     public static void main(String[] args) {
         RegistrationDAO a =new RegistrationDAO();
-       ArrayList<Integer> h=a.getRevenueByWeek(LocalDate.now().minusDays(7));
-       for(int s:h){
-           System.out.println(s);
-       }
+       ArrayList<Registration> h=a.getRegistrationList();
+        System.out.println(h.size());
        
     }
 

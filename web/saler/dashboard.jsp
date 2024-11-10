@@ -105,7 +105,7 @@
                 <main class="content">
                     <div class="container-fluid p-0">
 
-                        <h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
+                       
                         <div class="row">
                             <div class="card col-6" >
                                 <div class="card-body">
@@ -140,6 +140,16 @@
                                 </div>
                             </div>
                         </div>
+                                 
+    </div>
+                          <h1 class="h3 mb-3"><strong>Statistic</strong> in</h1>      
+         <div style="margin-left: 10px; margin-bottom: 10px">
+         <select name="cars" id="cars" onchange="changeId()" >
+        <option value="volvo">This Week </option>
+        <option value="saab">Months</option>
+    </select>
+     </div>
+
                         <!-- Revenue statistics-->
                         <div class="row">
                             <div class="col-xl-4 col-xxl-3 d-flex">

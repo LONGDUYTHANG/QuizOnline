@@ -414,7 +414,7 @@
                 data: {
                     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
                     datasets: [{
-                            label: "Sales ($)",
+                            label: "Users",
                             fill: true,
                             backgroundColor: gradient,
                             borderColor: window.theme.primary,
@@ -478,7 +478,7 @@
                 data: {
                     labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
                     datasets: [{
-                            label: "Sales ($)",
+                            label: "Users",
                             fill: true,
                             backgroundColor: gradient,
                             borderColor: window.theme.primary,

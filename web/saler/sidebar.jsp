@@ -45,11 +45,11 @@
                 <div  id="sortOption" style="display: none" >
                     <form action="sortregistration">
                         <p class="sidebar-header">Type</p>
-                        <input  type="radio" name="type" value="desc" ${requestScope.type eq 'desc'?'checked':''} style="margin-left: 20px"> Descending <br>
-                        <input type="radio" name="type" value="asc" ${requestScope.type eq 'asc'?'checked':''} style="margin-left: 20px">  Ascending
+                        <input  type="radio" name="type" value="desc" ${requestScope.type eq 'desc'?'checked':''} style="margin-left: 20px" required> Descending <br>
+                        <input type="radio" name="type" value="asc" ${requestScope.type eq 'asc'?'checked':''} style="margin-left: 20px" required>  Ascending
                         <p class="sidebar-header">Field</p>
-                        <input  type="radio" name="field" id="field_cost" value="cost" ${requestScope.field eq 'cost'?'checked':''} style="margin-left: 20px"> Cost <br>
-                        <input type="radio" name="field" id="field_date" value="date" ${requestScope.field eq 'date'?'checked':''} style="margin-left: 20px">  Registration Date <br><br>
+                        <input  type="radio" name="field" id="field_cost" value="cost" ${requestScope.field eq 'cost'?'checked':''} style="margin-left: 20px" required> Cost <br>
+                        <input type="radio" name="field" id="field_date" value="date" ${requestScope.field eq 'date'?'checked':''} style="margin-left: 20px" required>  Registration Date <br><br>
                         <input type="submit" name="sort" value="Sort" style="margin-left: 20px">
                     </form>
                 </div>
