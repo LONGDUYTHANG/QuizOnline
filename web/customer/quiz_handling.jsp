@@ -181,19 +181,22 @@
                 box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
                 padding: 20px;
                 width: 80%;
-                max-width: 400px;
+                max-width: 900px;
                 z-index: 2000;
                 text-align: center;
+                height: 360px;
             }
 
             #popup h3, #popup_submit h3, #popup_submit_finished h3, #popup_submit_finished_nothing h3, #popup_submitted h3 {
                 color: #333;
-                margin-bottom: 10px;
+                margin-bottom: 40px;
+                font-size: 30px;
             }
 
             #popup p, #popup_submit p, #popup_submit_finished p, #popup_submit_finished_nothing p, #popup_submitted p {
                 color: #555;
-                margin-bottom: 20px;
+                margin-bottom: 50px;
+                font-size: 20px;
             }
 
 

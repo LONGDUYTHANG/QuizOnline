@@ -27,6 +27,7 @@
         <meta property="og:description" content="EduChamp : Education HTML Template" />
         <meta property="og:image" content="" />
         <meta name="format-detection" content="telephone=no">
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
 
         <!-- FAVICONS ICON ============================================= -->
         <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
@@ -62,13 +63,14 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css">
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css">
+        <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
         <style>
             .border-head {
                 border: 1px solid #cccccc;
                 text-align: center
             }
             .border {
-                height: 120px;
+                height: 200px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -122,7 +124,9 @@
                         </div>
                     </div>
                 </div> 
+
                 <div class="container content border-danger" style="position: relative">
+                    <a class="container" href="profile" style="position: absolute; top: 20px; left:-20px"><b>< Profile</b></a>
                     <div style="margin-bottom: 30px">
                         <form action="view_practice" method="post" >
                             <div class="" style="display: flex; width: 300px; align-items: center; margin-bottom: 10px">
@@ -169,6 +173,9 @@
                         <div class="col-lg-2 text-content border-head">
                             Exam Date
                         </div>
+                        <div class="col-lg-1 text-content border-head">
+                            Level
+                        </div>
                         <div class="col-lg-2 text-content border-head">
                             Duration
                         </div>
@@ -178,7 +185,7 @@
                         <div class="col-lg-2 text-content border-head">
                             Correct%
                         </div>
-                        <div class="col-lg-2 text-content border-head">
+                        <div class="col-lg-1 text-content border-head">
                             Details
                         </div>
 
@@ -192,6 +199,17 @@
                             </div>
                             <div class="col-lg-2 border">
                                 ${lp.created_date}
+                            </div>
+                            <div class="col-lg-1 border">
+                                <c:if test="${lp.quiz.level_id == 1}">
+                                    <p style="color: green">Easy</p>
+                                </c:if>
+                                <c:if test="${lp.quiz.level_id == 2}">
+                                    <p style="color: greenyellow">Medium</p>
+                                </c:if>
+                                <c:if test="${lp.quiz.level_id == 3}">
+                                    <p style="color: #ff3333">Hard</p>
+                                </c:if>
                             </div>
                             <div class="col-lg-2 border">
                                 ${Math.floor((lp.practice_duration / 60))} Mins ${lp.practice_duration % 60} Secs
@@ -207,8 +225,9 @@
                                     ${lp.correct_rate}%
                                 </div>
                             </div>
-                            <div class="col-lg-2 border">
-                                <a href="quiz_review?practice_id=${lp.practice_id}">View</a>
+                            <div class="col-lg-1 border">
+                                <a href="quiz_review?practice_id=${lp.practice_id}"><i class="fa fa-eye" aria-hidden="true" style="font-size: 30px"></i>
+                                </a>
                             </div>
                         </c:forEach>
                     </div>
